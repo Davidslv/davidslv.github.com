@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Davidslv</title>
+    <description>I&#39;ve been programming in Ruby commercially since 2011 and I&#39;ve built awesome projects and worked in amazing teams ever since!
+</description>
+    <link>http://davidslv.com/</link>
+    <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 13 Dec 2014 21:28:46 -0500</pubDate>
+    <lastBuildDate>Sat, 13 Dec 2014 21:28:46 -0500</lastBuildDate>
+    <generator>Jekyll v2.5.2</generator>
+    
+      <item>
+        <title>Welcome!</title>
+        <description>&lt;p&gt;I used to blog on &lt;a href=&quot;http://davidslv.tumblr.com/&quot;&gt;tumblr&lt;/a&gt;, but definitely is not
+the best place to blog technical stuff.&lt;/p&gt;
+
+&lt;p&gt;So welcome to my new blog, I feel it’s yet another one in the middle of so many,
+will see what happens from now on… I hope I can give you some good insights of
+my experiences.&lt;/p&gt;
+
+&lt;p&gt;Enjoy,
+David Silva&lt;/p&gt;
+</description>
+        <pubDate>Sat, 13 Dec 2014 15:10:53 -0500</pubDate>
+        <link>http://davidslv.com/jekyll/update/2014/12/13/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://davidslv.com/jekyll/update/2014/12/13/welcome-to-jekyll.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+  </channel>
+</rss>

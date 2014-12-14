@@ -1,0 +1,13 @@
+# Site settings
+title: Davidslv
+email: davidslv@gmail.com
+description: >
+  I've been programming in Ruby commercially since 2011 and I've built awesome
+  projects and worked in amazing teams ever since!
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://davidslv.com" # the base hostname & protocol for your site
+twitter_username: davidslv
+github_username:  davidslv
+
+# Build settings
+markdown: kramdown
