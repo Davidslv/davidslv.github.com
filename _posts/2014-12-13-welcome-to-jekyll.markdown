@@ -2,7 +2,7 @@
 layout: post
 title:  "Welcome!"
 date:   2014-12-13 20:10:53
-categories: jekyll update
+categories: welcome
 ---
 
 I used to blog on [tumblr](http://davidslv.tumblr.com/), but definitely is not

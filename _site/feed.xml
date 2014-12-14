@@ -6,9 +6,134 @@
 </description>
     <link>http://davidslv.com/</link>
     <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 13 Dec 2014 22:24:47 -0500</pubDate>
-    <lastBuildDate>Sat, 13 Dec 2014 22:24:47 -0500</lastBuildDate>
+    <pubDate>Sat, 13 Dec 2014 23:12:41 -0500</pubDate>
+    <lastBuildDate>Sat, 13 Dec 2014 23:12:41 -0500</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
+    
+      <item>
+        <title>Handmade Hero on OSX</title>
+        <description>&lt;p&gt;I’ve been following &lt;a href=&quot;http://handmadehero.org/&quot;&gt;Handmade Hero&lt;/a&gt; basically since the beginning,
+although I know myself too well to start watching the videos straight away, it’s like
+watching a TV-Show and when the episode ends you just want to jump to the next one!
+I simply can’t wait! So I gave it time to have more videos and then I can catch up.&lt;/p&gt;
+
+&lt;p&gt;Now was the moment for me to start, there are 20 videos on &lt;a href=&quot;https://www.youtube.com/user/handmadeheroarchive&quot;&gt;Youtube&lt;/a&gt;,
+&lt;a href=&quot;http://mollyrocket.com/casey/about.html&quot;&gt;Casey Muratori&lt;/a&gt; has been doing an excelent work explaining everything to us and
+I just can’t wait to start seeing more and more! Also I liked it so much that I contributed by Pre-Ordering which gives you access to the source code.&lt;/p&gt;
+
+&lt;p&gt;There’s only one problem, I only use OSX as my Operative System and right now the videos are very focused on Windows Operative System,
+but that is no show stopper! No, no, no!&lt;/p&gt;
+
+&lt;p&gt;Furtunately there’s been a lot of attention, and lots of people believe in this project and they have been helping out!
+I found out that &lt;a href=&quot;http://davidgow.net/&quot;&gt;David Gow&lt;/a&gt; is doing a port for Linux which he called it
+&lt;a href=&quot;http://davidgow.net/handmadepenguin/&quot;&gt;Handmade Penguin&lt;/a&gt; and I’m very grateful for that!&lt;/p&gt;
+
+&lt;p&gt;There’s a few caveats from following David’s code, because Linux and Unix are
+very similar systems, but as they say the beauty (or headache) is in the details!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Some tips:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You should install &lt;a href=&quot;https://www.libsdl.org/download-2.0.php&quot;&gt;SDL&lt;/a&gt; from source, so you have it available on the terminal.&lt;/li&gt;
+  &lt;li&gt;David suggests KDevelop for debugging, but you will not find it on OSX, I found instead &lt;a href=&quot;http://clewn.sourceforge.net/install.html&quot;&gt;Clewn&lt;/a&gt;,
+but I didn’t install it as it depends on netbeans and felt like too much effort for now, maybe on a later stage.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;surprise-surprise&quot;&gt; Surprise, Surprise!&lt;/h2&gt;
+
+&lt;p&gt;I followed Chapter 1 and Chapter 2, when I finished my code on Chapter 2 based on David’s I notice that something was wrong,
+initially I thought that I had missed something, the window was suppose to be flickery when it was resized or dragged around,
+but such thing wasn’t happening, so I decided to print some text inside the case statement, just in case it was too fast for my eyes to catch,
+but after some resizes and dragging around my text didn’t appear, so there was only one explanation, it wasn’t getting inside the case statement.
+As I’m not a game developer I felt the need to contact David and tell him about the situation.&lt;/p&gt;
+
+&lt;p&gt;I sent him the following email&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Hello David,
+
+Thanks for your time writing the Handmade Hero for Linux,
+for the past 4 hours I&amp;#39;ve been reading, setup and coding what you wrote
+but on OSX (sorry, it&amp;#39;s the only platform I have =D )
+
+And I&amp;#39;m emailing you because I think something unexpected happened
+(I even copy pasted your code to see if I missed something, but I didn&amp;#39;t).
+
+According to your description the window is suppose to flicker between
+black and white when the window is resized or dragged around,
+although at least in OSX the case statement for SDL_WINDOWEVENT_EXPOSED
+is never executed, and I know that because I added a printf in the beginning,
+and as you can see in the screenshot the message never appears.
+
+Do you have any idea why this happens?
+I have the code on github if you just want to double check,
+but is basically the same as if I had copy pasted your code.
+https://github.com/Davidslv/handmade-fan
+
+Thank you for your time and enjoy your weekend,
+David Silva&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;For my surprise David actually answered my email, which I think it was very kind of him,
+honestly there’s not that many developers that take their time to answer, specially on a weekend!
+His answer was very friendly and detailed why the situation differs from both operating systems.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Hi,
+
+Glad you&amp;#39;re enjoying Handmade Penguin.
+
+I _do_ in fact have an idea as to why this happens! Basically OSX
+behaves a bit differently: expose messages don&amp;#39;t happen by default.
+
+We can look through the SDL code to see how things work. The code
+to generate the SDL_WINDOWEVENT_EXPOSED event on OSX is in a &amp;quot;handler&amp;quot;
+for the &amp;quot;windowDidExpose&amp;quot; notification:
+
+https://hg.libsdl.org/SDL/file/a40415296b77/src/video/cocoa/SDL_cocoawindow.m#l459
+
+This is a bit hard to find, but if we look at the Apple documentation here:
+
+https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/WinPanel/Tasks/SettingWindowImageAttr.html
+
+We see that windows on OSX can have different &amp;quot;backing store&amp;quot; types.
+There are three types &amp;quot;buffered&amp;quot;, &amp;quot;retained&amp;quot; and &amp;quot;nonretained&amp;quot;. Of
+these, &amp;quot;nonretained&amp;quot; behaves as one would expect: only the exposed
+regions are redrawn and we get expose events. &amp;quot;buffered&amp;quot; behaves more
+like a compositing window manager: we render the window to an offscreen
+buffer, and the system then redraws the contents of that when needed.
+SDL uses a buffered window (it&amp;#39;s the default), and so never gets exposed
+events.
+
+Ultimately, the only difference we have is that OSX doesn&amp;#39;t sent Exposed
+messages when the window is resized, whereas X11 usually does.
+You could get back the behaviour by running your draw code in the
+SDL_WINDOWEVENT_RESIZED (or SDL_WINDOWEVENT_SIZE_CHANGED) event handlers.
+
+Cheers,
+— David&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I think this is very important to share because allows people to understand that
+different operating systems behave differently even when they are quite similar.&lt;/p&gt;
+
+&lt;p&gt;And as David says “this is a bit hard to find”, if he never replied I probably
+would never get it because SDL, C++ and game developing itself is out of my
+comfort zone, I don’t do it on a daily basis which makes it difficult to know
+what to search for when you are in need.&lt;/p&gt;
+
+&lt;p&gt;Thank you for reading,&lt;/p&gt;
+
+&lt;p&gt;David Silva&lt;/p&gt;
+</description>
+        <pubDate>Sat, 13 Dec 2014 17:40:00 -0500</pubDate>
+        <link>http://davidslv.com/c++/handmade/gamedev/2014/12/13/handmade-hero-on-osx.html</link>
+        <guid isPermaLink="true">http://davidslv.com/c++/handmade/gamedev/2014/12/13/handmade-hero-on-osx.html</guid>
+        
+        
+        <category>c++</category>
+        
+        <category>handmade</category>
+        
+        <category>gamedev</category>
+        
+      </item>
     
       <item>
         <title>Welcome!</title>
@@ -23,13 +148,11 @@ my experiences.&lt;/p&gt;
 David Silva&lt;/p&gt;
 </description>
         <pubDate>Sat, 13 Dec 2014 15:10:53 -0500</pubDate>
-        <link>http://davidslv.com/jekyll/update/2014/12/13/welcome-to-jekyll.html</link>
-        <guid isPermaLink="true">http://davidslv.com/jekyll/update/2014/12/13/welcome-to-jekyll.html</guid>
+        <link>http://davidslv.com/welcome/2014/12/13/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://davidslv.com/welcome/2014/12/13/welcome-to-jekyll.html</guid>
         
         
-        <category>jekyll</category>
-        
-        <category>update</category>
+        <category>welcome</category>
         
       </item>
     
