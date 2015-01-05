@@ -1,0 +1,42 @@
+---
+layout: post
+title:  "Welcome to 2015!"
+date:   2015-01-05 22:40:00
+categories: life coding resolution
+---
+
+Happy New Year 2015!
+
+Recently I've read an [article](http://www.morgadinho.org/2014/12/28/doing-things-you-like-is-not-a-waste-of-time/) from a friend
+which I completely agree with, and I would like to emphasis that whatever you do at work, avoid [Burnout!](http://en.wikipedia.org/wiki/Burnout_(psychology))
+
+I used to spend hours at night reading all the things I could to keep myself on track,
+but that eventually dragged me into burnout, I was consuming so much information
+and going to bed so late that the next day my productivity wouldn't be as great as if
+I had a proper rest.
+
+I've been always hungry to learn, but what I wasn't realising was the quality of what I
+was reading, most things I've read and I spent time on wasn't exactly the right
+things for me. With the help of colleagues and friends I understand where to
+search for what I need and most important not waste my time reading unnecessary
+things, for example as Ruby developer I like to know what's going on,
+so I follow [Ruby Weekly](http://rubyweekly.com/), if you are a Perl or JavaScript
+I know they have their own weekly emails as well, this allows you to keep on
+track of what is changing and what is new.
+
+What I'm trying to say is by keeping your sources of information right it can
+save you a lot of your time, like a ex-colleague told me once "The good articles will bubble up",
+also keep time for yourself, your friends, your family, because if you end up sucking all your time
+on work related things you might end up looking up your shoulder one day and everyone is gone!
+
+Honestly I think a bit of "fresh air" always helps you achieving your goals,
+think about things you like to do, make them your hobby (cooking, walk, take photos, play games, be with friends), you will be impressed how disconnecting from work actually helps you being connected ([Disconnect to Connect](https://www.youtube.com/watch?v=7ae0tzVo8Fw)). If you can't think of anything
+simply leave your comfort zone, get out, you will find something, believe me.
+
+That's why I decided to start 2015 with a 2 weeks away from programming, I
+felt I needed time for myself, to disconnect from what I do on a daily basis,
+and honestly it feels good, I totally recommend you.
+
+Thank you for reading,
+
+David Silva
