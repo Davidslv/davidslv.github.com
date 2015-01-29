@@ -1,0 +1,53 @@
+---
+layout: post
+title:  "Mixpanel - How to deal with external services"
+date:   2015-01-29 22:40:00
+categories: ruby development mixpanel services open-source
+---
+
+I've been using [Mixpanel](http://mixpanel.com) for the two weeks now.
+
+I've followed their documentation and we were sending millions of requests to their servers until last night. Seems that one of their servers went down and caused our requests to start failing which caused our end to start clogging. Although we though we were sending too many requests and for that mixpanel had blocked us temporarily (fortunately not the case but it lead us to point 2 - keep reading).
+
+This made me understand two things:
+
+1. Because their service was down, our Sidekiq Queue was increasing and the jobs were failing, but by default Sidekiq retries them, preventing the crucial jobs to get run.
+
+2. If you expect to send a massive amount of events then the mixpanel default consumer is not for you (I explain why in a second).
+
+What you can do to prevent the first from happening again is having a safety point, for example here I check if the size of the queue is less than 100k to send another Mixpanel event, if it isn't is just better not to send the event than crashing the application.
+
+{% highlight ruby %}
+if Sidekiq::Queue.new('mixpanel').size <= 100_000
+  MixpanelWorker.perform_async(event_name, options)
+end
+{% endhighlight %}
+
+The second one is more interesting, the ruby mixpanel library has another consumer, called [BufferedConsumer](https://github.com/mixpanel/mixpanel-ruby/blob/master/lib/mixpanel-ruby/consumer.rb#L145) which basically allocates 50 events in memory before it sends them all together in a single request, which basically reduces your requests by a lot if you think about it.
+
+Although what is really great is using it in a connection pool, which you can achieve thanks to [Mike Perham](http://www.mikeperham.com/) with his another awesome open source contribution: [connection_pool](https://github.com/mperham/connection_pool).
+
+
+{% highlight ruby %}
+
+$mixpanel_buffer_pool = ConnectionPool.new(size: Integer(ENV['MIXPANEL_POOL_CONCURRENCY'] || 25)) {
+  Mixpanel::BufferedConsumer.new
+}
+
+# and initialize your Mixpanel::Tracker like so
+tracker = Mixpanel::Tracker.new(ENV['MIXPANEL_TOKEN']) do |type, message|
+  $mixpanel_buffer_pool.with do |buffer|
+    buffer.send(type, message)
+  end
+end
+
+{% endhighlight %}
+
+
+## Conclusion
+
+I think it's wise to have this philosophy that if you using a service which you can't control try to isolate it as much as possible from causing any side effects on your app. It's ok if their service is down for some reason in this case, because our app doesn't depend on them for anything other than sending events, and it's ok if we miss some events, what is not ok is if our service gets clogged and we can't provide a good service to our users.
+
+Thank you for reading.
+
+David Silva

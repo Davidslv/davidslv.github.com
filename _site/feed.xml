@@ -6,9 +6,123 @@
 </description>
     <link>http://davidslv.com/</link>
     <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 13 Dec 2014 23:12:41 -0500</pubDate>
-    <lastBuildDate>Sat, 13 Dec 2014 23:12:41 -0500</lastBuildDate>
+    <pubDate>Thu, 29 Jan 2015 21:38:32 +0000</pubDate>
+    <lastBuildDate>Thu, 29 Jan 2015 21:38:32 +0000</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
+    
+      <item>
+        <title>Mixpanel - How to deal with external services</title>
+        <description>&lt;p&gt;I’ve been using &lt;a href=&quot;http://mixpanel.com&quot;&gt;Mixpanel&lt;/a&gt; for the two weeks now.&lt;/p&gt;
+
+&lt;p&gt;I’ve followed their documentation and we were sending millions of requests to their servers until last night. Seems that one of their servers went down and caused our requests to start failing which caused our end to start clogging. Although we though we were sending too many requests and for that mixpanel had blocked us temporarily (fortunately not the case but it lead us to point 2 - keep reading).&lt;/p&gt;
+
+&lt;p&gt;This made me understand two things:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Because their service was down, our Sidekiq Queue was increasing and the jobs were failing, but by default Sidekiq retries them, preventing the crucial jobs to get run.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If you expect to send a massive amount of events then the mixpanel default consumer is not for you (I explain why in a second).&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;What you can do to prevent the first from happening again is having a safety point, for example here I check if the size of the queue is less than 100k to send another Mixpanel event, if it isn’t is just better not to send the event than crashing the application.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Sidekiq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;mixpanel&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100_000&lt;/span&gt;
+  &lt;span class=&quot;no&quot;&gt;MixpanelWorker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;perform_async&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The second one is more interesting, the ruby mixpanel library has another consumer, called &lt;a href=&quot;https://github.com/mixpanel/mixpanel-ruby/blob/master/lib/mixpanel-ruby/consumer.rb#L145&quot;&gt;BufferedConsumer&lt;/a&gt; which basically allocates 50 events in memory before it sends them all together in a single request, which basically reduces your requests by a lot if you think about it.&lt;/p&gt;
+
+&lt;p&gt;Although what is really great is using it in a connection pool, which you can achieve thanks to &lt;a href=&quot;http://www.mikeperham.com/&quot;&gt;Mike Perham&lt;/a&gt; with his another awesome open source contribution: &lt;a href=&quot;https://github.com/mperham/connection_pool&quot;&gt;connection_pool&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;vg&quot;&gt;$mixpanel_buffer_pool&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ConnectionPool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;MIXPANEL_POOL_CONCURRENCY&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;no&quot;&gt;Mixpanel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BufferedConsumer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# and initialize your Mixpanel::Tracker like so&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tracker&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Mixpanel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Tracker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;MIXPANEL_TOKEN&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;vg&quot;&gt;$mixpanel_buffer_pool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;I think it’s wise to have this philosophy that if you using a service which you can’t control try to isolate it as much as possible from causing any side effects on your app. It’s ok if their service is down for some reason in this case, because our app doesn’t depend on them for anything other than sending events, and it’s ok if we miss some events, what is not ok is if our service gets clogged and we can’t provide a good service to our users.&lt;/p&gt;
+
+&lt;p&gt;Thank you for reading.&lt;/p&gt;
+
+&lt;p&gt;David Silva&lt;/p&gt;
+</description>
+        <pubDate>Thu, 29 Jan 2015 22:40:00 +0000</pubDate>
+        <link>http://davidslv.com/ruby/development/mixpanel/services/open-source/2015/01/29/mixpanel.html</link>
+        <guid isPermaLink="true">http://davidslv.com/ruby/development/mixpanel/services/open-source/2015/01/29/mixpanel.html</guid>
+        
+        
+        <category>ruby</category>
+        
+        <category>development</category>
+        
+        <category>mixpanel</category>
+        
+        <category>services</category>
+        
+        <category>open-source</category>
+        
+      </item>
+    
+      <item>
+        <title>Welcome to 2015!</title>
+        <description>&lt;p&gt;Happy New Year 2015!&lt;/p&gt;
+
+&lt;p&gt;Recently I’ve read an &lt;a href=&quot;http://www.morgadinho.org/2014/12/28/doing-things-you-like-is-not-a-waste-of-time/&quot;&gt;article&lt;/a&gt; from a friend
+which I completely agree with, and I would like to emphasis that whatever you do at work, avoid &lt;a href=&quot;http://en.wikipedia.org/wiki/Burnout_(psychology)&quot;&gt;Burnout!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I used to spend hours at night reading all the things I could to keep myself on track,
+but that eventually dragged me into burnout, I was consuming so much information
+and going to bed so late that the next day my productivity wouldn’t be as great as if
+I had a proper rest.&lt;/p&gt;
+
+&lt;p&gt;I’ve been always hungry to learn, but what I wasn’t realising was the quality of what I
+was reading, most things I’ve read and I spent time on wasn’t exactly the right
+things for me. With the help of colleagues and friends I understand where to
+search for what I need and most important not waste my time reading unnecessary
+things, for example as Ruby developer I like to know what’s going on,
+so I follow &lt;a href=&quot;http://rubyweekly.com/&quot;&gt;Ruby Weekly&lt;/a&gt;, if you are a Perl or JavaScript
+I know they have their own weekly emails as well, this allows you to keep on
+track of what is changing and what is new.&lt;/p&gt;
+
+&lt;p&gt;What I’m trying to say is by keeping your sources of information right it can
+save you a lot of your time, like a ex-colleague told me once “The good articles will bubble up”,
+also keep time for yourself, your friends, your family, because if you end up sucking all your time
+on work related things you might end up looking up your shoulder one day and everyone is gone!&lt;/p&gt;
+
+&lt;p&gt;Honestly I think a bit of “fresh air” always helps you achieving your goals,
+think about things you like to do, make them your hobby (cooking, walk, take photos, play games, be with friends), you will be impressed how disconnecting from work actually helps you being connected (&lt;a href=&quot;https://www.youtube.com/watch?v=7ae0tzVo8Fw&quot;&gt;Disconnect to Connect&lt;/a&gt;). If you can’t think of anything
+simply leave your comfort zone, get out, you will find something, believe me.&lt;/p&gt;
+
+&lt;p&gt;That’s why I decided to start 2015 with a 2 weeks away from programming, I
+felt I needed time for myself, to disconnect from what I do on a daily basis,
+and honestly it feels good, I totally recommend you.&lt;/p&gt;
+
+&lt;p&gt;Thank you for reading,&lt;/p&gt;
+
+&lt;p&gt;David Silva&lt;/p&gt;
+</description>
+        <pubDate>Mon, 05 Jan 2015 22:40:00 +0000</pubDate>
+        <link>http://davidslv.com/life/coding/resolution/2015/01/05/welcome-to-2015.html</link>
+        <guid isPermaLink="true">http://davidslv.com/life/coding/resolution/2015/01/05/welcome-to-2015.html</guid>
+        
+        
+        <category>life</category>
+        
+        <category>coding</category>
+        
+        <category>resolution</category>
+        
+      </item>
     
       <item>
         <title>Handmade Hero on OSX</title>
@@ -122,7 +236,7 @@ what to search for when you are in need.&lt;/p&gt;
 
 &lt;p&gt;David Silva&lt;/p&gt;
 </description>
-        <pubDate>Sat, 13 Dec 2014 17:40:00 -0500</pubDate>
+        <pubDate>Sat, 13 Dec 2014 22:40:00 +0000</pubDate>
         <link>http://davidslv.com/c++/handmade/gamedev/2014/12/13/handmade-hero-on-osx.html</link>
         <guid isPermaLink="true">http://davidslv.com/c++/handmade/gamedev/2014/12/13/handmade-hero-on-osx.html</guid>
         
@@ -147,7 +261,7 @@ my experiences.&lt;/p&gt;
 &lt;p&gt;Enjoy,
 David Silva&lt;/p&gt;
 </description>
-        <pubDate>Sat, 13 Dec 2014 15:10:53 -0500</pubDate>
+        <pubDate>Sat, 13 Dec 2014 20:10:53 +0000</pubDate>
         <link>http://davidslv.com/welcome/2014/12/13/welcome-to-jekyll.html</link>
         <guid isPermaLink="true">http://davidslv.com/welcome/2014/12/13/welcome-to-jekyll.html</guid>
         
