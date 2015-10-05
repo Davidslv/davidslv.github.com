@@ -2,7 +2,8 @@
 layout: post
 title:  "How to protect your credentials on Gemfile.lock"
 date:   2015-10-05 22:40:00
-categories: ruby development gemfile bundler credentials
+categories: ruby programming
+tags: [ruby, development, gemfile, bundler, credentials]
 ---
 
 As you might know, it isn't a good idea to store any kind of credentials under your VCS (like git).

@@ -6,13 +6,13 @@
 </description>
     <link>http://davidslv.com/</link>
     <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 05 Oct 2015 21:37:05 +0100</pubDate>
-    <lastBuildDate>Mon, 05 Oct 2015 21:37:05 +0100</lastBuildDate>
+    <pubDate>Mon, 05 Oct 2015 21:56:57 +0100</pubDate>
+    <lastBuildDate>Mon, 05 Oct 2015 21:56:57 +0100</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
     
       <item>
         <title>How to protect your credentials on Gemfile.lock</title>
-        <description>&lt;p&gt;As you might know, it’s not a good idea to store any kind of credentials under your VCS (like git).&lt;/p&gt;
+        <description>&lt;p&gt;As you might know, it isn’t a good idea to store any kind of credentials under your VCS (like git).&lt;/p&gt;
 
 &lt;p&gt;Although if you have some private gems you probably wrote this on your Gemfile:&lt;/p&gt;
 
@@ -43,22 +43,21 @@ those values somewhere in your project, don’t worry you can wrap them like so:
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;BUNDLE_GEMSERVER__COM=&amp;quot;$USERNAME:$PASSWORD&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;This is equivalent of doing the following:&lt;/p&gt;
+&lt;p&gt;This is the equivalent of doing the following:&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;bundle config gems.unii.com $UNII_GEMS_USERNAME:$UNII_GEMS_PASSWORD&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Now all you have to do is going through the all the stages of your project that need that ENV and you will be fine.&lt;/p&gt;
+&lt;p&gt;Now all you have to do is go through all the stages of your project that need that ENV and you will be fine.&lt;/p&gt;
 
-&lt;p&gt;Also since I don’t know which version of you are running and in which exactly version of bundler this was introduced, if you can, then update your bundler to the latest version, I’ve updated mine to 1.10.6 as version 1.7.4 didn’t had this feature.&lt;/p&gt;
+&lt;p&gt;Also, you might have to update your bundler, I’ve updated mine to 1.10.6 as version 1.7.4 didn’t had this feature.&lt;/p&gt;
 
 &lt;p&gt;Thank you for reading.&lt;/p&gt;
 
 &lt;p&gt;David Silva&lt;/p&gt;
 </description>
         <pubDate>Mon, 05 Oct 2015 23:40:00 +0100</pubDate>
-        <link>http://davidslv.com/ruby/development/gemfile/bundler/credentials/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html</link>
-        <guid isPermaLink="true">http://davidslv.com/ruby/development/gemfile/bundler/credentials/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html</guid>
-        
+        <link>http://davidslv.com/ruby/programming/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html</link>
+        <guid isPermaLink="true">http://davidslv.com/ruby/programming/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html</guid>
         
         <category>ruby</category>
         
@@ -69,6 +68,11 @@ those values somewhere in your project, don’t worry you can wrap them like so:
         <category>bundler</category>
         
         <category>credentials</category>
+        
+        
+        <category>ruby</category>
+        
+        <category>programming</category>
         
       </item>
     
