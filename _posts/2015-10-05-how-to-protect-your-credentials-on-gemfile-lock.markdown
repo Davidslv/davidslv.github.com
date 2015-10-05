@@ -5,7 +5,7 @@ date:   2015-10-05 22:40:00
 categories: ruby development gemfile bundler credentials
 ---
 
-As you might know, it's not a good idea to store any kind of credentials under your VCS (like git).
+As you might know, it isn't a good idea to store any kind of credentials under your VCS (like git).
 
 Although if you have some private gems you probably wrote this on your Gemfile:
 
@@ -53,7 +53,7 @@ those values somewhere in your project, don't worry you can wrap them like so:
 
 {% endhighlight %}
 
-This is equivalent of doing the following:
+This is the equivalent of doing the following:
 
 {% highlight text %}
 
@@ -61,9 +61,9 @@ This is equivalent of doing the following:
 
 {% endhighlight %}
 
-Now all you have to do is going through the all the stages of your project that need that ENV and you will be fine.
+Now all you have to do is go through all the stages of your project that need that ENV and you will be fine.
 
-Also since I don't know which version of you are running and in which exactly version of bundler this was introduced, if you can, then update your bundler to the latest version, I've updated mine to 1.10.6 as version 1.7.4 didn't had this feature.
+Also, you might have to update your bundler, I've updated mine to 1.10.6 as version 1.7.4 didn't had this feature.
 
 Thank you for reading.
 
