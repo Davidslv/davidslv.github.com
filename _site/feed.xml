@@ -6,9 +6,71 @@
 </description>
     <link>http://davidslv.com/</link>
     <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 29 Jan 2015 21:38:32 +0000</pubDate>
-    <lastBuildDate>Thu, 29 Jan 2015 21:38:32 +0000</lastBuildDate>
+    <pubDate>Mon, 05 Oct 2015 21:37:05 +0100</pubDate>
+    <lastBuildDate>Mon, 05 Oct 2015 21:37:05 +0100</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
+    
+      <item>
+        <title>How to protect your credentials on Gemfile.lock</title>
+        <description>&lt;p&gt;As you might know, it’s not a good idea to store any kind of credentials under your VCS (like git).&lt;/p&gt;
+
+&lt;p&gt;Although if you have some private gems you probably wrote this on your Gemfile:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://username:password@gemserver.com&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And then someone told you you should have the username and password stored in &lt;a href=&quot;https://en.wikipedia.org/wiki/Environment_variable&quot;&gt;Environment Variables&lt;/a&gt; so you went and assigned
+the username and password to them and your Gemfile became like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;https://&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;USERNAME&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;PASSWORD&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@gemserver.com&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;But… did you notice what happens when you run &lt;code&gt;bundle&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;Your Gemfile.lock now has the username and password written there, so much for the
+environment variables right?&lt;/p&gt;
+
+&lt;p&gt;The bundler team heard your prayers and they actually &lt;a href=&quot;http://bundler.io/man/bundle-config.1.html#CREDENTIALS-FOR-GEM-SOURCES&quot;&gt;implemented something&lt;/a&gt; to solve this problem!&lt;/p&gt;
+
+&lt;p&gt;So all you need to do is go back to your Gemfile and remove the credentials from the url like so:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;https://gemserver.com&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And now create an environment variable called &lt;code&gt;BUNDLE_GEMSERVER__COM&lt;/code&gt;, this will match the url &lt;code&gt;gemserver.com&lt;/code&gt;
+where the dot (.) becomes two underscores (__).&lt;/p&gt;
+
+&lt;p&gt;I would suggest you to wrap those two ENV’s with the new &lt;code&gt;BUNDLE_*&lt;/code&gt;, specially if you have to go and change your
+continuous integration setup and then you have to go and change your staging and production servers, or maybe you are already using
+those values somewhere in your project, don’t worry you can wrap them like so:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;BUNDLE_GEMSERVER__COM=&amp;quot;$USERNAME:$PASSWORD&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is equivalent of doing the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;bundle config gems.unii.com $UNII_GEMS_USERNAME:$UNII_GEMS_PASSWORD&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now all you have to do is going through the all the stages of your project that need that ENV and you will be fine.&lt;/p&gt;
+
+&lt;p&gt;Also since I don’t know which version of you are running and in which exactly version of bundler this was introduced, if you can, then update your bundler to the latest version, I’ve updated mine to 1.10.6 as version 1.7.4 didn’t had this feature.&lt;/p&gt;
+
+&lt;p&gt;Thank you for reading.&lt;/p&gt;
+
+&lt;p&gt;David Silva&lt;/p&gt;
+</description>
+        <pubDate>Mon, 05 Oct 2015 23:40:00 +0100</pubDate>
+        <link>http://davidslv.com/ruby/development/gemfile/bundler/credentials/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html</link>
+        <guid isPermaLink="true">http://davidslv.com/ruby/development/gemfile/bundler/credentials/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html</guid>
+        
+        
+        <category>ruby</category>
+        
+        <category>development</category>
+        
+        <category>gemfile</category>
+        
+        <category>bundler</category>
+        
+        <category>credentials</category>
+        
+      </item>
     
       <item>
         <title>Mixpanel - How to deal with external services</title>
