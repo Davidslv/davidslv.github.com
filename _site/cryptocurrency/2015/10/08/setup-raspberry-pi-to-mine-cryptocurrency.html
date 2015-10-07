@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width initial-scale=1">
 
-  <title>Davidslv</title>
-  <meta name="description" content="I've been programming in Ruby commercially since 2011 and I've built awesome projects and worked in amazing teams ever since!
-">
+  <title>Setup a Raspiberry Pi to mine cryptocurrency</title>
+  <meta name="description" content="I’ve been mining since May 2015, with 3 Rockminer R-BOX giving a total of 300Gh/s,although it sounds like a lot of speed, I wouldn’t recommend you to mine Bi...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://davidslv.com/">
+  <link rel="canonical" href="http://davidslv.com/cryptocurrency/2015/10/08/setup-raspberry-pi-to-mine-cryptocurrency.html">
   <link rel="alternate" type="application/atom+xml" title="Davidslv" href="http://davidslv.com/feed.xml" />
 </head>
 
@@ -55,61 +54,59 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Setup a Raspiberry Pi to mine cryptocurrency</h1>
+    <p class="post-meta">Oct 8, 2015</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Oct 8, 2015</span>
+  <article class="post-content">
+    <p>I’ve been <a href="https://en.bitcoin.it/wiki/Mining">mining</a> since May 2015, with 3 <a href="http://ecx.images-amazon.com/images/I/81J3I--QY5L._SY355_.jpg" target="\_blank">Rockminer R-BOX</a> giving a total of 300Gh/s,
+although it sounds like a lot of speed, I wouldn’t recommend you to mine <a href="https://bitcoin.org/en/">Bitcoins</a> as that requires much more <a href="https://bitcoin.org/en/vocabulary#hash-rate">hash rate</a> to be processed, and you will be spending more money in electricity than getting any Bitcoins.
+You should assume that at this moment mining should be seen as non-profitable hobby, my main goal was just to fulfill my curiosity.</p>
 
-        <h2>
-          <a class="post-link" href="/cryptocurrency/2015/10/08/setup-raspberry-pi-to-mine-cryptocurrency.html">Setup a Raspiberry Pi to mine cryptocurrency</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 5, 2015</span>
+<p>The hardware I used:</p>
 
-        <h2>
-          <a class="post-link" href="/ruby/programming/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html">How to protect your credentials on Gemfile.lock</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 29, 2015</span>
+<ul>
+  <li>1 raspberry pi (Quad Core), I used other models but they crashed after a few hours…</li>
+  <li>1 usb hub</li>
+  <li>1 corsair CX 600M Power Supply</li>
+  <li>3 Rockminer R-BOX</li>
+</ul>
 
-        <h2>
-          <a class="post-link" href="/ruby/development/mixpanel/services/open-source/2015/01/29/mixpanel.html">Mixpanel - How to deal with external services</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 5, 2015</span>
+<p>Assuming you already have the operating system <a href="https://www.raspberrypi.org/downloads/">Raspbian</a>, open the command line (Terminal) and type the following:</p>
 
-        <h2>
-          <a class="post-link" href="/life/coding/resolution/2015/01/05/welcome-to-2015.html">Welcome to 2015!</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 13, 2014</span>
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo apt-get update &amp;&amp; sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 libcurl4-openssl-dev libncurses5-dev libudev-dev -y</code></pre></div>
 
-        <h2>
-          <a class="post-link" href="/c++/handmade/gamedev/2014/12/13/handmade-hero-on-osx.html">Handmade Hero on OSX</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 13, 2014</span>
+<p>When you finished updating and installing the needed packages go ahead and download <strong>cgminer</strong> (that’s the latest stable version at the moment of my writing)</p>
 
-        <h2>
-          <a class="post-link" href="/welcome/2014/12/13/welcome-to-jekyll.html">Welcome!</a>
-        </h2>
-      </li>
-    
-  </ul>
+<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://ck.kolivas.org/apps/cgminer/cgminer-4.9.1.tar.bz2</code></pre></div>
+
+<p>And then “unzip” it</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">tar xvf cgminer-4.9.1.tar.bz2</code></pre></div>
+
+<p>Enter <strong>cgminer</strong> directory:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">cd cgminer-4.9.1/
+    ./configure --enable-icarus
+    sudo make &amp;&amp; sudo make install</code></pre></div>
+
+<p>After installing it all you need to do is to find a mining pool to join. And the <strong>stratum</strong> url will be given to you, make sure you setup a worker and a password for it.</p>
+
+<p>Then all you need to do is:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">cgminer --icarus-options 115200:1:1 -o stratum+tcp://MININGPOOL_URL_HERE.com:2222 -u WORKER_NAME_HERE -p PASSWORD_HERE</code></pre></div>
+
+<p>When you see that everything is up and running I recommend you to write that command in <strong>/etc/rc.local</strong> so it starts mining on startup, avoiding you to have to write it all the time you restart your raspberry pi.</p>
+
+<p>Have fun, enjoy the noise :D</p>
+
+<p>David Silva</p>
+
+  </article>
+
 </div>
 
       </div>

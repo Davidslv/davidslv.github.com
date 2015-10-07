@@ -6,9 +6,71 @@
 </description>
     <link>http://davidslv.com/</link>
     <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 05 Oct 2015 21:56:57 +0100</pubDate>
-    <lastBuildDate>Mon, 05 Oct 2015 21:56:57 +0100</lastBuildDate>
+    <pubDate>Thu, 08 Oct 2015 00:26:58 +0100</pubDate>
+    <lastBuildDate>Thu, 08 Oct 2015 00:26:58 +0100</lastBuildDate>
     <generator>Jekyll v2.5.2</generator>
+    
+      <item>
+        <title>Setup a Raspiberry Pi to mine cryptocurrency</title>
+        <description>&lt;p&gt;I’ve been &lt;a href=&quot;https://en.bitcoin.it/wiki/Mining&quot;&gt;mining&lt;/a&gt; since May 2015, with 3 &lt;a href=&quot;http://ecx.images-amazon.com/images/I/81J3I--QY5L._SY355_.jpg&quot; target=&quot;\_blank&quot;&gt;Rockminer R-BOX&lt;/a&gt; giving a total of 300Gh/s,
+although it sounds like a lot of speed, I wouldn’t recommend you to mine &lt;a href=&quot;https://bitcoin.org/en/&quot;&gt;Bitcoins&lt;/a&gt; as that requires much more &lt;a href=&quot;https://bitcoin.org/en/vocabulary#hash-rate&quot;&gt;hash rate&lt;/a&gt; to be processed, and you will be spending more money in electricity than getting any Bitcoins.
+You should assume that at this moment mining should be seen as non-profitable hobby, my main goal was just to fulfill my curiosity.&lt;/p&gt;
+
+&lt;p&gt;The hardware I used:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1 raspberry pi (Quad Core), I used other models but they crashed after a few hours…&lt;/li&gt;
+  &lt;li&gt;1 usb hub&lt;/li&gt;
+  &lt;li&gt;1 corsair CX 600M Power Supply&lt;/li&gt;
+  &lt;li&gt;3 Rockminer R-BOX&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Assuming you already have the operating system &lt;a href=&quot;https://www.raspberrypi.org/downloads/&quot;&gt;Raspbian&lt;/a&gt;, open the command line (Terminal) and type the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 libcurl4-openssl-dev libncurses5-dev libudev-dev -y&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When you finished updating and installing the needed packages go ahead and download &lt;strong&gt;cgminer&lt;/strong&gt; (that’s the latest stable version at the moment of my writing)&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;wget http://ck.kolivas.org/apps/cgminer/cgminer-4.9.1.tar.bz2&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And then “unzip” it&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;tar xvf cgminer-4.9.1.tar.bz2&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Enter &lt;strong&gt;cgminer&lt;/strong&gt; directory:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cd cgminer-4.9.1/
+    ./configure --enable-icarus
+    sudo make &amp;amp;&amp;amp; sudo make install&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After installing it all you need to do is to find a mining pool to join. And the &lt;strong&gt;stratum&lt;/strong&gt; url will be given to you, make sure you setup a worker and a password for it.&lt;/p&gt;
+
+&lt;p&gt;Then all you need to do is:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cgminer --icarus-options 115200:1:1 -o stratum+tcp://MININGPOOL_URL_HERE.com:2222 -u WORKER_NAME_HERE -p PASSWORD_HERE&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When you see that everything is up and running I recommend you to write that command in &lt;strong&gt;/etc/rc.local&lt;/strong&gt; so it starts mining on startup, avoiding you to have to write it all the time you restart your raspberry pi.&lt;/p&gt;
+
+&lt;p&gt;Have fun, enjoy the noise :D&lt;/p&gt;
+
+&lt;p&gt;David Silva&lt;/p&gt;
+</description>
+        <pubDate>Thu, 08 Oct 2015 02:30:00 +0100</pubDate>
+        <link>http://davidslv.com/cryptocurrency/2015/10/08/setup-raspberry-pi-to-mine-cryptocurrency.html</link>
+        <guid isPermaLink="true">http://davidslv.com/cryptocurrency/2015/10/08/setup-raspberry-pi-to-mine-cryptocurrency.html</guid>
+        
+        <category>cryptocurrency</category>
+        
+        <category>blackcoin</category>
+        
+        <category>mining</category>
+        
+        <category>raspberry-pi</category>
+        
+        
+        <category>cryptocurrency</category>
+        
+      </item>
     
       <item>
         <title>How to protect your credentials on Gemfile.lock</title>
