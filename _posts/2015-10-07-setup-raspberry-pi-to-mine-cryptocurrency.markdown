@@ -6,8 +6,8 @@ categories: cryptocurrency
 tags: [cryptocurrency, blackcoin, mining, raspberry-pi]
 ---
 
-I've been [mining](https://en.bitcoin.it/wiki/Mining) since May 2015, with 3 [Rockminer R-BOX](http://ecx.images-amazon.com/images/I/81J3I--QY5L._SY355_.jpg){:target="\_blank"} giving a total of 300Gh/s,
-although it sounds like a lot of speed, I wouldn't recommend you to mine [Bitcoins](https://bitcoin.org/en/) as that requires much more [hash rate](https://bitcoin.org/en/vocabulary#hash-rate) to be processed, and you will be spending more money in electricity than getting any Bitcoins.
+I've been [mining](https://en.bitcoin.it/wiki/Mining){:target="\_blank"} since May 2015, with 3 [Rockminer R-BOX](http://ecx.images-amazon.com/images/I/81J3I--QY5L._SY355_.jpg){:target="\_blank"} giving a total of 300Gh/s,
+although it sounds like a lot of speed, I wouldn't recommend you to mine [Bitcoins](https://bitcoin.org/en/){:target="\_blank"} as that requires much more [hash rate](https://bitcoin.org/en/vocabulary#hash-rate){:target="\_blank"} to be processed, and you will be spending more money in electricity than getting any Bitcoins.
 You should assume that at this moment mining should be seen as non-profitable hobby, my main goal was just to fulfill my curiosity.
 
 The hardware I used:
@@ -18,7 +18,7 @@ The hardware I used:
 - 3 Rockminer R-BOX
 
 
-Assuming you already have the operating system [Raspbian](https://www.raspberrypi.org/downloads/), open the command line (Terminal) and type the following:
+Assuming you already have the operating system [Raspbian](https://www.raspberrypi.org/downloads/){:target="\_blank"}, open the command line (Terminal) and type the following:
 
 {% highlight text %}
     sudo apt-get update && sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 libcurl4-openssl-dev libncurses5-dev libudev-dev -y

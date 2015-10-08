@@ -5,7 +5,7 @@ date:   2015-01-29 22:40:00
 categories: ruby development mixpanel services open-source
 ---
 
-I've been using [Mixpanel](http://mixpanel.com) for the two weeks now.
+I've been using [Mixpanel](http://mixpanel.com){:target="\_blank"} for the two weeks now.
 
 I've followed their documentation and we were sending millions of requests to their servers until last night. Seems that one of their servers went down and caused our requests to start failing which caused our end to start clogging. Although we though we were sending too many requests and for that mixpanel had blocked us temporarily (fortunately not the case but it lead us to point 2 - keep reading).
 
@@ -23,9 +23,9 @@ if Sidekiq::Queue.new('mixpanel').size <= 100_000
 end
 {% endhighlight %}
 
-The second one is more interesting, the ruby mixpanel library has another consumer, called [BufferedConsumer](https://github.com/mixpanel/mixpanel-ruby/blob/master/lib/mixpanel-ruby/consumer.rb#L145) which basically allocates 50 events in memory before it sends them all together in a single request, which basically reduces your requests by a lot if you think about it.
+The second one is more interesting, the ruby mixpanel library has another consumer, called [BufferedConsumer](https://github.com/mixpanel/mixpanel-ruby/blob/master/lib/mixpanel-ruby/consumer.rb#L145){:target="\_blank"} which basically allocates 50 events in memory before it sends them all together in a single request, which basically reduces your requests by a lot if you think about it.
 
-Although what is really great is using it in a connection pool, which you can achieve thanks to [Mike Perham](http://www.mikeperham.com/) with his another awesome open source contribution: [connection_pool](https://github.com/mperham/connection_pool).
+Although what is really great is using it in a connection pool, which you can achieve thanks to [Mike Perham](http://www.mikeperham.com/){:target="\_blank"} with his another awesome open source contribution: [connection_pool](https://github.com/mperham/connection_pool){:target="\_blank"}.
 
 
 {% highlight ruby %}

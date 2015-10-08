@@ -62,7 +62,7 @@
   </header>
 
   <article class="post-content">
-    <p>I’ve been using <a href="http://mixpanel.com">Mixpanel</a> for the two weeks now.</p>
+    <p>I’ve been using <a href="http://mixpanel.com" target="\_blank">Mixpanel</a> for the two weeks now.</p>
 
 <p>I’ve followed their documentation and we were sending millions of requests to their servers until last night. Seems that one of their servers went down and caused our requests to start failing which caused our end to start clogging. Although we though we were sending too many requests and for that mixpanel had blocked us temporarily (fortunately not the case but it lead us to point 2 - keep reading).</p>
 
@@ -83,9 +83,9 @@
   <span class="no">MixpanelWorker</span><span class="o">.</span><span class="n">perform_async</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
 <span class="k">end</span></code></pre></div>
 
-<p>The second one is more interesting, the ruby mixpanel library has another consumer, called <a href="https://github.com/mixpanel/mixpanel-ruby/blob/master/lib/mixpanel-ruby/consumer.rb#L145">BufferedConsumer</a> which basically allocates 50 events in memory before it sends them all together in a single request, which basically reduces your requests by a lot if you think about it.</p>
+<p>The second one is more interesting, the ruby mixpanel library has another consumer, called <a href="https://github.com/mixpanel/mixpanel-ruby/blob/master/lib/mixpanel-ruby/consumer.rb#L145" target="\_blank">BufferedConsumer</a> which basically allocates 50 events in memory before it sends them all together in a single request, which basically reduces your requests by a lot if you think about it.</p>
 
-<p>Although what is really great is using it in a connection pool, which you can achieve thanks to <a href="http://www.mikeperham.com/">Mike Perham</a> with his another awesome open source contribution: <a href="https://github.com/mperham/connection_pool">connection_pool</a>.</p>
+<p>Although what is really great is using it in a connection pool, which you can achieve thanks to <a href="http://www.mikeperham.com/" target="\_blank">Mike Perham</a> with his another awesome open source contribution: <a href="https://github.com/mperham/connection_pool" target="\_blank">connection_pool</a>.</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vg">$mixpanel_buffer_pool</span> <span class="o">=</span> <span class="no">ConnectionPool</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">size</span><span class="p">:</span> <span class="nb">Integer</span><span class="p">(</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;MIXPANEL_POOL_CONCURRENCY&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="mi">25</span><span class="p">))</span> <span class="p">{</span>
   <span class="no">Mixpanel</span><span class="o">::</span><span class="no">BufferedConsumer</span><span class="o">.</span><span class="n">new</span>

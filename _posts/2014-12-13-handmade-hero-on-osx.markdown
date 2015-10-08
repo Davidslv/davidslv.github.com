@@ -5,13 +5,13 @@ date:   2014-12-13 22:40:00
 categories: c++ handmade gamedev
 ---
 
-I've been following [Handmade Hero](http://handmadehero.org/) basically since the beginning,
+I've been following [Handmade Hero](http://handmadehero.org/){:target="\_blank"} basically since the beginning,
 although I know myself too well to start watching the videos straight away, it's like
 watching a TV-Show and when the episode ends you just want to jump to the next one!
 I simply can't wait! So I gave it time to have more videos and then I can catch up.
 
-Now was the moment for me to start, there are 20 videos on [Youtube](https://www.youtube.com/user/handmadeheroarchive),
-[Casey Muratori](http://mollyrocket.com/casey/about.html) has been doing an excelent work explaining everything to us and
+Now was the moment for me to start, there are 20 videos on [Youtube](https://www.youtube.com/user/handmadeheroarchive){:target="\_blank"},
+[Casey Muratori](http://mollyrocket.com/casey/about.html){:target="\_blank"} has been doing an excelent work explaining everything to us and
 I just can't wait to start seeing more and more! Also I liked it so much that I contributed by Pre-Ordering which gives you access to the source code.
 
 
@@ -19,16 +19,16 @@ There's only one problem, I only use OSX as my Operative System and right now th
 but that is no show stopper! No, no, no!
 
 Furtunately there's been a lot of attention, and lots of people believe in this project and they have been helping out!
-I found out that [David Gow](http://davidgow.net/) is doing a port for Linux which he called it
-[Handmade Penguin](http://davidgow.net/handmadepenguin/) and I'm very grateful for that!
+I found out that [David Gow](http://davidgow.net/){:target="\_blank"} is doing a port for Linux which he called it
+[Handmade Penguin](http://davidgow.net/handmadepenguin/){:target="\_blank"} and I'm very grateful for that!
 
 There's a few caveats from following David's code, because Linux and Unix are
 very similar systems, but as they say the beauty (or headache) is in the details!
 
 **Some tips:**
 
-- You should install [SDL](https://www.libsdl.org/download-2.0.php) from source, so you have it available on the terminal.
-- David suggests KDevelop for debugging, but you will not find it on OSX, I found instead [Clewn](http://clewn.sourceforge.net/install.html),
+- You should install [SDL](https://www.libsdl.org/download-2.0.php){:target="\_blank"} from source, so you have it available on the terminal.
+- David suggests KDevelop for debugging, but you will not find it on OSX, I found instead [Clewn](http://clewn.sourceforge.net/install.html){:target="\_blank"},
 but I didn't install it as it depends on netbeans and felt like too much effort for now, maybe on a later stage.
 
 ## Surprise, Surprise!

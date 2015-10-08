@@ -5,7 +5,7 @@ date:   2014-12-13 20:10:53
 categories: welcome
 ---
 
-I used to blog on [tumblr](http://davidslv.tumblr.com/), but definitely is not
+I used to blog on [tumblr](http://davidslv.tumblr.com/){:target="\_blank"}, but definitely is not
 the best place to blog technical stuff.
 
 So welcome to my new blog, I feel it's yet another one in the middle of so many,

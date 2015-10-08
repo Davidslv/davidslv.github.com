@@ -16,7 +16,7 @@ Although if you have some private gems you probably wrote this on your Gemfile:
 
 {% endhighlight %}
 
-And then someone told you you should have the username and password stored in [Environment Variables](https://en.wikipedia.org/wiki/Environment_variable) so you went and assigned
+And then someone told you you should have the username and password stored in [Environment Variables](https://en.wikipedia.org/wiki/Environment_variable){:target="\_blank"} so you went and assigned
 the username and password to them and your Gemfile became like this:
 
 {% highlight ruby %}
@@ -30,7 +30,7 @@ But... did you notice what happens when you run `bundle`?
 Your Gemfile.lock now has the username and password written there, so much for the
 environment variables right?
 
-The bundler team heard your prayers and they actually [implemented something](http://bundler.io/man/bundle-config.1.html#CREDENTIALS-FOR-GEM-SOURCES) to solve this problem!
+The bundler team heard your prayers and they actually [implemented something](http://bundler.io/man/bundle-config.1.html#CREDENTIALS-FOR-GEM-SOURCES){:target="\_blank"} to solve this problem!
 
 So all you need to do is go back to your Gemfile and remove the credentials from the url like so:
 
