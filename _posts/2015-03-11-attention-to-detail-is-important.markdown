@@ -22,7 +22,7 @@ Although this helped, it was not enough to tackle all the issues, as I soon noti
 
 The answer was simple, if you have Xcode installed with the iPhone Simulator you can open Safari and use it as long as the website is not only local, once you are in the website, you need to open **Safari**, go to **Preferences**, **Advanced** and check the box saying “**Show Develop menu in menu bar**”. Now go to **Safari** and under **Develop** you will find **iOS Simulator**, open the page that you want to run Safari Web Inspector – it works similar to [Chrome DevTools](https://developer.chrome.com/devtools){:target="\_blank"}.
 
-In under 10 minutes I had identified the problem. Since I was playing with the simulator and Safari Web Inspector, I took sometime to understand the time it was taking to load the website. I managed to find that an image was too big and was delayed the page loading by 3 seconds.
+In under 10 minutes I had identified the problem. Since I was playing with the simulator and Safari Web Inspector, I took sometime to understand the time it was taking to load the website. I managed to find that an image that was too big and delayed the page to load by 3 seconds.
 If you need some more information about how to set it up you, read this [quick tip](http://webdesign.tutsplus.com/articles/quick-tip-using-web-inspector-to-debug-mobile-safari--webdesign-8787){:target="\_blank"}.
 
 
