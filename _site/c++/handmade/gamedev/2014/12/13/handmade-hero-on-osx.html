@@ -99,14 +99,14 @@ As I’m not a game developer I felt the need to contact David and tell him abou
 
 <p>I sent him the following email</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">Hello David,
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Hello David,
 
 Thanks for your time writing the Handmade Hero for Linux,
-for the past 4 hours I&#39;ve been reading, setup and coding what you wrote
-but on OSX (sorry, it&#39;s the only platform I have =D )
+for the past 4 hours I've been reading, setup and coding what you wrote
+but on OSX (sorry, it's the only platform I have =D )
 
-And I&#39;m emailing you because I think something unexpected happened
-(I even copy pasted your code to see if I missed something, but I didn&#39;t).
+And I'm emailing you because I think something unexpected happened
+(I even copy pasted your code to see if I missed something, but I didn't).
 
 According to your description the window is suppose to flicker between
 black and white when the window is resized or dragged around,
@@ -120,22 +120,22 @@ but is basically the same as if I had copy pasted your code.
 https://github.com/Davidslv/handmade-fan
 
 Thank you for your time and enjoy your weekend,
-David Silva</code></pre></div>
+David Silva</code></pre></figure>
 
 <p>For my surprise David actually answered my email, which I think it was very kind of him,
 honestly there’s not that many developers that take their time to answer, specially on a weekend!
 His answer was very friendly and detailed why the situation differs from both operating systems.</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">Hi,
+<figure class="highlight"><pre><code class="language-text" data-lang="text">Hi,
 
-Glad you&#39;re enjoying Handmade Penguin.
+Glad you're enjoying Handmade Penguin.
 
 I _do_ in fact have an idea as to why this happens! Basically OSX
-behaves a bit differently: expose messages don&#39;t happen by default.
+behaves a bit differently: expose messages don't happen by default.
 
 We can look through the SDL code to see how things work. The code
-to generate the SDL_WINDOWEVENT_EXPOSED event on OSX is in a &quot;handler&quot;
-for the &quot;windowDidExpose&quot; notification:
+to generate the SDL_WINDOWEVENT_EXPOSED event on OSX is in a "handler"
+for the "windowDidExpose" notification:
 
 https://hg.libsdl.org/SDL/file/a40415296b77/src/video/cocoa/SDL_cocoawindow.m#l459
 
@@ -143,22 +143,22 @@ This is a bit hard to find, but if we look at the Apple documentation here:
 
 https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/WinPanel/Tasks/SettingWindowImageAttr.html
 
-We see that windows on OSX can have different &quot;backing store&quot; types.
-There are three types &quot;buffered&quot;, &quot;retained&quot; and &quot;nonretained&quot;. Of
-these, &quot;nonretained&quot; behaves as one would expect: only the exposed
-regions are redrawn and we get expose events. &quot;buffered&quot; behaves more
+We see that windows on OSX can have different "backing store" types.
+There are three types "buffered", "retained" and "nonretained". Of
+these, "nonretained" behaves as one would expect: only the exposed
+regions are redrawn and we get expose events. "buffered" behaves more
 like a compositing window manager: we render the window to an offscreen
 buffer, and the system then redraws the contents of that when needed.
-SDL uses a buffered window (it&#39;s the default), and so never gets exposed
+SDL uses a buffered window (it's the default), and so never gets exposed
 events.
 
-Ultimately, the only difference we have is that OSX doesn&#39;t sent Exposed
+Ultimately, the only difference we have is that OSX doesn't sent Exposed
 messages when the window is resized, whereas X11 usually does.
 You could get back the behaviour by running your draw code in the
 SDL_WINDOWEVENT_RESIZED (or SDL_WINDOWEVENT_SIZE_CHANGED) event handlers.
 
 Cheers,
-— David</code></pre></div>
+— David</code></pre></figure>
 
 <p>I think this is very important to share because allows people to understand that
 different operating systems behave differently even when they are quite similar.</p>

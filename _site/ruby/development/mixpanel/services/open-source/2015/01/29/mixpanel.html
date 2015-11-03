@@ -79,24 +79,24 @@
 
 <p>What you can do to prevent the first from happening again is having a safety point, for example here I check if the size of the queue is less than 100k to send another Mixpanel event, if it isn’t is just better not to send the event than crashing the application.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">Queue</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;mixpanel&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">100_000</span>
-  <span class="no">MixpanelWorker</span><span class="o">.</span><span class="n">perform_async</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
-<span class="k">end</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'mixpanel'</span><span class="p">).</span><span class="nf">size</span> <span class="o">&lt;=</span> <span class="mi">100_000</span>
+  <span class="no">MixpanelWorker</span><span class="p">.</span><span class="nf">perform_async</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+<span class="k">end</span></code></pre></figure>
 
 <p>The second one is more interesting, the ruby mixpanel library has another consumer, called <a href="https://github.com/mixpanel/mixpanel-ruby/blob/master/lib/mixpanel-ruby/consumer.rb#L145" target="\_blank">BufferedConsumer</a> which basically allocates 50 events in memory before it sends them all together in a single request, which basically reduces your requests by a lot if you think about it.</p>
 
 <p>Although what is really great is using it in a connection pool, which you can achieve thanks to <a href="http://www.mikeperham.com/" target="\_blank">Mike Perham</a> with his another awesome open source contribution: <a href="https://github.com/mperham/connection_pool" target="\_blank">connection_pool</a>.</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vg">$mixpanel_buffer_pool</span> <span class="o">=</span> <span class="no">ConnectionPool</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">size</span><span class="p">:</span> <span class="nb">Integer</span><span class="p">(</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;MIXPANEL_POOL_CONCURRENCY&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="mi">25</span><span class="p">))</span> <span class="p">{</span>
-  <span class="no">Mixpanel</span><span class="o">::</span><span class="no">BufferedConsumer</span><span class="o">.</span><span class="n">new</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="vg">$mixpanel_buffer_pool</span> <span class="o">=</span> <span class="no">ConnectionPool</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">size: </span><span class="no">Integer</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'MIXPANEL_POOL_CONCURRENCY'</span><span class="p">]</span> <span class="o">||</span> <span class="mi">25</span><span class="p">))</span> <span class="p">{</span>
+  <span class="no">Mixpanel</span><span class="o">::</span><span class="no">BufferedConsumer</span><span class="p">.</span><span class="nf">new</span>
 <span class="p">}</span>
 
 <span class="c1"># and initialize your Mixpanel::Tracker like so</span>
-<span class="n">tracker</span> <span class="o">=</span> <span class="no">Mixpanel</span><span class="o">::</span><span class="no">Tracker</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;MIXPANEL_TOKEN&#39;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">type</span><span class="p">,</span> <span class="n">message</span><span class="o">|</span>
-  <span class="vg">$mixpanel_buffer_pool</span><span class="o">.</span><span class="n">with</span> <span class="k">do</span> <span class="o">|</span><span class="n">buffer</span><span class="o">|</span>
-    <span class="n">buffer</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+<span class="n">tracker</span> <span class="o">=</span> <span class="no">Mixpanel</span><span class="o">::</span><span class="no">Tracker</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'MIXPANEL_TOKEN'</span><span class="p">])</span> <span class="k">do</span> <span class="o">|</span><span class="n">type</span><span class="p">,</span> <span class="n">message</span><span class="o">|</span>
+  <span class="vg">$mixpanel_buffer_pool</span><span class="p">.</span><span class="nf">with</span> <span class="k">do</span> <span class="o">|</span><span class="n">buffer</span><span class="o">|</span>
+    <span class="n">buffer</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">type</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
   <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
 <h2 id="conclusion">Conclusion</h2>
 

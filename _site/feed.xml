@@ -6,9 +6,57 @@
 </description>
     <link>http://davidslv.com/</link>
     <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 08 Oct 2015 01:05:47 +0100</pubDate>
-    <lastBuildDate>Thu, 08 Oct 2015 01:05:47 +0100</lastBuildDate>
-    <generator>Jekyll v2.5.2</generator>
+    <pubDate>Tue, 03 Nov 2015 11:21:50 +0000</pubDate>
+    <lastBuildDate>Tue, 03 Nov 2015 11:21:50 +0000</lastBuildDate>
+    <generator>Jekyll v3.0.0</generator>
+    
+      <item>
+        <title>Improve your attention to detail</title>
+        <description>&lt;p&gt;Nowadays Front End Software Engineers face several challenges, they have to tackle the considerable amount of different devices with different screen sizes and resolutions,
+even though there’s plenty of CSS frameworks out there to ease this problem, you still need to know your way around.
+You need to pay attention to detail, sometimes a small mistake is all it takes to ruin your work presentation.&lt;/p&gt;
+
+&lt;p&gt;Recently I built a website that needs to be compatible with mobile devices, so I took the opportunity to re-visit Twitter Bootstrap CSS framework, the project was small but challenging enough and I knew exactly how I would like to tackle it.&lt;/p&gt;
+
+&lt;p&gt;I had mobile first in mind, although my first mistake was to be using the browser window resized to accomplish this, so something like &lt;code&gt;col-md-4&lt;/code&gt; seemed great to me. Soon I understood that something wasn’t quite right, I knew that mobile wasn’t a priority for this project, so I didn’t let it slow me down and I focused on having the website ready as soon as possible.&lt;/p&gt;
+
+&lt;p&gt;When I finished it, I decided to investigate how broken the mobile version was, and oh boy… it was bad, but just aesthetically, elements were not quite in the right position, but that was fixable. I decided it was time to bring in the right tools!&lt;/p&gt;
+
+&lt;p&gt;I started by going back to Twitter Bootstrap documentation and re-read it to make sure I wasn’t missing something, and I soon realised that I should move anything &lt;code&gt;col-md-*&lt;/code&gt; to &lt;code&gt;col-sm-*&lt;/code&gt; so the elements start by looking the same, even on iPhone. At this time I was using &lt;a href=&quot;https://developer.chrome.com/devtools&quot; target=&quot;\_blank&quot;&gt;Chrome DevTools&lt;/a&gt; which allows you to simulate different devices, in different positions (portrait/landscape). It even allows you to simulate the network speed, and allows you to do a bunch of other things that I suspect you know about already.&lt;/p&gt;
+
+&lt;p&gt;Although this helped, it was not enough to tackle all the issues, as I soon noticed when on my iPhone 6 there was one element that was out of position, for no apparent reason even though DevTools was showing everything as I intended. So now I had an issue I couldn’t reproduce on my laptop but it was happening on my iPhone… I thought how do I tackle this?&lt;/p&gt;
+
+&lt;p&gt;The answer was simple, if you have Xcode installed with the iPhone Simulator you can open Safari and use it as long as the website is not only local, once you are in the website, you need to open &lt;strong&gt;Safari&lt;/strong&gt;, go to &lt;strong&gt;Preferences&lt;/strong&gt;, &lt;strong&gt;Advanced&lt;/strong&gt; and check the box saying “&lt;strong&gt;Show Develop menu in menu bar&lt;/strong&gt;”. Now go to &lt;strong&gt;Safari&lt;/strong&gt; and under &lt;strong&gt;Develop&lt;/strong&gt; you will find &lt;strong&gt;iOS Simulator&lt;/strong&gt;, open the page that you want to run Safari Web Inspector – it works similar to &lt;a href=&quot;https://developer.chrome.com/devtools&quot; target=&quot;\_blank&quot;&gt;Chrome DevTools&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In under 10 minutes I had identified the problem. Since I was playing with the simulator and Safari Web Inspector, I took sometime to understand the time it was taking to load the website. I managed to find that an image was too big and was delayed the page loading by 3 seconds.
+If you need some more information about how to set it up you, read this &lt;a href=&quot;http://webdesign.tutsplus.com/articles/quick-tip-using-web-inspector-to-debug-mobile-safari--webdesign-8787&quot; target=&quot;\_blank&quot;&gt;quick tip&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt; Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Attention to detail is key in any profession, knowing and using the right tools helps you to have visibility beyond your
+thinking and helps you fix those small details that make all the difference.
+In the future, it’s worth having a check list of things you need to do and that you can also double check, like airline pilots do before a flight.&lt;/p&gt;
+
+&lt;p&gt;Thank you for reading.&lt;/p&gt;
+
+&lt;p&gt;David Silva&lt;/p&gt;
+</description>
+        <pubDate>Tue, 03 Nov 2015 11:10:00 +0000</pubDate>
+        <link>http://davidslv.com/professional/life/2015/11/03/attention-to-detail-is-important.html</link>
+        <guid isPermaLink="true">http://davidslv.com/professional/life/2015/11/03/attention-to-detail-is-important.html</guid>
+        
+        <category>development</category>
+        
+        <category>professional</category>
+        
+        <category>professional life</category>
+        
+        
+        <category>professional</category>
+        
+        <category>life</category>
+        
+      </item>
     
       <item>
         <title>Setup a Raspiberry Pi to mine cryptocurrency</title>
@@ -27,27 +75,27 @@ You should assume that at this moment mining should be seen as non-profitable ho
 
 &lt;p&gt;Assuming you already have the operating system &lt;a href=&quot;https://www.raspberrypi.org/downloads/&quot; target=&quot;\_blank&quot;&gt;Raspbian&lt;/a&gt;, open the command line (Terminal) and type the following:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 libcurl4-openssl-dev libncurses5-dev libudev-dev -y&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 libcurl4-openssl-dev libncurses5-dev libudev-dev -y&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;When you finished updating and installing the needed packages go ahead and download &lt;strong&gt;cgminer&lt;/strong&gt; (that’s the latest stable version at the moment of my writing)&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;wget http://ck.kolivas.org/apps/cgminer/cgminer-4.9.1.tar.bz2&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    wget http://ck.kolivas.org/apps/cgminer/cgminer-4.9.1.tar.bz2&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;And then “unzip” it&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;tar xvf cgminer-4.9.1.tar.bz2&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    tar xvf cgminer-4.9.1.tar.bz2&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Enter &lt;strong&gt;cgminer&lt;/strong&gt; directory:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cd cgminer-4.9.1/
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    cd cgminer-4.9.1/
     ./configure --enable-icarus
-    sudo make &amp;amp;&amp;amp; sudo make install&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    sudo make &amp;amp;&amp;amp; sudo make install&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;After installing it all you need to do is to find a mining pool to join. And the &lt;strong&gt;stratum&lt;/strong&gt; url will be given to you, make sure you setup a worker and a password for it.&lt;/p&gt;
 
 &lt;p&gt;Then all you need to do is:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cgminer --icarus-options 115200:1:1 -o stratum+tcp://MININGPOOL_URL_HERE.com:2222 -u WORKER_NAME_HERE -p PASSWORD_HERE&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    cgminer --icarus-options 115200:1:1 -o stratum+tcp://MININGPOOL_URL_HERE.com:2222 -u WORKER_NAME_HERE -p PASSWORD_HERE&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;When you see that everything is up and running I recommend you to write that command in &lt;strong&gt;/etc/rc.local&lt;/strong&gt; so it starts mining on startup, avoiding you to have to write it all the time you restart your raspberry pi.&lt;/p&gt;
 
@@ -78,12 +126,12 @@ You should assume that at this moment mining should be seen as non-profitable ho
 
 &lt;p&gt;Although if you have some private gems you probably wrote this on your Gemfile:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://username:password@gemserver.com&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;  &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;https://username:password@gemserver.com&#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;And then someone told you you should have the username and password stored in &lt;a href=&quot;https://en.wikipedia.org/wiki/Environment_variable&quot; target=&quot;\_blank&quot;&gt;Environment Variables&lt;/a&gt; so you went and assigned
 the username and password to them and your Gemfile became like this:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;https://&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;USERNAME&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;PASSWORD&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@gemserver.com&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;  &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;USERNAME&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;PASSWORD&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@gemserver.com&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;But… did you notice what happens when you run &lt;code&gt;bundle&lt;/code&gt;?&lt;/p&gt;
 
@@ -94,7 +142,7 @@ environment variables right?&lt;/p&gt;
 
 &lt;p&gt;So all you need to do is go back to your Gemfile and remove the credentials from the url like so:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;https://gemserver.com&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;  &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://gemserver.com&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;And now create an environment variable called &lt;code&gt;BUNDLE_GEMSERVER__COM&lt;/code&gt;, this will match the url &lt;code&gt;gemserver.com&lt;/code&gt;
 where the dot (.) becomes two underscores (__).&lt;/p&gt;
@@ -103,11 +151,11 @@ where the dot (.) becomes two underscores (__).&lt;/p&gt;
 continuous integration setup and then you have to go and change your staging and production servers, or maybe you are already using
 those values somewhere in your project, don’t worry you can wrap them like so:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;BUNDLE_GEMSERVER__COM=&amp;quot;$USERNAME:$PASSWORD&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;  BUNDLE_GEMSERVER__COM=&quot;$USERNAME:$PASSWORD&quot;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;This is the equivalent of doing the following:&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;bundle config gems.unii.com $UNII_GEMS_USERNAME:$UNII_GEMS_PASSWORD&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;  bundle config gems.unii.com $UNII_GEMS_USERNAME:$UNII_GEMS_PASSWORD&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Now all you have to do is go through all the stages of your project that need that ENV and you will be fine.&lt;/p&gt;
 
@@ -157,24 +205,24 @@ those values somewhere in your project, don’t worry you can wrap them like so:
 
 &lt;p&gt;What you can do to prevent the first from happening again is having a safety point, for example here I check if the size of the queue is less than 100k to send another Mixpanel event, if it isn’t is just better not to send the event than crashing the application.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Sidekiq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Queue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;mixpanel&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100_000&lt;/span&gt;
-  &lt;span class=&quot;no&quot;&gt;MixpanelWorker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;perform_async&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Sidekiq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;mixpanel&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100_000&lt;/span&gt;
+  &lt;span class=&quot;no&quot;&gt;MixpanelWorker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;perform_async&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;event_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;The second one is more interesting, the ruby mixpanel library has another consumer, called &lt;a href=&quot;https://github.com/mixpanel/mixpanel-ruby/blob/master/lib/mixpanel-ruby/consumer.rb#L145&quot; target=&quot;\_blank&quot;&gt;BufferedConsumer&lt;/a&gt; which basically allocates 50 events in memory before it sends them all together in a single request, which basically reduces your requests by a lot if you think about it.&lt;/p&gt;
 
 &lt;p&gt;Although what is really great is using it in a connection pool, which you can achieve thanks to &lt;a href=&quot;http://www.mikeperham.com/&quot; target=&quot;\_blank&quot;&gt;Mike Perham&lt;/a&gt; with his another awesome open source contribution: &lt;a href=&quot;https://github.com/mperham/connection_pool&quot; target=&quot;\_blank&quot;&gt;connection_pool&lt;/a&gt;.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;vg&quot;&gt;$mixpanel_buffer_pool&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ConnectionPool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;MIXPANEL_POOL_CONCURRENCY&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;no&quot;&gt;Mixpanel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BufferedConsumer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;vg&quot;&gt;$mixpanel_buffer_pool&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ConnectionPool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;size: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;MIXPANEL_POOL_CONCURRENCY&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;no&quot;&gt;Mixpanel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BufferedConsumer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
 &lt;span class=&quot;c1&quot;&gt;# and initialize your Mixpanel::Tracker like so&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;tracker&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Mixpanel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Tracker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;MIXPANEL_TOKEN&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-  &lt;span class=&quot;vg&quot;&gt;$mixpanel_buffer_pool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;tracker&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Mixpanel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Tracker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;MIXPANEL_TOKEN&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;vg&quot;&gt;$mixpanel_buffer_pool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;buffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 
@@ -291,14 +339,14 @@ As I’m not a game developer I felt the need to contact David and tell him abou
 
 &lt;p&gt;I sent him the following email&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Hello David,
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Hello David,
 
 Thanks for your time writing the Handmade Hero for Linux,
-for the past 4 hours I&amp;#39;ve been reading, setup and coding what you wrote
-but on OSX (sorry, it&amp;#39;s the only platform I have =D )
+for the past 4 hours I&#39;ve been reading, setup and coding what you wrote
+but on OSX (sorry, it&#39;s the only platform I have =D )
 
-And I&amp;#39;m emailing you because I think something unexpected happened
-(I even copy pasted your code to see if I missed something, but I didn&amp;#39;t).
+And I&#39;m emailing you because I think something unexpected happened
+(I even copy pasted your code to see if I missed something, but I didn&#39;t).
 
 According to your description the window is suppose to flicker between
 black and white when the window is resized or dragged around,
@@ -312,22 +360,22 @@ but is basically the same as if I had copy pasted your code.
 https://github.com/Davidslv/handmade-fan
 
 Thank you for your time and enjoy your weekend,
-David Silva&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+David Silva&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;For my surprise David actually answered my email, which I think it was very kind of him,
 honestly there’s not that many developers that take their time to answer, specially on a weekend!
 His answer was very friendly and detailed why the situation differs from both operating systems.&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Hi,
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Hi,
 
-Glad you&amp;#39;re enjoying Handmade Penguin.
+Glad you&#39;re enjoying Handmade Penguin.
 
 I _do_ in fact have an idea as to why this happens! Basically OSX
-behaves a bit differently: expose messages don&amp;#39;t happen by default.
+behaves a bit differently: expose messages don&#39;t happen by default.
 
 We can look through the SDL code to see how things work. The code
-to generate the SDL_WINDOWEVENT_EXPOSED event on OSX is in a &amp;quot;handler&amp;quot;
-for the &amp;quot;windowDidExpose&amp;quot; notification:
+to generate the SDL_WINDOWEVENT_EXPOSED event on OSX is in a &quot;handler&quot;
+for the &quot;windowDidExpose&quot; notification:
 
 https://hg.libsdl.org/SDL/file/a40415296b77/src/video/cocoa/SDL_cocoawindow.m#l459
 
@@ -335,22 +383,22 @@ This is a bit hard to find, but if we look at the Apple documentation here:
 
 https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/WinPanel/Tasks/SettingWindowImageAttr.html
 
-We see that windows on OSX can have different &amp;quot;backing store&amp;quot; types.
-There are three types &amp;quot;buffered&amp;quot;, &amp;quot;retained&amp;quot; and &amp;quot;nonretained&amp;quot;. Of
-these, &amp;quot;nonretained&amp;quot; behaves as one would expect: only the exposed
-regions are redrawn and we get expose events. &amp;quot;buffered&amp;quot; behaves more
+We see that windows on OSX can have different &quot;backing store&quot; types.
+There are three types &quot;buffered&quot;, &quot;retained&quot; and &quot;nonretained&quot;. Of
+these, &quot;nonretained&quot; behaves as one would expect: only the exposed
+regions are redrawn and we get expose events. &quot;buffered&quot; behaves more
 like a compositing window manager: we render the window to an offscreen
 buffer, and the system then redraws the contents of that when needed.
-SDL uses a buffered window (it&amp;#39;s the default), and so never gets exposed
+SDL uses a buffered window (it&#39;s the default), and so never gets exposed
 events.
 
-Ultimately, the only difference we have is that OSX doesn&amp;#39;t sent Exposed
+Ultimately, the only difference we have is that OSX doesn&#39;t sent Exposed
 messages when the window is resized, whereas X11 usually does.
 You could get back the behaviour by running your draw code in the
 SDL_WINDOWEVENT_RESIZED (or SDL_WINDOWEVENT_SIZE_CHANGED) event handlers.
 
 Cheers,
-— David&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+— David&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;I think this is very important to share because allows people to understand that
 different operating systems behave differently even when they are quite similar.&lt;/p&gt;

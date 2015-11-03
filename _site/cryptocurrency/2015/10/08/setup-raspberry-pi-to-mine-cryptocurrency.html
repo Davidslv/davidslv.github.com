@@ -77,27 +77,27 @@ You should assume that at this moment mining should be seen as non-profitable ho
 
 <p>Assuming you already have the operating system <a href="https://www.raspberrypi.org/downloads/" target="\_blank">Raspbian</a>, open the command line (Terminal) and type the following:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo apt-get update &amp;&amp; sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 libcurl4-openssl-dev libncurses5-dev libudev-dev -y</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">    sudo apt-get update &amp;&amp; sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 libcurl4-openssl-dev libncurses5-dev libudev-dev -y</code></pre></figure>
 
 <p>When you finished updating and installing the needed packages go ahead and download <strong>cgminer</strong> (that’s the latest stable version at the moment of my writing)</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">wget http://ck.kolivas.org/apps/cgminer/cgminer-4.9.1.tar.bz2</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">    wget http://ck.kolivas.org/apps/cgminer/cgminer-4.9.1.tar.bz2</code></pre></figure>
 
 <p>And then “unzip” it</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">tar xvf cgminer-4.9.1.tar.bz2</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">    tar xvf cgminer-4.9.1.tar.bz2</code></pre></figure>
 
 <p>Enter <strong>cgminer</strong> directory:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd cgminer-4.9.1/
+<figure class="highlight"><pre><code class="language-text" data-lang="text">    cd cgminer-4.9.1/
     ./configure --enable-icarus
-    sudo make &amp;&amp; sudo make install</code></pre></div>
+    sudo make &amp;&amp; sudo make install</code></pre></figure>
 
 <p>After installing it all you need to do is to find a mining pool to join. And the <strong>stratum</strong> url will be given to you, make sure you setup a worker and a password for it.</p>
 
 <p>Then all you need to do is:</p>
 
-<div class="highlight"><pre><code class="language-text" data-lang="text">cgminer --icarus-options 115200:1:1 -o stratum+tcp://MININGPOOL_URL_HERE.com:2222 -u WORKER_NAME_HERE -p PASSWORD_HERE</code></pre></div>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">    cgminer --icarus-options 115200:1:1 -o stratum+tcp://MININGPOOL_URL_HERE.com:2222 -u WORKER_NAME_HERE -p PASSWORD_HERE</code></pre></figure>
 
 <p>When you see that everything is up and running I recommend you to write that command in <strong>/etc/rc.local</strong> so it starts mining on startup, avoiding you to have to write it all the time you restart your raspberry pi.</p>
 

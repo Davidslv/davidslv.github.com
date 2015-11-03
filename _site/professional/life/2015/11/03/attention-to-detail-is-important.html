@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width initial-scale=1">
 
-  <title>How to protect your credentials on Gemfile.lock</title>
-  <meta name="description" content="As you might know, it isn’t a good idea to store any kind of credentials under your VCS (like git).">
+  <title>Improve your attention to detail</title>
+  <meta name="description" content="Nowadays Front End Software Engineers face several challenges, they have to tackle the considerable amount of different devices with different screen sizes a...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://davidslv.com/ruby/programming/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html">
+  <link rel="canonical" href="http://davidslv.com/professional/life/2015/11/03/attention-to-detail-is-important.html">
   <link rel="alternate" type="application/atom+xml" title="Davidslv" href="http://davidslv.com/feed.xml" />
 </head>
 
@@ -57,49 +57,35 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">How to protect your credentials on Gemfile.lock</h1>
-    <p class="post-meta">Oct 5, 2015</p>
+    <h1 class="post-title">Improve your attention to detail</h1>
+    <p class="post-meta">Nov 3, 2015</p>
   </header>
 
   <article class="post-content">
-    <p>As you might know, it isn’t a good idea to store any kind of credentials under your VCS (like git).</p>
+    <p>Nowadays Front End Software Engineers face several challenges, they have to tackle the considerable amount of different devices with different screen sizes and resolutions,
+even though there’s plenty of CSS frameworks out there to ease this problem, you still need to know your way around.
+You need to pay attention to detail, sometimes a small mistake is all it takes to ruin your work presentation.</p>
 
-<p>Although if you have some private gems you probably wrote this on your Gemfile:</p>
+<p>Recently I built a website that needs to be compatible with mobile devices, so I took the opportunity to re-visit Twitter Bootstrap CSS framework, the project was small but challenging enough and I knew exactly how I would like to tackle it.</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="n">source</span> <span class="s1">'https://username:password@gemserver.com'</span></code></pre></figure>
+<p>I had mobile first in mind, although my first mistake was to be using the browser window resized to accomplish this, so something like <code>col-md-4</code> seemed great to me. Soon I understood that something wasn’t quite right, I knew that mobile wasn’t a priority for this project, so I didn’t let it slow me down and I focused on having the website ready as soon as possible.</p>
 
-<p>And then someone told you you should have the username and password stored in <a href="https://en.wikipedia.org/wiki/Environment_variable" target="\_blank">Environment Variables</a> so you went and assigned
-the username and password to them and your Gemfile became like this:</p>
+<p>When I finished it, I decided to investigate how broken the mobile version was, and oh boy… it was bad, but just aesthetically, elements were not quite in the right position, but that was fixable. I decided it was time to bring in the right tools!</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="n">source</span> <span class="s2">"https://</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'USERNAME'</span><span class="p">]</span><span class="si">}</span><span class="s2">:</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s1">'PASSWORD'</span><span class="p">]</span><span class="si">}</span><span class="s2">@gemserver.com"</span></code></pre></figure>
+<p>I started by going back to Twitter Bootstrap documentation and re-read it to make sure I wasn’t missing something, and I soon realised that I should move anything <code>col-md-*</code> to <code>col-sm-*</code> so the elements start by looking the same, even on iPhone. At this time I was using <a href="https://developer.chrome.com/devtools" target="\_blank">Chrome DevTools</a> which allows you to simulate different devices, in different positions (portrait/landscape). It even allows you to simulate the network speed, and allows you to do a bunch of other things that I suspect you know about already.</p>
 
-<p>But… did you notice what happens when you run <code>bundle</code>?</p>
+<p>Although this helped, it was not enough to tackle all the issues, as I soon noticed when on my iPhone 6 there was one element that was out of position, for no apparent reason even though DevTools was showing everything as I intended. So now I had an issue I couldn’t reproduce on my laptop but it was happening on my iPhone… I thought how do I tackle this?</p>
 
-<p>Your Gemfile.lock now has the username and password written there, so much for the
-environment variables right?</p>
+<p>The answer was simple, if you have Xcode installed with the iPhone Simulator you can open Safari and use it as long as the website is not only local, once you are in the website, you need to open <strong>Safari</strong>, go to <strong>Preferences</strong>, <strong>Advanced</strong> and check the box saying “<strong>Show Develop menu in menu bar</strong>”. Now go to <strong>Safari</strong> and under <strong>Develop</strong> you will find <strong>iOS Simulator</strong>, open the page that you want to run Safari Web Inspector – it works similar to <a href="https://developer.chrome.com/devtools" target="\_blank">Chrome DevTools</a>.</p>
 
-<p>The bundler team heard your prayers and they actually <a href="http://bundler.io/man/bundle-config.1.html#CREDENTIALS-FOR-GEM-SOURCES" target="\_blank">implemented something</a> to solve this problem!</p>
+<p>In under 10 minutes I had identified the problem. Since I was playing with the simulator and Safari Web Inspector, I took sometime to understand the time it was taking to load the website. I managed to find that an image was too big and was delayed the page loading by 3 seconds.
+If you need some more information about how to set it up you, read this <a href="http://webdesign.tutsplus.com/articles/quick-tip-using-web-inspector-to-debug-mobile-safari--webdesign-8787" target="\_blank">quick tip</a>.</p>
 
-<p>So all you need to do is go back to your Gemfile and remove the credentials from the url like so:</p>
+<h2 id="conclusion"> Conclusion</h2>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="n">source</span> <span class="s2">"https://gemserver.com"</span></code></pre></figure>
-
-<p>And now create an environment variable called <code>BUNDLE_GEMSERVER__COM</code>, this will match the url <code>gemserver.com</code>
-where the dot (.) becomes two underscores (__).</p>
-
-<p>I would suggest you to wrap those two ENV’s with the new <code>BUNDLE_*</code>, specially if you have to go and change your
-continuous integration setup and then you have to go and change your staging and production servers, or maybe you are already using
-those values somewhere in your project, don’t worry you can wrap them like so:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text">  BUNDLE_GEMSERVER__COM="$USERNAME:$PASSWORD"</code></pre></figure>
-
-<p>This is the equivalent of doing the following:</p>
-
-<figure class="highlight"><pre><code class="language-text" data-lang="text">  bundle config gems.unii.com $UNII_GEMS_USERNAME:$UNII_GEMS_PASSWORD</code></pre></figure>
-
-<p>Now all you have to do is go through all the stages of your project that need that ENV and you will be fine.</p>
-
-<p>Also, you might have to update your bundler, I’ve updated mine to 1.10.6 as version 1.7.4 didn’t had this feature.</p>
+<p>Attention to detail is key in any profession, knowing and using the right tools helps you to have visibility beyond your
+thinking and helps you fix those small details that make all the difference.
+In the future, it’s worth having a check list of things you need to do and that you can also double check, like airline pilots do before a flight.</p>
 
 <p>Thank you for reading.</p>
 
