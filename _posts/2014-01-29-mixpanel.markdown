@@ -5,7 +5,7 @@ date:   2015-01-29 22:40:00
 categories: ruby development mixpanel services open-source
 ---
 
-I've been using [Mixpanel](http://mixpanel.com){:target="\_blank"} for the two weeks now.
+I've been using [Mixpanel](http://mixpanel.com){:target="\_blank"} for two weeks now.
 
 I've followed their documentation and we were sending millions of requests to their servers until last night. Seems that one of their servers went down and caused our requests to start failing which caused our end to start clogging. Although we though we were sending too many requests and for that mixpanel had blocked us temporarily (fortunately not the case but it lead us to point 2 - keep reading).
 
