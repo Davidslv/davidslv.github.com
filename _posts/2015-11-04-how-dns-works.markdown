@@ -5,7 +5,7 @@ date:   2015-11-04 17:00:00
 categories: professional
 ---
 
-You might know it, but I would like to start with some background to what generated the Internet as we know it today.
+Before we dive into DNS I would like to start with some background to what generated the Internet as we know it today.
 
 Definitely the creation of the DNS is one of the most important creations, specially because without it you wouldn't be reading this now, you will understand why later on, keep reading.
 
@@ -37,7 +37,7 @@ That’s when [Paul Mockapetris](https://en.wikipedia.org/wiki/Paul_Mockapetris)
 
 ### DNS, in a Nutshell
 
-The DNS is a distributed database. This structure allows a local control of the segments of the overall database. yet data in each segment is available across the entire network through a client/server scheme. The way this system achieves robustness and adequate performance are achieved through replication and caching.
+The DNS is a distributed database. This structure allows a local control of the segments of the overall database. The data in each segment is available across the entire network through a client/server scheme. The way this system achieves robustness and adequate performance are achieved through replication and caching.
 
 A program called NameServer is the server side of the client/server mechanism. They contain segments of the database and make the information available to clients, called Resolvers. Resolvers create queries and send them across a network to a nameserver.
 
@@ -45,7 +45,7 @@ The structure of the DNS database is constituted by nodes (computers) with the �
 
 ![Network Diagram](/img/dns.png)
 
-Nowadays there is 13 root servers, every single one of them starts with a letter, from A to M, and we can see them when you use the command line tool `dig`, which is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried.
+Nowadays there are 13 root servers, every single one of them starts with a letter, from A to M, and we can see them when you use the command line tool `dig`, which is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried.
 
 {% highlight text %}
 ~ $ dig +trace davidslv.com
@@ -69,16 +69,9 @@ Nowadays there is 13 root servers, every single one of them starts with a letter
 
 You can see in that trace that it starts by going through the root servers before going through the global tld (top level domain) servers and then goes through the name-servers and finally gets the IP addresses of the hosts associated to the domain name.
 
-I will like to show you a diagram, that represents my own interpretation of how the DNS works, I don’t intend it to be more complex than needed, so don’t rely entirely on it because it might be missing a lot of things, remember that the DNS is a complex system, there’s many things involved, and in order for us to receive information in seconds there’s is a bunch of things that happen in the background, I think it’s fascinating!
+I would like to show you a diagram, that represents my own interpretation of how the DNS works, I don’t intend it to be more complex than needed, so don’t rely entirely on it because it might be missing a lot of things, remember that the DNS is a complex system, there’s many things involved, and in order for us to receive information in seconds there’s is a bunch of things that happen in the background. I think it’s fascinating!
 
 ![DNS Diagram](/img/dns-diagram.png)
-
-### Conclusion
-
-Have you ever been in a job interview and someone asks you, a Software Engineer, the following question: **_“What happens when you type a URL in your browser?”_**
-
-That’s a very common question you get asked in a job interview for some reason… I mean, I would understand it if I was applying for a position like “Network Engineer”, and maybe depending on what kind of Software Developer the job requires. In any case, I hope my article helps you answer that question, and I’m pretty sure that you will agree with me in the end that besides being a tricky question, maybe the job position you are applying this question is completely irrelevant.
-
 
 
 I would like to complement this article with some references:
