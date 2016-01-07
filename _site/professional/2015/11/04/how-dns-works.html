@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width initial-scale=1">
 
   <title>How DNS works?</title>
-  <meta name="description" content="You might know it, but I would like to start with some background to what generated the Internet as we know it today.">
+  <meta name="description" content="Before we dive into DNS I would like to start with some background to what generated the Internet as we know it today.">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="http://davidslv.com/professional/2015/11/04/how-dns-works.html">
@@ -62,7 +62,7 @@
   </header>
 
   <article class="post-content">
-    <p>You might know it, but I would like to start with some background to what generated the Internet as we know it today.</p>
+    <p>Before we dive into DNS I would like to start with some background to what generated the Internet as we know it today.</p>
 
 <p>Definitely the creation of the DNS is one of the most important creations, specially because without it you wouldn’t be reading this now, you will understand why later on, keep reading.</p>
 
@@ -103,7 +103,7 @@
 
 <h3 id="dns-in-a-nutshell">DNS, in a Nutshell</h3>
 
-<p>The DNS is a distributed database. This structure allows a local control of the segments of the overall database. yet data in each segment is available across the entire network through a client/server scheme. The way this system achieves robustness and adequate performance are achieved through replication and caching.</p>
+<p>The DNS is a distributed database. This structure allows a local control of the segments of the overall database. The data in each segment is available across the entire network through a client/server scheme. The way this system achieves robustness and adequate performance are achieved through replication and caching.</p>
 
 <p>A program called NameServer is the server side of the client/server mechanism. They contain segments of the database and make the information available to clients, called Resolvers. Resolvers create queries and send them across a network to a nameserver.</p>
 
@@ -111,7 +111,7 @@
 
 <p><img src="/img/dns.png" alt="Network Diagram" /></p>
 
-<p>Nowadays there is 13 root servers, every single one of them starts with a letter, from A to M, and we can see them when you use the command line tool <code>dig</code>, which is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried.</p>
+<p>Nowadays there are 13 root servers, every single one of them starts with a letter, from A to M, and we can see them when you use the command line tool <code>dig</code>, which is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried.</p>
 
 <figure class="highlight"><pre><code class="language-text" data-lang="text">~ $ dig +trace davidslv.com
 
@@ -133,15 +133,9 @@
 
 <p>You can see in that trace that it starts by going through the root servers before going through the global tld (top level domain) servers and then goes through the name-servers and finally gets the IP addresses of the hosts associated to the domain name.</p>
 
-<p>I will like to show you a diagram, that represents my own interpretation of how the DNS works, I don’t intend it to be more complex than needed, so don’t rely entirely on it because it might be missing a lot of things, remember that the DNS is a complex system, there’s many things involved, and in order for us to receive information in seconds there’s is a bunch of things that happen in the background, I think it’s fascinating!</p>
+<p>I would like to show you a diagram, that represents my own interpretation of how the DNS works, I don’t intend it to be more complex than needed, so don’t rely entirely on it because it might be missing a lot of things, remember that the DNS is a complex system, there’s many things involved, and in order for us to receive information in seconds there’s is a bunch of things that happen in the background. I think it’s fascinating!</p>
 
 <p><img src="/img/dns-diagram.png" alt="DNS Diagram" /></p>
-
-<h3 id="conclusion"> Conclusion</h3>
-
-<p>Have you ever been in a job interview and someone asks you, a Software Engineer, the following question: <strong><em>“What happens when you type a URL in your browser?”</em></strong></p>
-
-<p>That’s a very common question you get asked in a job interview for some reason… I mean, I would understand it if I was applying for a position like “Network Engineer”, and maybe depending on what kind of Software Developer the job requires. In any case, I hope my article helps you answer that question, and I’m pretty sure that you will agree with me in the end that besides being a tricky question, maybe the job position you are applying this question is completely irrelevant.</p>
 
 <p>I would like to complement this article with some references:</p>
 
