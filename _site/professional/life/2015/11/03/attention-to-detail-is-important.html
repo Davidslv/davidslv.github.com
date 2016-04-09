@@ -68,11 +68,11 @@ You need to pay attention to detail, sometimes a small mistake is all it takes t
 
 <p>Recently I built a website that needs to be compatible with mobile devices, so I took the opportunity to re-visit Twitter Bootstrap CSS framework, the project was small but challenging enough and I knew exactly how I would like to tackle it.</p>
 
-<p>I had mobile first in mind, although my first mistake was to be using the browser window resized to accomplish this, so something like <code>col-md-4</code> seemed great to me. Soon I understood that something wasn’t quite right, I knew that mobile wasn’t a priority for this project, so I didn’t let it slow me down and I focused on having the website ready as soon as possible.</p>
+<p>I had mobile first in mind, although my first mistake was to be using the browser window resized to accomplish this, so something like <code class="highlighter-rouge">col-md-4</code> seemed great to me. Soon I understood that something wasn’t quite right, I knew that mobile wasn’t a priority for this project, so I didn’t let it slow me down and I focused on having the website ready as soon as possible.</p>
 
 <p>When I finished it, I decided to investigate how broken the mobile version was, and oh boy… it was bad, but just aesthetically, elements were not quite in the right position, but that was fixable. I decided it was time to bring in the right tools!</p>
 
-<p>I started by going back to Twitter Bootstrap documentation and re-read it to make sure I wasn’t missing something, and I soon realised that I should move anything <code>col-md-*</code> to <code>col-sm-*</code> so the elements start by looking the same, even on iPhone. At this time I was using <a href="https://developer.chrome.com/devtools" target="\_blank">Chrome DevTools</a> which allows you to simulate different devices, in different positions (portrait/landscape). It even allows you to simulate the network speed, and allows you to do a bunch of other things that I suspect you know about already.</p>
+<p>I started by going back to Twitter Bootstrap documentation and re-read it to make sure I wasn’t missing something, and I soon realised that I should move anything <code class="highlighter-rouge">col-md-*</code> to <code class="highlighter-rouge">col-sm-*</code> so the elements start by looking the same, even on iPhone. At this time I was using <a href="https://developer.chrome.com/devtools" target="\_blank">Chrome DevTools</a> which allows you to simulate different devices, in different positions (portrait/landscape). It even allows you to simulate the network speed, and allows you to do a bunch of other things that I suspect you know about already.</p>
 
 <p>Although this helped, it was not enough to tackle all the issues, as I soon noticed when on my iPhone 6 there was one element that was out of position, for no apparent reason even though DevTools was showing everything as I intended. So now I had an issue I couldn’t reproduce on my laptop but it was happening on my iPhone… I thought how do I tackle this?</p>
 
@@ -81,7 +81,7 @@ You need to pay attention to detail, sometimes a small mistake is all it takes t
 <p>In under 10 minutes I had identified the problem. Since I was playing with the simulator and Safari Web Inspector, I took sometime to understand the time it was taking to load the website. I managed to find that an image that was too big and delayed the page to load by 3 seconds.
 If you need some more information about how to set it up you, read this <a href="http://webdesign.tutsplus.com/articles/quick-tip-using-web-inspector-to-debug-mobile-safari--webdesign-8787" target="\_blank">quick tip</a>.</p>
 
-<h2 id="conclusion"> Conclusion</h2>
+<p>## Conclusion</p>
 
 <p>Attention to detail is key in any profession, knowing and using the right tools helps you to have visibility beyond your
 thinking and helps you fix those small details that make all the difference.

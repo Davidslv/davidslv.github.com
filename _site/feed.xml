@@ -6,9 +6,9 @@
 </description>
     <link>http://davidslv.com/</link>
     <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 07 Jan 2016 16:21:54 +0000</pubDate>
-    <lastBuildDate>Thu, 07 Jan 2016 16:21:54 +0000</lastBuildDate>
-    <generator>Jekyll v3.0.0</generator>
+    <pubDate>Sat, 09 Apr 2016 18:09:01 +0100</pubDate>
+    <lastBuildDate>Sat, 09 Apr 2016 18:09:01 +0100</lastBuildDate>
+    <generator>Jekyll v3.1.2</generator>
     
       <item>
         <title>Building a cache mechanism</title>
@@ -61,7 +61,7 @@ By the way, I did thought about memcached but then again I didn’t wanted extra
   &lt;li&gt;It will not work as intended under Rubinius or Jruby&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;how-can-we-solve-this&quot;&gt; How can we solve this?&lt;/h3&gt;
+&lt;p&gt;### How can we solve this?&lt;/p&gt;
 
 &lt;p&gt;We can use a Mutex, which is a shorthand for “mutual exclusion”, it implements a simple semaphore to coordinate access to shared data from multiple concurrent threads.&lt;/p&gt;
 
@@ -126,7 +126,7 @@ By the way, I did thought about memcached but then again I didn’t wanted extra
   &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Global_interpreter_lock&quot; target=&quot;\_blank&quot;&gt;Global Interpreter Lock&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>Thu, 07 Jan 2016 14:30:00 +0000</pubDate>
+        <pubDate>Thu, 07 Jan 2016 17:00:00 +0000</pubDate>
         <link>http://davidslv.com/ruby/2016/01/07/building-a-cache-mechanism.html</link>
         <guid isPermaLink="true">http://davidslv.com/ruby/2016/01/07/building-a-cache-mechanism.html</guid>
         
@@ -186,7 +186,7 @@ By the way, I did thought about memcached but then again I didn’t wanted extra
 
 &lt;p&gt;&lt;img src=&quot;/img/dns.png&quot; alt=&quot;Network Diagram&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Nowadays there are 13 root servers, every single one of them starts with a letter, from A to M, and we can see them when you use the command line tool &lt;code&gt;dig&lt;/code&gt;, which is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried.&lt;/p&gt;
+&lt;p&gt;Nowadays there are 13 root servers, every single one of them starts with a letter, from A to M, and we can see them when you use the command line tool &lt;code class=&quot;highlighter-rouge&quot;&gt;dig&lt;/code&gt;, which is a flexible tool for interrogating DNS name servers. It performs DNS lookups and displays the answers that are returned from the name server(s) that were queried.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;~ $ dig +trace davidslv.com
 
@@ -243,11 +243,11 @@ You need to pay attention to detail, sometimes a small mistake is all it takes t
 
 &lt;p&gt;Recently I built a website that needs to be compatible with mobile devices, so I took the opportunity to re-visit Twitter Bootstrap CSS framework, the project was small but challenging enough and I knew exactly how I would like to tackle it.&lt;/p&gt;
 
-&lt;p&gt;I had mobile first in mind, although my first mistake was to be using the browser window resized to accomplish this, so something like &lt;code&gt;col-md-4&lt;/code&gt; seemed great to me. Soon I understood that something wasn’t quite right, I knew that mobile wasn’t a priority for this project, so I didn’t let it slow me down and I focused on having the website ready as soon as possible.&lt;/p&gt;
+&lt;p&gt;I had mobile first in mind, although my first mistake was to be using the browser window resized to accomplish this, so something like &lt;code class=&quot;highlighter-rouge&quot;&gt;col-md-4&lt;/code&gt; seemed great to me. Soon I understood that something wasn’t quite right, I knew that mobile wasn’t a priority for this project, so I didn’t let it slow me down and I focused on having the website ready as soon as possible.&lt;/p&gt;
 
 &lt;p&gt;When I finished it, I decided to investigate how broken the mobile version was, and oh boy… it was bad, but just aesthetically, elements were not quite in the right position, but that was fixable. I decided it was time to bring in the right tools!&lt;/p&gt;
 
-&lt;p&gt;I started by going back to Twitter Bootstrap documentation and re-read it to make sure I wasn’t missing something, and I soon realised that I should move anything &lt;code&gt;col-md-*&lt;/code&gt; to &lt;code&gt;col-sm-*&lt;/code&gt; so the elements start by looking the same, even on iPhone. At this time I was using &lt;a href=&quot;https://developer.chrome.com/devtools&quot; target=&quot;\_blank&quot;&gt;Chrome DevTools&lt;/a&gt; which allows you to simulate different devices, in different positions (portrait/landscape). It even allows you to simulate the network speed, and allows you to do a bunch of other things that I suspect you know about already.&lt;/p&gt;
+&lt;p&gt;I started by going back to Twitter Bootstrap documentation and re-read it to make sure I wasn’t missing something, and I soon realised that I should move anything &lt;code class=&quot;highlighter-rouge&quot;&gt;col-md-*&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;col-sm-*&lt;/code&gt; so the elements start by looking the same, even on iPhone. At this time I was using &lt;a href=&quot;https://developer.chrome.com/devtools&quot; target=&quot;\_blank&quot;&gt;Chrome DevTools&lt;/a&gt; which allows you to simulate different devices, in different positions (portrait/landscape). It even allows you to simulate the network speed, and allows you to do a bunch of other things that I suspect you know about already.&lt;/p&gt;
 
 &lt;p&gt;Although this helped, it was not enough to tackle all the issues, as I soon noticed when on my iPhone 6 there was one element that was out of position, for no apparent reason even though DevTools was showing everything as I intended. So now I had an issue I couldn’t reproduce on my laptop but it was happening on my iPhone… I thought how do I tackle this?&lt;/p&gt;
 
@@ -256,7 +256,7 @@ You need to pay attention to detail, sometimes a small mistake is all it takes t
 &lt;p&gt;In under 10 minutes I had identified the problem. Since I was playing with the simulator and Safari Web Inspector, I took sometime to understand the time it was taking to load the website. I managed to find that an image that was too big and delayed the page to load by 3 seconds.
 If you need some more information about how to set it up you, read this &lt;a href=&quot;http://webdesign.tutsplus.com/articles/quick-tip-using-web-inspector-to-debug-mobile-safari--webdesign-8787&quot; target=&quot;\_blank&quot;&gt;quick tip&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h2 id=&quot;conclusion&quot;&gt; Conclusion&lt;/h2&gt;
+&lt;p&gt;## Conclusion&lt;/p&gt;
 
 &lt;p&gt;Attention to detail is key in any profession, knowing and using the right tools helps you to have visibility beyond your
 thinking and helps you fix those small details that make all the difference.
@@ -358,7 +358,7 @@ the username and password to them and your Gemfile became like this:&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;  &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;USERNAME&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;ENV&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;PASSWORD&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;@gemserver.com&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;But… did you notice what happens when you run &lt;code&gt;bundle&lt;/code&gt;?&lt;/p&gt;
+&lt;p&gt;But… did you notice what happens when you run &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle&lt;/code&gt;?&lt;/p&gt;
 
 &lt;p&gt;Your Gemfile.lock now has the username and password written there, so much for the
 environment variables right?&lt;/p&gt;
@@ -369,10 +369,10 @@ environment variables right?&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;  &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://gemserver.com&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;And now create an environment variable called &lt;code&gt;BUNDLE_GEMSERVER__COM&lt;/code&gt;, this will match the url &lt;code&gt;gemserver.com&lt;/code&gt;
+&lt;p&gt;And now create an environment variable called &lt;code class=&quot;highlighter-rouge&quot;&gt;BUNDLE_GEMSERVER__COM&lt;/code&gt;, this will match the url &lt;code class=&quot;highlighter-rouge&quot;&gt;gemserver.com&lt;/code&gt;
 where the dot (.) becomes two underscores (__).&lt;/p&gt;
 
-&lt;p&gt;I would suggest you to wrap those two ENV’s with the new &lt;code&gt;BUNDLE_*&lt;/code&gt;, specially if you have to go and change your
+&lt;p&gt;I would suggest you to wrap those two ENV’s with the new &lt;code class=&quot;highlighter-rouge&quot;&gt;BUNDLE_*&lt;/code&gt;, specially if you have to go and change your
 continuous integration setup and then you have to go and change your staging and production servers, or maybe you are already using
 those values somewhere in your project, don’t worry you can wrap them like so:&lt;/p&gt;
 
@@ -554,7 +554,7 @@ very similar systems, but as they say the beauty (or headache) is in the details
 but I didn’t install it as it depends on netbeans and felt like too much effort for now, maybe on a later stage.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;surprise-surprise&quot;&gt; Surprise, Surprise!&lt;/h2&gt;
+&lt;p&gt;## Surprise, Surprise!&lt;/p&gt;
 
 &lt;p&gt;I followed Chapter 1 and Chapter 2, when I finished my code on Chapter 2 based on David’s I notice that something was wrong,
 initially I thought that I had missed something, the window was suppose to be flickery when it was resized or dragged around,
