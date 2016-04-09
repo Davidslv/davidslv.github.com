@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width initial-scale=1">
 
-  <title>Davidslv</title>
-  <meta name="description" content="I've been programming in Ruby commercially since 2011 and I've built awesome projects and worked in amazing teams ever since!
-">
+  <title>Use Rspec bisect</title>
+  <meta name="description" content="Have you ever debugged code by commenting out half of it and seeing if the error still occurs, and if not, then trying the other half? And then half again of...">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="http://davidslv.com/">
+  <link rel="canonical" href="http://davidslv.com/ruby/2016/04/09/rspec-bisect.html">
   <link rel="alternate" type="application/atom+xml" title="Davidslv" href="http://davidslv.com/feed.xml" />
 </head>
 
@@ -55,93 +54,23 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Use Rspec bisect</h1>
+    <p class="post-meta">Apr 9, 2016</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Apr 9, 2016</span>
+  <article class="post-content">
+    <p>Have you ever debugged code by commenting out half of it and seeing if the error still occurs, and if not, then trying the other half? And then half again of the problematic section? And so on… Then you’ve done a binary search.</p>
 
-        <h2>
-          <a class="post-link" href="/ruby/2016/04/09/rspec-bisect.html">Use Rspec bisect</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 7, 2016</span>
+<p>If you’ve ever done this, you know it can be a time consuming process. With a large test suite, and a huge number of possible orderings of them, it would take a long time to find an order-dependent failure manually. Fortunately, <a href="https://relishapp.com/rspec/rspec-core/docs/command-line/bisect" target="\_blank">Rspec bisect</a> automates this process for us.</p>
 
-        <h2>
-          <a class="post-link" href="/ruby/2016/01/07/building-a-cache-mechanism.html">Building a cache mechanism</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 4, 2015</span>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">$ rspec spec --bisect --seed 61655</code></pre></figure>
 
-        <h2>
-          <a class="post-link" href="/professional/2015/11/04/how-dns-works.html">How DNS works?</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Nov 3, 2015</span>
 
-        <h2>
-          <a class="post-link" href="/professional/life/2015/11/03/attention-to-detail-is-important.html">Improve your attention to detail</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 8, 2015</span>
+  </article>
 
-        <h2>
-          <a class="post-link" href="/cryptocurrency/2015/10/08/setup-raspberry-pi-to-mine-cryptocurrency.html">Setup a Raspiberry Pi to mine cryptocurrency</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Oct 5, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/ruby/programming/2015/10/05/how-to-protect-your-credentials-on-gemfile-lock.html">How to protect your credentials on Gemfile.lock</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 29, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/ruby/development/mixpanel/services/open-source/2015/01/29/mixpanel.html">Mixpanel - How to deal with external services</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Jan 5, 2015</span>
-
-        <h2>
-          <a class="post-link" href="/life/coding/resolution/2015/01/05/welcome-to-2015.html">Welcome to 2015!</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 13, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/c++/handmade/gamedev/2014/12/13/handmade-hero-on-osx.html">Handmade Hero on OSX</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Dec 13, 2014</span>
-
-        <h2>
-          <a class="post-link" href="/welcome/2014/12/13/welcome-to-jekyll.html">Welcome!</a>
-        </h2>
-      </li>
-    
-  </ul>
 </div>
 
       </div>

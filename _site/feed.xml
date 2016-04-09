@@ -6,9 +6,27 @@
 </description>
     <link>http://davidslv.com/</link>
     <atom:link href="http://davidslv.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 09 Apr 2016 18:09:01 +0100</pubDate>
-    <lastBuildDate>Sat, 09 Apr 2016 18:09:01 +0100</lastBuildDate>
+    <pubDate>Sat, 09 Apr 2016 18:11:40 +0100</pubDate>
+    <lastBuildDate>Sat, 09 Apr 2016 18:11:40 +0100</lastBuildDate>
     <generator>Jekyll v3.1.2</generator>
+    
+      <item>
+        <title>Use Rspec bisect</title>
+        <description>&lt;p&gt;Have you ever debugged code by commenting out half of it and seeing if the error still occurs, and if not, then trying the other half? And then half again of the problematic section? And so on… Then you’ve done a binary search.&lt;/p&gt;
+
+&lt;p&gt;If you’ve ever done this, you know it can be a time consuming process. With a large test suite, and a huge number of possible orderings of them, it would take a long time to find an order-dependent failure manually. Fortunately, &lt;a href=&quot;https://relishapp.com/rspec/rspec-core/docs/command-line/bisect&quot; target=&quot;\_blank&quot;&gt;Rspec bisect&lt;/a&gt; automates this process for us.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;$ rspec spec --bisect --seed 61655&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+</description>
+        <pubDate>Sat, 09 Apr 2016 17:00:00 +0100</pubDate>
+        <link>http://davidslv.com/ruby/2016/04/09/rspec-bisect.html</link>
+        <guid isPermaLink="true">http://davidslv.com/ruby/2016/04/09/rspec-bisect.html</guid>
+        
+        
+        <category>ruby</category>
+        
+      </item>
     
       <item>
         <title>Building a cache mechanism</title>
