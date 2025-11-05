@@ -233,4 +233,16 @@
             font-size: 18px;
         }
     }
+
+    // Mermaid diagram styling
+    .mermaid {
+        margin: $spacing-unit 0;
+        text-align: center;
+        overflow-x: auto;
+
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+    }
 }
