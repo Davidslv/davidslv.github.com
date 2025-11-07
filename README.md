@@ -26,11 +26,11 @@ This repository contains the source code for the blog, which is automatically bu
 
 3. **Start the Jekyll development server:**
    ```bash
-   bundle exec jekyll serve
+   bundle exec jekyll serve -P 3333
    ```
 
 4. **View the site:**
-   Open your browser to [http://localhost:4000](http://localhost:4000)
+   Open your browser to [http://localhost:3333](http://localhost:3333)
 
 The site will automatically rebuild when you make changes to source files.
 
@@ -247,4 +247,5 @@ This is a personal blog repository. If you find issues or have suggestions, feel
 ---
 
 **Built with ❤️ using Jekyll and GitHub Pages**
+
 
