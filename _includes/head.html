@@ -10,14 +10,94 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
 
+  <!-- Theme toggle script -->
+  <script>
+    (function() {
+      // Get theme from localStorage or default to system preference
+      const getTheme = () => {
+        const stored = localStorage.getItem('theme');
+        if (stored) return stored;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      // Apply theme
+      const applyTheme = (theme) => {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+
+        // Update Mermaid theme if available
+        if (typeof mermaid !== 'undefined') {
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: theme === 'dark' ? 'dark' : 'default',
+            securityLevel: 'loose'
+          });
+        }
+      };
+
+      // Initialize theme on page load
+      const theme = getTheme();
+      applyTheme(theme);
+
+      // Update toggle button text
+      const updateToggleText = (theme) => {
+        const toggleText = document.getElementById('theme-toggle-text');
+        if (toggleText) {
+          toggleText.textContent = theme === 'dark' ? 'Light' : 'Dark';
+        }
+      };
+
+      // Theme toggle handler
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggle = document.getElementById('theme-toggle');
+        if (toggle) {
+          updateToggleText(theme);
+
+          toggle.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            updateToggleText(newTheme);
+
+            // Re-render Mermaid diagrams with new theme
+            if (typeof mermaid !== 'undefined') {
+              const mermaidDivs = document.querySelectorAll('.mermaid');
+              if (mermaidDivs.length > 0) {
+                mermaidDivs.forEach(function(div) {
+                  const id = div.id || 'mermaid-' + Math.random().toString(36).substr(2, 9);
+                  div.id = id;
+                  const diagram = div.textContent.trim();
+                  div.textContent = diagram;
+                });
+                mermaid.init(undefined, mermaidDivs);
+              }
+            }
+          });
+        }
+      });
+
+      // Listen for system theme changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+          updateToggleText(e.matches ? 'dark' : 'light');
+        }
+      });
+    })();
+  </script>
+
   <!-- Mermaid.js for diagram rendering -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Get current theme
+      const theme = document.documentElement.getAttribute('data-theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
       // Initialize Mermaid
       mermaid.initialize({
         startOnLoad: false,
-        theme: 'default',
+        theme: theme === 'dark' ? 'dark' : 'default',
         securityLevel: 'loose'
       });
 

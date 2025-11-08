@@ -17,10 +17,11 @@ body {
     font-family: $base-font-family;
     font-size: $base-font-size;
     line-height: $base-line-height;
-    font-weight: 300;
-    color: $text-color;
-    background-color: $background-color;
+    font-weight: 400;
+    color: var(--text-color, $text-color);
+    background-color: var(--background-color, $background-color);
     -webkit-text-size-adjust: 100%;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 
@@ -89,15 +90,17 @@ h1, h2, h3, h4, h5, h6 {
  * Links
  */
 a {
-    color: $brand-color;
+    color: var(--link-color, $link-color);
     text-decoration: none;
+    transition: color 0.2s ease;
 
     &:visited {
-        color: darken($brand-color, 15%);
+        color: var(--link-color, $link-color);
+        opacity: 0.8;
     }
 
     &:hover {
-        color: $text-color;
+        color: var(--link-hover, $link-hover);
         text-decoration: underline;
     }
 }
@@ -108,12 +111,12 @@ a {
  * Blockquotes
  */
 blockquote {
-    color: $grey-color;
-    border-left: 4px solid $grey-color-light;
-    padding-left: $spacing-unit / 2;
-    font-size: 18px;
-    letter-spacing: -1px;
+    color: var(--meta-color, $meta-color);
+    border-left: 3px solid var(--border-color, $border-color);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
     font-style: italic;
+    transition: border-color 0.2s ease, color 0.2s ease;
 
     > :last-child {
         margin-bottom: 0;
@@ -127,24 +130,31 @@ blockquote {
  */
 pre,
 code {
-    font-size: 15px;
-    border: 1px solid $grey-color-light;
-    border-radius: 3px;
-    background-color: #eef;
+    font-family: $mono-font-family;
+    font-size: 0.9em;
+    border: 1px solid var(--code-border, $code-border);
+    border-radius: 6px;
+    background-color: var(--code-bg, $code-bg);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 code {
-    padding: 1px 5px;
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
 }
 
 pre {
-    padding: 8px 12px;
-    overflow-x: scroll;
+    padding: 16px;
+    overflow-x: auto;
+    line-height: 1.45;
+    border-radius: 6px;
+    margin: 1.5em 0;
 
     > code {
         border: 0;
-        padding-right: 0;
-        padding-left: 0;
+        padding: 0;
+        background-color: transparent;
+        font-size: 0.9em;
     }
 }
 
@@ -154,8 +164,7 @@ pre {
  * Wrapper
  */
 .wrapper {
-    max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
-    max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
+    max-width: $content-max-width;
     margin-right: auto;
     margin-left: auto;
     padding-right: $spacing-unit;
@@ -163,8 +172,6 @@ pre {
     @extend %clearfix;
 
     @include media-query($on-laptop) {
-        max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit}));
-        max-width:         calc(#{$content-width} - (#{$spacing-unit}));
         padding-right: $spacing-unit / 2;
         padding-left: $spacing-unit / 2;
     }
