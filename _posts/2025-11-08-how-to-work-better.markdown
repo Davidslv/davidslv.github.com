@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "How To Work Better"
-date:   2025-11-08 10:00:00
+date:   2025-11-08 21:50:00
 categories: life productivity
 tags: [productivity work philosophy inspiration]
 ---
