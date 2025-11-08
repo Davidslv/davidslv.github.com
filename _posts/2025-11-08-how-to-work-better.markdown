@@ -6,9 +6,6 @@ categories: life productivity
 tags: [productivity work philosophy inspiration]
 ---
 
-# How To Work Better
----
-
 1. Do one thing at a time.
 2. Know the problem.
 3. Learn to listen.
