@@ -5,27 +5,60 @@
 
 
 
-// Our variables
-$base-font-family: Helvetica, Arial, sans-serif;
-$base-font-size:   16px;
+// System fonts for maximum readability
+$base-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$mono-font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+$base-font-size:   18px;
 $small-font-size:  $base-font-size * 0.875;
-$base-line-height: 1.5;
+$base-line-height: 1.7;
 
 $spacing-unit:     30px;
 
-$text-color:       #111;
-$background-color: #fdfdfd;
-$brand-color:      #2a7ae2;
+// Light theme colors
+$light-text-color:       #1a1a1a;
+$light-background:       #ffffff;
+$light-background-alt:   #fafafa;
+$light-border-color:     #e5e5e5;
+$light-code-bg:          #f6f8fa;
+$light-code-border:      #e1e4e8;
+$light-meta-color:       #6a737d;
+$light-link-color:       #0366d6;
+$light-link-hover:       #1a1a1a;
 
-$grey-color:       #828282;
-$grey-color-light: lighten($grey-color, 40%);
-$grey-color-dark:  darken($grey-color, 25%);
+// Dark theme colors
+$dark-text-color:        #e1e4e8;
+$dark-background:        #0d1117;
+$dark-background-alt:    #161b22;
+$dark-border-color:      #30363d;
+$dark-code-bg:           #161b22;
+$dark-code-border:       #30363d;
+$dark-meta-color:         #8b949e;
+$dark-link-color:         #58a6ff;
+$dark-link-hover:         #79c0ff;
 
-// Width of the content area
-$content-width:    800px;
+// Default to light theme
+$text-color:       $light-text-color;
+$background-color: $light-background;
+$background-alt:   $light-background-alt;
+$border-color:     $light-border-color;
+$code-bg:          $light-code-bg;
+$code-border:      $light-code-border;
+$meta-color:       $light-meta-color;
+$link-color:       $light-link-color;
+$link-hover:       $light-link-hover;
+
+$brand-color:      $light-link-color;
+
+$grey-color:       $light-meta-color;
+$grey-color-light: lighten($grey-color, 30%);
+$grey-color-dark:  darken($grey-color, 20%);
+
+// Wider content area for code and diagrams
+$content-width:    900px;
+$content-max-width: 1200px;
 
 $on-palm:          600px;
-$on-laptop:        800px;
+$on-laptop:        900px;
 
 
 
@@ -50,3 +83,42 @@ $on-laptop:        800px;
         "layout",
         "syntax-highlighting"
 ;
+
+// Dark mode styles
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --text-color: #{$dark-text-color};
+    --background-color: #{$dark-background};
+    --background-alt: #{$dark-background-alt};
+    --border-color: #{$dark-border-color};
+    --code-bg: #{$dark-code-bg};
+    --code-border: #{$dark-code-border};
+    --meta-color: #{$dark-meta-color};
+    --link-color: #{$dark-link-color};
+    --link-hover: #{$dark-link-hover};
+  }
+}
+
+[data-theme="dark"] {
+  --text-color: #{$dark-text-color};
+  --background-color: #{$dark-background};
+  --background-alt: #{$dark-background-alt};
+  --border-color: #{$dark-border-color};
+  --code-bg: #{$dark-code-bg};
+  --code-border: #{$dark-code-border};
+  --meta-color: #{$dark-meta-color};
+  --link-color: #{$dark-link-color};
+  --link-hover: #{$dark-link-hover};
+}
+
+[data-theme="light"] {
+  --text-color: #{$light-text-color};
+  --background-color: #{$light-background};
+  --background-alt: #{$light-background-alt};
+  --border-color: #{$light-border-color};
+  --code-bg: #{$light-code-bg};
+  --code-border: #{$light-code-border};
+  --meta-color: #{$light-meta-color};
+  --link-color: #{$light-link-color};
+  --link-hover: #{$light-link-hover};
+}
