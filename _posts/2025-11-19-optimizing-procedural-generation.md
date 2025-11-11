@@ -464,12 +464,6 @@ From optimizing procedural generation:
 4. **Measure before optimizing**: Profile to find real bottlenecks
 5. **Small grids are fast**: Don't over-optimize small cases
 
-## Further Reading
-
-- [Implementing Dijkstra's Algorithm for Game Pathfinding](./04-implementing-dijkstra.md) - Pathfinding performance
-- [Finding the Longest Path: A Key to Better Level Design](./02-finding-longest-path.md) - Longest path performance
-- [Testing Procedural Generation: How to Test Randomness](./09-testing-procedural-generation.md) - Testing performance
-
 ## Conclusion
 
 Optimizing procedural generation requires understanding algorithm complexity, choosing the right generation timing, and applying targeted optimizations like caching and batching. For most roguelikes, O(n) algorithms like Binary Tree or Recursive Backtracker are fast enough, but for large grids or real-time generation, careful optimization is essential.

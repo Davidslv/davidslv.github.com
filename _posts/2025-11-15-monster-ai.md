@@ -415,12 +415,6 @@ From implementing monster AI in Vanilla Roguelike:
 4. **Performance is important**: Limit pathfinding to maintain framerate
 5. **Balance is key**: Too smart is frustrating, too dumb is boring
 
-## Further Reading
-
-- [Implementing Dijkstra's Algorithm for Game Pathfinding](./04-implementing-dijkstra.md) - Pathfinding fundamentals
-- [Ensuring Player Accessibility in Procedurally Generated Levels](./01-ensuring-player-accessibility.md) - Ensuring monsters can reach player
-- [Optimizing Procedural Generation: When Speed Matters](./10-optimizing-procedural-generation.md) - Performance optimization
-
 ## Conclusion
 
 Monster AI in roguelikes doesn't need to be complex. Simple pathfinding techniques—from random wandering to full Dijkstra's—can create engaging, challenging monsters. The key is choosing the right approach for each situation and balancing challenge with performance.

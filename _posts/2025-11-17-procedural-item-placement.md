@@ -483,12 +483,6 @@ From implementing item placement in Vanilla Roguelike:
 5. **Level scaling**: Items should scale with difficulty
 6. **Strategic placement**: Important items on main paths
 
-## Further Reading
-
-- [Ensuring Player Accessibility in Procedurally Generated Levels](./01-ensuring-player-accessibility.md) - Ensuring items are reachable
-- [Finding the Longest Path: A Key to Better Level Design](./02-finding-longest-path.md) - Placing items along paths
-- [Testing Procedural Generation: How to Test Randomness](./09-testing-procedural-generation.md) - Testing item placement
-
 ## Conclusion
 
 Procedural item placement is a balancing act between accessibility, distribution, and gameplay. By using distance-based placement, accessibility verification, spacing constraints, and difficulty scaling, you can create engaging loot distribution that enhances gameplay without manual level design.

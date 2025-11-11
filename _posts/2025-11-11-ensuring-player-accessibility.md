@@ -237,12 +237,6 @@ From implementing this in Vanilla Roguelike:
 
 5. **Test with seeds**: Use fixed seeds to reproduce and test accessibility issues.
 
-## Further Reading
-
-- [Finding the Longest Path: A Key to Better Level Design](./02-finding-longest-path.md) - Using longest path algorithms for level design
-- [Implementing Dijkstra's Algorithm for Game Pathfinding](./04-implementing-dijkstra.md) - Deep dive into Dijkstra's implementation
-- [Testing Procedural Generation: How to Test Randomness](./09-testing-procedural-generation.md) - Strategies for testing accessibility
-
 ## Conclusion
 
 Ensuring player accessibility in procedurally generated levels is critical for playability. Using Dijkstra's algorithm for smart entity placement and path verification techniques provides a robust solution. The key is to place critical entities at guaranteed reachable locations and verify paths when needed.

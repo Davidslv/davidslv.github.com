@@ -464,12 +464,6 @@ From testing procedural generation in Vanilla Roguelike:
 5. **Performance matters**: Generation must be fast
 6. **Edge cases**: Test boundaries and extremes
 
-## Further Reading
-
-- [Seeding for Reproducibility: Debugging Procedural Generation](./03-seeding-for-reproducibility.md) - Using seeds effectively
-- [Ensuring Player Accessibility in Procedurally Generated Levels](./01-ensuring-player-accessibility.md) - Testing accessibility
-- [Event-Driven Architecture for Game Debugging](./06-event-driven-architecture.md) - Using events for testing
-
 ## Conclusion
 
 Testing procedural generation requires a different approach than traditional testing. By using seeds for determinism, testing properties instead of outputs, and running property-based tests across many seeds, you can ensure your procedural generation systems are correct, reliable, and performant.

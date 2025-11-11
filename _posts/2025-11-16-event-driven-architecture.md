@@ -498,11 +498,6 @@ From implementing events in Vanilla Roguelike:
 5. **Performance matters**: Async storage prevents blocking
 6. **Consistency is key**: Consistent event types make analysis easier
 
-## Further Reading
-
-- [Seeding for Reproducibility: Debugging Procedural Generation](./03-seeding-for-reproducibility.md) - Combining seeds with events for debugging
-- [Testing Procedural Generation: How to Test Randomness](./09-testing-procedural-generation.md) - Using events for testing
-
 ## Conclusion
 
 Event-driven architecture is a game-changer for debugging. By decoupling systems, providing comprehensive logging, and enabling visualization, events transform game development from frustrating guesswork into systematic analysis.

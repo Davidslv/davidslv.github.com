@@ -339,12 +339,6 @@ From implementing seeding in Vanilla Roguelike:
 5. **Player value**: Players love sharing seeds
 6. **Watch for RNG leaks**: Ensure all systems respect the seed
 
-## Further Reading
-
-- [Testing Procedural Generation: How to Test Randomness](./09-testing-procedural-generation.md) - Using seeds for testing
-- [Ensuring Player Accessibility in Procedurally Generated Levels](./01-ensuring-player-accessibility.md) - Reproducing accessibility bugs
-- [Optimizing Procedural Generation: When Speed Matters](./10-optimizing-procedural-generation.md) - Performance with seeded generation
-
 ## Conclusion
 
 Seeding is one of the most important features for procedural generation. It enables debugging, makes testing possible, and enhances player experience through seed sharing. The key is to set the seed early, ensure all systems respect it, and log seeds for debugging.

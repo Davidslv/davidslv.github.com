@@ -279,12 +279,6 @@ The longest path algorithm opens up possibilities:
 - **Maze quality metrics**: Use longest path as one metric in a quality scoring system
 - **Procedural quests**: Generate quests that follow the longest path
 
-## Further Reading
-
-- [Ensuring Player Accessibility in Procedurally Generated Levels](./01-ensuring-player-accessibility.md) - Using pathfinding for accessibility
-- [Implementing Dijkstra's Algorithm for Game Pathfinding](./04-implementing-dijkstra.md) - Deep dive into Dijkstra's implementation
-- [Optimizing Procedural Generation: When Speed Matters](./10-optimizing-procedural-generation.md) - Performance considerations
-
 ## Conclusion
 
 The longest path algorithm is a powerful tool for roguelike level design. By finding the path that requires maximum exploration, you can place objectives optimally, measure maze complexity, and create more engaging gameplay experiences.

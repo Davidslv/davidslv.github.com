@@ -411,12 +411,6 @@ From implementing Dijkstra's in Vanilla Roguelike:
 4. **Performance is good**: O(n) is fast enough for roguelike grids
 5. **Multiple uses**: One implementation serves many purposes
 
-## Further Reading
-
-- [Ensuring Player Accessibility in Procedurally Generated Levels](./01-ensuring-player-accessibility.md) - Using Dijkstra's for accessibility
-- [Finding the Longest Path: A Key to Better Level Design](./02-finding-longest-path.md) - Using Dijkstra's twice for longest path
-- [Monster AI: Simple Pathfinding That Feels Smart](./05-monster-ai.md) - Using Dijkstra's for AI
-
 ## Conclusion
 
 Dijkstra's algorithm is a fundamental tool for roguelike development. Its simple implementation, good performance, and multiple use cases make it ideal for grid-based games. By implementing it correctly, you enable pathfinding, distance calculations, accessibility checks, and AI behavior—all with one algorithm.
