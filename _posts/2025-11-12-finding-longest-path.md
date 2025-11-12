@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Finding the Longest Path: A Key to Better Level Design"
-date:   2025-11-12 10:00:00
+date:   2025-11-12 23:46:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 ---
