@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Seeding for Reproducibility: Debugging Procedural Generation"
-date:   2025-11-13 10:00:00
+date:   2025-11-13 07:41:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 ---
