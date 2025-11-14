@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Implementing Dijkstra's Algorithm for Game Pathfinding"
-date:   2025-11-14 10:00:00
+date:   2025-11-14 10:40:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 ---
