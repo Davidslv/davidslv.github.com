@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Monster AI: Simple Pathfinding That Feels Smart"
-date:   2025-11-15 10:00:00
+date:   2025-11-15 10:05:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 ---
