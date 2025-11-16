@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Event-Driven Architecture for Game Debugging"
-date:   2025-11-16 10:00:00
+date:   2025-11-16 02:00:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 ---
