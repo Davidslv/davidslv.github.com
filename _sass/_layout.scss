@@ -21,6 +21,36 @@
     gap: 1rem;
 }
 
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    @include media-query($on-palm) {
+        gap: 1rem;
+    }
+}
+
+.nav-link {
+    font-size: 0.95rem;
+    color: var(--text-color, $text-color);
+    text-decoration: none;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+
+    &:hover,
+    &:focus {
+        color: var(--link-color, $link-color);
+        text-decoration: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--link-color, $link-color);
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+}
+
 .site-title {
     font-size: 1.5rem;
     font-weight: 600;

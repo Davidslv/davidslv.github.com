@@ -7,9 +7,12 @@
         <p class="site-description">{{ site.description }}</p>
         {% endif %}
       </div>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-        <span id="theme-toggle-text">Dark</span>
-      </button>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="{{ site.baseurl }}/portfolio.html" class="nav-link">Portfolio</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span id="theme-toggle-text">Dark</span>
+        </button>
+      </nav>
     </div>
   </div>
 </header>
