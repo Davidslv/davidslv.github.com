@@ -1,0 +1,183 @@
+---
+layout: default
+title: Portfolio
+---
+
+<div class="portfolio-container">
+  <nav class="portfolio-nav" role="navigation" aria-label="Portfolio projects">
+    <ul class="portfolio-nav-list">
+      <li><a href="#dashboard" class="portfolio-nav-link" data-project="dashboard" aria-label="View Dashboard project">Dashboard</a></li>
+      <li><a href="#microblog" class="portfolio-nav-link" data-project="microblog" aria-label="View Microblog project">Microblog</a></li>
+      <li><a href="#pokedex" class="portfolio-nav-link" data-project="pokedex" aria-label="View Pokédex project">Pokédex</a></li>
+      <li><a href="#roguelike" class="portfolio-nav-link" data-project="roguelike" aria-label="View Vanilla Roguelike project">Vanilla Roguelike</a></li>
+      <li><a href="#manuscript-forge" class="portfolio-nav-link" data-project="manuscript-forge" aria-label="View Manuscript Forge project">Manuscript Forge</a></li>
+      <li><a href="#cashew" class="portfolio-nav-link" data-project="cashew" aria-label="View Cashew project">Cashew</a></li>
+    </ul>
+  </nav>
+
+  <main class="portfolio-content" role="main">
+    <!-- Dashboard Project -->
+    <section id="dashboard" class="portfolio-project" data-project="dashboard" aria-labelledby="dashboard-title">
+      <div class="project-header">
+        <h1 id="dashboard-title" class="project-title">Dashboard</h1>
+        <div class="project-links">
+          <a href="https://dashboard.davidslv.uk" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+        </div>
+      </div>
+      <div class="project-content">
+        <div class="project-screenshot">
+          <img src="/img/portfolio/dashboard-screenshot-adaptive.webp" alt="Dashboard application screenshot" loading="lazy" />
+        </div>
+        <div class="project-description">
+          <h2>About</h2>
+          <p>Dashboard is a comprehensive analytics and monitoring platform that provides real-time insights into system performance and user metrics.</p>
+          <h2>Motivation</h2>
+          <p>I built Dashboard to solve the challenge of having multiple data sources scattered across different tools. The goal was to create a unified interface that brings together all critical metrics in one place, making it easier to monitor system health and make data-driven decisions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Microblog Project -->
+    <section id="microblog" class="portfolio-project" data-project="microblog" aria-labelledby="microblog-title" style="display: none;">
+      <div class="project-header">
+        <h1 id="microblog-title" class="project-title">Microblog</h1>
+        <div class="project-links">
+          <a href="https://microblog.davidslv.uk" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+        </div>
+      </div>
+      <div class="project-content">
+        <div class="project-screenshot">
+          <img src="/img/portfolio/microblog-screenshot-adaptive.webp" alt="Microblog application screenshot" loading="lazy" />
+        </div>
+        <div class="project-description">
+          <h2>About</h2>
+          <p>Microblog is a minimalist blogging platform designed for quick thoughts and updates. It focuses on simplicity and speed, allowing users to share content without the complexity of traditional blogging platforms.</p>
+          <h2>Motivation</h2>
+          <p>The motivation behind Microblog was to create a platform that strips away unnecessary features and focuses on what matters most: sharing thoughts and connecting with others. I wanted to build something that loads instantly and provides a distraction-free writing experience.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pokédex Project -->
+    <section id="pokedex" class="portfolio-project" data-project="pokedex" aria-labelledby="pokedex-title" style="display: none;">
+      <div class="project-header">
+        <h1 id="pokedex-title" class="project-title">Pokédex</h1>
+        <div class="project-links">
+          <a href="https://pokedex-lemon-nine.vercel.app" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+        </div>
+      </div>
+      <div class="project-content">
+        <div class="project-screenshot">
+          <img src="/img/portfolio/pokedex-screenshot-adaptive.webp" alt="Pokédex application screenshot" loading="lazy" />
+        </div>
+        <div class="project-description">
+          <h2>About</h2>
+          <p>Pokédex is an interactive web application that allows users to browse and search through the complete Pokédex database. It features a retro-inspired design reminiscent of classic Game Boy aesthetics.</p>
+          <h2>Motivation</h2>
+          <p>This project was born from nostalgia and a love for the Pokémon franchise. I wanted to recreate the feeling of using a Pokédex device from the games, but with modern web technologies. The challenge was balancing authentic retro aesthetics with contemporary user experience principles.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vanilla Roguelike Project -->
+    <section id="roguelike" class="portfolio-project" data-project="roguelike" aria-labelledby="roguelike-title" style="display: none;">
+      <div class="project-header">
+        <h1 id="roguelike-title" class="project-title">Vanilla Roguelike</h1>
+        <div class="project-links">
+          <a href="https://github.com/Davidslv/vanilla-roguelike" target="_blank" rel="noopener noreferrer" class="project-link">GitHub</a>
+        </div>
+      </div>
+      <div class="project-content">
+        <div class="project-screenshot">
+          <img src="/img/portfolio/roguelike-game-screenshot-adaptive.webp" alt="Vanilla Roguelike game screenshot" loading="lazy" />
+        </div>
+        <div class="project-description">
+          <h2>About</h2>
+          <p>Vanilla Roguelike is a roguelike game written in vanilla Ruby, inspired by the original 1980's Rogue game. It features procedurally generated mazes, player movement, and a flexible architecture based on the Entity-Component-System pattern with an event-driven system for logging and debugging.</p>
+          <h2>Motivation</h2>
+          <p>I've always been fascinated by roguelike games and their procedural generation techniques. This project started as a way to understand game development fundamentals, but it evolved into something much more: an educational journey that I wanted to share with others.</p>
+          <div class="book-section">
+            <h2>Educational Book</h2>
+            <p>Based on my experience building Vanilla Roguelike, I authored a comprehensive book that teaches readers how to build their own roguelike game from scratch. The book covers:</p>
+            <ul>
+              <li>Game architecture and design patterns</li>
+              <li>Entity-Component-System implementation</li>
+              <li>Procedural generation algorithms</li>
+              <li>Event-driven architecture</li>
+              <li>Testing strategies for game development</li>
+              <li>Performance optimization techniques</li>
+            </ul>
+            <p>The goal is to make game development accessible to developers who want to learn by building something tangible and engaging. Whether you're new to game development or looking to understand roguelike mechanics, this book provides a practical, hands-on approach to learning.</p>
+          </div>
+      </div>
+    </section>
+
+    <!-- Manuscript Forge Project -->
+    <section id="manuscript-forge" class="portfolio-project" data-project="manuscript-forge" aria-labelledby="manuscript-forge-title" style="display: none;">
+      <div class="project-header">
+        <h1 id="manuscript-forge-title" class="project-title">Manuscript Forge</h1>
+        <span class="wip-badge" aria-label="Work in progress">WIP</span>
+        <div class="project-links">
+          <span class="project-link disabled">Coming Soon</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <div class="project-screenshot">
+          <img src="/img/portfolio/manuscript-forge-screenshot-adaptive.webp" alt="Manuscript Forge application screenshot" loading="lazy" />
+        </div>
+        <div class="project-description">
+          <h2>About</h2>
+          <p>Manuscript Forge is a work-in-progress platform designed to help writers manage, organize, and refine their manuscripts. It provides tools for version control, collaboration, and structured writing workflows.</p>
+          <h2>Motivation</h2>
+          <p>The idea for Manuscript Forge came from recognizing the challenges writers face when managing long-form content. Traditional word processors aren't designed for the iterative, collaborative nature of writing projects. I'm building this platform to provide writers with the tools they need to focus on what matters most: their writing.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cashew Project -->
+    <section id="cashew" class="portfolio-project" data-project="cashew" aria-labelledby="cashew-title" style="display: none;">
+      <div class="project-header">
+        <h1 id="cashew-title" class="project-title">Cashew</h1>
+        <div class="project-links">
+          <a href="https://cashew.davidslv.uk" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+        </div>
+      </div>
+      <div class="project-content">
+        <div class="project-screenshot">
+          <div class="screenshot-carousel">
+            <div class="carousel-container">
+              <div class="carousel-slide active">
+                <img src="/img/portfolio/cashew-screenshot-adaptive.webp" alt="Cashew application screenshot" loading="lazy" />
+              </div>
+              <div class="carousel-slide">
+                <img src="/img/portfolio/cashew-app-screenshot-1-adaptive.webp" alt="Cashew application screenshot" loading="lazy" />
+              </div>
+              <div class="carousel-slide">
+                <img src="/img/portfolio/cashew-app-screenshot-2-adaptive.webp" alt="Cashew application screenshot" loading="lazy" />
+              </div>
+            </div>
+            <div class="carousel-controls">
+              <button class="carousel-btn prev" aria-label="Previous screenshot">‹</button>
+              <div class="carousel-indicators">
+                <button class="indicator active" data-slide="0" aria-label="Go to screenshot 1"></button>
+                <button class="indicator" data-slide="1" aria-label="Go to screenshot 2"></button>
+                <button class="indicator" data-slide="2" aria-label="Go to screenshot 3"></button>
+              </div>
+              <button class="carousel-btn next" aria-label="Next screenshot">›</button>
+            </div>
+          </div>
+        </div>
+        <div class="project-description">
+          <h2>About</h2>
+          <p>Cashew is a financial management and budgeting application that helps users track expenses, set financial goals, and gain insights into their spending habits.</p>
+          <h2>Motivation</h2>
+          <p>I created Cashew to address the need for a simple, privacy-focused financial tracking tool. Many existing solutions are either too complex or compromise user privacy. Cashew aims to provide powerful financial insights while keeping user data secure and private.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="/js/portfolio.js"></script>
+<script src="/js/carousel.js"></script>
+
