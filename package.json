@@ -1,0 +1,15 @@
+{
+  "name": "portfolio-screenshots",
+  "version": "1.0.0",
+  "description": "Screenshot capture for portfolio projects",
+  "scripts": {
+    "screenshots": "node scripts/capture-screenshots.js",
+    "process": "node scripts/process-screenshots.js",
+    "process:adaptive": "node scripts/process-screenshots-adaptive.js"
+  },
+  "dependencies": {
+    "puppeteer": "^21.5.0",
+    "sharp": "^0.33.0"
+  }
+}
+
