@@ -30,9 +30,12 @@ title: Portfolio
         </div>
         <div class="project-description">
           <h2>About</h2>
-          <p>Dashboard is a comprehensive analytics and monitoring platform that provides real-time insights into system performance and user metrics.</p>
+          <p>AI Dashboard is a single-page web application that helps users discover, search, and organize AI tools and services. It displays services in a smartphone-style grid layout with hover descriptions, category filtering, and search to find tools across categories like Video Generation, Automation, Research, Development, and more.</p>
           <h2>Motivation</h2>
-          <p>I built Dashboard to solve the challenge of having multiple data sources scattered across different tools. The goal was to create a unified interface that brings together all critical metrics in one place, making it easier to monitor system health and make data-driven decisions.</p>
+          <p>It was built to keep services I use or want to use in one place, avoiding browser bookmark bloat and forgotten links. Instead of scattered bookmarks, it provides a single hub for discovering and accessing AI tools with an intuitive, app-like experience.</p>
+          <h2>Tech Stack</h2>
+          <p>Built with React 18, Vite for fast development and builds, CSS Modules for component-scoped styling, and vanilla JavaScript. Fully client-side with no backend—all data is statically defined, making it fast, simple, and easy to deploy.</p>
+
         </div>
       </div>
     </section>
@@ -121,7 +124,9 @@ title: Portfolio
           <h2>About</h2>
           <p>Manuscript Forge is a work-in-progress platform designed to help writers manage, organize, and refine their manuscripts. It provides tools for version control, collaboration, and structured writing workflows.</p>
           <h2>Motivation</h2>
-          <p>The idea for Manuscript Forge came from recognizing the challenges writers face when managing long-form content. Traditional word processors aren't designed for the iterative, collaborative nature of writing projects. I'm building this platform to provide writers with the tools they need to focus on what matters most: their writing.</p>
+          <p>Created after writing "<a href="https://www.amazon.com/Building-Your-Own-Roguelike-Hands-ebook/dp/B0G1RBWF6V" target="_blank" rel="noopener noreferrer">Vanilla Roguelike</a>" in Markdown and needing proper chapter and diagram formatting for PDF export and Amazon KDP. Existing tools couldn't handle structured conversion, so I built custom tooling to convert Markdown to DOCX for formatting control, enabling PDF export and KDP ebook creation.</p>
+          <h2>Tech Stack</h2>
+          <p>Built with Ruby on Rails 8.1 (API mode), PostgreSQL 16, Solid Queue for async processing (Postgres-backed, no Redis), Shrine + AWS S3 for file storage, pandoc-ruby for document conversion, React + Vite frontend, Tailwind CSS, and RSpec for testing. Architecture follows service-oriented design with background jobs for document processing.</p>
         </div>
       </div>
     </section>
