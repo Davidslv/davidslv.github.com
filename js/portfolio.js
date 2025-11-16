@@ -7,8 +7,8 @@
 
   // Configuration
   const ANIMATION_DURATION = 400; // milliseconds
-  const PROJECTS = ['dashboard', 'microblog', 'pokedex', 'roguelike', 'manuscript-forge', 'cashew'];
-  const DEFAULT_PROJECT = 'dashboard';
+  const PROJECTS = ['roguelike', 'pokedex', 'dashboard', 'microblog', 'manuscript-forge', 'cashew'];
+  const DEFAULT_PROJECT = 'roguelike';
 
   // State
   let currentProject = null;
@@ -230,4 +230,5 @@
     init();
   }
 })();
+
 
