@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Procedural Item Placement: Balancing Loot Distribution"
-date:   2025-11-17 10:00:00
+date:   2025-11-17 09:45:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 ---
