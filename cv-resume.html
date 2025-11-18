@@ -153,6 +153,15 @@
             color: #666;
         }
 
+        .achievements a {
+            color: #2c5f8d;
+            text-decoration: none;
+        }
+
+        .achievements a:hover {
+            text-decoration: underline;
+        }
+
         /* Right Column Styling */
         .contact-item {
             font-size: 13px;
@@ -242,109 +251,141 @@
         }
 
         @media print {
+            @page {
+                size: A4;
+                margin: 1.5cm;
+            }
+
             body {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
+                line-height: 1.6;
+                font-size: 11pt;
             }
 
             .container {
                 max-width: 100%;
+                min-height: auto;
+            }
+
+            .left-column {
+                padding: 20px 25px 20px 25px;
+                flex: 0 0 70%;
+                max-width: 12cm;
+            }
+
+            .right-column {
+                padding: 20px 20px 20px 20px;
+                flex: 0 0 30%;
+            }
+
+            h1.name {
+                font-size: 28pt;
+                margin-bottom: 4px;
+                letter-spacing: 1.5px;
+                line-height: 1.2;
+            }
+
+            .tagline {
+                font-size: 11pt;
+                margin-bottom: 15px;
+                letter-spacing: 2px;
+            }
+
+            .about {
+                font-size: 10.5pt;
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+
+            .section-title {
+                font-size: 10pt;
+                margin-bottom: 10px;
+                margin-top: 20px;
+                letter-spacing: 1.5px;
+            }
+
+            .section-title:first-of-type {
+                margin-top: 0;
             }
 
             .job {
+                margin-bottom: 15px;
                 page-break-inside: avoid;
+            }
+
+            .company {
+                font-size: 11pt;
+                margin-bottom: 2px;
+            }
+
+            .role-date {
+                font-size: 9.5pt;
+                margin-bottom: 6px;
+            }
+
+            .job-description {
+                font-size: 10pt;
+                line-height: 1.6;
+                margin-bottom: 6px;
+            }
+
+            .achievements {
+                margin-bottom: 0;
+            }
+
+            .achievements li {
+                font-size: 10pt;
+                line-height: 1.6;
+                margin-bottom: 4px;
+                padding-left: 15px;
+            }
+
+            .achievements a {
+                color: #2c5f8d;
+                text-decoration: none;
+            }
+
+            .contact-item {
+                font-size: 9.5pt;
+                margin-bottom: 6px;
+                line-height: 1.5;
+            }
+
+            .skills-list li {
+                font-size: 9.5pt;
+                margin-bottom: 3px;
+                padding-left: 15px;
+                line-height: 1.5;
+            }
+
+            .skill-category-title {
+                font-size: 9.5pt;
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+
+            .skill-category-title:first-of-type {
+                margin-top: 0;
+            }
+
+            .project {
+                font-size: 9.5pt;
+                line-height: 1.6;
+                margin-bottom: 8px;
+            }
+
+            .earlier {
+                font-size: 9pt;
+                padding: 10px 0;
+                margin-top: 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Left Column -->
-        <div class="left-column">
-            <!-- Header -->
-            <h1 class="name">DAVID SILVA</h1>
-            <div class="tagline">Senior Backend Engineer</div>
-
-            <!-- About -->
-            <div class="about">
-                Backend engineer with 10+ years building scalable systems serving millions of users.
-                Delivered measurable impact:
-                <span class="highlight">reduced support tickets by 80%</span>,
-                <span class="highlight">scaled to 1M+ users</span>,
-                and <span class="highlight">delivered AI integrations</span>.
-                Strong in distributed systems, event-driven architecture, and cross-functional leadership.
-                Fluent in Ruby with production experience across multiple tech stacks.
-            </div>
-
-            <!-- Experience -->
-            <h2 class="section-title">Experience</h2>
-
-            <!-- Indeed -->
-            <div class="job">
-                <div class="company">Indeed</div>
-                <div class="role-date"><span class="role">Backend Senior Software Engineer</span> / July 2022 – August 2025</div>
-                <div class="job-description">
-                    Led transformative initiatives on platform serving 1M+ workers across US/UK markets. Ruby, Rails, PostgreSQL, Redis, Kafka, OpenAI.
-                </div>
-                <ul class="achievements">
-                    <li>Led <span class="highlight">6-month transformation</span> of penalty system coordinating cross-functional team—<span class="highlight">reduced support tickets by 80%</span> and eliminated wrongful bans</li>
-                    <li><span class="highlight">Rescued critical incident</span> affecting 100K+ workers, leading rapid response through data migration crisis</li>
-                    <li><span class="highlight">Collaborated on AI chat interface</span> with OpenAI GPT and custom few-shot learning for natural language task completion</li>
-                    <li><span class="highlight">Mentored engineers</span> through pair programming, onboarding new hires, 1-on-1s, and team-wide knowledge-sharing sessions, fostering collaborative learning and accelerating capability development across all levels</li>
-                </ul>
-            </div>
-
-            <!-- Ministry of Justice -->
-            <div class="job">
-                <div class="company">Ministry of Justice</div>
-                <div class="role-date"><span class="role">Senior Software Engineer</span> / March 2020 – July 2022</div>
-                <div class="job-description">
-                    Built government services for millions of UK citizens. Ruby, Rails, PostgreSQL, Gov.UK PaaS.
-                </div>
-                <ul class="achievements">
-                    <li>Collaborated on the development a <span class="highlight">user-facing family mediation services</span> validated through extensive user research, improving access to justice for families navigating legal processes</li>
-                    <li>Led <span class="highlight">disclosure service development</span>, collaborating with policymakers and legal experts to translate complex legal requirements into a custom algorithm for assessing cautions and convictions. Bridged technical-legal divide through scenario-based requirements gathering and stakeholder workshops</li>
-                    <li><span class="highlight">Transformed court payment processing</span> by implementing online payment system that eliminated weeks-long delays, removed manual cheque handling, enabled instant fund allocation to court budgets, and improved application processing speed for millions of families</li>
-                </ul>
-            </div>
-
-            <!-- Creditspring -->
-            <div class="job">
-                <div class="company">Creditspring</div>
-                <div class="role-date"><span class="role">Senior Software Engineer</span> / August 2018 – March 2020</div>
-                <div class="job-description">
-                    Joined pre-launch fintech startup and architected scalable infrastructure, growing from 0 to 100K+ paying customers (500K+ registered users) while maintaining reliability throughout rapid growth.
-                </div>
-                <ul class="achievements">
-                    <li>Architected <span class="highlight">event-driven system</span> using Rails, PostgreSQL, Redis, and Sidekiq, ensuring complete financial auditability and scalability for transparent, affordable borrowing products</li>
-                    <li><span class="highlight">Led operations team</span> to identify and implement automation features, enhancing customer experience and reducing manual processes, enabling efficient scaling</li>
-                    <li>Established monitoring and reliability practices to maintain <span class="highlight">99.9%+ uptime</span> during rapid customer growth</li>
-                </ul>
-            </div>
-
-            <!-- Government Digital Services -->
-            <div class="job">
-                <div class="company">Government Digital Services</div>
-                <div class="role-date"><span class="role">Software Engineer</span> / January 2016 – August 2018</div>
-                <div class="job-description">
-                    Core GOV.UK features for 60M+ monthly visitors. Ruby, Rails, Elasticsearch, React.
-                </div>
-
-                <ul class="achievements">
-                    <li>Led development of GOV.UK <span class="highlight">Step by Step pages</span>, simplifying complex government processes into clear user journeys that improved accessibility for millions of citizens</li>
-                    <li>Designed and implemented <span class="highlight">taxonomy system</span> for GOV.UK content organisation, creating tools that enabled content creators to improve information retrieval and boost productivity across government departments</li>
-                    <li>Enhanced GOV.UK <span class="highlight">search functionality using Elasticsearch</span>, optimising performance and accuracy for millions of daily searches. Modernised platform by phasing out legacy systems in favour of scalable, maintainable designs</li>
-                    <li><span class="highlight">Mentored engineers</span> through pair programming, 1-on-1s, and group knowledge-sharing sessions, fostering collaborative learning</li>
-                </ul>
-            </div>
-
-            <!-- Earlier Experience -->
-            <div class="earlier">
-                Earlier experience (Unii, Sticky9, Housetrip, Think Orange) on <a href="https://linkedin.com/in/davidslv" target="_blank">LinkedIn</a>
-            </div>
-        </div>
-
-        <!-- Right Column -->
+        <!-- Right Column (Sidebar) -->
         <div class="right-column">
             <!-- Contact -->
             <h2 class="section-title">Contact</h2>
@@ -405,11 +446,94 @@
                 <a href="https://github.com/Davidslv/vanilla-roguelike" target="_blank">Vanilla Roguelike</a><br>
                 Open-source game demonstrating backend patterns in Ruby
             </div>
+        </div>
 
-            <div class="project">
-                <a href="https://rubygems.org/gems/event_system" target="_blank">event_system</a><br>
-                Open-source ruby gem extracted from the Vanilla Roguelike game and
-                generalised for broader software applications.(<a href="https://github.com/davidslv/event_system" target="_blank">GitHub</a>)
+        <!-- Left Column (Main Content) -->
+        <div class="left-column">
+            <!-- Header -->
+            <h1 class="name">DAVID SILVA</h1>
+            <div class="tagline">Senior Backend Engineer</div>
+
+            <!-- About -->
+            <div class="about">
+                Backend engineer with 10+ years building scalable systems serving millions of users.
+                Delivered measurable impact:
+                <span class="highlight">reduced support tickets by 80%</span>,
+                <span class="highlight">scaled to 1M+ users</span>,
+                and <span class="highlight">delivered AI integrations</span>.
+                Strong in distributed systems, event-driven architecture, and cross-functional leadership.
+                Fluent in Ruby with production experience across multiple tech stacks.
+            </div>
+
+            <!-- Experience -->
+            <h2 class="section-title">Experience</h2>
+
+            <!-- Indeed -->
+            <div class="job">
+                <div class="company">Indeed</div>
+                <div class="role-date"><span class="role">Backend Senior Software Engineer</span> / July 2022 – August 2025</div>
+                <div class="job-description">
+                    Led transformative initiatives on platform serving 1M+ workers across US/UK markets. Ruby, Rails, PostgreSQL, Redis, Kafka, OpenAI.
+                </div>
+                <ul class="achievements">
+                    <li>Led <span class="highlight">6-month transformation</span> of penalty system coordinating cross-functional team—<span class="highlight">reduced support tickets by 80%</span> and eliminated wrongful bans</li>
+                    <li><span class="highlight">Rescued critical incident</span> affecting 100K+ workers, leading rapid response through data migration crisis</li>
+                    <li><span class="highlight">Collaborated on AI chat interface</span> with OpenAI GPT and custom few-shot learning for natural language task completion</li>
+                    <li><span class="highlight">Mentored engineers</span> through pair programming, onboarding new hires, 1-on-1s, and team-wide knowledge-sharing sessions, fostering collaborative learning and accelerating capability development across all levels</li>
+                </ul>
+            </div>
+
+            <!-- Ministry of Justice -->
+            <div class="job">
+                <div class="company">Ministry of Justice</div>
+                <div class="role-date"><span class="role">Senior Software Engineer</span> / March 2020 – July 2022</div>
+                <div class="job-description">
+                    Built government services for millions of UK citizens. Ruby, Rails, PostgreSQL, Gov.UK PaaS.
+                </div>
+                <ul class="achievements">
+
+                    <li>Built a service to <span class="highlight"><a href="https://apply-to-court-about-child-arrangements.service.justice.gov.uk/steps/opening/start_or_continue" target="_blank">apply to court about child arrangements</a></span>, validated through extensive user research, improving access to justice for families navigating legal processes</li>
+
+                    <li>Led development of the <span class="highlight"><a href="https://check-when-to-disclose-caution-conviction.service.gov.uk/" target="_blank">service to check when to disclose cautions or convictions</a></span>, working with policymakers and legal experts to translate complex legal requirements into a custom algorithm. Bridged the technical-legal divide through scenario-based requirements gathering and stakeholder workshops</li>
+
+                    <li><span class="highlight">Transformed court payment processing</span> by building an online payment system that eliminated weeks-long delays, removed manual cheque handling, enabled instant fund allocation to court budgets, and improved application processing speed for millions of families</li>
+
+                </ul>
+            </div>
+
+            <!-- Creditspring -->
+            <div class="job">
+                <div class="company">Creditspring</div>
+                <div class="role-date"><span class="role">Senior Software Engineer</span> / August 2018 – March 2020</div>
+                <div class="job-description">
+                    Joined pre-launch fintech startup and architected scalable infrastructure, growing from 0 to 100K+ paying customers (500K+ registered users) while maintaining reliability throughout rapid growth.
+                </div>
+                <ul class="achievements">
+                    <li>Architected <span class="highlight">event-driven system</span> using Rails, PostgreSQL, Redis, and Sidekiq, ensuring complete financial auditability and scalability for transparent, affordable borrowing products</li>
+                    <li><span class="highlight">Led operations team</span> to identify and implement automation features, enhancing customer experience and reducing manual processes, enabling efficient scaling</li>
+                    <li>Established monitoring and reliability practices to maintain <span class="highlight">99.9%+ uptime</span> during rapid customer growth</li>
+                </ul>
+            </div>
+
+            <!-- Government Digital Services -->
+            <div class="job">
+                <div class="company">Government Digital Services</div>
+                <div class="role-date"><span class="role">Software Engineer</span> / January 2016 – August 2018</div>
+                <div class="job-description">
+                    Core GOV.UK features for 60M+ monthly visitors. Ruby, Rails, Elasticsearch, React.
+                </div>
+
+                <ul class="achievements">
+                    <li>Led development of GOV.UK <span class="highlight">Step by Step pages</span>, simplifying complex government processes into clear user journeys that improved accessibility for millions of citizens</li>
+                    <li>Designed and implemented <span class="highlight">taxonomy system</span> for GOV.UK content organisation, creating tools that enabled content creators to improve information retrieval and boost productivity across government departments</li>
+                    <li>Enhanced GOV.UK <span class="highlight">search functionality using Elasticsearch</span>, optimising performance and accuracy for millions of daily searches. Modernised platform by phasing out legacy systems in favour of scalable, maintainable designs</li>
+                    <li><span class="highlight">Mentored engineers</span> through pair programming, 1-on-1s, and group knowledge-sharing sessions, fostering collaborative learning</li>
+                </ul>
+            </div>
+
+            <!-- Earlier Experience -->
+            <div class="earlier">
+                Earlier experience (Unii, Sticky9, Housetrip, Think Orange) on <a href="https://linkedin.com/in/davidslv" target="_blank">LinkedIn</a>
             </div>
         </div>
     </div>
