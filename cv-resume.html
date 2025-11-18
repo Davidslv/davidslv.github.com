@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>David Silva - Senior Backend Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            color: #333;
+            background: #fff;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1100px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* Left Column */
+        .left-column {
+            flex: 0 0 66%;
+            padding: 50px 40px 50px 50px;
+            background: #ffffff;
+        }
+
+        /* Right Column */
+        .right-column {
+            flex: 0 0 34%;
+            padding: 50px 40px 50px 30px;
+            background: #f5f5f5;
+        }
+
+        /* Header */
+        .name {
+            font-size: 48px;
+            font-weight: 700;
+            color: #2c5f8d;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: #666;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        /* About */
+        .about {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 40px;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #2d2d2d;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2c5f8d;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            margin-top: 35px;
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Experience */
+        .job {
+            margin-bottom: 30px;
+        }
+
+        .company {
+            font-size: 17px;
+            font-weight: 700;
+            color: #2c5f8d;
+            margin-bottom: 3px;
+        }
+
+        .role-date {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .role {
+            font-style: italic;
+        }
+
+        .job-description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .achievements {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .achievements li {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 8px;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .achievements li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #666;
+        }
+
+        /* Right Column Styling */
+        .contact-item {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .contact-item a {
+            color: #2c5f8d;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Skills */
+        .skills-list {
+            list-style: none;
+        }
+
+        .skills-list li {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+            padding-left: 18px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .skills-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #666;
+        }
+
+        .skill-category-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2c5f8d;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .skill-category-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Projects */
+        .project {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .project a {
+            color: #2c5f8d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .project a:hover {
+            text-decoration: underline;
+        }
+
+        /* Earlier Experience */
+        .earlier {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 20px;
+        }
+
+        .earlier a {
+            color: #2c5f8d;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .earlier a:hover {
+            text-decoration: underline;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .job {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Column -->
+        <div class="left-column">
+            <!-- Header -->
+            <h1 class="name">DAVID SILVA</h1>
+            <div class="tagline">Senior Backend Engineer</div>
+
+            <!-- About -->
+            <div class="about">
+                Backend engineer with 10+ years building scalable systems serving millions of users.
+                Delivered measurable impact:
+                <span class="highlight">reduced support tickets by 80%</span>,
+                <span class="highlight">scaled to 1M+ users</span>,
+                and <span class="highlight">delivered AI integrations</span>.
+                Strong in distributed systems, event-driven architecture, and cross-functional leadership.
+                Fluent in Ruby with production experience across multiple tech stacks.
+            </div>
+
+            <!-- Experience -->
+            <h2 class="section-title">Experience</h2>
+
+            <!-- Indeed -->
+            <div class="job">
+                <div class="company">Indeed</div>
+                <div class="role-date"><span class="role">Backend Senior Software Engineer</span> / July 2022 – August 2025</div>
+                <div class="job-description">
+                    Led transformative initiatives on platform serving 1M+ workers across US/UK markets. Ruby, Rails, PostgreSQL, Redis, Kafka, OpenAI.
+                </div>
+                <ul class="achievements">
+                    <li>Led <span class="highlight">6-month transformation</span> of penalty system coordinating cross-functional team—<span class="highlight">reduced support tickets by 80%</span> and eliminated wrongful bans</li>
+                    <li><span class="highlight">Rescued critical incident</span> affecting 100K+ workers, leading rapid response through data migration crisis</li>
+                    <li><span class="highlight">Collaborated on AI chat interface</span> with OpenAI GPT and custom few-shot learning for natural language task completion</li>
+                    <li><span class="highlight">Mentored engineers</span> through pair programming, onboarding new hires, 1-on-1s, and team-wide knowledge-sharing sessions, fostering collaborative learning and accelerating capability development across all levels</li>
+                </ul>
+            </div>
+
+            <!-- Ministry of Justice -->
+            <div class="job">
+                <div class="company">Ministry of Justice</div>
+                <div class="role-date"><span class="role">Senior Software Engineer</span> / March 2020 – July 2022</div>
+                <div class="job-description">
+                    Built government services for millions of UK citizens. Ruby, Rails, PostgreSQL, Gov.UK PaaS.
+                </div>
+                <ul class="achievements">
+                    <li>Collaborated on the development a <span class="highlight">user-facing family mediation services</span> validated through extensive user research, improving access to justice for families navigating legal processes</li>
+                    <li>Led <span class="highlight">disclosure service development</span>, collaborating with policymakers and legal experts to translate complex legal requirements into a custom algorithm for assessing cautions and convictions. Bridged technical-legal divide through scenario-based requirements gathering and stakeholder workshops</li>
+                    <li><span class="highlight">Transformed court payment processing</span> by implementing online payment system that eliminated weeks-long delays, removed manual cheque handling, enabled instant fund allocation to court budgets, and improved application processing speed for millions of families</li>
+                </ul>
+            </div>
+
+            <!-- Creditspring -->
+            <div class="job">
+                <div class="company">Creditspring</div>
+                <div class="role-date"><span class="role">Senior Software Engineer</span> / August 2018 – March 2020</div>
+                <div class="job-description">
+                    Joined pre-launch fintech startup and architected scalable infrastructure, growing from 0 to 100K+ paying customers (500K+ registered users) while maintaining reliability throughout rapid growth.
+                </div>
+                <ul class="achievements">
+                    <li>Architected <span class="highlight">event-driven system</span> using Rails, PostgreSQL, Redis, and Sidekiq, ensuring complete financial auditability and scalability for transparent, affordable borrowing products</li>
+                    <li><span class="highlight">Led operations team</span> to identify and implement automation features, enhancing customer experience and reducing manual processes, enabling efficient scaling</li>
+                    <li>Established monitoring and reliability practices to maintain <span class="highlight">99.9%+ uptime</span> during rapid customer growth</li>
+                </ul>
+            </div>
+
+            <!-- Government Digital Services -->
+            <div class="job">
+                <div class="company">Government Digital Services</div>
+                <div class="role-date"><span class="role">Software Engineer</span> / January 2016 – August 2018</div>
+                <div class="job-description">
+                    Core GOV.UK features for 60M+ monthly visitors. Ruby, Rails, Elasticsearch, React.
+                </div>
+
+                <ul class="achievements">
+                    <li>Led development of GOV.UK <span class="highlight">Step by Step pages</span>, simplifying complex government processes into clear user journeys that improved accessibility for millions of citizens</li>
+                    <li>Designed and implemented <span class="highlight">taxonomy system</span> for GOV.UK content organisation, creating tools that enabled content creators to improve information retrieval and boost productivity across government departments</li>
+                    <li>Enhanced GOV.UK <span class="highlight">search functionality using Elasticsearch</span>, optimising performance and accuracy for millions of daily searches. Modernised platform by phasing out legacy systems in favour of scalable, maintainable designs</li>
+                    <li><span class="highlight">Mentored engineers</span> through pair programming, 1-on-1s, and group knowledge-sharing sessions, fostering collaborative learning</li>
+                </ul>
+            </div>
+
+            <!-- Earlier Experience -->
+            <div class="earlier">
+                Earlier experience (Unii, Sticky9, Housetrip) on <a href="https://linkedin.com/in/davidslv" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="right-column">
+            <!-- Contact -->
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-item">📞 +44 7427 910091</div>
+            <div class="contact-item">✉️ <a href="mailto:davidslv.london@gmail.com">davidslv.london@gmail.com</a></div>
+            <div class="contact-item">📍 London, UK</div>
+            <div class="contact-item">🔗 <a href="https://linkedin.com/in/davidslv" target="_blank">linkedin.com/in/davidslv</a></div>
+            <div class="contact-item">💻 <a href="https://github.com/davidslv" target="_blank">github.com/davidslv</a></div>
+            <div class="contact-item">🌐 <a href="https://davidslv.uk" target="_blank">davidslv.uk</a></div>
+
+            <!-- Skills -->
+            <h2 class="section-title">Skills</h2>
+
+            <div class="skill-category-title">Languages</div>
+            <ul class="skills-list">
+                <li>Ruby, JavaScript/TypeScript</li>
+                <li>SQL, Go</li>
+                <li>Python, Java, Rust (learning)</li>
+            </ul>
+
+            <div class="skill-category-title">Backend</div>
+            <ul class="skills-list">
+                <li>Rails, Sinatra, Express.js</li>
+                <li>Event-driven architecture</li>
+                <li>Microservices, REST APIs</li>
+            </ul>
+
+            <div class="skill-category-title">Data</div>
+            <ul class="skills-list">
+                <li>PostgreSQL, MySQL, Redis</li>
+                <li>Elasticsearch, MongoDB</li>
+                <li>Kafka, Cassandra, Snowflake</li>
+            </ul>
+
+            <div class="skill-category-title">Infrastructure</div>
+            <ul class="skills-list">
+                <li>AWS (EC2, S3, Lambda, RDS)</li>
+                <li>Docker, CI/CD</li>
+                <li>Datadog, New Relic</li>
+            </ul>
+
+            <div class="skill-category-title">Practices</div>
+            <ul class="skills-list">
+                <li>TDD, Pair programming</li>
+                <li>Agile/Scrum</li>
+                <li>Technical mentoring</li>
+            </ul>
+
+            <!-- Projects & Publications -->
+            <h2 class="section-title">Projects</h2>
+
+            <div class="project">
+                <a href="https://www.amazon.com/Building-Your-Own-Roguelike-Hands-ebook/dp/B0G1RBWF6V" target="_blank">Building Your Own Roguelike</a><br>
+                Published technical book on game development and event-driven architecture
+            </div>
+
+            <div class="project">
+                <a href="https://github.com/Davidslv/vanilla-roguelike" target="_blank">Vanilla Roguelike</a><br>
+                Open-source game demonstrating backend patterns in Ruby
+            </div>
+
+            <div class="project">
+                <a href="https://rubygems.org/gems/event_system" target="_blank">event_system gem</a><br>
+                Event-driven architecture library (<a href="https://github.com/davidslv/event_system" target="_blank">GitHub</a>)
+            </div>
+        </div>
+    </div>
+</body>
+</html>
