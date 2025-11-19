@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Optimizing Procedural Generation: When Speed Matters"
-date:   2025-11-19 10:00:00
+date:   2025-11-19 08:01:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 ---
