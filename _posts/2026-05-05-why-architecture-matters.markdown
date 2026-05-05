@@ -117,5 +117,4 @@ This is the essence of good architecture: not making the perfect decision now, b
 
 *This was Chapter 1 of [Modular Rails: Architecture for the Long Game](/modular-rails/). The book covers 18 chapters across four parts -- from Clean Architecture principles to extracting your first engine, testing strategies, team workflow, and the honest trade-offs most architecture books skip.*
 
-<!-- TODO: Replace with actual Amazon link once published -->
-*[Get the book](/modular-rails/)*
+*[Get the book on Amazon UK](https://www.amazon.co.uk/dp/B0GZL7D53M) · [Amazon US](https://www.amazon.com/dp/B0GZL7D53M) · [Learn more](/modular-rails/)*

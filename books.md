@@ -13,8 +13,7 @@ permalink: /books/
     <p>This book bridges the gap between software architecture principles and the tools Ruby on Rails already ships. It takes the thinking of Robert C. Martin, Neal Ford, Mark Richards, and Kent Beck and applies it to real Ruby on Rails applications — with working code, honest trade-offs, and a companion open-source application you can run yourself.</p>
     <p>Four parts. Eighteen chapters. 378 pages.</p>
     <p>
-      <!-- TODO: Replace with actual Amazon links once published -->
-      <a href="/modular-rails/">Learn more</a>
+      <a href="/modular-rails/">Learn more</a> · <a href="https://www.amazon.co.uk/dp/B0GZL7D53M">Amazon UK</a> · <a href="https://www.amazon.com/dp/B0GZL7D53M">Amazon US</a>
     </p>
   </div>
 </div>
