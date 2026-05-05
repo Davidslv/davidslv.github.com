@@ -17,24 +17,20 @@ Every Rails developer has lived this story. The application starts small. A hand
 
 ```mermaid
 graph LR
-    subgraph "Cost of Change Over Time"
-        direction LR
-        S["Small<br/>codebase"] -->|low cost| M["Medium<br/>codebase"]
-        M -->|rising cost| L["Large<br/>codebase"]
-        L -->|high cost| VL["Very Large<br/>codebase"]
-    end
+    S["Small codebase<br/>(low cost)"] --> M["Medium codebase"]
 
-    subgraph Legend
-        U["Unstructured monolith: cost rises steeply"]
-        MO["Modular architecture: cost stays manageable"]
-    end
+    M --> U1["Large monolith<br/>rising cost"]
+    U1 --> U2["Very large monolith<br/>high cost"]
+
+    M --> MO1["Large + engines<br/>moderate cost"]
+    MO1 --> MO2["Very large + engines<br/>cost stays manageable"]
 
     style S fill:#4a90d9,stroke:#2c5f8a,color:#fff
     style M fill:#e8a838,stroke:#b07828,color:#fff
-    style L fill:#d9654a,stroke:#8a3a2c,color:#fff
-    style VL fill:#c0392b,stroke:#7b241c,color:#fff
-    style U fill:#c0392b,stroke:#7b241c,color:#fff
-    style MO fill:#7bc47f,stroke:#4a8a4e,color:#fff
+    style U1 fill:#d9654a,stroke:#8a3a2c,color:#fff
+    style U2 fill:#c0392b,stroke:#7b241c,color:#fff
+    style MO1 fill:#27ae60,stroke:#1e8449,color:#fff
+    style MO2 fill:#2ecc71,stroke:#27ae60,color:#fff
 ```
 
 Then the application grows. The `app/models` directory fills up. The `User` model gains associations to everything. Service objects proliferate in `app/services/`. Someone introduces an `app/interactors/` directory. Then `app/queries/`. Then `app/decorators/`. Each new directory is a well-intentioned attempt to manage complexity, but none of them create actual boundaries. Everything can still reference everything.
