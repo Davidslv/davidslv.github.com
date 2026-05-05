@@ -43,6 +43,12 @@ Four parts. Eighteen chapters. From principles to practice to the hard questions
 
 ---
 
+## Read Chapter 1 for free
+
+[Why Architecture Matters in Rails Applications](/2026/05/05/why-architecture-matters.html) -- an adapted excerpt from Chapter 1. See the writing style, the diagrams, and the practical code examples before you buy.
+
+---
+
 ## Buy the book
 
 | Format | Price | Link |
