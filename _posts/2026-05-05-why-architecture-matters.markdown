@@ -13,7 +13,7 @@ date:   2026-05-05
 
 ## The Cost of Change Over Time
 
-Every Rails developer has lived this story. The application starts small. A handful of models, a few controllers, a test suite that runs in seconds. Adding a feature is straightforward -- you create a model, write a migration, build a controller, add some views. The framework guides you. Convention over configuration. Life is good.
+Every Software Engineer that uses Ruby on Rails has lived this story. The application starts small. A handful of models, a few controllers, a test suite that runs in seconds. Adding a feature is straightforward -- you create a model, write a migration, build a controller, add some views. The framework guides you. Convention over configuration. Life is good.
 
 ```mermaid
 graph LR
