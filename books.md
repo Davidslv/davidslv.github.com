@@ -30,7 +30,7 @@ permalink: /books/
     <p>This book takes you on a practical journey from your first playable prototype to a complete roguelike game. Based on a real five-year development journey, it teaches you not just how to build a roguelike, but why architectural decisions matter. You'll implement maze generation algorithms, build Entity-Component-System architecture, and create combat, inventory, and AI systems — all from scratch using pure Ruby.</p>
     <p>Five parts. Twenty-two chapters. 163 pages.</p>
     <p>
-      <a href="https://www.amazon.co.uk/dp/B0G1SGN181">Buy on Amazon</a> · <a href="/2025/11/08/vanilla-roguelike.html">Read the story behind the book</a>
+      <a href="https://www.amazon.co.uk/dp/B0G1SGN181">Buy on Amazon</a> · <a href="/ruby/game-development/2025/11/08/vanilla-roguelike.html">Read the story behind the book</a>
     </p>
   </div>
 </div>
