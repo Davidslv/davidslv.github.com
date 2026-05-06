@@ -53,8 +53,8 @@ Four parts. Eighteen chapters. From principles to practice to the hard questions
 
 | Format | Price | Link |
 |--------|-------|------|
-| Colour Paperback | $49.99 / £44.99 | Coming soon |
-| B&W Paperback | $29.99 / £24.99 | Coming soon |
+| Colour Paperback | $49.99 / £44.99 | [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [Amazon US](https://www.amazon.com/dp/1066649405) |
+| B&W Paperback | $29.99 / £24.99 | [Amazon UK](https://www.amazon.co.uk/dp/1066649421) · [Amazon US](https://www.amazon.com/dp/1066649421) |
 | Kindle | $29.99 / £24.99 | [Amazon UK](https://www.amazon.co.uk/dp/B0GZL7D53M) · [Amazon US](https://www.amazon.com/dp/B0GZL7D53M) |
 
 *Also available through bookshops and libraries via IngramSpark.*
