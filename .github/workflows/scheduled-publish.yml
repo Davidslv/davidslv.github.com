@@ -1,0 +1,27 @@
+name: Scheduled publish
+
+on:
+  schedule:
+    # Runs daily at 06:00 UTC (7am BST)
+    # Offset from :00 to avoid GitHub peak load
+    - cron: '3 6 * * *'
+  workflow_dispatch: # Manual trigger option
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      - name: Trigger rebuild
+        run: |
+          git commit --allow-empty -m "Scheduled rebuild — publish pending posts"
+          git push
