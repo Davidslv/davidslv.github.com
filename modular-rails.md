@@ -51,11 +51,28 @@ Four parts. Eighteen chapters. From principles to practice to the hard questions
 
 ## Buy the book
 
-| Format | Price | Link |
-|--------|-------|------|
-| Colour Paperback | $49.99 / £44.99 | [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [Amazon US](https://www.amazon.com/dp/1066649405) |
-| B&W Paperback | $29.99 / £24.99 | [Amazon UK](https://www.amazon.co.uk/dp/1066649421) · [Amazon US](https://www.amazon.com/dp/1066649421) |
-| Kindle | $29.99 / £24.99 | [Amazon UK](https://www.amazon.co.uk/dp/B0GZL7D53M) · [Amazon US](https://www.amazon.com/dp/B0GZL7D53M) |
+<div style="display: grid; grid-template-columns: minmax(140px, auto) minmax(110px, auto) 1fr; gap: 0.7em 1.2em; align-items: center; margin: 0 0 1em 0; max-width: 600px;">
+  <span style="font-weight: 600; color: #444;">Colour Paperback</span>
+  <span style="color: #666; font-size: 0.9em;">$49.99 / £44.99</span>
+  <span style="display: flex; gap: 0.5em; flex-wrap: wrap;">
+    <a href="https://www.amazon.com/dp/1066649405" style="display: inline-block; background: #fff; color: #8a6d3b; border: 1.5px solid #c9a675; padding: 0.4em 0.85em; border-radius: 3px; text-decoration: none; font-weight: 600; font-size: 0.9em;">Amazon US</a>
+    <a href="https://www.amazon.co.uk/dp/1066649405" style="display: inline-block; background: #fff; color: #8a6d3b; border: 1.5px solid #c9a675; padding: 0.4em 0.85em; border-radius: 3px; text-decoration: none; font-weight: 600; font-size: 0.9em;">Amazon UK</a>
+  </span>
+
+  <span style="font-weight: 600; color: #444;">B&amp;W Paperback</span>
+  <span style="color: #666; font-size: 0.9em;">$29.99 / £24.99</span>
+  <span style="display: flex; gap: 0.5em; flex-wrap: wrap;">
+    <a href="https://www.amazon.com/dp/1066649421" style="display: inline-block; background: #fff; color: #8a6d3b; border: 1.5px solid #c9a675; padding: 0.4em 0.85em; border-radius: 3px; text-decoration: none; font-weight: 600; font-size: 0.9em;">Amazon US</a>
+    <a href="https://www.amazon.co.uk/dp/1066649421" style="display: inline-block; background: #fff; color: #8a6d3b; border: 1.5px solid #c9a675; padding: 0.4em 0.85em; border-radius: 3px; text-decoration: none; font-weight: 600; font-size: 0.9em;">Amazon UK</a>
+  </span>
+
+  <span style="font-weight: 600; color: #444;">Kindle</span>
+  <span style="color: #666; font-size: 0.9em;">$24.99 / £15.99</span>
+  <span style="display: flex; gap: 0.5em; flex-wrap: wrap;">
+    <a href="https://www.amazon.com/dp/B0GZL7D53M" style="display: inline-block; background: #fff; color: #8a6d3b; border: 1.5px solid #c9a675; padding: 0.4em 0.85em; border-radius: 3px; text-decoration: none; font-weight: 600; font-size: 0.9em;">Amazon US</a>
+    <a href="https://www.amazon.co.uk/dp/B0GZL7D53M" style="display: inline-block; background: #fff; color: #8a6d3b; border: 1.5px solid #c9a675; padding: 0.4em 0.85em; border-radius: 3px; text-decoration: none; font-weight: 600; font-size: 0.9em;">Amazon UK</a>
+  </span>
+</div>
 
 *Also available through bookshops and libraries via IngramSpark.*
 
