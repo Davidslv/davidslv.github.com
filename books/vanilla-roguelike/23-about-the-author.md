@@ -1,12 +1,12 @@
 ---
 layout: page
 title: "About the Author"
-permalink: /vanilla-roguelike/23-about-the-author/
+permalink: /books/vanilla-roguelike/23-about-the-author/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/22-journey/">&larr; Your Roguelike Journey</a>
-  <a href="/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/22-journey/">&larr; Your Roguelike Journey</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
   <span></span>
 </nav>
 
@@ -74,7 +74,7 @@ or dies on word of mouth from engineers who got value from it.</li>
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/22-journey/">&larr; Your Roguelike Journey</a>
-  <a href="/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/22-journey/">&larr; Your Roguelike Journey</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
   <span></span>
 </nav>

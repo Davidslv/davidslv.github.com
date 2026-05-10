@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Building ECS — Systems"
-permalink: /vanilla-roguelike/11-ecs-systems/
+permalink: /books/vanilla-roguelike/11-ecs-systems/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/10-ecs-entities-components/">&larr; Building ECS — Entities and Components</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/12-world-coordinator/">The World Coordinator &rarr;</a>
+  <a href="/books/vanilla-roguelike/10-ecs-entities-components/">&larr; Building ECS — Entities and Components</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/12-world-coordinator/">The World Coordinator &rarr;</a>
 </nav>
 
 <h1 id="chapter-11-building-ecs---systems">Chapter 11: Building ECS - Systems</h1>
@@ -223,7 +223,7 @@ permalink: /vanilla-roguelike/11-ecs-systems/
 
 <p>Systems run in a specific order. This is crucial because some systems depend on others completing first.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/07bbb23586300c17becfa1096b581148368ce30728314cf245c8f92a545c0ccf.svg" alt="D2 diagram: MazeSystem\nPriority: 0"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/07bbb23586300c17becfa1096b581148368ce30728314cf245c8f92a545c0ccf.svg" alt="D2 diagram: MazeSystem\nPriority: 0"></figure>
 
 <h3 id="vanillas-system-order">Vanilla’s System Order</h3>
 
@@ -354,7 +354,7 @@ permalink: /vanilla-roguelike/11-ecs-systems/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/10-ecs-entities-components/">&larr; Building ECS — Entities and Components</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/12-world-coordinator/">The World Coordinator &rarr;</a>
+  <a href="/books/vanilla-roguelike/10-ecs-entities-components/">&larr; Building ECS — Entities and Components</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/12-world-coordinator/">The World Coordinator &rarr;</a>
 </nav>

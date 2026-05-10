@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Building ECS — Entities and Components"
-permalink: /vanilla-roguelike/10-ecs-entities-components/
+permalink: /books/vanilla-roguelike/10-ecs-entities-components/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/09-intro-ecs/">&larr; Introduction to Entity-Component-System (ECS)</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/11-ecs-systems/">Building ECS — Systems &rarr;</a>
+  <a href="/books/vanilla-roguelike/09-intro-ecs/">&larr; Introduction to Entity-Component-System (ECS)</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/11-ecs-systems/">Building ECS — Systems &rarr;</a>
 </nav>
 
 <h1 id="chapter-10-building-ecs---entities-and-components">Chapter 10: Building ECS - Entities and Components</h1>
@@ -90,7 +90,7 @@ permalink: /vanilla-roguelike/10-ecs-entities-components/
 
 <p>The power of ECS comes from composing entities with different components. Want a player? Add player components. Want a monster? Add monster components. Want something that’s both? Add both sets of components.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/e72487dbc4ea5531daf41ce14081c584f46be5234bdb3601fb591b5e66b777b3.svg" alt="D2 diagram: Player Entity"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/e72487dbc4ea5531daf41ce14081c584f46be5234bdb3601fb591b5e66b777b3.svg" alt="D2 diagram: Player Entity"></figure>
 
 <p><strong>Example: Creating a player</strong></p>
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">player</span> <span class="o">=</span> <span class="no">Entity</span><span class="p">.</span><span class="nf">new</span>
@@ -437,7 +437,7 @@ permalink: /vanilla-roguelike/10-ecs-entities-components/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/09-intro-ecs/">&larr; Introduction to Entity-Component-System (ECS)</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/11-ecs-systems/">Building ECS — Systems &rarr;</a>
+  <a href="/books/vanilla-roguelike/09-intro-ecs/">&larr; Introduction to Entity-Component-System (ECS)</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/11-ecs-systems/">Building ECS — Systems &rarr;</a>
 </nav>

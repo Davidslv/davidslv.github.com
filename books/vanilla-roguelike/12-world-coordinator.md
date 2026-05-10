@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "The World Coordinator"
-permalink: /vanilla-roguelike/12-world-coordinator/
+permalink: /books/vanilla-roguelike/12-world-coordinator/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/11-ecs-systems/">&larr; Building ECS — Systems</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/13-input-movement/">Input and Movement &rarr;</a>
+  <a href="/books/vanilla-roguelike/11-ecs-systems/">&larr; Building ECS — Systems</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/13-input-movement/">Input and Movement &rarr;</a>
 </nav>
 
 <h1 id="chapter-12-the-world-coordinator">Chapter 12: The World Coordinator</h1>
@@ -69,7 +69,7 @@ permalink: /vanilla-roguelike/12-world-coordinator/
 
 <p>The update flow:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/ae96e47f7b506b0370bf3cedceb1a88762adae766aa52d8b3cb7c438fb3e67a9.svg" alt="D2 diagram: 1. Game calls world.update()"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/ae96e47f7b506b0370bf3cedceb1a88762adae766aa52d8b3cb7c438fb3e67a9.svg" alt="D2 diagram: 1. Game calls world.update()"></figure>
 
 <h3 id="system-execution-order">System Execution Order</h3>
 
@@ -219,7 +219,7 @@ permalink: /vanilla-roguelike/12-world-coordinator/
 
 <h3 id="event-flow">Event Flow</h3>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/4afa5139f3fcd5320a7d1e75cc4ef57a054a31207a93e852d830991825245ffd.svg" alt="D2 diagram: System Emits Event"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/4afa5139f3fcd5320a7d1e75cc4ef57a054a31207a93e852d830991825245ffd.svg" alt="D2 diagram: System Emits Event"></figure>
 
 <h2 id="entity-management">Entity Management</h2>
 
@@ -279,7 +279,7 @@ permalink: /vanilla-roguelike/12-world-coordinator/
 
 <p>Here’s how the world coordinates everything:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/8bf278f101c7c27849fc4a0803b88600350d4a42cd39a25cf859158fbd08032e.svg" alt="D2 diagram: World state (what the World owns)"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/8bf278f101c7c27849fc4a0803b88600350d4a42cd39a25cf859158fbd08032e.svg" alt="D2 diagram: World state (what the World owns)"></figure>
 
 <h2 id="key-takeaway">Key Takeaway</h2>
 
@@ -305,7 +305,7 @@ permalink: /vanilla-roguelike/12-world-coordinator/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/11-ecs-systems/">&larr; Building ECS — Systems</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/13-input-movement/">Input and Movement &rarr;</a>
+  <a href="/books/vanilla-roguelike/11-ecs-systems/">&larr; Building ECS — Systems</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/13-input-movement/">Input and Movement &rarr;</a>
 </nav>

@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "The Architecture Problem"
-permalink: /vanilla-roguelike/08-architecture-problem/
+permalink: /books/vanilla-roguelike/08-architecture-problem/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/07-beyond-mazes/">&larr; Beyond Mazes — Procedural Content</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/09-intro-ecs/">Introduction to Entity-Component-System (ECS) &rarr;</a>
+  <a href="/books/vanilla-roguelike/07-beyond-mazes/">&larr; Beyond Mazes — Procedural Content</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/09-intro-ecs/">Introduction to Entity-Component-System (ECS) &rarr;</a>
 </nav>
 
 <h1 id="chapter-8-the-architecture-problem">Chapter 8: The Architecture Problem</h1>
@@ -221,7 +221,7 @@ hence my assumption). We can't move forward until we fix this issue.
 
 <p>The solution isn’t to avoid architecture—it’s to choose the right one. For roguelikes, Entity-Component-System (ECS) provides a pattern that:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/e248f4f79981f34a8e0564433abc89ae13d7d3480b5d93fc4befde2fdc2cebe6.svg" alt="D2 diagram: Naive Approach"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/e248f4f79981f34a8e0564433abc89ae13d7d3480b5d93fc4befde2fdc2cebe6.svg" alt="D2 diagram: Naive Approach"></figure>
 
 <ul>
   <li>Separates data from behavior</li>
@@ -256,7 +256,7 @@ hence my assumption). We can't move forward until we fix this issue.
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/07-beyond-mazes/">&larr; Beyond Mazes — Procedural Content</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/09-intro-ecs/">Introduction to Entity-Component-System (ECS) &rarr;</a>
+  <a href="/books/vanilla-roguelike/07-beyond-mazes/">&larr; Beyond Mazes — Procedural Content</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/09-intro-ecs/">Introduction to Entity-Component-System (ECS) &rarr;</a>
 </nav>

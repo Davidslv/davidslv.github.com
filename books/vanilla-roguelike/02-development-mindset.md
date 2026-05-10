@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "The Development Mindset"
-permalink: /vanilla-roguelike/02-development-mindset/
+permalink: /books/vanilla-roguelike/02-development-mindset/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/01-what-is-a-roguelike/">&larr; What is a Roguelike?</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/03-first-prototype/">Your First Playable Prototype &rarr;</a>
+  <a href="/books/vanilla-roguelike/01-what-is-a-roguelike/">&larr; What is a Roguelike?</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/03-first-prototype/">Your First Playable Prototype &rarr;</a>
 </nav>
 
 <h1 id="chapter-2-the-development-mindset">Chapter 2: The Development Mindset</h1>
@@ -64,7 +64,7 @@ permalink: /vanilla-roguelike/02-development-mindset/
 
 <p>Start with the simplest possible version that works, then add one feature at a time.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/2c50a6cc06a5264c5a4fdba3c9f8bb5985729884848d8a43fd4e5f3d2822b347.svg" alt="D2 diagram: Phase 1: Foundation"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/2c50a6cc06a5264c5a4fdba3c9f8bb5985729884848d8a43fd4e5f3d2822b347.svg" alt="D2 diagram: Phase 1: Foundation"></figure>
 
 <p><strong>Phase 1: Foundation</strong></p>
 <ul>
@@ -147,7 +147,7 @@ permalink: /vanilla-roguelike/02-development-mindset/
 
 <p>This is the “breaking point”—the moment when you must choose: continue with a broken architecture, or refactor.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/056f8936b16bab35f620ff42d96cf3b5e66d872b89e274d54ba419f9da51dc6f.svg" alt="D2 diagram: Start: Simple Code"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/056f8936b16bab35f620ff42d96cf3b5e66d872b89e274d54ba419f9da51dc6f.svg" alt="D2 diagram: Start: Simple Code"></figure>
 
 <h3 id="recognizing-the-breaking-point">Recognizing the Breaking Point</h3>
 
@@ -229,7 +229,7 @@ permalink: /vanilla-roguelike/02-development-mindset/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/01-what-is-a-roguelike/">&larr; What is a Roguelike?</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/03-first-prototype/">Your First Playable Prototype &rarr;</a>
+  <a href="/books/vanilla-roguelike/01-what-is-a-roguelike/">&larr; What is a Roguelike?</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/03-first-prototype/">Your First Playable Prototype &rarr;</a>
 </nav>

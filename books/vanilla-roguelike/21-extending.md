@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Extending Your Game"
-permalink: /vanilla-roguelike/21-extending/
+permalink: /books/vanilla-roguelike/21-extending/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/20-performance/">&larr; Performance Considerations</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/22-journey/">Your Roguelike Journey &rarr;</a>
+  <a href="/books/vanilla-roguelike/20-performance/">&larr; Performance Considerations</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/22-journey/">Your Roguelike Journey &rarr;</a>
 </nav>
 
 <h1 id="chapter-21-extending-your-game">Chapter 21: Extending Your Game</h1>
@@ -97,7 +97,7 @@ permalink: /vanilla-roguelike/21-extending/
 
 <h2 id="extension-patterns">Extension Patterns</h2>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/35fbeeaf5dd6b3aa27173d4b0b1deab477b21363aa1c8409500c6def526ccd35.svg" alt="D2 diagram: Pattern 1: Component + System"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/35fbeeaf5dd6b3aa27173d4b0b1deab477b21363aa1c8409500c6def526ccd35.svg" alt="D2 diagram: Pattern 1: Component + System"></figure>
 
 <h3 id="pattern-1-component--system">Pattern 1: Component + System</h3>
 
@@ -189,7 +189,7 @@ permalink: /vanilla-roguelike/21-extending/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/20-performance/">&larr; Performance Considerations</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/22-journey/">Your Roguelike Journey &rarr;</a>
+  <a href="/books/vanilla-roguelike/20-performance/">&larr; Performance Considerations</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/22-journey/">Your Roguelike Journey &rarr;</a>
 </nav>

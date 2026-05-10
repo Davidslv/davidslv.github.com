@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Collision and Interaction"
-permalink: /vanilla-roguelike/14-collision-interaction/
+permalink: /books/vanilla-roguelike/14-collision-interaction/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/13-input-movement/">&larr; Input and Movement</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/15-combat-system/">Combat System &rarr;</a>
+  <a href="/books/vanilla-roguelike/13-input-movement/">&larr; Input and Movement</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/15-combat-system/">Combat System &rarr;</a>
 </nav>
 
 <h1 id="chapter-14-collision-and-interaction">Chapter 14: Collision and Interaction</h1>
@@ -16,7 +16,7 @@ permalink: /vanilla-roguelike/14-collision-interaction/
 
 <p>In a grid-based roguelike, collision detection is simple: two entities collide if they’re at the same position. No complex physics calculations needed.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/0b593bb6566e7d7df7aa03982826035317de7d72019fe656acb4dd1ae498b8e3.svg" alt="D2 diagram: 1. MovementSystem moves Entity1 to a new position"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/0b593bb6566e7d7df7aa03982826035317de7d72019fe656acb4dd1ae498b8e3.svg" alt="D2 diagram: 1. MovementSystem moves Entity1 to a new position"></figure>
 
 <h3 id="collisionsystem-detecting-collisions">CollisionSystem: Detecting Collisions</h3>
 
@@ -183,7 +183,7 @@ permalink: /vanilla-roguelike/14-collision-interaction/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/13-input-movement/">&larr; Input and Movement</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/15-combat-system/">Combat System &rarr;</a>
+  <a href="/books/vanilla-roguelike/13-input-movement/">&larr; Input and Movement</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/15-combat-system/">Combat System &rarr;</a>
 </nav>

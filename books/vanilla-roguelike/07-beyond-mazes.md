@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Beyond Mazes — Procedural Content"
-permalink: /vanilla-roguelike/07-beyond-mazes/
+permalink: /books/vanilla-roguelike/07-beyond-mazes/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/06-algorithm-diversity/">&larr; Exploring Algorithm Diversity</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/08-architecture-problem/">The Architecture Problem &rarr;</a>
+  <a href="/books/vanilla-roguelike/06-algorithm-diversity/">&larr; Exploring Algorithm Diversity</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/08-architecture-problem/">The Architecture Problem &rarr;</a>
 </nav>
 
 <h1 id="chapter-7-beyond-mazes---procedural-content">Chapter 7: Beyond Mazes - Procedural Content</h1>
@@ -135,7 +135,7 @@ permalink: /vanilla-roguelike/07-beyond-mazes/
 
 <h3 id="seed-based-generation-flow">Seed-Based Generation Flow</h3>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/c678991aca4e8872baa1869581dc332d4dd322316ce616565f04b4ca5c79e2e7.svg" alt="D2 diagram: Game Starts"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/c678991aca4e8872baa1869581dc332d4dd322316ce616565f04b4ca5c79e2e7.svg" alt="D2 diagram: Game Starts"></figure>
 
 <p>Same seed + same algorithm = same level. This predictability is crucial for debugging and testing.</p>
 
@@ -243,7 +243,7 @@ permalink: /vanilla-roguelike/07-beyond-mazes/
 
 <p>Level generation in Vanilla follows this flow:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/34f955ef904a4aa855a2ec2767ece753e4e8651046e7501fa62e98aa8872e4bd.svg" alt="D2 diagram: 1. Game requests Generate Level (difficulty, seed)"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/34f955ef904a4aa855a2ec2767ece753e4e8651046e7501fa62e98aa8872e4bd.svg" alt="D2 diagram: 1. Game requests Generate Level (difficulty, seed)"></figure>
 
 <p>Each step uses the seed for reproducibility, and difficulty affects entity placement.</p>
 
@@ -271,7 +271,7 @@ permalink: /vanilla-roguelike/07-beyond-mazes/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/06-algorithm-diversity/">&larr; Exploring Algorithm Diversity</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/08-architecture-problem/">The Architecture Problem &rarr;</a>
+  <a href="/books/vanilla-roguelike/06-algorithm-diversity/">&larr; Exploring Algorithm Diversity</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/08-architecture-problem/">The Architecture Problem &rarr;</a>
 </nav>
