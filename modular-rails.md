@@ -37,7 +37,11 @@ Senior Ruby on Rails developers, tech leads, and engineering managers who have f
 
 ## What makes this book different
 
-Every chapter includes working code. A companion open-source application ([Orbit](https://github.com/Davidslv/orbit)) lets you see the patterns in action — clone it, run it, and explore a fully modular Ruby on Rails application yourself.
+Every chapter includes working code. Three open-source repositories track the book at increasing levels of architectural commitment:
+
+- **[Orbit](https://github.com/Davidslv/orbit)** — the worked example for Parts II and III. Three engines, deliberately small enough to read in an afternoon.
+- **[seams](https://github.com/Davidslv/seams)** — a CLI framework that ships the patterns the book teaches as opinionated generators. Auth, accounts, billing, notifications, teams, and admin engines, all installable into any Rails 8 host with `bin/rails generate seams:<engine>`.
+- **[seams-example](https://github.com/Davidslv/seams-example)** — a reference Rails 8 host wiring all six canonical seams engines end-to-end. The "what does this look like in production shape" answer.
 
 Four parts. Eighteen chapters. From principles to practice to the hard questions most architecture books skip.
 
@@ -110,6 +114,10 @@ He is the founder of [CarerNotes](https://carernotes.uk), and the author of [Bui
 
 ---
 
-## Companion application
+## Companion code
 
-[Orbit](https://github.com/Davidslv/orbit) is the open-source companion application for this book. It demonstrates a fully modular Ruby on Rails application built with engines, showing the patterns from every chapter in working code.
+Three open-source repositories accompany the book at increasing levels of architectural commitment. Read the book first, then explore each in order:
+
+1. **[Orbit](https://github.com/Davidslv/orbit)** — the original worked example. A small, focused Rails app demonstrating the engine pattern from Parts II and III, deliberately kept simple enough to read in an afternoon.
+2. **[seams](https://github.com/Davidslv/seams)** — a CLI framework that ships the patterns from this book as opinionated generators. Auth, accounts, billing, notifications, teams, and admin engines, all installable into any Rails 8 host with `bin/rails generate seams:<engine>`. The book's later chapters reference seams directly.
+3. **[seams-example](https://github.com/Davidslv/seams-example)** — a reference Rails 8 host wiring all six canonical seams engines, regenerated against seams main on every release. The "what does a real production-shaped seams app look like" answer.
