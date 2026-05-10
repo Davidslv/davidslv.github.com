@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Your Roguelike Journey"
-permalink: /vanilla-roguelike/22-journey/
+permalink: /books/vanilla-roguelike/22-journey/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/21-extending/">&larr; Extending Your Game</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/23-about-the-author/">About the Author &rarr;</a>
+  <a href="/books/vanilla-roguelike/21-extending/">&larr; Extending Your Game</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/23-about-the-author/">About the Author &rarr;</a>
 </nav>
 
 <h1 id="chapter-22-your-roguelike-journey">Chapter 22: Your Roguelike Journey</h1>
@@ -16,7 +16,7 @@ permalink: /vanilla-roguelike/22-journey/
 
 <p>Building a roguelike teaches you more than just game development. You’ve learned:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/d3f1238d462b613832961fcffa9392e613849de8455306796133c93d51d8ad97.svg" alt="D2 diagram: Roguelike Journey"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/d3f1238d462b613832961fcffa9392e613849de8455306796133c93d51d8ad97.svg" alt="D2 diagram: Roguelike Journey"></figure>
 
 <h3 id="algorithms">Algorithms</h3>
 
@@ -164,7 +164,7 @@ David Silva</p>
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/21-extending/">&larr; Extending Your Game</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/23-about-the-author/">About the Author &rarr;</a>
+  <a href="/books/vanilla-roguelike/21-extending/">&larr; Extending Your Game</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/23-about-the-author/">About the Author &rarr;</a>
 </nav>

@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Introduction to Entity-Component-System (ECS)"
-permalink: /vanilla-roguelike/09-intro-ecs/
+permalink: /books/vanilla-roguelike/09-intro-ecs/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/08-architecture-problem/">&larr; The Architecture Problem</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/10-ecs-entities-components/">Building ECS — Entities and Components &rarr;</a>
+  <a href="/books/vanilla-roguelike/08-architecture-problem/">&larr; The Architecture Problem</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/10-ecs-entities-components/">Building ECS — Entities and Components &rarr;</a>
 </nav>
 
 <h1 id="chapter-9-introduction-to-entity-component-system-ecs">Chapter 9: Introduction to Entity-Component-System (ECS)</h1>
@@ -171,7 +171,7 @@ permalink: /vanilla-roguelike/09-intro-ecs/
 
 <p>Here’s how ECS works in practice:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/d308674b511c37f9c81f8917ab905080aa5819393330b14f129e4b6d25afbd9e.svg" alt="D2 diagram: Create Entity"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/d308674b511c37f9c81f8917ab905080aa5819393330b14f129e4b6d25afbd9e.svg" alt="D2 diagram: Create Entity"></figure>
 
 <ol>
   <li><strong>Create Entity</strong>: Make a new entity (just an ID)</li>
@@ -187,7 +187,7 @@ permalink: /vanilla-roguelike/09-intro-ecs/
 
 <p>Understanding how Entities, Components, Systems, and World relate to each other is crucial:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/592c54fd5f7fc015122768c24466d6e959bb03b956e032061992858a8a62b09e.svg" alt="D2 diagram: World (coordinator)"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/592c54fd5f7fc015122768c24466d6e959bb03b956e032061992858a8a62b09e.svg" alt="D2 diagram: World (coordinator)"></figure>
 
 <p><strong>The relationship:</strong></p>
 <ul>
@@ -212,7 +212,7 @@ permalink: /vanilla-roguelike/09-intro-ecs/
 
 <h2 id="ecs-vs-traditional-oop">ECS vs. Traditional OOP</h2>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/2338161ea5694b2b2643c0bf0b5bddc8cc368f8fd0015f822d39bdbff4b53b9d.svg" alt="D2 diagram: Traditional OOP — each class bundles state + methods"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/2338161ea5694b2b2643c0bf0b5bddc8cc368f8fd0015f822d39bdbff4b53b9d.svg" alt="D2 diagram: Traditional OOP — each class bundles state + methods"></figure>
 
 <p><strong>Traditional OOP:</strong></p>
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Player</span>
@@ -272,7 +272,7 @@ permalink: /vanilla-roguelike/09-intro-ecs/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/08-architecture-problem/">&larr; The Architecture Problem</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/10-ecs-entities-components/">Building ECS — Entities and Components &rarr;</a>
+  <a href="/books/vanilla-roguelike/08-architecture-problem/">&larr; The Architecture Problem</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/10-ecs-entities-components/">Building ECS — Entities and Components &rarr;</a>
 </nav>

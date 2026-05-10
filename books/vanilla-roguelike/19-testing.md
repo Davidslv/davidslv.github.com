@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Testing Your Roguelike"
-permalink: /vanilla-roguelike/19-testing/
+permalink: /books/vanilla-roguelike/19-testing/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/18-event-driven/">&larr; Event-Driven Architecture</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/20-performance/">Performance Considerations &rarr;</a>
+  <a href="/books/vanilla-roguelike/18-event-driven/">&larr; Event-Driven Architecture</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/20-performance/">Performance Considerations &rarr;</a>
 </nav>
 
 <h1 id="chapter-19-testing-your-roguelike">Chapter 19: Testing Your Roguelike</h1>
@@ -16,7 +16,7 @@ permalink: /vanilla-roguelike/19-testing/
 
 <p>ECS architecture makes testing easier because systems are independent. You can test a system without setting up the entire game.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/331919ccd0fe79bc7133297a139b61e3f3d65131b4cb3ce9087647e88719b760.svg" alt="D2 diagram: Unit Tests"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/331919ccd0fe79bc7133297a139b61e3f3d65131b4cb3ce9087647e88719b760.svg" alt="D2 diagram: Unit Tests"></figure>
 
 <h3 id="testing-a-system">Testing a System</h3>
 
@@ -154,7 +154,7 @@ permalink: /vanilla-roguelike/19-testing/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/18-event-driven/">&larr; Event-Driven Architecture</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/20-performance/">Performance Considerations &rarr;</a>
+  <a href="/books/vanilla-roguelike/18-event-driven/">&larr; Event-Driven Architecture</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/20-performance/">Performance Considerations &rarr;</a>
 </nav>

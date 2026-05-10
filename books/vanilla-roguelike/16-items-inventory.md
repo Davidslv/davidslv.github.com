@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Items and Inventory"
-permalink: /vanilla-roguelike/16-items-inventory/
+permalink: /books/vanilla-roguelike/16-items-inventory/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/15-combat-system/">&larr; Combat System</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/17-ai-monsters/">AI and Monsters &rarr;</a>
+  <a href="/books/vanilla-roguelike/15-combat-system/">&larr; Combat System</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/17-ai-monsters/">AI and Monsters &rarr;</a>
 </nav>
 
 <h1 id="chapter-16-items-and-inventory">Chapter 16: Items and Inventory</h1>
@@ -119,7 +119,7 @@ permalink: /vanilla-roguelike/16-items-inventory/
 
 <p>Items interact with entities through systems:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/0ac9ad1e28dfb5d9cfbfe1d0bf6ef0e6f1f4bd32d124127cd723aab82dda7476.svg" alt="D2 diagram: Item Spawned"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/0ac9ad1e28dfb5d9cfbfe1d0bf6ef0e6f1f4bd32d124127cd723aab82dda7476.svg" alt="D2 diagram: Item Spawned"></figure>
 
 <p><strong>Pickup:</strong></p>
 <ul>
@@ -220,7 +220,7 @@ permalink: /vanilla-roguelike/16-items-inventory/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/15-combat-system/">&larr; Combat System</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/17-ai-monsters/">AI and Monsters &rarr;</a>
+  <a href="/books/vanilla-roguelike/15-combat-system/">&larr; Combat System</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/17-ai-monsters/">AI and Monsters &rarr;</a>
 </nav>

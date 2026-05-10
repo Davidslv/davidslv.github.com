@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Combat System"
-permalink: /vanilla-roguelike/15-combat-system/
+permalink: /books/vanilla-roguelike/15-combat-system/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/14-collision-interaction/">&larr; Collision and Interaction</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/16-items-inventory/">Items and Inventory &rarr;</a>
+  <a href="/books/vanilla-roguelike/14-collision-interaction/">&larr; Collision and Interaction</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/16-items-inventory/">Items and Inventory &rarr;</a>
 </nav>
 
 <h1 id="chapter-15-combat-system">Chapter 15: Combat System</h1>
@@ -16,7 +16,7 @@ permalink: /vanilla-roguelike/15-combat-system/
 
 <p>Combat in Vanilla is turn-based and simple: attacker rolls against defender, damage is calculated, health is reduced.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/c1b120c7a6e6e89eb0a0f70909adbd58f53d8566a35a13905c4fc25f8ff178c9.svg" alt="D2 diagram: Combat Initiated"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/c1b120c7a6e6e89eb0a0f70909adbd58f53d8566a35a13905c4fc25f8ff178c9.svg" alt="D2 diagram: Combat Initiated"></figure>
 
 <h3 id="combatsystem-processing-attacks">CombatSystem: Processing Attacks</h3>
 
@@ -196,7 +196,7 @@ permalink: /vanilla-roguelike/15-combat-system/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/14-collision-interaction/">&larr; Collision and Interaction</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/16-items-inventory/">Items and Inventory &rarr;</a>
+  <a href="/books/vanilla-roguelike/14-collision-interaction/">&larr; Collision and Interaction</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/16-items-inventory/">Items and Inventory &rarr;</a>
 </nav>

@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Input and Movement"
-permalink: /vanilla-roguelike/13-input-movement/
+permalink: /books/vanilla-roguelike/13-input-movement/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/12-world-coordinator/">&larr; The World Coordinator</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/14-collision-interaction/">Collision and Interaction &rarr;</a>
+  <a href="/books/vanilla-roguelike/12-world-coordinator/">&larr; The World Coordinator</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/14-collision-interaction/">Collision and Interaction &rarr;</a>
 </nav>
 
 <h1 id="chapter-13-input-and-movement">Chapter 13: Input and Movement</h1>
@@ -18,7 +18,7 @@ permalink: /vanilla-roguelike/13-input-movement/
 
 <h3 id="the-input-flow">The Input Flow</h3>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/665c3b09682dcef2dcb5ee952a58a866cbfe7aa1732a95b5e3096cd5a4a2ae53.svg" alt="D2 diagram: 1. Keyboard registers a key press"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/665c3b09682dcef2dcb5ee952a58a866cbfe7aa1732a95b5e3096cd5a4a2ae53.svg" alt="D2 diagram: 1. Keyboard registers a key press"></figure>
 
 <h3 id="inputhandler-converting-keys-to-commands">InputHandler: Converting Keys to Commands</h3>
 
@@ -319,7 +319,7 @@ permalink: /vanilla-roguelike/13-input-movement/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/12-world-coordinator/">&larr; The World Coordinator</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/14-collision-interaction/">Collision and Interaction &rarr;</a>
+  <a href="/books/vanilla-roguelike/12-world-coordinator/">&larr; The World Coordinator</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/14-collision-interaction/">Collision and Interaction &rarr;</a>
 </nav>

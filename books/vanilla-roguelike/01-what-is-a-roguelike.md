@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "What is a Roguelike?"
-permalink: /vanilla-roguelike/01-what-is-a-roguelike/
+permalink: /books/vanilla-roguelike/01-what-is-a-roguelike/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <span></span>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/02-development-mindset/">The Development Mindset &rarr;</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/02-development-mindset/">The Development Mindset &rarr;</a>
 </nav>
 
 <h1 id="chapter-1-what-is-a-roguelike">Chapter 1: What is a Roguelike?</h1>
@@ -24,7 +24,7 @@ permalink: /vanilla-roguelike/01-what-is-a-roguelike/
 
 <p>What makes a roguelike a roguelike? While there’s some debate in the community, most agree on these fundamental characteristics:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/dfe6926e42f09e5c1508d749d2d022914f340a8bbfdaaa1278239465d05fd619.svg" alt="D2 diagram: Procedural Generation"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/dfe6926e42f09e5c1508d749d2d022914f340a8bbfdaaa1278239465d05fd619.svg" alt="D2 diagram: Procedural Generation"></figure>
 
 <h3 id="procedural-generation">Procedural Generation</h3>
 
@@ -72,7 +72,7 @@ permalink: /vanilla-roguelike/01-what-is-a-roguelike/
 
 <p>Building a roguelike from scratch teaches you more than just game development. It’s a masterclass in:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/787262d0f0d348b74a5938ed293a3a9a6364761d64e602cf4222518858156e03.svg" alt="D2 diagram: Roguelike Learning"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/787262d0f0d348b74a5938ed293a3a9a6364761d64e602cf4222518858156e03.svg" alt="D2 diagram: Roguelike Learning"></figure>
 
 <h3 id="algorithms">Algorithms</h3>
 
@@ -127,6 +127,6 @@ permalink: /vanilla-roguelike/01-what-is-a-roguelike/
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <span></span>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/02-development-mindset/">The Development Mindset &rarr;</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/02-development-mindset/">The Development Mindset &rarr;</a>
 </nav>

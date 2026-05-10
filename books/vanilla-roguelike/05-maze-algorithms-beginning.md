@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Maze Generation Algorithms"
-permalink: /vanilla-roguelike/05-maze-algorithms-beginning/
+permalink: /books/vanilla-roguelike/05-maze-algorithms-beginning/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/04-grids-and-cells/">&larr; Understanding Grids and Cells</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/06-algorithm-diversity/">Exploring Algorithm Diversity &rarr;</a>
+  <a href="/books/vanilla-roguelike/04-grids-and-cells/">&larr; Understanding Grids and Cells</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/06-algorithm-diversity/">Exploring Algorithm Diversity &rarr;</a>
 </nav>
 
 <h1 id="chapter-5-maze-generation-algorithms">Chapter 5: Maze Generation Algorithms</h1>
@@ -125,7 +125,7 @@ After processing (example):
 
 <h3 id="the-algorithm-flow">The Algorithm Flow</h3>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/5c7a0bb7f39398a21e1323f009e611bead1280028680fa6234bb4c9d0b506d51.svg" alt="D2 diagram: Start: Create Grid"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/5c7a0bb7f39398a21e1323f009e611bead1280028680fa6234bb4c9d0b506d51.svg" alt="D2 diagram: Start: Create Grid"></figure>
 
 <h3 id="understanding-the-randomness">Understanding the Randomness</h3>
 
@@ -179,7 +179,7 @@ After processing (example):
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/04-grids-and-cells/">&larr; Understanding Grids and Cells</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/06-algorithm-diversity/">Exploring Algorithm Diversity &rarr;</a>
+  <a href="/books/vanilla-roguelike/04-grids-and-cells/">&larr; Understanding Grids and Cells</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/06-algorithm-diversity/">Exploring Algorithm Diversity &rarr;</a>
 </nav>

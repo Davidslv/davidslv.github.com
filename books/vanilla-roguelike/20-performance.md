@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Performance Considerations"
-permalink: /vanilla-roguelike/20-performance/
+permalink: /books/vanilla-roguelike/20-performance/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/19-testing/">&larr; Testing Your Roguelike</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/21-extending/">Extending Your Game &rarr;</a>
+  <a href="/books/vanilla-roguelike/19-testing/">&larr; Testing Your Roguelike</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/21-extending/">Extending Your Game &rarr;</a>
 </nav>
 
 <h1 id="chapter-20-performance-considerations">Chapter 20: Performance Considerations</h1>
@@ -16,7 +16,7 @@ permalink: /vanilla-roguelike/20-performance/
 
 <p>Premature optimization is the root of all evil. Optimize when you have a problem, not before.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/44df90e29d75273472f40d299d6668d215114dc344bd4a206212a28f86a09473.svg" alt="D2 diagram: Build it · Make it work"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/44df90e29d75273472f40d299d6668d215114dc344bd4a206212a28f86a09473.svg" alt="D2 diagram: Build it · Make it work"></figure>
 
 <h3 id="the-optimization-process">The Optimization Process</h3>
 
@@ -165,7 +165,7 @@ permalink: /vanilla-roguelike/20-performance/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/19-testing/">&larr; Testing Your Roguelike</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/21-extending/">Extending Your Game &rarr;</a>
+  <a href="/books/vanilla-roguelike/19-testing/">&larr; Testing Your Roguelike</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/21-extending/">Extending Your Game &rarr;</a>
 </nav>

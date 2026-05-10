@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "AI and Monsters"
-permalink: /vanilla-roguelike/17-ai-monsters/
+permalink: /books/vanilla-roguelike/17-ai-monsters/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/16-items-inventory/">&larr; Items and Inventory</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/18-event-driven/">Event-Driven Architecture &rarr;</a>
+  <a href="/books/vanilla-roguelike/16-items-inventory/">&larr; Items and Inventory</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/18-event-driven/">Event-Driven Architecture &rarr;</a>
 </nav>
 
 <h1 id="chapter-17-ai-and-monsters">Chapter 17: AI and Monsters</h1>
@@ -16,7 +16,7 @@ permalink: /vanilla-roguelike/17-ai-monsters/
 
 <p>Monster AI in Vanilla is simple but effective. Monsters either move randomly or toward the player.</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/643313fc9d077aa24b7585d1b8df3af1d20fc7b269bffc9e7bcad14ff3b2261c.svg" alt="D2 diagram: MonsterSystem update:\nGet Monster and Player positions,\ncalculate direction to player"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/643313fc9d077aa24b7585d1b8df3af1d20fc7b269bffc9e7bcad14ff3b2261c.svg" alt="D2 diagram: MonsterSystem update:\nGet Monster and Player positions,\ncalculate direction to player"></figure>
 
 <h3 id="monstersystem-managing-monsters">MonsterSystem: Managing Monsters</h3>
 
@@ -146,7 +146,7 @@ permalink: /vanilla-roguelike/17-ai-monsters/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/16-items-inventory/">&larr; Items and Inventory</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/18-event-driven/">Event-Driven Architecture &rarr;</a>
+  <a href="/books/vanilla-roguelike/16-items-inventory/">&larr; Items and Inventory</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/18-event-driven/">Event-Driven Architecture &rarr;</a>
 </nav>

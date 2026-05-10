@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Exploring Algorithm Diversity"
-permalink: /vanilla-roguelike/06-algorithm-diversity/
+permalink: /books/vanilla-roguelike/06-algorithm-diversity/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/05-maze-algorithms-beginning/">&larr; Maze Generation Algorithms</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/07-beyond-mazes/">Beyond Mazes — Procedural Content &rarr;</a>
+  <a href="/books/vanilla-roguelike/05-maze-algorithms-beginning/">&larr; Maze Generation Algorithms</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/07-beyond-mazes/">Beyond Mazes — Procedural Content &rarr;</a>
 </nav>
 
 <h1 id="chapter-6-exploring-algorithm-diversity">Chapter 6: Exploring Algorithm Diversity</h1>
@@ -62,7 +62,7 @@ permalink: /vanilla-roguelike/06-algorithm-diversity/
 
 <p>The algorithm performs a random walk through the grid:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/113b6f91e247115dab21662c7db402d20cdccc8784bc074163e89d655660c170.svg" alt="D2 diagram: Start: Random Cell"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/113b6f91e247115dab21662c7db402d20cdccc8784bc074163e89d655660c170.svg" alt="D2 diagram: Start: Random Cell"></figure>
 
 <h3 id="characteristics">Characteristics</h3>
 
@@ -186,7 +186,7 @@ permalink: /vanilla-roguelike/06-algorithm-diversity/
 
 <p>The algorithm uses a stack to track the current path:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/153d6775e0dcee36f00ff521c8454bc51275495c951e51744fffd9445c693c24.svg" alt="D2 diagram: Start: Random Cell on Stack"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/153d6775e0dcee36f00ff521c8454bc51275495c951e51744fffd9445c693c24.svg" alt="D2 diagram: Start: Random Cell on Stack"></figure>
 
 <h3 id="characteristics-1">Characteristics</h3>
 
@@ -402,7 +402,7 @@ permalink: /vanilla-roguelike/06-algorithm-diversity/
 
 <p>Here’s a quick comparison:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/76ae951c892df79ed0dd5cec9ce3b2f9821517aeee0227ba171c1bd72f747a4b.svg" alt="D2 diagram: Algorithm Comparison"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/76ae951c892df79ed0dd5cec9ce3b2f9821517aeee0227ba171c1bd72f747a4b.svg" alt="D2 diagram: Algorithm Comparison"></figure>
 
 <table>
   <thead>
@@ -539,7 +539,7 @@ permalink: /vanilla-roguelike/06-algorithm-diversity/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/05-maze-algorithms-beginning/">&larr; Maze Generation Algorithms</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/07-beyond-mazes/">Beyond Mazes — Procedural Content &rarr;</a>
+  <a href="/books/vanilla-roguelike/05-maze-algorithms-beginning/">&larr; Maze Generation Algorithms</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/07-beyond-mazes/">Beyond Mazes — Procedural Content &rarr;</a>
 </nav>

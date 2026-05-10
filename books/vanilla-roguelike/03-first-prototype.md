@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Your First Playable Prototype"
-permalink: /vanilla-roguelike/03-first-prototype/
+permalink: /books/vanilla-roguelike/03-first-prototype/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/02-development-mindset/">&larr; The Development Mindset</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/04-grids-and-cells/">Understanding Grids and Cells &rarr;</a>
+  <a href="/books/vanilla-roguelike/02-development-mindset/">&larr; The Development Mindset</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/04-grids-and-cells/">Understanding Grids and Cells &rarr;</a>
 </nav>
 
 <h1 id="chapter-3-your-first-playable-prototype">Chapter 3: Your First Playable Prototype</h1>
@@ -37,7 +37,7 @@ permalink: /vanilla-roguelike/03-first-prototype/
 
 <p>Every game, from Pong to modern AAA titles, follows the same fundamental pattern:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/59af0b62c16bab3a11d8d638ee7ff8a6a22b0358106c7814294f127c4f1f19de.svg" alt="D2 diagram: Each game tick (repeat until game over)"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/59af0b62c16bab3a11d8d638ee7ff8a6a22b0358106c7814294f127c4f1f19de.svg" alt="D2 diagram: Each game tick (repeat until game over)"></figure>
 
 <pre><code>1. Process Input
 2. Update Game State
@@ -86,7 +86,7 @@ permalink: /vanilla-roguelike/03-first-prototype/
 
 <p>In a roguelike, the loop is slightly different because it’s turn-based:</p>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/6f2ff8f0e50e2b66920e78b506b32db0d93d24e5527cfc69938b1d114879b2b1.svg" alt="D2 diagram: 1. Player presses a key"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/6f2ff8f0e50e2b66920e78b506b32db0d93d24e5527cfc69938b1d114879b2b1.svg" alt="D2 diagram: 1. Player presses a key"></figure>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">game_loop</span>
   <span class="k">until</span> <span class="n">game_over?</span>
@@ -355,7 +355,7 @@ permalink: /vanilla-roguelike/03-first-prototype/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/02-development-mindset/">&larr; The Development Mindset</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/04-grids-and-cells/">Understanding Grids and Cells &rarr;</a>
+  <a href="/books/vanilla-roguelike/02-development-mindset/">&larr; The Development Mindset</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/04-grids-and-cells/">Understanding Grids and Cells &rarr;</a>
 </nav>

@@ -1,13 +1,13 @@
 ---
 layout: page
 title: "Event-Driven Architecture"
-permalink: /vanilla-roguelike/18-event-driven/
+permalink: /books/vanilla-roguelike/18-event-driven/
 ---
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/17-ai-monsters/">&larr; AI and Monsters</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/19-testing/">Testing Your Roguelike &rarr;</a>
+  <a href="/books/vanilla-roguelike/17-ai-monsters/">&larr; AI and Monsters</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/19-testing/">Testing Your Roguelike &rarr;</a>
 </nav>
 
 <h1 id="chapter-18-event-driven-architecture">Chapter 18: Event-Driven Architecture</h1>
@@ -124,7 +124,7 @@ permalink: /vanilla-roguelike/18-event-driven/
 
 <h2 id="event-flow">Event Flow</h2>
 
-<figure class="diagram"><img src="/img/vanilla-roguelike/ae5afc9c8c39b9a30963eda12533baae57ad8288d692412664496458ae097f85.svg" alt="D2 diagram: System Emits Event"></figure>
+<figure class="diagram"><img src="/img/books/vanilla-roguelike/ae5afc9c8c39b9a30963eda12533baae57ad8288d692412664496458ae097f85.svg" alt="D2 diagram: System Emits Event"></figure>
 
 <p>Events flow through the system:</p>
 <ol>
@@ -168,7 +168,7 @@ permalink: /vanilla-roguelike/18-event-driven/
 
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
-  <a href="/vanilla-roguelike/17-ai-monsters/">&larr; AI and Monsters</a>
-  <a href="/vanilla-roguelike/">Contents</a>
-  <a href="/vanilla-roguelike/19-testing/">Testing Your Roguelike &rarr;</a>
+  <a href="/books/vanilla-roguelike/17-ai-monsters/">&larr; AI and Monsters</a>
+  <a href="/books/vanilla-roguelike/">Contents</a>
+  <a href="/books/vanilla-roguelike/19-testing/">Testing Your Roguelike &rarr;</a>
 </nav>

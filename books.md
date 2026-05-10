@@ -62,6 +62,6 @@ permalink: /books/
   <p style="margin: 0 0 0.4em 0; font-size: 0.85em; font-weight: 700; letter-spacing: 0.12em; color: #8a6d3b; text-transform: uppercase;">Web</p>
   <p style="margin: 0 0 1em 0;">Designed to read on every screen — from your desktop down to your phone. Every chapter, every aside, every diagram, every code sample. Free. <em>Really.</em></p>
   <p style="margin: 0;">
-    <a href="/vanilla-roguelike/" style="display: inline-block; background: #c9a675; color: #fff; padding: 0.55em 1.4em; border-radius: 3px; text-decoration: none; font-weight: 600; letter-spacing: 0.02em;">Read Now</a>
+    <a href="/books/vanilla-roguelike/" style="display: inline-block; background: #c9a675; color: #fff; padding: 0.55em 1.4em; border-radius: 3px; text-decoration: none; font-weight: 600; letter-spacing: 0.02em;">Read Now</a>
   </p>
 </div>
