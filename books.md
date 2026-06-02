@@ -36,6 +36,10 @@ permalink: /books/
       </span>
     </div>
 
+    <p style="margin: 0 0 1em 0;">
+      <a href="https://shop.ingramspark.com/b/084?params=jujiQsRdXv3LI4AzjXdnp8mVeyWm3FLDBjRoAWRzVyC" style="display: inline-block; background: #fff; color: #8a6d3b; border: 1.5px solid #c9a675; padding: 0.5em 1.1em; border-radius: 3px; text-decoration: none; font-weight: 600; letter-spacing: 0.02em;">Buy on IngramSpark</a>
+    </p>
+
     <p style="margin: 0;"><a href="/modular-rails/">Learn more about the book</a></p>
   </div>
 </div>
