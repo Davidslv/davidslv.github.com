@@ -1,0 +1,71 @@
+---
+layout: default
+title: Games
+permalink: /games/
+---
+
+<style>
+  .games-intro { color: var(--meta-color); margin-bottom: 1.5rem; }
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .game-card {
+    display: block;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--background-alt);
+    color: inherit;
+    text-decoration: none;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .game-card:hover,
+  .game-card:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
+    border-color: var(--link-color);
+  }
+  .game-card .thumb {
+    display: block;
+    width: 100%;
+    aspect-ratio: 10 / 9;
+    object-fit: cover;
+    background: #101014;
+    image-rendering: pixelated;
+  }
+  .game-card .meta { padding: .85rem 1rem 1rem; }
+  .game-card .title { margin: 0; font-weight: 600; font-size: 1.1rem; }
+  .game-card .sub { margin: .3rem 0 0; color: var(--meta-color); font-size: .85rem; line-height: 1.35; }
+</style>
+
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">Games</h1>
+  </header>
+
+  <article class="post-content">
+    <p class="games-intro">
+      Small browser games written as &ldquo;play it as it was&rdquo; studies &mdash; original code on an
+      HTML canvas, no engine, no dependencies. Playable with the keyboard or a gamepad.
+    </p>
+
+    <ul class="games-grid">
+      <li>
+        <a class="game-card" href="{{ site.baseurl }}/games/rally/">
+          <img class="thumb" src="{{ site.baseurl }}/games/rally/thumb.png"
+               alt="Rally — a Game Boy Color-style pseudo-3D racer" width="640" height="576" loading="lazy">
+          <div class="meta">
+            <p class="title">Rally</p>
+            <p class="sub">A Game Boy Color&ndash;style pseudo-3D rally racer. Arrows / X to drive, or plug in a gamepad.</p>
+          </div>
+        </a>
+      </li>
+      <!-- Add more games here as <li> cards (e.g. tetris, smb) -->
+    </ul>
+  </article>
+</div>
