@@ -5,87 +5,91 @@ permalink: /games/
 ---
 
 <style>
-  .games-intro { color: var(--meta-color); margin-bottom: 1.5rem; }
-  .games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1.5rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+  .gs{ font-family:"Hanken Grotesk", system-ui, sans-serif; }
+  .gs-mast{ margin:.5rem 0 2.2rem; }
+  .gs-mast > *{ margin:0; }
+  .gs-kick{ font-family:"Space Mono", monospace; font-size:.7rem; letter-spacing:.16em; text-transform:uppercase; color:var(--meta-color); }
+  .gs-h1{ font-weight:800; font-size:clamp(40px,7vw,70px); line-height:.95; letter-spacing:-.025em; margin:.45rem 0 .55rem; color:var(--text-color); }
+  .gs-sub{ color:var(--meta-color); font-size:1.02rem; line-height:1.5; max-width:62ch; }
+  .gs-sub b{ color:var(--text-color); font-weight:600; }
+
+  .gs-shelf-h{ display:flex; align-items:center; gap:.8rem; margin:0 0 1.1rem; }
+  .gs-shelf-h .t{ font-family:"Space Mono",monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-color); }
+  .gs-shelf-h .r{ flex:1; height:1px; background:var(--border-color); }
+  .gs-shelf-h .c{ font-family:"Space Mono",monospace; font-size:.7rem; color:var(--meta-color); }
+
+  .gs-row{ display:grid; grid-template-columns:repeat(auto-fill,minmax(248px,1fr)); gap:1.3rem; margin:0; padding:0; list-style:none; }
+  .gs-plate{ display:flex; flex-direction:column; text-decoration:none; color:inherit; background:var(--background-alt);
+    border:1px solid var(--border-color); border-radius:12px; overflow:hidden;
+    transition:transform .14s ease, box-shadow .14s ease, border-color .14s ease; }
+  .gs-plate:hover,.gs-plate:focus-visible{ transform:translateY(-4px); box-shadow:0 12px 26px rgba(0,0,0,.18); border-color:var(--accent); }
+  .gs-thumb{ position:relative; aspect-ratio:16/10; overflow:hidden; background:#0d0f16; border-bottom:3px solid var(--accent); }
+  .gs-thumb img{ width:100%; height:100%; object-fit:cover; image-rendering:pixelated; display:block; }
+  .gs-flag{ position:absolute; top:9px; left:9px; font:700 .6rem/1 "Space Mono",monospace; letter-spacing:.12em; text-transform:uppercase;
+    color:#fff; background:var(--accent); padding:4px 8px; border-radius:5px; box-shadow:0 2px 8px rgba(0,0,0,.35); }
+  .gs-info{ display:flex; align-items:flex-start; gap:.6rem; padding:.8rem .9rem .95rem; }
+  .gs-sw{ width:10px; height:10px; border-radius:3px; background:var(--accent); flex:0 0 auto; margin-top:.32rem; }
+  .gs-tx{ display:flex; flex-direction:column; min-width:0; }
+  .gs-nm{ font-weight:700; font-size:1.08rem; line-height:1.1; color:var(--text-color); }
+  .gs-sub2{ color:var(--meta-color); font-size:.83rem; line-height:1.36; margin-top:.22rem; }
+  .gs-go{ margin-left:auto; align-self:flex-start; color:var(--meta-color); font-size:1.1rem; transition:transform .14s ease, color .14s ease; }
+  .gs-plate:hover .gs-go{ color:var(--accent); transform:translateX(3px); }
+  .p-stealth{ --accent:#5a57e0; } .p-rally{ --accent:#15a892; } .p-tetris{ --accent:#df4632; }
+
+  .gs-ghost{ background:transparent; border:1px dashed var(--border-color); }
+  .gs-ghost .gs-thumb{ background:transparent; border-bottom:3px dashed var(--border-color); display:flex; align-items:center; justify-content:center; }
+  .gs-ghost .gs-thumb span{ font-size:1.7rem; color:var(--meta-color); font-weight:300; }
+  .gs-ghost .gs-nm{ color:var(--meta-color); }
+  .gs-ghost:hover{ transform:none; box-shadow:none; border-color:var(--border-color); }
+
+  .gs-ledge{ height:8px; margin:1.1rem 3px 0; border-radius:0 0 7px 7px; background:var(--border-color); box-shadow:0 12px 20px rgba(0,0,0,.10); }
+
+  .gs-foot{ margin:1.8rem 0 0; color:var(--meta-color); font-size:.92rem; line-height:1.5; }
+  .gs-foot a{ color:var(--link-color); text-decoration:none; font-weight:600; }
+  .gs-foot a:hover{ text-decoration:underline; }
+
+  @media (max-width:600px){
+    .gs-h1{ font-size:clamp(38px,11vw,56px); }
+    .gs-sub{ font-size:.96rem; }
   }
-  .game-card {
-    display: block;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    overflow: hidden;
-    background: var(--background-alt);
-    color: inherit;
-    text-decoration: none;
-    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-  }
-  .game-card:hover,
-  .game-card:focus-visible {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
-    border-color: var(--link-color);
-  }
-  .game-card .thumb {
-    display: block;
-    width: 100%;
-    aspect-ratio: 10 / 9;
-    object-fit: cover;
-    background: #101014;
-    image-rendering: pixelated;
-  }
-  .game-card .meta { padding: .85rem 1rem 1rem; }
-  .game-card .title { margin: 0; font-weight: 600; font-size: 1.1rem; }
-  .game-card .sub { margin: .3rem 0 0; color: var(--meta-color); font-size: .85rem; line-height: 1.35; }
 </style>
 
-<div class="post">
-  <header class="post-header">
-    <h1 class="post-title">Games</h1>
+<div class="gs">
+  <header class="gs-mast">
+    <div class="gs-kick">davidslv &middot; game library &mdash; canvas 2D &middot; zero dependencies</div>
+    <h1 class="gs-h1">Games</h1>
+    <p class="gs-sub">Small games I build from scratch, one at a time &mdash; faithful studies of how they played, the 80s through the 2000s. <b>Three up now</b>; the shelf grows as I finish more.</p>
   </header>
 
-  <article class="post-content">
-    <p class="games-intro">
-      Small browser games written as &ldquo;play it as it was&rdquo; studies &mdash; original code on an
-      HTML canvas, no engine, no dependencies. Playable with the keyboard or a gamepad.
-    </p>
+  <section class="gs-shelf">
+    <div class="gs-shelf-h"><span class="t">Playable now</span><span class="r"></span><span class="c">3 games</span></div>
+    <div class="gs-row">
 
-    <ul class="games-grid">
-      <li>
-        <a class="game-card" href="{{ site.baseurl }}/games/rally/">
-          <img class="thumb" src="{{ site.baseurl }}/games/rally/thumb.png"
-               alt="Rally — a Game Boy Color-style pseudo-3D racer" width="640" height="576" loading="lazy">
-          <div class="meta">
-            <p class="title">Rally</p>
-            <p class="sub">A Game Boy Color&ndash;style pseudo-3D rally racer. Arrows / X to drive, or plug in a gamepad.</p>
-          </div>
-        </a>
-      </li>
-      <li>
-        <a class="game-card" href="{{ site.baseurl }}/games/tetris/">
-          <img class="thumb" src="{{ site.baseurl }}/games/tetris/thumb.png"
-               alt="Tetris — an NES-style falling-block game" width="560" height="608" loading="lazy">
-          <div class="meta">
-            <p class="title">Tetris</p>
-            <p class="sub">NES-style falling blocks, mechanics as they were. Arrows + Z/X, or plug in a gamepad.</p>
-          </div>
-        </a>
-      </li>
-      <li>
-        <a class="game-card" href="{{ site.baseurl }}/games/stealth/">
-          <img class="thumb" src="{{ site.baseurl }}/games/stealth/thumb.png"
-               alt="Stealth — a top-down stealth study" width="522" height="470" loading="lazy">
-          <div class="meta">
-            <p class="title">Stealth</p>
-            <p class="sub">Top-down stealth &mdash; slip past vision cones and patrols to the exit across a 20-level campaign. Arrows + Z, or plug in a gamepad.</p>
-          </div>
-        </a>
-      </li>
-      <!-- Add more games here as <li> cards (e.g. smb) -->
-    </ul>
-  </article>
+      <a class="gs-plate p-stealth" href="{{ site.baseurl }}/games/stealth/">
+        <div class="gs-thumb"><img src="{{ site.baseurl }}/games/stealth/thumb.png" alt="Stealth — top-down infiltration" width="522" height="470" loading="lazy"><span class="gs-flag">Flagship</span></div>
+        <div class="gs-info"><span class="gs-sw"></span><div class="gs-tx"><span class="gs-nm">Stealth</span><span class="gs-sub2">Top-down infiltration &mdash; read the cones, slip the patrols. A 20-level campaign.</span></div><span class="gs-go">&rarr;</span></div>
+      </a>
+
+      <a class="gs-plate p-rally" href="{{ site.baseurl }}/games/rally/">
+        <div class="gs-thumb"><img src="{{ site.baseurl }}/games/rally/thumb.png" alt="Rally — a Game Boy Color pseudo-3D racer" width="640" height="576" loading="lazy"></div>
+        <div class="gs-info"><span class="gs-sw"></span><div class="gs-tx"><span class="gs-nm">Rally</span><span class="gs-sub2">Game Boy Color pseudo-3D racer. Lean into the bends, never lift.</span></div><span class="gs-go">&rarr;</span></div>
+      </a>
+
+      <a class="gs-plate p-tetris" href="{{ site.baseurl }}/games/tetris/">
+        <div class="gs-thumb"><img src="{{ site.baseurl }}/games/tetris/thumb.png" alt="Tetris — an NES-style falling-block game" width="560" height="608" loading="lazy"></div>
+        <div class="gs-info"><span class="gs-sw"></span><div class="gs-tx"><span class="gs-nm">Tetris</span><span class="gs-sub2">NES falling blocks &mdash; clear lines, chase the tetris.</span></div><span class="gs-go">&rarr;</span></div>
+      </a>
+
+      <div class="gs-plate gs-ghost" aria-hidden="true">
+        <div class="gs-thumb"><span>+</span></div>
+        <div class="gs-info"><div class="gs-tx"><span class="gs-nm">In the workshop</span><span class="gs-sub2">More studies on the bench &mdash; they slot in right here.</span></div></div>
+      </div>
+
+    </div>
+    <div class="gs-ledge"></div>
+  </section>
+
+  <p class="gs-foot">Every one hand-built from scratch &mdash; no engine, no dependencies, no downloads. <a href="{{ site.baseurl }}/presentations/lockstep.html">How they&rsquo;re built &rarr;</a></p>
 </div>

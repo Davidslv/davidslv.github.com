@@ -767,6 +767,27 @@
     .keymap{ grid-template-columns:1fr; }
     .tips{ grid-template-columns:1fr; }
   }
+
+  /* ── phones (iPhone 14 Pro Max = 430px, and narrower) ── */
+  @media (max-width:600px){
+    .hero-wrap{ padding:20px 20px 40px; }
+    .topbar{ font-size:10px; gap:8px 12px; flex-wrap:wrap; letter-spacing:.14em; }
+    .topbar .who span{ display:none; }       /* drop the long subtitle */
+    .topbar nav{ gap:14px; }
+    .eyebrow{ font-size:10px; letter-spacing:.26em; margin-bottom:16px; }
+    /* shrink the wordmark + all three split overlays so STEALTH fits, never clips */
+    .hero-wrap h1.title,
+    .hero-wrap .title-steel,
+    .hero-wrap .title-lit,
+    .hero-wrap .title-edge{ font-size:clamp(48px,18.5vw,90px); }
+    .tagline{ font-size:21px; }
+    .lore{ max-width:none; }
+    /* full-width tap targets, stacked */
+    .entries{ grid-template-columns:1fr; gap:12px; margin-top:26px; }
+    .entry{ min-height:0; }
+    .entry.play{ grid-column:auto; }
+    .leaf{ padding:30px 22px 26px; }
+  }
 </style>
 </head>
 <body>
