@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lockstep — why I built my own game engine</title>
+<meta name="description" content="Five hobby games became one hand-built, zero-dependency, offline-first game engine. A talk about owning your tools — by David Silva (DS Laboratory)." />
+<style>
+  :root {
+    --bg: #0e1116;
+    --panel: #161b22;
+    --ink: #e6edf3;
+    --dim: #9aa7b4;
+    --line: #232a33;
+    --gold: #ffcf5c;     /* the switch-lever yellow */
+    --steel: #7fb8ff;
+    --green: #56d364;
+    --rail: #dfe4ec;
+    --code: #c9d6e3;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--bg); color: var(--ink); }
+  body {
+    font: 400 18px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* faint graph-paper, a nod to the tile grid */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 48px 48px; opacity: 0.35;
+  }
+  .deck { position: relative; z-index: 1; height: 100%; }
+  .slide {
+    position: absolute; inset: 0; display: none;
+    padding: 6vh 8vw; overflow: auto;
+    flex-direction: column; justify-content: center;
+    animation: fade .35s ease both;
+  }
+  .slide.active { display: flex; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .wrap { width: 100%; max-width: 920px; margin: 0 auto; }
+
+  .kicker { color: var(--gold); font: 600 14px/1 ui-monospace, "SF Mono", Menlo, monospace;
+            letter-spacing: .18em; text-transform: uppercase; margin-bottom: 18px; }
+  h1 { font-size: clamp(40px, 7vw, 86px); line-height: 1.02; letter-spacing: -0.02em; font-weight: 800; }
+  h2 { font-size: clamp(28px, 4.6vw, 50px); line-height: 1.08; letter-spacing: -0.01em; font-weight: 700; margin-bottom: 22px; }
+  .lead { font-size: clamp(19px, 2.4vw, 26px); color: var(--ink); max-width: 800px; }
+  .lead.dim, p.dim, li.dim { color: var(--dim); }
+  p { margin-top: 16px; max-width: 820px; }
+  .sub { color: var(--dim); font-size: clamp(18px, 2.2vw, 23px); margin-top: 22px; }
+  strong { color: var(--gold); font-weight: 700; }
+  em { color: var(--steel); font-style: normal; }
+  ul { margin: 22px 0 0 0; list-style: none; }
+  ul li { position: relative; padding-left: 26px; margin-top: 14px; font-size: clamp(17px, 2vw, 21px); max-width: 820px; }
+  ul li::before { content: "▸"; position: absolute; left: 0; color: var(--gold); }
+
+  pre, .term {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 20px 22px; margin-top: 26px; overflow: auto;
+    white-space: pre-wrap;     /* preserve the typed line breaks (esp. the .term div) */
+    font: 500 clamp(13px, 1.5vw, 17px)/1.6 ui-monospace, "SF Mono", Menlo, monospace;
+    color: var(--code);
+  }
+  pre .k { color: var(--gold); }      /* keyword   */
+  pre .t { color: var(--steel); }     /* type      */
+  pre .c { color: var(--dim); }       /* comment   */
+  pre .s { color: var(--green); }     /* string    */
+  .term .ok { color: var(--green); }
+  .term .cmd { color: var(--rail); }
+  .term .muted { color: var(--dim); }
+
+  table.harvest { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: clamp(14px, 1.7vw, 19px); }
+  table.harvest td { padding: 12px 14px; border-top: 1px solid var(--line); vertical-align: top; }
+  table.harvest tr td:first-child { color: var(--gold); font: 600 1em ui-monospace, Menlo, monospace; white-space: nowrap; width: 1%; }
+  table.harvest tr td:last-child { color: var(--ink); }
+
+  .shotwrap { margin-top: 22px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #000; max-width: 720px; }
+  .shotwrap img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: center; }
+  @media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
+
+  .credit { margin-top: 30px; color: var(--dim); font: 500 15px ui-monospace, Menlo, monospace; }
+  .cta { display: inline-block; margin-top: 26px; padding: 12px 20px; border: 1px solid var(--gold);
+         border-radius: 999px; color: var(--gold); text-decoration: none; font-weight: 600; }
+  a { color: var(--steel); }
+
+  /* chrome: progress + counter + hint */
+  .bar { position: fixed; left: 0; bottom: 0; height: 3px; background: var(--gold); width: 0; z-index: 5; transition: width .3s ease; }
+  .counter { position: fixed; right: 16px; bottom: 12px; z-index: 5; color: var(--dim);
+             font: 500 13px ui-monospace, Menlo, monospace; }
+  .hint { position: fixed; left: 16px; bottom: 12px; z-index: 5; color: var(--dim);
+          font: 500 13px ui-monospace, Menlo, monospace; }
+  .hint b { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 · Title -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">DS Laboratory</div>
+      <h1>Lockstep</h1>
+      <p class="lead" style="margin-top:22px">Why I built my own game engine.</p>
+      <p class="sub">Five hobby games became one. Here's what I learned owning the whole stack — and why you might want to.</p>
+      <div class="credit">David Silva · press <b>→</b> / Space to advance</div>
+    </div>
+  </section>
+
+  <!-- 2 · The itch -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">The itch</div>
+      <h2>I'd built five games. They were secretly the same game.</h2>
+      <p class="lead dim">A platformer. A rally racer. Tetris. A stealth game. An F1 racer. Different on screen — but underneath I kept writing the <em>same things</em>:</p>
+      <ul>
+        <li>a fixed-timestep loop</li>
+        <li>a pure update function: <em>new state from old state + input</em></li>
+        <li>keyboard-and-gamepad input, a pixel canvas, a little sound</li>
+      </ul>
+      <p class="sub">Game six would start from zero again. Unless I stopped re-writing the spine and <strong>named it</strong>.</p>
+    </div>
+  </section>
+
+  <!-- 3 · The honest part -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">Let's be honest first</div>
+      <h2>Unity, Godot, Bevy are brilliant. Usually you should use them.</h2>
+      <p class="lead">If the goal is to ship fast — a jam, a deadline, a client — reach for an engine, gladly. I didn't. On purpose.</p>
+      <p class="sub">I wanted to <strong>own every line</strong>, <strong>understand every part</strong>, and be able to <strong>teach it</strong>. Borrowed power you can't see inside isn't power you understand. This is a talk about the other road.</p>
+    </div>
+  </section>
+
+  <!-- 4 · What it is -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">What it is</div>
+      <h2>A small, hand-built, zero-dependency engine. One idea at the heart.</h2>
+      <p class="lead">Your game's rules are a <strong>pure function</strong>:</p>
+<pre><span class="c">// no clock. no randomness. no DOM. same inputs → same result.</span>
+<span class="k">function</span> <span class="t">tick</span>(state, input) {
+  <span class="k">return</span> nextState; <span class="c">// a fresh state, every frame</span>
+}</pre>
+      <p class="sub">Everything else — the screen, the speaker, the gamepad, the network — is a <em>thin shell</em> wrapped around that function. The rules never touch the outside world.</p>
+    </div>
+  </section>
+
+  <!-- 5 · Why determinism -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">Why that one rule</div>
+      <h2>Same inputs, same run. Every machine, every time.</h2>
+      <p class="lead">Keeping the core pure looks like a constraint. It's the opposite — it buys you the two things that are hardest to get later:</p>
+      <ul>
+        <li><strong>Tests with no browser.</strong> The whole game logic runs headless, in milliseconds.</li>
+        <li><strong>A recording that <em>is</em> a replay.</strong> Save the inputs and you can re-play any session frame-for-frame.</li>
+      </ul>
+<pre><span class="c">// a run-tape: the seed + every input. replay() reconstructs the run exactly.</span>
+{<span class="t">"frame"</span>:128, <span class="t">"type"</span>:<span class="s">"input"</span>, <span class="t">"data"</span>:{<span class="t">"held"</span>:<span class="s">"right,jump"</span>}}</pre>
+    </div>
+  </section>
+
+  <!-- 6 · Where it came from -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">Where it came from</div>
+      <h2>I didn't invent an engine. I harvested one.</h2>
+      <p class="lead dim">Each game had already solved one hard thing well. The engine is those solutions, generalised and pulled into one place — <strong>consolidation, not invention.</strong></p>
+      <table class="harvest">
+        <tr><td>smb</td><td>reading real NES ROMs — the structural archaeology of an old game</td></tr>
+        <tr><td>rally</td><td>pseudo-3D road projection + a track-builder language</td></tr>
+        <tr><td>tetris</td><td>full gamepad remapping, and local <em>2-player</em> on one screen</td></tr>
+        <tr><td>stealth</td><td>anonymous playtest feedback + an A* solver that <em>proves a level is beatable</em></td></tr>
+        <tr><td>redline</td><td>JSONL telemetry that doubles as a deterministic replay tape</td></tr>
+      </table>
+      <p class="sub">Thirteen small, single-purpose packages. A game pulls in only what it needs.</p>
+    </div>
+  </section>
+
+  <!-- 7 · The rules -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">The rules it lives by</div>
+      <h2>A foundation you can't trust isn't a foundation.</h2>
+      <p class="lead dim">So the engine has rules — and they're not polite suggestions:</p>
+      <ul>
+        <li><strong>Everything documented.</strong> Every file says why it exists; every folder has a README.</li>
+        <li><strong>Safe games — no networking, ever.</strong> One sanctioned exception: anonymous playtest feedback.</li>
+        <li><strong>Offline-first.</strong> Every game is fully playable with no internet.</li>
+        <li><strong>Telemetry &amp; a screenshot are <em>not optional.</em></strong> Every game records a replayable tape and shows a picture of itself.</li>
+        <li><strong>Produce intention.</strong> Before a line of code, put the idea into words — or it isn't a game yet.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8 · Enforced -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">Enforced, not hoped</div>
+      <h2>Discipline that relies on remembering is discipline that rots.</h2>
+      <p class="lead">So a machine checks it. One command, five gates — and a new game <strong>cannot be born</strong> missing any of them:</p>
+<div class="term"><span class="muted">$</span> <span class="cmd">npm run verify</span>
+  <span class="ok">✓</span> check         <span class="muted">— types clean (strict)</span>
+  <span class="ok">✓</span> test          <span class="muted">— 638 deterministic tests</span>
+  <span class="ok">✓</span> docs:check    <span class="muted">— every file + folder documented</span>
+  <span class="ok">✓</span> telemetry     <span class="muted">— every game records a replayable tape</span>
+  <span class="ok">✓</span> screenshot    <span class="muted">— every game shows itself</span>
+<span class="ok">verify: OK</span> <span class="muted">— five green gates.</span></div>
+    </div>
+  </section>
+
+  <!-- 9 · Built on it -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">What's built on it</div>
+      <div class="two">
+        <div>
+          <h2>Game #6: Trackbound</h2>
+          <p class="lead dim">A cozy gamepad train-track toy. You lay chunky track, then watch your train roll the loop.</p>
+          <p class="sub">Designed in words first, built on the engine, playtested, and mirrored to its own repo. Nothing in the engine knows Trackbound exists — <em>that's the whole point.</em></p>
+        </div>
+        <div class="shotwrap"><img src="data:image/png;base64,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" alt="Trackbound — a train rolling a loop of real track on a green board" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · Why it matters -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">Why this is worth talking about</div>
+      <h2>You learn more building the engine than using one.</h2>
+      <p class="lead">A pure function. Determinism. Documentation a machine enforces. These aren't game-dev tricks — they're how you reason about <strong>any</strong> system you want to trust.</p>
+      <p class="sub">And owned tooling <strong>compounds</strong>: the second game starts ahead of where the first ended; the third ahead of the second. The engine is where the lessons live — on purpose, documented for whoever comes next.</p>
+    </div>
+  </section>
+
+  <!-- 11 · When not to + closer -->
+  <section class="slide">
+    <div class="wrap">
+      <div class="kicker">When you'd NOT do this</div>
+      <h2>When shipping beats owning, use the engine. Gladly.</h2>
+      <p class="lead dim">A jam. A deadline. A paying client. This road is the slow one — you trade speed now for understanding and tools that compound later. Know which one you're buying.</p>
+      <p class="sub">But if you want to understand your craft from the floor up: <strong>build the thing, own the thing.</strong></p>
+      <a class="cta" href="https://davidslv.uk/games">Play them → davidslv.uk/games</a>
+      <div class="credit">Lockstep · David Silva · DS Laboratory</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="bar" id="bar"></div>
+<div class="counter" id="counter"></div>
+<div class="hint" id="hint">← → / Space · click to advance</div>
+
+<script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+    var bar = document.getElementById("bar");
+    var counter = document.getElementById("counter");
+    var hint = document.getElementById("hint");
+    var i = 0;
+
+    function show(n) {
+      i = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach(function (s, k) { s.classList.toggle("active", k === i); });
+      bar.style.width = ((i) / (slides.length - 1) * 100) + "%";
+      counter.textContent = (i + 1) + " / " + slides.length;
+      if (location.hash !== "#" + (i + 1)) history.replaceState(null, "", "#" + (i + 1));
+      if (i > 0) hint.style.display = "none";
+    }
+    function next() { show(i + 1); }
+    function prev() { show(i - 1); }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown" || e.key === "ArrowDown") { e.preventDefault(); next(); }
+      else if (e.key === "ArrowLeft" || e.key === "PageUp" || e.key === "ArrowUp") { e.preventDefault(); prev(); }
+      else if (e.key === "Home") { e.preventDefault(); show(0); }
+      else if (e.key === "End") { e.preventDefault(); show(slides.length - 1); }
+    });
+    document.getElementById("deck").addEventListener("click", function (e) {
+      // click left third = back, otherwise forward
+      if (e.clientX < window.innerWidth * 0.25) prev(); else next();
+    });
+    // touch swipe
+    var x0 = null;
+    document.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    document.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+      x0 = null;
+    }, { passive: true });
+
+    // Deep links + back/forward: a direct hash change navigates. (show() uses
+    // history.replaceState, which does NOT fire hashchange, so this won't loop.)
+    window.addEventListener("hashchange", function () {
+      var n = parseInt((location.hash || "#1").slice(1), 10);
+      if (!isNaN(n)) show(n - 1);
+    });
+
+    var start = parseInt((location.hash || "#1").slice(1), 10);
+    show(isNaN(start) ? 0 : start - 1);
+  })();
+</script>
+</body>
+</html>
