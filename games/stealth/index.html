@@ -3,45 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>STEALTH — David Silva · Operation Nightglass</title>
+<title>FILED UNDER NO ONE — A Registry File · David Silva</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Spline+Sans+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   /* ════════════════════════════════════════════════════════════════════
-     STEALTH — one game's landing page.
-     HYBRID: G2's split-wordmark light/shadow hero  +  a FIELD-MANUAL BOOKLET body.
-     ONE namespace, ONE token set. The hero is unchanged. The body below is now a
-     LIGHTER, more SPACIOUS "printed instruction booklet": page folios, cleaner
-     old-manual typography, generous margins, diagram-led (a vision-cone figure,
-     the alert ladder as a printed key), fewer stamps. Quieter, warmer — but still
-     on the dark page and cut by the same hot amber signal as the hero.
+     FILED UNDER NO ONE — A Registry File.   VARIANT V1 · CINEMATIC.
+     A re-skin of CONTENT + TITLE on the live STEALTH page's system. The
+     cinematic light/shadow HERO is kept (the hard diagonal amber shaft, the
+     dark/lit split of the game screenshot, the guard-orb source, the recon
+     cam, the vignette). What CHANGES: the old STEALTH split-word gag is
+     replaced by a STAMPED / STRUCK-FROM-THE-RECORD registry wordmark set as
+     a two-line lockup FILED UNDER / NO ONE. Below, the printed-booklet body
+     (Story / Manual / In the box leaves with folios) is re-storied to the
+     Registry analyst, with her desk portrait woven into the Story leaf.
+     ONE namespace, ONE token set, identical to the live page.
      ════════════════════════════════════════════════════════════════════ */
   :root{
-    /* ── the swallowing dark + cool steel-blue shadow (from G2) ── */
+    /* ── the swallowing dark + cool steel-blue shadow ── */
     --void:#04060b;
     --void-2:#070a12;
-    --panel:#0a0f1c;          /* dossier panel base */
-    --panel-2:#0d1322;        /* raised panel */
-    --panel-3:#111a30;        /* warmest raised tint */
+    --panel:#0a0f1c;
+    --panel-2:#0d1322;
+    --panel-3:#111a30;
     --shadow-blue:#0c1730;
     --steel:#141b2c;
     --steel-hi:#1d2740;
 
-    --ink:#eef2fb;            /* brightest text / headings */
-    --ink-2:#aeb9d6;          /* body text (lifted, legible) */
-    --ink-3:#b0bad6;          /* secondary body (lifted for legibility) */
-    --meta:#828fbb;           /* captions / hairline labels (lifted) */
+    --ink:#eef2fb;
+    --ink-2:#aeb9d6;
+    --ink-3:#b0bad6;
+    --meta:#828fbb;
     --line:rgba(150,170,220,.14);
     --line-soft:rgba(150,170,220,.08);
 
-    /* ── the ONE hot signal — guard amber, off the screenshot ── */
+    /* ── the ONE hot signal — guard amber ── */
     --signal:#ffc31f;
     --signal-hot:#ffe07a;
     --signal-deep:#b87600;
     --signal-glow:rgba(255,195,31,.5);
 
-    /* a restrained cool tint, for kickers / intel labels */
     --teal:#74b6d8;
 
     /* alert-ladder hues — used ONLY in the manual's CALM/SUSP/HUNT ladder */
@@ -49,12 +51,16 @@
     --susp:#ffc31f;
     --hunt:#e05545;
 
-    /* ── booklet-only warm paper accents (a warmer ink for the booklet body) ── */
-    --paper:#0c121f;          /* the "leaf" base — a warm-cool dark stock */
-    --paper-2:#0e1525;        /* raised leaf */
-    --paper-edge:rgba(196,206,234,.10);  /* the spine / leaf hairline */
-    --paper-warm:#c9cfe0;     /* warm ink for booklet running text */
-    --serif-meta:#7d88aa;     /* folio / page-number ink */
+    /* ── booklet-only warm paper accents ── */
+    --paper:#0c121f;
+    --paper-2:#0e1525;
+    --paper-edge:rgba(196,206,234,.10);
+    --paper-warm:#c9cfe0;
+    --serif-meta:#7d88aa;
+
+    /* the redaction ink — flat, matte, no glow (a struck record, not a neon) */
+    --redact:#070b14;
+    --stamp-ink:rgba(255,195,31,.92);
 
     --max:1240px;
   }
@@ -72,7 +78,7 @@
   img{display:block}
   .mono{font-family:"Spline Sans Mono",ui-monospace,monospace}
 
-  /* faint film grain over the whole page, like a CRT title screen */
+  /* faint film grain over the whole page */
   body::after{
     content:"";position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.4;
     background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px);
@@ -80,16 +86,11 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════
-     CINEMATIC HERO — the LIGHT / SHADOW split poster  (from G2)
-     A giant, HARD diagonal shaft of light slices the frame. The STEALTH
-     wordmark sits ON the boundary: the left half is swallowed in cool
-     steel-blue shadow (a DELIBERATE duotone, fully legible, with a crisp
-     rim-highlight on its lit edge); the right half blazes in amber light.
-     The seen / unseen idea, told in the title itself.
+     CINEMATIC HERO — the LIGHT / SHADOW split poster (kept from live)
      ═══════════════════════════════════════════════════════════════ */
   .hero{
     position:relative;
-    min-height:824px;
+    min-height:868px;
     overflow:hidden;
     background:
       radial-gradient(140% 120% at 92% -10%, #18294a 0%, rgba(24,41,74,0) 50%),
@@ -111,7 +112,6 @@
         transparent 62%, transparent 100%);
     mix-blend-mode:screen;
   }
-  /* the HARD, bright LEADING EDGE of the shaft — the crisp light line */
   .wedge-edge{
     position:absolute;inset:0;z-index:2;pointer-events:none;
     background:
@@ -125,7 +125,6 @@
     mix-blend-mode:screen;
     opacity:.95;
   }
-  /* a faint trailing rim on the shadow side of the blade, so the cut reads as a wall */
   .wedge-rim{
     position:absolute;inset:0;z-index:1;pointer-events:none;
     background:
@@ -137,8 +136,7 @@
     mix-blend-mode:screen;
   }
 
-  /* the stealth screenshot lives ONLY inside the light shaft — the world you
-     can SEE is the lit world. clipped to the diagonal band, brightened. */
+  /* the game screenshot lives ONLY inside the light shaft — the seen world */
   .lit-world{
     position:absolute;inset:0;z-index:1;pointer-events:none;
     background:url(stealth.png) center 44% / 132% no-repeat;
@@ -151,7 +149,7 @@
         transparent 39%, #000 45%, #000 58%, transparent 63%);
     mix-blend-mode:screen;
   }
-  /* and a DARK, cool ghost of the same maze in the shadow half — the unseen world */
+  /* a DARK, cool ghost of the same maze in the shadow half — the unseen world */
   .dark-world{
     position:absolute;inset:0;z-index:0;pointer-events:none;
     background:url(stealth.png) center 44% / 132% no-repeat;
@@ -172,25 +170,66 @@
     box-shadow:0 0 0 6px rgba(255,195,31,.12), 0 0 44px 14px rgba(255,195,31,.45), 0 0 120px 40px rgba(255,195,31,.18);
   }
 
-  /* a tight recon inset of the maze, framed in the lit edge — like a camera feed */
-  .recon-cam{
-    position:absolute;z-index:4;top:90px;right:116px;width:252px;height:156px;
-    border-radius:9px;overflow:hidden;
-    background:url(stealth.png) center / cover no-repeat;
-    image-rendering:pixelated;
-    filter:saturate(.94) brightness(.82) contrast(1.06);
-    border:1px solid rgba(255,195,31,.3);
-    box-shadow:0 36px 70px -30px rgba(0,0,0,.95), inset 0 0 70px rgba(4,6,11,.5);
-    opacity:.95;
+  /* ── KEY ART — the faceless analyst, mounted as a REDACTED SERVICE PHOTO ──
+     seated in the lit shaft, top-right, where the recon cam used to live.
+     The asset is a true-alpha cut-out (cool monochrome, one amber rim, the
+     ink-wash kept as a soft shadow). It mounts with mix-blend-mode:normal —
+     no checkerboard to hide. A feathered cool drop-shadow gives her weight on
+     the card so she sits IN the frame. Framed like a pulled personnel card. */
+  .service-photo{
+    position:absolute;z-index:4;top:78px;right:96px;
+    width:236px;height:300px;
+    border-radius:6px;
+    background:
+      linear-gradient(180deg, #11192c 0%, #0a0f1c 100%);
+    border:1px solid rgba(255,195,31,.26);
+    box-shadow:0 42px 80px -34px rgba(0,0,0,.95), inset 0 0 60px rgba(4,6,11,.55);
+    overflow:hidden;
   }
-  .recon-cam::after{
-    content:"CAM 04 · LIVE";position:absolute;left:11px;top:9px;
-    font:600 9px/1 "Spline Sans Mono",monospace;letter-spacing:.18em;
+  .service-photo img{
+    position:absolute;left:50%;top:14px;transform:translateX(-50%);
+    width:188px;height:auto;
+    object-fit:contain;
+    /* soft cool contact shadow grounding the stride into the card — alpha is
+       real, so this is the only weight she needs; no blend/grayscale fudge */
+    filter:drop-shadow(0 10px 14px rgba(4,6,11,.7)) drop-shadow(0 2px 5px rgba(12,23,48,.55));
+  }
+  /* a cool steel duotone tint pulled over the photo so it reads cold/anonymous */
+  .service-photo::before{
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(12,23,48,.18) 0%, rgba(12,23,48,.02) 30%, rgba(4,6,11,.55) 100%),
+      radial-gradient(120% 80% at 50% 14%, rgba(116,182,216,.10), transparent 60%);
+  }
+  /* the redaction bar struck across where the face would be named */
+  .service-photo .redact-bar{
+    position:absolute;z-index:2;left:24px;right:24px;top:128px;height:17px;
+    background:var(--redact);
+    box-shadow:0 1px 0 rgba(255,255,255,.04), 0 -1px 0 rgba(0,0,0,.5);
+    transform:rotate(-1.4deg);
+  }
+  .service-photo .ph-label{
+    position:absolute;z-index:3;left:12px;top:9px;
+    font:600 8.5px/1 "Spline Sans Mono",monospace;letter-spacing:.2em;
     color:var(--signal);text-shadow:0 1px 4px rgba(0,0,0,.9);
   }
-  .recon-cam::before{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(180deg, rgba(4,6,11,0) 46%, rgba(4,6,11,.7) 100%);
+  .service-photo .ph-foot{
+    position:absolute;z-index:3;left:12px;right:12px;bottom:10px;
+    display:flex;justify-content:space-between;align-items:baseline;
+    font:500 8px/1.4 "Spline Sans Mono",monospace;letter-spacing:.14em;
+    color:var(--meta);text-transform:uppercase;
+  }
+  .service-photo .ph-foot b{color:var(--ink-3);font-weight:600}
+  /* the EXPUNGED stamp, struck across the card on an angle — flat ink, no glow */
+  .service-photo .expunged{
+    position:absolute;z-index:4;left:50%;top:62%;
+    transform:translate(-50%,-50%) rotate(-9deg);
+    font:700 19px/1 "Spline Sans Mono",monospace;letter-spacing:.16em;
+    color:var(--stamp-ink);
+    border:2.5px solid var(--stamp-ink);border-radius:3px;
+    padding:5px 11px;opacity:.86;
+    mix-blend-mode:screen;
+    white-space:nowrap;
   }
 
   /* vignette pulls the corners into the dark so the split reads clean */
@@ -206,7 +245,7 @@
     position:relative;z-index:6;
     max-width:var(--max);margin:0 auto;
     padding:30px 56px 56px;
-    min-height:824px;display:flex;flex-direction:column;
+    min-height:868px;display:flex;flex-direction:column;
   }
 
   .topbar{
@@ -231,89 +270,97 @@
   .eyebrow{
     display:inline-flex;align-items:center;gap:13px;
     font-size:11.5px;letter-spacing:.42em;text-transform:uppercase;color:var(--signal);
-    margin-bottom:22px;font-family:"Spline Sans Mono",monospace;
+    margin-bottom:24px;font-family:"Spline Sans Mono",monospace;
   }
   .eyebrow::before{content:"";width:34px;height:1px;background:var(--signal);
     box-shadow:0 0 8px rgba(255,195,31,.85)}
   .eyebrow b{color:var(--ink-3);letter-spacing:.42em;font-weight:400}
 
-  /* ── THE WORDMARK — THE GAG ──
-     STEALTH set huge. The diagonal split runs through the word.
-     Base layer  = the SHADOW half: a deliberate cool steel-blue duotone, legible.
-     .title-steel= a steel rim-light down the lit edge of every shadow letter.
-     .title-lit  = a copy clipped to the lit band, blazing amber.
-     .title-edge = a razor white rim exactly where the light crosses. */
-  h1.title{
+  /* ── THE WORDMARK — A STRUCK REGISTRY MARKING ──
+     Two-line lockup: FILED UNDER / NO ONE. Rubber-stamped, uneven ink, flat
+     and matte (NO glow, NO chrome, NO light/shadow split). "NO ONE" is struck
+     through, as if struck from the record. A faint reference number sits above
+     like a stamp on a buff file. */
+  .wordmark{ position:relative; display:inline-block; }
+  .wm-ref{
+    font-family:"Spline Sans Mono",monospace;
+    font-size:11px; letter-spacing:.36em; text-transform:uppercase;
+    color:var(--meta); margin-bottom:12px; display:flex; align-items:center; gap:12px;
+  }
+  .wm-ref b{ color:var(--ink-3); font-weight:600; letter-spacing:.28em; }
+  .wm-line{
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
+    line-height:.86;letter-spacing:-.028em;white-space:nowrap;
+    color:var(--ink);
+    text-shadow:0 1px 0 rgba(0,0,0,.5), 0 10px 50px rgba(0,0,0,.6);
+  }
+  .wm-filed{
+    font-size:clamp(64px,12.6vw,176px);
+    color:var(--ink-2);
+  }
+  /* the "stamped" inked second line — slightly rotated, uneven weight, struck */
+  .wm-no-one{
     position:relative;
-    font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
-    font-size:clamp(112px,21.2vw,304px);line-height:.8;letter-spacing:-.035em;
-    margin-left:-.02em;white-space:nowrap;
-    color:#39507e;
-    text-shadow:
-      0 1px 0 rgba(170,195,245,.22),
-      0 -1px 0 rgba(0,0,0,.45),
-      0 8px 60px rgba(0,0,0,.65);
-  }
-  .title-stack{position:relative;display:inline-block}
-  .title-steel{
-    position:absolute;left:0;top:0;
-    font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
-    font-size:clamp(112px,21.2vw,304px);line-height:.8;letter-spacing:-.035em;
-    margin-left:-.02em;white-space:nowrap;
-    color:transparent;
-    text-shadow:1.5px 0 0 rgba(150,185,255,.55), 2.5px 0 10px rgba(120,160,235,.30);
-    -webkit-mask-image:linear-gradient(118deg, #000 0%, #000 44%, transparent 50%);
-    mask-image:linear-gradient(118deg, #000 0%, #000 44%, transparent 50%);
-  }
-  .title-lit{
-    position:absolute;left:0;top:0;
-    font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
-    font-size:clamp(112px,21.2vw,304px);line-height:.8;letter-spacing:-.035em;
-    margin-left:-.02em;white-space:nowrap;
+    font-size:clamp(86px,16.6vw,236px);
     color:var(--signal);
+    margin-top:.02em; margin-left:-.012em;
+    transform:rotate(-1.1deg);
+    /* uneven, dry-ink rubber-stamp feel: a subtle outline + flat fill, no glow */
     text-shadow:
-      0 0 6px rgba(255,195,31,.5),
-      0 0 60px rgba(255,195,31,.5),
-      0 0 120px rgba(255,195,31,.3);
-    -webkit-mask-image:linear-gradient(118deg, transparent 44%, #000 50%, #000 100%);
-    mask-image:linear-gradient(118deg, transparent 44%, #000 50%, #000 100%);
+      1px 0 0 rgba(255,195,31,.30),
+      -1px 0 0 rgba(184,118,0,.45),
+      0 2px 0 rgba(0,0,0,.35);
   }
-  .title-edge{
-    position:absolute;left:0;top:0;
-    font-family:"Bricolage Grotesque",sans-serif;font-weight:800;
-    font-size:clamp(112px,21.2vw,304px);line-height:.8;letter-spacing:-.035em;
-    margin-left:-.02em;white-space:nowrap;
-    color:#fff8e4;
-    -webkit-mask-image:linear-gradient(118deg, transparent 47.4%, #000 49.4%, #000 50.6%, transparent 52.6%);
-    mask-image:linear-gradient(118deg, transparent 47.4%, #000 49.4%, #000 50.6%, transparent 52.6%);
-    opacity:.95;
+  /* the strike line — STRUCK FROM THE RECORD, drawn through NO ONE */
+  .wm-no-one .strike{
+    position:absolute;left:-2%;right:-2%;top:53%;height:.072em;
+    background:var(--signal);
+    transform:rotate(-.7deg);
+    box-shadow:0 0 0 1px rgba(184,118,0,.4);
+    opacity:.94;
+  }
+  /* a faint second, broken strike — uneven hand-drawn ruling, not a clean rule */
+  .wm-no-one .strike.b{
+    top:49%;height:.03em;left:6%;right:14%;opacity:.5;transform:rotate(-1.4deg);
+  }
+  .wm-sub{
+    margin-top:22px;
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  }
+  .wm-sub .subtitle{
+    font-family:"Spline Sans Mono",monospace;
+    font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--teal);
+  }
+  .wm-sub .genre{
+    font-size:13px;letter-spacing:.04em;color:var(--ink-3);
+    border-left:1px solid var(--line);padding-left:16px;
   }
 
   .tagrow{
-    display:flex;align-items:center;gap:22px;flex-wrap:wrap;
-    margin-top:30px;
+    display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap;
+    margin-top:34px;
   }
   .tagline{
     font-family:"Bricolage Grotesque",sans-serif;font-weight:500;
-    font-size:26px;letter-spacing:-.01em;color:var(--ink);
+    font-size:26px;letter-spacing:-.01em;color:var(--ink);max-width:30ch;line-height:1.22;
   }
   .tagline em{font-style:normal;color:var(--signal)}
   .lore{
-    font-size:12.5px;letter-spacing:.02em;color:var(--ink-3);max-width:38ch;line-height:1.5;
+    font-size:12.5px;letter-spacing:.02em;color:var(--ink-3);max-width:40ch;line-height:1.55;
     border-left:1px solid var(--line);padding-left:18px;
   }
   .campaign{
     font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);
     border:1px solid var(--line);border-radius:999px;padding:7px 15px;
     display:inline-flex;align-items:center;gap:9px;white-space:nowrap;
-    font-family:"Spline Sans Mono",monospace;
+    font-family:"Spline Sans Mono",monospace;align-self:center;
   }
   .campaign b{color:var(--signal);font-weight:600}
 
   /* ── PLAY · STORY · MANUAL — three first-class entries (Play dominant) ── */
   .entries{
     display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:16px;
-    margin-top:38px;
+    margin-top:40px;
   }
   .entry{
     position:relative;display:flex;flex-direction:column;justify-content:space-between;
@@ -343,7 +390,6 @@
   .entry .sub{
     font-size:11.5px;letter-spacing:.02em;color:var(--ink-3);margin-top:7px;line-height:1.45;
   }
-  /* PLAY — dominant, blazing in the light */
   .entry.play{
     background:
       radial-gradient(120% 130% at 0% 0%, rgba(255,195,31,.26) 0%, rgba(255,195,31,0) 50%),
@@ -368,12 +414,18 @@
     color:var(--signal);opacity:.85;font-family:"Spline Sans Mono",monospace;
   }
 
+  /* a quiet "read the book" reference under the entries */
+  .book-ref{
+    margin-top:18px;
+    font-family:"Spline Sans Mono",monospace;
+    font-size:11px;letter-spacing:.14em;color:var(--meta);
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .book-ref b{color:var(--ink-3);font-weight:600}
+  .book-ref em{color:var(--signal);font-style:normal}
+
   /* ═══════════════════════════════════════════════════════════════
-     THE BOOKLET — a printed instruction booklet (the body, re-imagined)
-     Lighter, more spacious, diagram-led. Each section is a "leaf" with a
-     folio (page number + running header), generous margins, an old-manual
-     baseline. The same cool steel-blue / amber world as the hero, so it
-     stays cohesive — only the treatment is quieter and warmer.
+     THE BOOKLET — a printed Registry file (story, manual, contents)
      ═══════════════════════════════════════════════════════════════ */
   .booklet-band{
     background:
@@ -385,10 +437,10 @@
   }
   .book{ max-width:var(--max); margin:0 auto; position:relative; }
 
-  /* ── booklet masthead — a quiet title plate, NOT a classified stamp ── */
+  /* ── booklet masthead — a quiet file plate ── */
   .book-mast{
     text-align:center;
-    max-width:62ch; margin:0 auto 54px;
+    max-width:64ch; margin:0 auto 54px;
     padding-bottom:30px;
     border-bottom:1px solid var(--line);
     position:relative;
@@ -410,7 +462,7 @@
   }
   .book-mast h2 em{ font-style:italic; color:var(--signal); font-weight:600; }
   .book-mast p{
-    font-size:15px; line-height:1.68; color:var(--ink-2); max-width:54ch; margin:0 auto;
+    font-size:15px; line-height:1.68; color:var(--ink-2); max-width:56ch; margin:0 auto;
   }
   .book-mast p b{ color:var(--ink); font-weight:600; }
   .book-mast .issue{
@@ -420,7 +472,7 @@
   }
   .book-mast .issue b{ color:var(--signal); font-weight:600; }
 
-  /* ── a LEAF — one booklet page. Generous margins, a folio top & bottom. ── */
+  /* ── a LEAF — one booklet page ── */
   .leaf{
     position:relative;
     background:
@@ -432,7 +484,6 @@
     padding:48px 60px 40px;
     margin-bottom:34px;
   }
-  /* the soft "spine" hairline down the binding edge of each leaf */
   .leaf::before{
     content:""; position:absolute; top:24px; bottom:24px; left:30px;
     width:1px;
@@ -440,7 +491,6 @@
     opacity:.7;
   }
 
-  /* the running header / folio of each leaf */
   .folio{
     display:flex; align-items:baseline; gap:16px;
     padding-bottom:8px; margin-bottom:32px;
@@ -453,10 +503,7 @@
   .folio .ttl{ color:var(--ink-3); letter-spacing:.2em; }
   .folio .pg{ margin-left:auto; color:var(--meta); letter-spacing:.18em; }
 
-  /* a leaf's big section heading — booklet display type */
-  .leaf-head{
-    margin-bottom:28px;
-  }
+  .leaf-head{ margin-bottom:28px; }
   .leaf-head .over{
     font-family:"Spline Sans Mono",monospace; font-size:10.5px; letter-spacing:.3em;
     text-transform:uppercase; color:var(--teal); margin-bottom:12px;
@@ -469,14 +516,13 @@
 
   /* ── A · STORY — a printed briefing leaf, two warm columns ── */
   .story-leaf .story-cols{
-    display:grid; grid-template-columns:1.5fr 1fr; gap:48px; align-items:start;
+    display:grid; grid-template-columns:1.4fr 1fr; gap:48px; align-items:start;
   }
   .story-body .lead{
     font-family:"Bricolage Grotesque",sans-serif; font-weight:500;
     font-size:21px; line-height:1.5; color:var(--ink);
-    margin-bottom:24px; max-width:42ch;
+    margin-bottom:24px; max-width:44ch;
   }
-  /* a clean drop-cap to open the briefing — old-manual flourish, not a stamp */
   .story-body .lead::first-letter{
     initial-letter:2;
     -webkit-initial-letter:2;
@@ -485,19 +531,49 @@
   }
   .story-body .lead em{ font-style:normal; color:var(--signal); }
   .story-body p{
-    font-size:15px; line-height:1.85; color:var(--paper-warm); max-width:54ch; margin-bottom:16px;
+    font-size:15px; line-height:1.85; color:var(--paper-warm); max-width:56ch; margin-bottom:16px;
   }
   .story-body p.close{
     margin-top:24px; padding-top:20px; border-top:1px solid var(--line-soft);
-    font-size:15px; line-height:1.7; color:var(--ink); max-width:52ch;
+    font-size:15px; line-height:1.7; color:var(--ink); max-width:54ch;
   }
   .story-body p.close b{ color:var(--signal); font-weight:600; }
 
-  /* the side note — a small "field card", quiet & printed */
+  /* the WHO-SHE-IS image — her at the Coverage desk. The cleaned raster is
+     pre-graded (cool room, one warm lamp pool, real face) with its own cool
+     vignette baked toward --void at the four edges, so the .frame border +
+     inset shadow read as a mounted plate, not a pasted JPEG. No blend hack. */
+  .who-figure{ margin:0; }
+  .who-figure .frame{
+    position:relative; border-radius:5px; overflow:hidden;
+    border:1px solid var(--paper-edge);
+    box-shadow:0 36px 70px -40px rgba(0,0,0,.9), inset 0 0 50px rgba(4,6,11,.4);
+  }
+  .who-figure img{ width:100%; height:auto; display:block; object-fit:cover; }
+  /* the buff-folder caption strip across the foot of the photo */
+  .who-figure .frame::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(180deg, rgba(4,6,11,0) 56%, rgba(4,6,11,.55) 100%);
+  }
+  .who-figure .tab{
+    position:absolute; z-index:2; left:12px; top:11px;
+    font:600 9px/1 "Spline Sans Mono",monospace; letter-spacing:.2em;
+    color:var(--signal); text-transform:uppercase; text-shadow:0 1px 5px rgba(0,0,0,.9);
+  }
+  .who-figure figcaption{
+    margin-top:14px;
+    font-family:"Spline Sans Mono",monospace; font-size:11px; line-height:1.6;
+    letter-spacing:.04em; color:var(--ink-3);
+  }
+  .who-figure figcaption b{ color:var(--ink); font-weight:600; }
+  .who-figure figcaption .dim{ color:var(--meta); }
+
+  /* the file card — the side note, a quiet printed registry card */
   .story-card{
     border:1px solid var(--line); border-radius:4px;
     background:linear-gradient(180deg, rgba(116,182,216,.04), transparent 50%), var(--paper-2);
     padding:24px 24px 26px;
+    margin-top:30px;
   }
   .story-card .ch{
     font-family:"Spline Sans Mono",monospace; font-size:10px; letter-spacing:.24em;
@@ -514,6 +590,7 @@
   .crow .ck{ color:var(--ink-3); letter-spacing:.14em; }
   .crow .cv{ color:var(--ink); text-align:right; }
   .crow .cv.amber{ color:var(--signal); }
+  .crow .cv.struck{ color:var(--meta); text-decoration:line-through; text-decoration-color:rgba(224,85,69,.7); }
   .story-card .objective{
     margin-top:18px; padding:15px 16px 16px;
     border-left:2px solid var(--signal-deep);
@@ -529,8 +606,6 @@
 
   /* ── B · MANUAL — the most diagram-led leaf ── */
   .manual-leaf .leaf-head{ margin-bottom:34px; }
-
-  /* CONTROLS — a clean printed keymap, wider gutters */
   .mblock{ margin-bottom:40px; }
   .mblock:last-child{ margin-bottom:0; }
   .mblock-h{
@@ -571,11 +646,10 @@
   .keynote b{ color:var(--ink-2); font-weight:600; }
   .keynote .nofight{ color:var(--signal); font-weight:500; }
 
-  /* THE ONE RULE — a printed figure: the vision-cone diagram + the rule beside it */
+  /* THE ONE RULE — the vision-cone diagram + the rule beside it */
   .rule-figure{
     display:grid; grid-template-columns:230px 1fr; gap:40px; align-items:center;
   }
-  /* the diagram: a guard, a straight cone of light, a figure caught & a figure safe */
   .cone-diagram{
     position:relative;
     width:230px; height:188px;
@@ -585,7 +659,6 @@
       var(--paper-2);
     overflow:hidden;
   }
-  /* faint floor grid, like graph paper in a manual */
   .cone-diagram::before{
     content:""; position:absolute; inset:0;
     background-image:
@@ -624,7 +697,7 @@
     font-size:13px; line-height:1.6; color:var(--ink-3); max-width:46ch;
   }
 
-  /* THE ALERT LADDER — printed as a clean KEY (legend), three swatches */
+  /* THE ALERT LADDER — printed as a clean KEY */
   .ladder-key{
     margin-top:30px;
     display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
@@ -659,7 +732,7 @@
   .akey.hunt .swatch i{ background:var(--hunt); box-shadow:0 0 11px rgba(224,85,69,.6); }
   .akey.hunt .swatch .nm{ color:var(--hunt); }
 
-  /* FIELD TIPS — pencilled-margin doctrine, spaced out & numbered */
+  /* FIELD TIPS — pencilled-margin doctrine */
   .tips{
     display:grid; grid-template-columns:1fr 1fr; gap:0 48px;
   }
@@ -671,7 +744,7 @@
   .tip .ti{ color:var(--signal); font-family:"Spline Sans Mono",monospace; font-size:11px; letter-spacing:.08em; }
   .tip b{ color:var(--ink); font-weight:500; }
 
-  /* ── C · IN THE BOX — a spacious contents leaf ── */
+  /* ── C · IN THE BOX — the contents + the three acts ── */
   .box-leaf .box-cols{
     display:grid; grid-template-columns:1fr 1.2fr; gap:48px; align-items:start;
   }
@@ -724,8 +797,10 @@
     color:var(--ink-3); line-height:1.6;
   }
   .credit b{ color:var(--ink-2); font-weight:500; }
+  .credit a{ color:var(--ink-2); border-bottom:1px solid var(--line); padding-bottom:1px; }
+  .credit a:hover{ color:var(--signal); border-color:var(--signal); }
 
-  /* the booklet's quiet colophon — replaces the classified "end of file" stamp */
+  /* the booklet's quiet colophon */
   .colophon{
     text-align:center; max-width:60ch; margin:8px auto 0;
     font-family:"Spline Sans Mono",monospace; font-size:10px; letter-spacing:.22em;
@@ -738,7 +813,7 @@
   .colophon::after{ background:linear-gradient(90deg, var(--line), transparent); }
   .colophon b{ color:var(--serif-meta); }
 
-  /* ═══════════════════════ footer — engine demoted to ONE quiet line ═══════════════════════ */
+  /* ═══════════════════════ footer ═══════════════════════ */
   footer{
     max-width:var(--max);margin:0 auto;
     padding:24px 56px 46px;
@@ -755,12 +830,14 @@
   footer .back a:hover{color:var(--ink-2)}
 
   @media (max-width:1080px){
+    .service-photo{ display:none; }   /* the key art is re-mounted inside the Story leaf below on small screens via the desk image */
     .entries{grid-template-columns:1fr 1fr}
     .entry.play{grid-column:1 / -1}
     .leaf{ padding:40px 34px 34px; }
     .leaf::before{ display:none; }
     .story-leaf .story-cols,
     .box-leaf .box-cols{ grid-template-columns:1fr; gap:34px; }
+    .story-card{ margin-top:0; }
     .rule-figure{ grid-template-columns:1fr; gap:26px; }
     .cone-diagram{ width:100%; }
     .ladder-key{ grid-template-columns:1fr; }
@@ -770,23 +847,26 @@
 
   /* ── phones (iPhone 14 Pro Max = 430px, and narrower) ── */
   @media (max-width:600px){
-    .hero-wrap{ padding:20px 20px 40px; }
+    .hero{ min-height:0; }
+    .hero-wrap{ padding:20px 20px 40px; min-height:0; }
     .topbar{ font-size:10px; gap:8px 12px; flex-wrap:wrap; letter-spacing:.14em; }
-    .topbar .who span{ display:none; }       /* drop the long subtitle */
+    .topbar .who span{ display:none; }
     .topbar nav{ gap:14px; }
+    .titleblock{ margin-top:120px; }
     .eyebrow{ font-size:10px; letter-spacing:.26em; margin-bottom:16px; }
-    /* shrink the wordmark + all three split overlays so STEALTH fits, never clips */
-    .hero-wrap h1.title,
-    .hero-wrap .title-steel,
-    .hero-wrap .title-lit,
-    .hero-wrap .title-edge{ font-size:clamp(48px,18.5vw,90px); }
-    .tagline{ font-size:21px; }
+    .wm-filed{ font-size:clamp(40px,13vw,64px); }
+    .wm-no-one{ font-size:clamp(54px,17.5vw,90px); }
+    .wm-sub{ gap:10px; margin-top:16px; }
+    .wm-sub .genre{ border-left:0; padding-left:0; }
+    .tagline{ font-size:21px; max-width:none; }
     .lore{ max-width:none; }
-    /* full-width tap targets, stacked */
+    .tagrow{ gap:18px; }
     .entries{ grid-template-columns:1fr; gap:12px; margin-top:26px; }
     .entry{ min-height:0; }
     .entry.play{ grid-column:auto; }
     .leaf{ padding:30px 22px 26px; }
+    .booklet-band{ padding:54px 16px 64px; }
+    footer{ padding:24px 20px 40px; }
   }
 </style>
 </head>
@@ -800,7 +880,16 @@
     <div class="wedge"></div>
     <div class="wedge-edge"></div>
     <div class="source"></div>
-    <div class="recon-cam"></div>
+
+    <!-- key art mounted as a redacted service photo, seated in the light shaft -->
+    <figure class="service-photo">
+      <img src="keyart.final.png" alt="An ink study of the analyst, walking forward; her face withheld.">
+      <span class="ph-label mono">REGISTRY · PERSONNEL</span>
+      <span class="redact-bar"></span>
+      <span class="expunged mono">EXPUNGED</span>
+      <span class="ph-foot mono"><b>SUBJECT</b> NAME WITHHELD<span>STATUS — CLOSED</span></span>
+    </figure>
+
     <div class="vignette"></div>
 
     <div class="hero-wrap">
@@ -808,24 +897,32 @@
       <div class="topbar mono">
         <div class="who"><b>DAVID SILVA</b> &nbsp;<span>· original games, hand-built on Canvas 2D</span></div>
         <nav>
-          <a class="here" href="/games/stealth/">Stealth</a>
-          <span class="stat"><i></i>Flagship · in active development</span>
+          <a class="here" href="/games/stealth/">Filed Under No One</a>
+          <span class="stat"><i></i>A Registry File · in active development</span>
         </nav>
       </div>
 
       <div class="titleblock">
-        <div class="eyebrow">Top-down infiltration <b>/ a 20-level campaign</b></div>
+        <div class="eyebrow">Top-down stealth <b>/ a 20-level campaign</b></div>
 
-        <div class="title-stack">
-          <h1 class="title">STEALTH</h1>
-          <div class="title-steel" aria-hidden="true">STEALTH</div>
-          <div class="title-lit" aria-hidden="true">STEALTH</div>
-          <div class="title-edge" aria-hidden="true">STEALTH</div>
+        <!-- THE WORDMARK — a struck registry marking, two-line lockup -->
+        <div class="wordmark">
+          <div class="wm-ref mono">REF&nbsp;<b>&mdash;&nbsp;PF/&mdash;&mdash;&mdash;&mdash;</b> &nbsp;·&nbsp; STRUCK FROM THE RECORD</div>
+          <h1 class="wm-line wm-filed">FILED UNDER</h1>
+          <div class="wm-line wm-no-one">
+            NO ONE
+            <span class="strike"></span>
+            <span class="strike b"></span>
+          </div>
+          <div class="wm-sub">
+            <span class="subtitle mono">A Registry File</span>
+            <span class="genre">A top-down stealth game &mdash; 20-level campaign.</span>
+          </div>
         </div>
 
         <div class="tagrow">
-          <div class="tagline">Seen, or <em>unseen.</em></div>
-          <div class="lore">Stand in the light and the floor goes loud. The only tool you&rsquo;re issued is the dark.</div>
+          <div class="tagline">She kept the country&rsquo;s secrets. The country kept <em>one about her.</em></div>
+          <div class="lore">They erased the analyst. They forgot to change the corners she drew. Eleven weeks later she walks back in &mdash; unarmed, through her own blind spots.</div>
           <span class="campaign mono"><b>20</b>&nbsp;hand-built levels</span>
         </div>
 
@@ -839,19 +936,19 @@
             </div>
             <div>
               <div class="label">Play</div>
-              <div class="sub">Drop into the campaign. Slip the patrols, reach the exit.</div>
+              <div class="sub">Drop into the campaign. Slip the guards, reach the file.</div>
             </div>
             <span class="go">&rarr;</span>
           </a>
 
           <a class="entry story" href="#story">
             <div class="etop">
-              <span class="press">The world</span>
+              <span class="press">The file</span>
               <span class="artifact">Storyline</span>
             </div>
             <div>
               <div class="label">Story</div>
-              <div class="sub">The fiction behind the facility &mdash; who you are, why you&rsquo;re inside.</div>
+              <div class="sub">Who she was &mdash; the desk, the report, the quiet erasure.</div>
             </div>
             <span class="go">&rarr;</span>
           </a>
@@ -863,11 +960,16 @@
             </div>
             <div>
               <div class="label">Manual</div>
-              <div class="sub">A boxed-game booklet: controls, lore, the rules of the dark.</div>
+              <div class="sub">A boxed-game booklet: controls, the one rule, the dark.</div>
             </div>
             <span class="go">&rarr;</span>
           </a>
 
+        </div>
+
+        <!-- a quiet companion-novel reference -->
+        <div class="book-ref mono">
+          <b>Also a novel</b> &mdash; <em>Filed Under No One: A Registry File.</em> Read the file she went back for.
         </div>
       </div>
 
@@ -878,12 +980,12 @@
   <section class="booklet-band">
     <div class="book">
 
-      <!-- booklet masthead — quiet title plate, not a stamp -->
+      <!-- booklet masthead -->
       <div class="book-mast">
-        <span class="mono-kicker mono">Instruction Booklet</span>
+        <span class="mono-kicker mono">The Registry File</span>
         <h2>Everything that came <em>in the box.</em></h2>
-        <p>Stealth ships the old way &mdash; <b>a story to read and a booklet to thumb</b> before you ever touch a key. Three leaves: the briefing, the field manual, and a manifest of what&rsquo;s inside.</p>
-        <div class="issue mono">Operation <b>Nightglass</b> &nbsp;·&nbsp; First Edition &nbsp;·&nbsp; 20-Level Campaign</div>
+        <p>Filed Under No One ships the old way &mdash; <b>a story to read and a booklet to thumb</b> before you ever touch a key. Three leaves: the briefing, the field manual, and a manifest of what&rsquo;s inside.</p>
+        <div class="issue mono">A Registry File &nbsp;·&nbsp; First Edition &nbsp;·&nbsp; 20-Level Campaign</div>
       </div>
 
       <!-- ── LEAF I · STORY ── -->
@@ -896,29 +998,42 @@
 
         <div class="leaf-head">
           <div class="over mono">The briefing</div>
-          <h3>Operation Nightglass</h3>
+          <h3>The analyst they struck off</h3>
         </div>
 
         <div class="story-cols">
           <div class="story-body">
-            <p class="lead">You were <em>never assigned</em>. There&rsquo;s no record of you in the building &mdash; and there&rsquo;ll be none when you leave.</p>
-            <p>Twenty floors stand between the street and the thing they keep at the top. Each one is a grid of guards, cameras and cones of light, and command will swear you were never here.</p>
-            <p>You carry nothing that can fight. The only tool you&rsquo;re issued is the dark: read where the light falls, learn the rhythm of a patrol, and move through the gaps it leaves behind.</p>
-            <p class="close">Get caught, and you were never assigned. <b>Reach the exit, and neither was the asset.</b></p>
+            <p class="lead">An intelligence records analyst <em>decided what the country was allowed to see</em> &mdash; where the cameras pointed, which corners stayed dark.</p>
+            <p>Then she found a ledger of living people struck from the record, and reported it the correct way. Within a day her badge stopped at the door and the files said she had never been born.</p>
+            <p>Eleven weeks later she walks back in &mdash; unarmed, through the blind spots she drew herself &mdash; for the one file that proves she existed, before they burn the paper.</p>
+            <p class="close">She carries nothing that can fight. <b>The only cover she has left is the dark she signed off.</b></p>
+
+            <!-- the file card — the registry card -->
+            <aside class="story-card">
+              <div class="ch mono">The file</div>
+              <div class="crow"><span class="ck">SUBJECT</span><span class="cv">Name withheld</span></div>
+              <div class="crow"><span class="ck">STATUS</span><span class="cv">Closed</span></div>
+              <div class="crow"><span class="ck">RECORD</span><span class="cv struck">Expunged</span></div>
+              <div class="crow"><span class="ck">LOADOUT</span><span class="cv amber">None issued</span></div>
+              <div class="crow"><span class="ck">COVER</span><span class="cv">The dark she signed off</span></div>
+              <div class="objective">
+                <div class="ol mono">Objective</div>
+                <div class="ot">Recover the file <b>before the burn.</b></div>
+              </div>
+            </aside>
           </div>
 
-          <aside class="story-card">
-            <div class="ch mono">The operation</div>
-            <div class="crow"><span class="ck">OPERATIVE</span><span class="cv">Unlisted</span></div>
-            <div class="crow"><span class="ck">SITE</span><span class="cv">20-floor tower</span></div>
-            <div class="crow"><span class="ck">LOADOUT</span><span class="cv amber">None issued</span></div>
-            <div class="crow"><span class="ck">COVER</span><span class="cv">Shadow only</span></div>
-            <div class="crow"><span class="ck">EXFIL</span><span class="cv">The exit, top floor</span></div>
-            <div class="objective">
-              <div class="ol mono">Objective</div>
-              <div class="ot">Reach the asset, reach the exit. <b>Leave no record that either of you was ever here.</b></div>
+          <!-- WHO SHE IS — the warm desk portrait -->
+          <figure class="who-figure">
+            <div class="frame">
+              <img src="desk-obscured.final.png" alt="The analyst at her Coverage desk: a teacup in both hands, a buff folder open, plans on the wall behind her.">
+              <span class="tab mono">COVERAGE DESK</span>
             </div>
-          </aside>
+            <figcaption>
+              <b>Eleven years at the desk.</b> The teacup, the buff folder, the floor plans on the wall &mdash;
+              <span class="dim">she mistook being good at the system for being safe inside it.</span>
+            </figcaption>
+          </figure>
         </div>
       </article>
 
@@ -975,7 +1090,6 @@
           </div>
 
           <div class="rule-figure">
-            <!-- a printed vision-cone diagram: guard, straight cone, one caught & one safe -->
             <figure class="cone-diagram">
               <svg width="230" height="188" viewBox="0 0 230 188" aria-label="A guard casts a straight cone of light. A figure inside the cone is seen; a figure in shadow is not.">
                 <defs>
@@ -989,20 +1103,15 @@
                     <stop offset="100%" stop-color="#b87600"/>
                   </radialGradient>
                 </defs>
-                <!-- the cone of light, projected straight down from the guard -->
                 <polygon points="115,40 44,176 186,176" fill="url(#coneFill)"/>
-                <!-- crisp cone edges -->
                 <line x1="115" y1="40" x2="44" y2="176" stroke="#ffd866" stroke-width="1.4" stroke-opacity="0.8"/>
                 <line x1="115" y1="40" x2="186" y2="176" stroke="#ffd866" stroke-width="1.4" stroke-opacity="0.8"/>
-                <!-- the guard at the apex -->
                 <circle cx="115" cy="40" r="11" fill="url(#guardGlow)"/>
                 <circle cx="115" cy="40" r="11" fill="none" stroke="#ffe07a" stroke-width="1" stroke-opacity="0.5"/>
-                <!-- figure CAUGHT in the cone (seen) -->
                 <g transform="translate(115,128)">
                   <circle cx="0" cy="-9" r="5" fill="#e05545"/>
                   <rect x="-4.5" y="-3.5" width="9" height="15" rx="3" fill="#e05545"/>
                 </g>
-                <!-- figure SAFE in the shadow, off to the side (not seen) -->
                 <g transform="translate(206,150)" opacity="0.92">
                   <circle cx="0" cy="-9" r="5" fill="#5dc36b"/>
                   <rect x="-4.5" y="-3.5" width="9" height="15" rx="3" fill="#5dc36b"/>
@@ -1017,7 +1126,7 @@
 
             <div class="rule-text">
               <p class="rule-statement">Guards see in straight <b>cones of light</b>. Stand in a cone and you&rsquo;re seen; stay in shadow and you&rsquo;re not.</p>
-              <p class="rule-foot">A guard&rsquo;s attention climbs a ladder &mdash; calm, suspicious, hunting. Read the key below, then read the floor.</p>
+              <p class="rule-foot">A guard&rsquo;s attention climbs a ladder &mdash; calm, suspicious, hunting. Read the key below, then read the floor she drew.</p>
             </div>
           </div>
 
@@ -1064,7 +1173,7 @@
 
         <div class="leaf-head">
           <div class="over mono">The contents</div>
-          <h3>In the box <span class="dim">&mdash; what ships with Stealth</span></h3>
+          <h3>In the box <span class="dim">&mdash; what ships with the file</span></h3>
         </div>
 
         <div class="box-cols">
@@ -1073,6 +1182,7 @@
             <div class="item"><span class="chk mono">&check;</span><span class="it">20 hand-built levels <span>&mdash; one campaign</span></span></div>
             <div class="item"><span class="chk mono">&check;</span><span class="it">This printed-style manual</span></div>
             <div class="item"><span class="chk mono">&check;</span><span class="it">A storyline <span>across the campaign</span></span></div>
+            <div class="item"><span class="chk mono">&check;</span><span class="it">A companion novel <span>&mdash; same title</span></span></div>
             <div class="item"><span class="chk mono">&check;</span><span class="it">Deterministic replays <span>&mdash; every run is a tape</span></span></div>
             <div class="item"><span class="chk mono">&check;</span><span class="it">Gamepad + keyboard</span></div>
             <div class="item"><span class="chk mono">&check;</span><span class="it">Browser native <span>&mdash; zero installs</span></span></div>
@@ -1085,43 +1195,43 @@
               <div class="actrow">
                 <span class="rn mono">I</span>
                 <div>
-                  <div class="at">The Lobby</div>
-                  <div class="ad">Where the file is opened and the light learns your shape.</div>
+                  <div class="at">Coverage</div>
+                  <div class="ad">Who she was: the desk, the gaps she drew.</div>
                 </div>
                 <span class="lv mono">LV 1&ndash;6</span>
               </div>
               <div class="actrow">
                 <span class="rn mono">II</span>
                 <div>
-                  <div class="at">The Stacks</div>
-                  <div class="ad">Deeper floors, tighter patrols, longer sightlines.</div>
+                  <div class="at">Struck</div>
+                  <div class="ad">The report, and the quiet erasure that followed.</div>
                 </div>
                 <span class="lv mono">LV 7&ndash;14</span>
               </div>
               <div class="actrow">
                 <span class="rn mono">III</span>
                 <div>
-                  <div class="at">The Vault</div>
-                  <div class="ad">The asset, the exit, and no record either of you was here.</div>
+                  <div class="at">The Way Back In</div>
+                  <div class="ad">The night, the file, the fence.</div>
                 </div>
                 <span class="lv mono">LV 15&ndash;20</span>
               </div>
             </div>
-            <div class="credit mono">Story &amp; manual in progress &mdash; written and built by <b>David Silva</b>.</div>
+            <div class="credit mono">Story, novel &amp; manual in progress &mdash; written and built by <b>David Silva</b>. <a href="#story">Read the file &rarr;</a></div>
           </div>
         </div>
       </article>
 
       <!-- the booklet's quiet colophon -->
       <div class="colophon mono">
-        <span>End of booklet</span>
-        <b>Operation Nightglass</b>
+        <span>End of file</span>
+        <b>No one of that name</b>
       </div>
 
     </div>
   </section>
 
-  <!-- quiet footer — engine demoted to ONE line; single breadcrumb back to /games/ -->
+  <!-- quiet footer -->
   <footer>
     <div class="specs">
       <span><b>Canvas 2D</b></span><span class="sep">·</span>
