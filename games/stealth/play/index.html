@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
   <title>Stealth — a top-down stealth study</title>
   <style>
-    html, body { margin: 0; height: 100%; background: #0b0d12; color: #c8d0dc; font: 13px ui-monospace, monospace; }
-    body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
-    canvas { image-rendering: pixelated; }
+    html, body { margin: 0; height: 100%; height: 100dvh; background: #0b0d12; color: #c8d0dc; font: 13px ui-monospace, monospace; overflow: hidden; }
+    body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; touch-action: none; }
+    /* The canvas keeps its pixel buffer (cols x TILE); main.ts scales its DISPLAY size to
+       fill the viewport on any screen — phones included — preserving aspect + crisp pixels. */
+    canvas { image-rendering: pixelated; max-width: 100vw; max-height: 100dvh; }
     a { color: #6fa8ff; }
   </style>
-  <script type="module" crossorigin src="/games/stealth/play/assets/main-CctA5hE6.js"></script>
+  <script type="module" crossorigin src="/games/stealth/play/assets/main-DpIjYvMV.js"></script>
   <link rel="modulepreload" crossorigin href="/games/stealth/play/assets/types-it4anD6d.js">
 </head>
 <body>
