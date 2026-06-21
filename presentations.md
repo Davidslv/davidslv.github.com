@@ -20,6 +20,14 @@ The modular monolith, in your repo — boilerplate gone, boundaries enforced, yo
 
 ---
 
+## arsenal
+
+Turning a Rails monolith into a *runnable refactor epic* — diagnosis, a phased plan, a dependency graph, sequenced sub-issues, safe stopping points, and a Definition of Done — with every finding cited to a named authority. A walk through real findings from real codebases. Based on [Modular Rails: Architecture for the Long Game](/modular-rails/).
+
+[View presentation](/presentations/arsenal/)
+
+---
+
 ## How Rails Engines Solve the Modular Monolith Problem
 
 A talk on using Rails Engines to decompose monoliths without reaching for microservices. Based on [Modular Rails: Architecture for the Long Game](/modular-rails/).
