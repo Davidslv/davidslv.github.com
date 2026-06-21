@@ -66,19 +66,26 @@ $shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark
     font-weight: 700;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: $shelf-gold;
+    color: #9c6a16;            // deep amber — legible on the light card
     margin: 0 0 .5rem;
   }
   .more { margin-left: 1rem; font-size: .95em; }
 }
+// brighten the gold label on dark so it stays legible (mirrors the site's dark triggers)
+[data-theme="dark"] .web-cta__label { color: #d6a93f; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .web-cta__label { color: #d6a93f; }
+}
+
+// "Read Now" — an ink button: black on light, white on dark. Maximum legibility.
 .btn-read {
   display: inline-block;
-  background: $shelf-gold;
-  color: #1a1208;            // dark text on gold — high contrast in both themes
+  background: var(--text-color);
+  color: var(--background-color);
   padding: .55em 1.4em;
-  border-radius: 5px;
+  border-radius: 6px;
   text-decoration: none;
   font-weight: 700;
   letter-spacing: .02em;
-  &:hover { background: darken($shelf-gold, 8%); color: #1a1208; }
+  &:hover { opacity: .85; color: var(--background-color); }
 }
