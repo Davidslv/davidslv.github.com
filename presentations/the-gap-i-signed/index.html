@@ -337,6 +337,25 @@ h1{font-size:5.4vw;font-weight:800;line-height:1.02;letter-spacing:-.02em}
   <div class="sub" style="font-size:1.4vw">When it broke, I redid one phase — not the whole thing.</div>
 </section>
 
+<!-- THE MEDIUM — markdown -> HTML -->
+<section class="slide" data-notes="And underneath the trailer fix was a deeper change — about the MEDIUM itself. For months, the way we're all told to talk to AI is Markdown. I write my proposals in Markdown; we evaluate in Markdown. For software architecture that's fine — it's GitHub, it renders diagrams, it's how engineers think. But once the architecture is decided, what's left is VISUAL — and you cannot express visual appeal in Markdown. Then it clicked: my game lives in the browser. The browser was already doing the heavy lifting on the whole feedback loop. So I stopped proposing in Markdown and started proposing in HTML — and suddenly I could SEE the decision before I made it.">
+  <div class="kicker">The medium is part of the message</div>
+  <div class="big" style="max-width:30ch">You can't express visual appeal in <span class="amber">Markdown.</span></div>
+  <div class="sub">Markdown is how engineers think — and it renders diagrams. But once the architecture's decided, what's left is visual. My game lives in the browser; the browser was already doing the work. So I moved my proposals to <b style="color:var(--ink)">HTML</b> — and I could see the decision before I made it.</div>
+</section>
+
+<!-- SHOWN: the trailer storyboard (images + sequencing) -->
+<section class="slide" data-notes="Here's the whole trailer — decided on one HTML page before a single frame was rendered. Every image, in sequence, with its caption and its timecode. I could look at it, move things, reject and approve, and KNOW it worked before I spent an hour on a render. And it wasn't just the trailer — the levels, the characters, the menu, the website, the press page all became HTML I could simply look at and judge. The browser stopped being only where the game ran, and became where I made decisions.">
+  <div class="kicker">Shown · the trailer, decided before a frame was rendered</div>
+  <div class="shown">
+    <img src="assets/storyboard.png" alt="The trailer storyboard — every proposed image in sequence, captioned and timecoded, on one HTML page." style="max-height:72vh">
+    <div class="cap">
+      <div class="t" style="font-size:2vw">The whole trailer, on one page.</div>
+      <div class="d">Every image, in sequence — captioned, timecoded — approved before a frame was rendered. Levels, characters, the menu, the site: all HTML I could look at and judge.</div>
+    </div>
+  </div>
+</section>
+
 <!-- CUTS — knock/sound-luring is a REAL mechanic, kept out of this list -->
 <section class="slide" data-notes="And the gaps I did NOT sign off — the corners I cut on purpose, to ship. Capture is instant — no manhunt. No crawl, no doors, no dogs. I cut these as decisions, with reasons, because the team is there to get me to a product, not to gold-plate forever.">
   <div class="kicker">Corners I cut to ship</div>
