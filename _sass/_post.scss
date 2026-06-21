@@ -27,6 +27,15 @@ $post-bp:      1080px;               // 3-column threshold
     grid-template-columns: 15.5rem minmax(0, 1fr) 13rem;
     gap: 2.5rem;
     align-items: start;
+
+    // Pin each zone to its column so placement never depends on whether the
+    // series rail or the on-this-page rail is present/visible. Without this,
+    // no-series posts (empty left rail is display:none) misplace the reading
+    // column and the on-this-page rail overlaps the header.
+    > .post-series-rail,
+    > .post-rail-empty { grid-column: 1; }
+    > .post-reading    { grid-column: 2; }
+    > .post-otp        { grid-column: 3; }
   }
 }
 

@@ -8,7 +8,7 @@ home: "/books/modular-rails/"
 buy:
   cover: "/img/modular-rails-cover.png"
   learn_more: "/modular-rails/"
-  isbn: "1066649405"
+  isbn: "9781066649426"
   currency_usd: USD
   formats:
   - name: Colour Paperback
