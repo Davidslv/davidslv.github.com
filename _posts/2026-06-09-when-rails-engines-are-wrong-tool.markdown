@@ -4,6 +4,8 @@ title:  "When Rails Engines Are the Wrong Tool"
 date:   2026-06-09
 series: engineers-notebook
 series_order: 5
+description: "Rails engines aren't free. When adding engine boundaries is over-engineering — the performance, boot-time and memory costs — and how to tell when a boundary actually earns its keep."
+image: /img/modular-rails-cover.png
 ---
 
 *This is an adapted excerpt from Chapter 15 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*
@@ -153,4 +155,4 @@ Honesty about what your application actually needs -- not what it might need som
 
 *This was adapted from Chapter 15 of [Modular Rails: Architecture for the Long Game](/modular-rails/). The book covers the full analysis including performance overhead, boot time impact, memory considerations, and route compilation costs.*
 
-*[Get the book on Amazon UK](https://www.amazon.co.uk/dp/B0GZL7D53M) · [Amazon US](https://www.amazon.com/dp/B0GZL7D53M) · [Learn more](/modular-rails/)*
+*Read the [**entire book free on the web**](/books/modular-rails/) — every chapter, no paywall. Prefer print or Kindle? [Amazon US](https://www.amazon.com/dp/1066649405) · [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [all editions &amp; prices](/modular-rails/).*
