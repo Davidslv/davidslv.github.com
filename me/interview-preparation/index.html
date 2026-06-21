@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview Rehearsal — David Silva</title>
+<meta name="robots" content="noindex, nofollow"><!-- personal rehearsal tool: reachable by URL, not indexed -->
+<meta name="theme-color" content="#faf7f2">
+<link rel="stylesheet" href="deck.css">
+<style>
+  /* ---- THEME: light / professional (calm, legible, one rationed steel-blue accent) ---- */
+  :root{ --bg:#faf7f2; --ink:#1f2933; --ink2:#46505c; --meta:#8a8578;
+         --accent:#2c5f8d; --panel:#fff; --line:#e6e0d6; --code:#f3eee4; }
+  /* a readable question that can wrap to two lines */
+  h2.q{font-size:2.6vw;font-weight:800;line-height:1.12;max-width:30ch;margin-bottom:1.4vh;letter-spacing:-.01em}
+  /* the answer SCAFFOLD — a skeleton to reconstruct from, never a script */
+  .scaffold{display:flex;flex-direction:column;gap:1.1vh;max-width:76vw;margin-top:1vh}
+  .scaffold .r{display:grid;grid-template-columns:8vw 1fr;gap:1.4vw;align-items:baseline;padding-bottom:1.1vh;border-bottom:1px solid var(--line)}
+  .scaffold .r:last-child{border-bottom:0}
+  .scaffold .n{font-family:var(--mono);font-size:1.05vw;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .scaffold .r>span:last-child{font-size:1.55vw;line-height:1.34;color:var(--ink2)}
+  .scaffold b{color:var(--ink);font-weight:700}
+  /* the HONESTY strip — the exact safe words to say, on the face, every pass */
+  .honesty{margin-top:2.4vh;max-width:74vw;border-left:3px solid var(--accent);padding:1vh 1.4vw;
+    font-family:var(--mono);font-size:1.2vw;line-height:1.5;color:var(--ink2);background:rgba(44,95,141,.06)}
+  .honesty::before{content:"HONESTY — ";color:var(--accent);font-weight:700}
+  .honesty b{color:var(--ink)}
+  /* the clickable TABLE OF CONTENTS */
+  .toc{display:flex;flex-direction:column;gap:2.4vh;max-width:84vw}
+  .toc .grp h3{font-family:var(--mono);font-size:1.05vw;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:1vh}
+  .toc .grp h3 .note{color:var(--meta);text-transform:none;letter-spacing:.02em;margin-left:.8vw}
+  .toc .rows{display:grid;grid-template-columns:1fr 1fr;gap:.2vh 2.4vw}
+  .toc a{display:flex;gap:.8vw;font-size:1.4vw;color:var(--ink);text-decoration:none;padding:.5vh 0;line-height:1.25}
+  .toc a .num{font-family:var(--mono);font-size:.95vw;color:var(--meta);min-width:2.2vw;text-align:right}
+  .toc a:hover{color:var(--accent)} .toc a:hover .num{color:var(--accent)}
+  /* spine chips + how-to */
+  .stool{display:flex;gap:1.4vw;margin:2vh 0}
+  .stool .leg{border:2px solid var(--accent);color:var(--accent);border-radius:30px;padding:1.2vh 1.8vw;font-weight:700;font-size:1.8vw;background:rgba(44,95,141,.05)}
+  .howto{font-size:1.7vw;line-height:1.9;color:var(--ink2);max-width:60ch;margin-top:1vh}
+  .howto b{color:var(--accent)}
+  /* back-to-contents + keys, bottom-left (the <a> is safe from click-advance) */
+  .hint a{color:var(--accent);text-decoration:none;font-weight:700}
+  /* reveal */
+  details{margin-top:2.4vh;max-width:74vw} summary{cursor:pointer;font-family:var(--mono);font-size:1.2vw;color:var(--accent);letter-spacing:.04em}
+  details .model{font-size:1.45vw;line-height:1.5;color:var(--ink2);margin-top:1.4vh;max-width:64ch}
+  .qa-list{font-size:1.5vw;line-height:1.9;color:var(--ink2)} .qa-list b{color:var(--ink)}
+  .map{display:grid;grid-template-columns:1fr 1fr;gap:.6vh 3vw;max-width:80vw;font-size:1.35vw}
+  .map .row{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:.7vh 0;color:var(--ink2)}
+  .map .row a{color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:1.1vw}
+  /* FOLLOW-UPS — the second layer of drilling: collapsed by default so the face stays a clean recall scaffold */
+  details.fu{margin-top:2.6vh;max-width:80vw;border-top:1px solid var(--line);padding-top:1.4vh}
+  details.fu>summary{cursor:pointer;font-family:var(--mono);font-size:1.1vw;letter-spacing:.06em;color:var(--accent);list-style:none;outline:none}
+  details.fu>summary::-webkit-details-marker{display:none}
+  details.fu>summary::before{content:"▸ "}
+  details.fu[open]>summary::before{content:"▾ "}
+  details.fu .fu-list{margin-top:1.6vh;display:grid;grid-template-columns:1fr 1fr;gap:1.4vh 3vw}
+  details.fu.one .fu-list{grid-template-columns:1fr}
+  details.fu .fu-q{font-size:1.3vw;font-weight:700;color:var(--ink);line-height:1.25}
+  details.fu .fu-q::before{content:"“"} details.fu .fu-q::after{content:"”"}
+  details.fu .fu-a{font-size:1.25vw;line-height:1.36;color:var(--ink2);margin-top:.3vh}
+  details.fu .fu-a b{color:var(--ink)}
+  details.fu .move{font-family:var(--mono);font-size:.8vw;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);opacity:.9}
+  details.fu.derived>summary{color:var(--meta)}
+  details.fu.derived .fu-a i{color:var(--meta);font-style:italic}
+  /* tappable chrome controls (work without a keyboard — for phones) */
+  .hint .linkbtn{background:none;border:0;color:var(--accent);font:inherit;cursor:pointer;padding:0}
+  .hint .linkbtn:hover{text-decoration:underline}
+
+  /* ============================================================
+     MOBILE — readable on a phone in portrait: real font sizes, stacked columns, scrollable slides
+     ============================================================ */
+  @media (max-width:680px){
+    .slide{padding:7vh 6vw 16vh;justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch}
+    .slide.center{justify-content:center;text-align:center}
+    .kicker{font-size:3vw;margin-bottom:2vh}
+    h1,.huge{font-size:9vw} h2.q{font-size:6.2vw;line-height:1.16;max-width:none;margin-bottom:2vh}
+    .statement,.big{font-size:7.4vw;max-width:none} .lede{font-size:5.2vw;max-width:none} .sub{font-size:4.2vw;max-width:none;margin-top:2vh}
+    .scaffold{max-width:none;margin-top:1.5vh;gap:1.8vh}
+    .scaffold .r{grid-template-columns:1fr;gap:.5vh;padding-bottom:1.6vh}
+    .scaffold .n{font-size:3vw} .scaffold .r>span:last-child{font-size:4.3vw;line-height:1.36}
+    .honesty{font-size:3.7vw;max-width:none;margin-top:2.4vh}
+    details.fu{max-width:none} details.fu>summary{font-size:3.9vw;padding:1vh 0}
+    details.fu .fu-list{grid-template-columns:1fr;gap:2.2vh} details.fu .fu-q{font-size:4.3vw} details.fu .fu-a{font-size:4vw;line-height:1.4} details.fu .move{font-size:2.9vw}
+    .toc{max-width:none} .toc .rows{grid-template-columns:1fr;gap:0} .toc a{font-size:4.3vw;padding:1.1vh 0} .toc .grp h3{font-size:3.2vw}
+    .map{grid-template-columns:1fr;font-size:4.2vw} .map .row a{font-size:3.6vw}
+    .howto{font-size:4.7vw;line-height:1.75} .stool{flex-wrap:wrap;gap:2vw} .stool .leg{font-size:5.4vw}
+    .qa-list{font-size:4.4vw;line-height:1.75}
+    .hero .num{font-size:23vw} .hero .lab,.hero .unit{font-size:3.4vw} .hero .act{font-size:5vw}
+    .hint{font-size:3vw;left:3vw;right:auto;max-width:94vw;line-height:1.9} #deck-counter{font-size:3.2vw}
+    #deck-notes{font-size:3.7vw;max-height:64vh;padding:3vh 5vw;line-height:1.5}
+    #deck-notes.show::before{content:"✕ tap to close — ";color:var(--accent);font-weight:700}
+  }
+
+  /* ============================================================
+     PRINT — legible but paper-thrifty: all content flows compactly, follow-ups expanded, chrome gone
+     ============================================================ */
+  @media print{
+    @page{margin:10mm}
+    html,body{background:#fff!important;color:#000;height:auto;overflow:visible}
+    .deck{position:static}
+    #deck-progress,#deck-counter,.hint,#deck-notes,.pulse{display:none!important}
+    .noprint{display:none!important}
+    .slide{position:static!important;display:block!important;opacity:1!important;height:auto;min-height:0;
+      padding:0;margin:0 0 4mm 0;border-bottom:1px solid #bbb;padding-bottom:3mm;
+      break-inside:avoid;page-break-inside:avoid}
+    .slide.center,.slide.void{text-align:left;align-items:stretch}
+    .kicker{font-size:7pt;color:#2c5f8d;margin-bottom:2pt;letter-spacing:.08em}
+    h1,.huge{font-size:15pt;line-height:1.1} h2,h2.q{font-size:11pt;margin-bottom:3pt;max-width:none;line-height:1.15}
+    .statement,.big{font-size:11pt;max-width:none} .lede{font-size:9pt;max-width:none} .sub{font-size:8pt;max-width:none;margin-top:2pt}
+    .scaffold{max-width:none;margin-top:2pt;gap:1.5pt}
+    .scaffold .r{grid-template-columns:42pt 1fr;gap:6pt;padding-bottom:2pt;border-color:#ddd}
+    .scaffold .n{font-size:6.5pt} .scaffold .r>span:last-child{font-size:8.3pt;line-height:1.22}
+    .scaffold b{color:#000} .accent,.hero .num{color:#1a4971}
+    .honesty{font-size:7pt;max-width:none;margin-top:2.5pt;padding:1.5pt 4pt;background:#f0f0f0;border-left:2px solid #1a4971}
+    details.fu{max-width:none;margin-top:2.5pt;padding-top:2pt;border-top:1px solid #ddd}
+    details.fu>summary{font-size:7pt;color:#1a4971;list-style:none} details.fu>summary::before{content:""}
+    details.fu .fu-list{display:grid!important;grid-template-columns:1fr 1fr;gap:2pt 8pt;margin-top:2pt}
+    details.fu .fu-q{font-size:7.6pt;color:#1a4971} details.fu .fu-a{font-size:7.6pt;line-height:1.2} details.fu .move{font-size:6pt;color:#666}
+    .stool{gap:4pt;margin:3pt 0} .stool .leg{font-size:10pt;border-width:1px;padding:2pt 6pt;background:none}
+    .howto{font-size:9pt;line-height:1.5} .qa-list{font-size:8pt;line-height:1.3}
+    .map{grid-template-columns:1fr 1fr;font-size:7.5pt} .hero{align-items:flex-start;text-align:left} .hero .num{font-size:20pt} .hero .act{font-size:9pt}
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- 1 HOW TO -->
+<section class="slide center noprint" data-notes="This is a drill, not a script. Open contents (C), pick a question, say the WHOLE answer out loud from the beats, THEN press N to check yourself against the full version. Press R for a random question to simulate the real thing.">
+  <div class="kicker">Interview rehearsal · Developer Publications (backend)</div>
+  <h1>Say it out loud.<br>Then <span class="u">check yourself.</span></h1>
+  <div class="howto">
+    <b>1.</b> Read the question. &nbsp; <b>2.</b> Say your <b>whole answer out loud</b> from the beats.<br>
+    <b>3.</b> Only then press <b>N</b> to reveal the full version and self-correct.<br>
+    <b>C</b> contents · <b>R</b> a random question · <b>N</b> notes · <b>F</b> fullscreen
+  </div>
+</section>
+
+<!-- 2 TOC tier 1 -->
+<section class="slide noprint" data-toc data-notes="Pick by leverage, not order: frame first, then the core stories you reuse everywhere, then the curveballs.">
+  <div class="kicker">Contents — pick a question, drill it</div>
+  <div class="toc">
+    <div class="grp"><h3>Frame <span class="note">— set this up first</span></h3><div class="rows">
+      <a href="#4"><span class="num">04</span>The spine — author · content-systems · backend</a>
+      <a href="#5"><span class="num">05</span>Tell me about yourself</a>
+      <a href="#6"><span class="num">06</span>Why this role?</a>
+      <a href="#7"><span class="num">07</span>Your day-to-day</a>
+      <a href="#33"><span class="num">33</span>Holding ground under probing — the 6 moves &nbsp;(press <b>M</b>)</a>
+    </div></div>
+    <div class="grp"><h3>Core stories <span class="note">— learn once, reuse; each has Follow-ups (▾)</span></h3><div class="rows">
+      <a href="#8"><span class="num">08</span>A time under serious pressure</a>
+      <a href="#9"><span class="num">09</span>A hard technical trade-off</a>
+      <a href="#10"><span class="num">10</span>Influence without authority</a>
+      <a href="#34"><span class="num">34</span>A hard performance problem (65 min → &lt;1s)</a>
+      <a href="#35"><span class="num">35</span>Leading across teams (the contract)</a>
+      <a href="#36"><span class="num">36</span>Leading an incident / recovery</a>
+    </div></div>
+    <div class="grp"><h3>Curveballs <span class="note">— must NOT sound scripted</span></h3><div class="rows">
+      <a href="#11"><span class="num">11</span>A failure / what you'd do differently</a>
+      <a href="#12"><span class="num">12</span>Disagreeing with a direction (fix vs rebuild)</a>
+      <a href="#13"><span class="num">13</span>Areas to develop</a>
+      <a href="#14"><span class="num">14</span>Bridge lines — the turn</a>
+    </div></div>
+  </div>
+  <div class="kicker" style="margin-top:3vh;color:var(--meta)"><a href="#3" style="color:var(--accent);text-decoration:none">More → Bank · Flagships · Reference</a></div>
+</section>
+
+<!-- 3 TOC tier 2 -->
+<section class="slide noprint" data-notes="The rest — breadth, reference cards, and the night-before reminders.">
+  <div class="kicker">Contents — bank · flagships · reference</div>
+  <div class="toc">
+    <div class="grp"><h3>STAR bank <span class="note">— breadth</span></h3><div class="rows">
+      <a href="#15"><span class="num">15</span>Teamwork toward a shared goal</a>
+      <a href="#16"><span class="num">16</span>Driving a process change</a>
+      <a href="#17"><span class="num">17</span>Putting the user first</a>
+      <a href="#18"><span class="num">18</span>Helping others grow (mentoring)</a>
+      <a href="#19"><span class="num">19</span>Non-technical / expert stakeholders</a>
+      <a href="#20"><span class="num">20</span>Something you built end-to-end, alone</a>
+    </div></div>
+    <div class="grp"><h3>Flagship deep-dives <span class="note">— reference cards, with honesty notes</span></h3><div class="rows">
+      <a href="#21"><span class="num">21</span>Case-tool consolidation</a>
+      <a href="#22"><span class="num">22</span>AI bank-statement analysis</a>
+      <a href="#23"><span class="num">23</span>Partner integration</a>
+      <a href="#24"><span class="num">24</span>Observability from scratch</a>
+      <a href="#25"><span class="num">25</span>Nightly sync recovery</a>
+      <a href="#26"><span class="num">26</span>Architecture direction</a>
+    </div></div>
+    <div class="grp"><h3>Reference</h3><div class="rows">
+      <a href="#27"><span class="num">27</span>Positioning — the throughline</a>
+      <a href="#28"><span class="num">28</span>Career record</a>
+      <a href="#29"><span class="num">29</span>Questions to ask them</a>
+      <a href="#30"><span class="num">30</span>Self-quiz — coverage map</a>
+      <a href="#31"><span class="num">31</span>Fact sheet</a>
+      <a href="#32"><span class="num">32</span>Pre-flight — keep the line</a>
+    </div></div>
+  </div>
+</section>
+
+<!-- 4 THE SPINE -->
+<section class="slide center" data-notes="This is the win condition for THIS role: leave them convinced you're 'both, not one' — an author who builds content systems at scale. Steer every answer back to one of these three legs.">
+  <div class="kicker">The spine — return to this in every answer</div>
+  <div class="stool"><span class="leg">Author</span><span class="leg">Content-systems</span><span class="leg">Backend at scale</span></div>
+  <p class="sub" style="font-size:1.8vw;max-width:40ch">Most engineers have one leg. You have all three — and this role needs all three. That's the throughline; bring every story home to it.</p>
+</section>
+
+<!-- 5 TELL ME ABOUT YOURSELF -->
+<section class="slide" data-drill data-notes="FULL (aim 60–90s): I'm a backend engineer with about 15 years building systems that people rely on, mostly in Ruby and Rails. I started in government digital services, where I worked on GOV.UK — building the content taxonomy and the Step by Step journeys that turned complex processes into something millions of people could actually follow. From there into the justice system, then fintech, scaling a lending startup from zero to a hundred thousand customers, and most recently at tech-lead scope on a regulated mortgage platform, including its move into customer-facing AI. Alongside the day job I've written two technical books and maintained open-source projects for years — because I care as much about how knowledge is structured and explained as I do about the code. That combination — backend engineering at scale plus a genuine author's eye for content and documentation — is exactly why this role caught my attention. // Deliver from the four beats, not the script. Land it in 90s. End on the spine.">
+  <div class="kicker">Set-piece · aim 60–90s</div>
+  <h2 class="q">Tell me about yourself.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">1</span><span>backend, ~15 yrs, Ruby/Rails — systems people <b>rely on</b></span></div>
+    <div class="r"><span class="n">2</span><span>GOV.UK (content taxonomy + Step by Step) → justice → fintech <b>0→100K</b> → mortgage platform, tech-lead scope + AI</span></div>
+    <div class="r"><span class="n">3</span><span>two books + years of open source — I care how knowledge is <b>structured</b></span></div>
+    <div class="r"><span class="n">land</span><span>"backend at scale <b>plus</b> an author's eye for content — which is why this role caught my attention"</span></div>
+  </div>
+</section>
+
+<!-- 6 WHY THIS ROLE -->
+<section class="slide" data-drill data-notes="FULL: Two threads point straight at this. First, I've built content and documentation systems at scale — the GOV.UK taxonomy and Step by Step were fundamentally about organising and delivering structured information to millions. Second, I'm a published technical author, so I understand documentation from the writer's side — what makes it usable, what gets in the way. Most engineers have one of those; I have both. I'd be building the platform that serves developer documentation, with real empathy for the people writing it and the people reading it.">
+  <div class="kicker">Set-piece</div>
+  <h2 class="q">Why this role?</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">need</span><span>the role wants author + content-systems + backend at scale</span></div>
+    <div class="r"><span class="n">have</span><span>GOV.UK taxonomy &amp; Step by Step (content at scale) · published author · backend at scale</span></div>
+    <div class="r"><span class="n">land</span><span>"most engineers have <b>one</b>; I have <b>both</b> — empathy for the writer and the reader"</span></div>
+  </div>
+</section>
+
+<!-- 7 DAY-TO-DAY -->
+<section class="slide" data-drill data-notes="FULL: Day to day I work at tech-lead scope across architecture, observability, AI, and reliability on a high-traffic mortgage platform — owning a customer-facing AI capability end to end, building the observability the team and leadership rely on, performance and reliability work, and leading a partner integration with an external engineering team. A lot of it is taking something broken or invisible and making it measured and dependable.">
+  <div class="kicker">Set-piece</div>
+  <h2 class="q">What does your day-to-day look like?</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">scope</span><span>tech-lead scope: architecture · observability · AI · reliability — high-traffic mortgage platform</span></div>
+    <div class="r"><span class="n">work</span><span>own a customer-facing AI capability end-to-end · build the observability the team relies on · perf &amp; reliability · lead a partner integration</span></div>
+    <div class="r"><span class="n">theme</span><span>take something <b>broken or invisible</b> → make it measured and dependable</span></div>
+  </div>
+</section>
+
+<!-- 8 STAR B — PRESSURE -->
+<section class="slide" data-drill data-notes="FULL (~2 min): A nightly data sync to an external partner had been silently failing for around a month — it surfaced only when the partner flagged it, so the relationship and a month of missing data were on the line. I traced it to an expired certificate and a connection ceiling, stood up a dashboard overnight to see what was happening, and re-architected the sync from sequential processing to per-user fan-out with throttled concurrency, adding fault classification and retry resilience so it could never fail silently again. First clean run synced 14,213 users with zero failures, and the failure mode is now observable. ALT pressure story: the data-migration crisis at a major jobs platform (see #36).">
+  <div class="kicker">STAR B · under pressure · ~2 min</div>
+  <h2 class="q">Give me an example of working under serious pressure to a deadline.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>a nightly partner sync <b>silently failing ~1 month</b> — found only when the partner flagged it</span></div>
+    <div class="r"><span class="n">T</span><span>diagnose and recover fast — and make sure it can never fail silently again</span></div>
+    <div class="r"><span class="n">A</span><span>traced to expired cert + connection ceiling · dashboard overnight · sequential → <b>per-user fan-out</b>, throttled · fault classification + retry</span></div>
+    <div class="r"><span class="n">R</span><span>first clean run — <b>14,213 users</b>, zero failures; the failure mode is now observable</span></div>
+    <div class="r"><span class="n">shows</span><span>calm under pressure · diagnosis · resilient design</span></div>
+  </div>
+  <details class="fu">
+    <summary>Follow-ups they'll push (3) — answer each aloud, then check</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">How did you diagnose it so fast?</div><div class="fu-a">Logs first — a wall of connection rejections, which pointed at <b>transport, not logic</b>. The cert showed up fast; the ceiling only bit at volume. I built the dashboard so diagnosis was <b>data-driven, not guesswork</b>. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">What was your part versus the team's?</div><div class="fu-a">Mostly mine end-to-end — diagnosis through re-architecture. The <b>partner-relationship</b> side was a genuine collaboration with our partner-management people. <span class="move">attribution</span></div></div>
+      <div><div class="fu-q">Why did nobody know for a month?</div><div class="fu-a">A failure of <b>observability, not a person</b> — there was no monitoring, which is exactly why I made it observable before I fixed it. I can't get into the partner's internals, but the pattern was a wall of rejections. <span class="move">blameless · boundary</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 9 STAR E — TRADE-OFF -->
+<section class="slide" data-drill data-notes="FULL: An AI feature reading long PDF bank statements kept hitting the model's output-token limit and silently dropping transactions — real data loss, forcing users to delete everything and re-upload. Rather than trim inputs or accept partial results, I moved to a batched tool-use approach: a fixed number of transactions per turn with a fresh token budget, so one oversized request becomes a reliable sequence of calls. I weighed cost, latency and correctness, and chose correctness with predictable cost. Long documents now process completely, and I contributed the Bedrock provider upstream as open source. ALT: choosing a modular monolith over microservices — the subject of my second book.">
+  <div class="kicker">STAR E · hard trade-off · ~2 min</div>
+  <h2 class="q">Walk me through a difficult technical decision.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>AI reading long docs hit the model's <b>output-token limit</b> → silently dropped data (real data loss)</span></div>
+    <div class="r"><span class="n">T</span><span>reliable extraction for documents of any length</span></div>
+    <div class="r"><span class="n">A</span><span>not trim/partial — <b>batched tool-use</b>: a fixed slice per turn, fresh budget; weighed cost/latency/correctness → chose correctness, predictable cost</span></div>
+    <div class="r"><span class="n">R</span><span>long docs process completely; contributed the provider <b>upstream</b> (open source)</span></div>
+    <div class="r"><span class="n">shows</span><span>depth · trade-off reasoning · root-cause fix, not a symptom</span></div>
+  </div>
+  <div class="honesty">the per-document figure is a <b>unit cost</b>, not a revenue or savings number.</div>
+  <details class="fu">
+    <summary>Follow-ups they'll push (3) — answer each aloud, then check</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">Why tool-use, not just chunk the text?</div><div class="fu-a">Chunking raw text can split a record across chunks → double-count or drop rows. Structured <b>tool calls per batch</b> keep each unit clean and let me reassemble <b>deterministically</b>. <span class="move">depth</span></div></div>
+      <div><div class="fu-q">What about cost and latency?</div><div class="fu-a">More turns = more cost and time, so I used <b>prompt caching</b> to keep per-doc cost predictable, and accepted slightly higher latency to <b>never lose data</b> — correctness beat speed here. <span class="move">trade-off</span></div></div>
+      <div><div class="fu-q">How did you validate it?</div><div class="fu-a">Tested the <b>worst real document</b> we had — a very long statement with hundreds of transactions — and confirmed it processed completely and consistently. <span class="move">give the shape</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 10 STAR C — INFLUENCE -->
+<section class="slide" data-drill data-notes="FULL: The platform had almost no observability — the team was flying blind on reliability and on the metrics that mattered to the business, and I had no mandate to fix it. I built observability from scratch, including the board-level instrument the company now uses to track its main outcome metric. I created visibility first, deliberately, which let me show leadership problems they couldn't previously see — including a critical integration succeeding only around 40% of the time and producing roughly 17,000 dead jobs a week. Six dashboards in production. My pattern is: create visibility first, then fix from the data.">
+  <div class="kicker">STAR C · influence without authority · ~2 min</div>
+  <h2 class="q">Tell me about a time you drove something nobody asked you to.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>the platform had almost no observability — flying blind, no mandate to fix it</span></div>
+    <div class="r"><span class="n">T</span><span>make the platform measurable, without a mandate</span></div>
+    <div class="r"><span class="n">A</span><span>built observability from scratch incl. a <b>board-level instrument</b> · visibility first, then show leadership what they couldn't see</span></div>
+    <div class="r"><span class="n">R</span><span><b>6 dashboards</b>; surfaced an integration at <b>~40% success</b> / <b>~17,000 dead jobs a week</b></span></div>
+    <div class="r"><span class="n">shows</span><span>initiative · engineering → business outcomes · influence through evidence</span></div>
+  </div>
+</section>
+
+<!-- 11 CURVEBALL — FAILURE (failed → learned → proof) -->
+<section class="slide" data-drill data-notes="FULL: One thing I've had to unlearn — and I think a lot of engineers share it — is the urge to jump to a solution before I've really understood the problem. My clearest example is from my own side projects: I've built things, including a full product, because I was drawn to the engineering, without first proving anyone actually needed it. One I eventually shut down — it was costing money to run and solved a problem I'd never confirmed was real. That stung, because the work itself was good; it just had no demand underneath it. What I took from it changed how I work: the problem has to be present and well understood before I build the solution. So now, when something's proposed, my first question is whether we've proven the problem or just assumed it. It's exactly why, when a large speculative rebuild was recently on the table, I pushed to fix the existing system first and re-check what was actually left to solve — and we saved months by not building something nobody had shown we needed. // SHAPE: failed → learned → here's the proof I operate differently. Don't just confess the weakness — show it's closed. // The product was YOUR OWN, so it's safe to name; owning the shutdown is itself the strength.">
+  <div class="kicker">Curveball · failure / what you'd do differently</div>
+  <h2 class="q">Tell me about a time you failed.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">failed</span><span>I jump to the <b>solution</b> before I've understood the <b>problem</b> — built things, incl. a <b>full product</b>, for the engineering, with no proven need</span></div>
+    <div class="r"><span class="n">cost</span><span><b>sunset</b> one that was costing money to run — the work was good, but no demand underneath it</span></div>
+    <div class="r"><span class="n">learned</span><span>the problem must be <b>present and well understood</b> before I build — first question now: proven, or just assumed?</span></div>
+    <div class="r"><span class="n">proof</span><span>so on a large speculative <b>rebuild</b>, I pushed to <b>fix the existing system first</b> — saved <b>months</b> building nothing we'd shown we needed</span></div>
+    <div class="r"><span class="n">shows</span><span>self-awareness · a <b>closed loop</b> (failed → learned → proof) · problem-first judgement</span></div>
+  </div>
+  <details class="fu">
+    <summary>Follow-ups they'll push (4) — answer each aloud, then check</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">Give me the specific product.</div><div class="fu-a">Name it plainly — it was mine: a <b>tax &amp; investment calculator</b> I built and later sunset once it was clearly costing money with no validated demand. <span class="move">own the shutdown</span></div></div>
+      <div><div class="fu-q">How do you validate a problem is real now?</div><div class="fu-a">Look for the <b>pain before building</b>: talk to the people who'd use it, find evidence they're already working around the gap, run the smallest possible test before committing real effort. <span class="move">systemic fix</span></div></div>
+      <div><div class="fu-q">When is it fine to build something speculative?</div><div class="fu-a">Cheap, <b>time-boxed spikes</b> are fine and useful. The failure mode is committing months to an unproven assumption — match the size of the investment to the strength of the evidence. <span class="move">name the trade-off</span></div></div>
+      <div><div class="fu-q">Doesn't that slow you down?</div><div class="fu-a">The opposite. Once the problem's proven I <b>move fast and commit hard</b>, because I'm not hedging. The caution sits only at deciding <b>what</b> to build, never how fast. <span class="move">reframe</span></div></div>
+    </div>
+  </details>
+  <details class="fu alt one">
+    <summary>Alternate failure: the over-batched upgrade (3) — pick ONE, don't carry both in</summary>
+    <div class="fu-list">
+      <div><div class="fu-a"><b>The story:</b> I bundled too much into one big dependency &amp; runtime-upgrade batch — a judgement error driven by approval friction. Something reached prod a smaller batch would've caught. Now I cut changes into the smallest risk-based slices, each with its own verification. It's why I care about a fast, trustworthy pipeline.</div></div>
+      <div><div class="fu-q">Why batch it instead of splitting?</div><div class="fu-a">Honestly, <b>approval friction</b> — I let the slowness of the process push me into a bigger-bang change. That's the instinct I corrected. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">How do you decide batch size now?</div><div class="fu-a">By <b>risk, not convenience</b> — smallest shippable slice with its own verification, even if that's more rounds. <span class="move">systemic fix</span></div></div>
+      <div><div class="fu-q">What did it cost?</div><div class="fu-a">Caught risk in prod rather than before it — partly luck, and <b>relying on luck is what I removed</b>. <span class="move">systemic fix</span></div></div>
+    </div>
+  </details>
+  <div class="honesty" style="border-left-color:var(--meta)"><b>Pick one</b> the night before — problem-before-solution (above) or the over-batched upgrade. Don't carry both into the room.</div>
+</section>
+
+<!-- 12 CURVEBALL — DISAGREEMENT (fix vs rebuild) -->
+<section class="slide" data-drill data-notes="FULL: The business had a clear commercial goal — roughly double mortgage throughput without adding headcount. The proposed route was that a core internal data system was 'broken', so we should rebuild everything on top of something new. The scope was fuzzy, the plan was fuzzy, the risk was high, and I wasn't comfortable with it. I argued we should fix the existing system first and see what was actually left to solve. We fixed it, and once it was healthy most of the rebuild simply evaporated — we didn't need to replace it at all. That call saved something like three months of building that would've driven no uplift in the metric we cared about, and freed us to spend that time on the thing that did move the number. // KEEP IT BLAMELESS: it's about preferring the bounded-risk option, never 'leadership was wrong' or any person.">
+  <div class="kicker">Curveball · disagreeing with direction · ~2 min</div>
+  <h2 class="q">Tell me about a time you disagreed with a direction.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>goal: roughly <b>double throughput</b>, no new headcount · proposed route — a core system is "broken," <b>rebuild everything</b> (fuzzy scope, high risk)</span></div>
+    <div class="r"><span class="n">T</span><span>avoid a speculative rebuild without blocking the goal</span></div>
+    <div class="r"><span class="n">A</span><span>argued to <b>fix the existing system first</b>, then re-scope — a cheap, bounded experiment, not a "no"</span></div>
+    <div class="r"><span class="n">R</span><span>once healthy, most of the rebuild <b>evaporated</b> — saved ~<b>3 months</b> of no-value work; spent it on what moved the number</span></div>
+    <div class="r"><span class="n">shows</span><span>judgement · bounded-risk thinking · disagreeing constructively</span></div>
+  </div>
+  <details class="fu">
+    <summary>Follow-ups they'll push (3) — answer each aloud, then check</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">How did you argue it without just blocking?</div><div class="fu-a">Not "no" — "<b>fix first, then re-scope</b>, because if it's salvageable we save months." That made it a cheap experiment, not a fight. <span class="move">trade-off</span></div></div>
+      <div><div class="fu-q">What if you'd been wrong?</div><div class="fu-a">The downside was small and <b>bounded</b> — fixing was worth doing regardless, so nothing was wasted even if the rebuild were still needed. I chose the option with the cheap downside. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">So leadership made the wrong call?</div><div class="fu-a">No — it was a <b>story not yet tested against a measurement</b>. "This is broken, rebuild it" is often a story, not data; the disciplined move is to test the cheap fix first. <span class="move">blameless</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 13 CURVEBALL — AREAS TO DEVELOP -->
+<section class="slide" data-drill data-notes="FULL: My instinct is to take a lot on myself — when I see a problem, I go and fix it, which has produced a lot of the impact I'm proud of, but it's not always the highest-leverage move. The thing I'm actively working on is scaling my impact through other people: setting direction and creating the conditions for the team to solve things, rather than solving everything personally. Concretely: writing the architecture down so others can run with it, building shared vocabulary and tooling, and reviewing rather than rewriting. I'm better at it than I was a year ago, and it's the edge I most want to keep growing.">
+  <div class="kicker">Curveball · areas to develop</div>
+  <h2 class="q">What areas do you need to develop further?</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">name</span><span>I take <b>too much on myself</b> — see a problem, go fix it (real, not a humblebrag)</span></div>
+    <div class="r"><span class="n">fix</span><span>scaling impact <b>through others</b>: write architecture down · shared vocabulary &amp; tooling · review, not rewrite</span></div>
+    <div class="r"><span class="n">land</span><span>"better than a year ago — the edge I most want to grow." A <b>scaling story</b>, not a confession</span></div>
+  </div>
+</section>
+
+<!-- 14 BRIDGE LINES -->
+<section class="slide" data-notes="Drill these until reflexive. Don't end a strong answer at the result — bridge it back to the spine (author · content-systems · backend at scale). That's what wins THIS interview.">
+  <div class="kicker">Drill · the turn — end every answer on the spine</div>
+  <ul class="qa-list" style="list-style:none;max-width:70ch">
+    <li>▸ "…which is the same instinct behind the <b>book</b> and the open-source roguelike."</li>
+    <li>▸ "…that's the <b>content-taxonomy</b> problem again, just in a different domain."</li>
+    <li>▸ "…and it's why this role fits — I've done the <b>scale</b>, and I write for the <b>reader</b>."</li>
+    <li>▸ "…I care as much how knowledge is <b>structured and explained</b> as about the code."</li>
+    <li>▸ "…taking something broken or invisible and making it <b>measured and dependable</b> — that's the through-line."</li>
+  </ul>
+</section>
+
+<!-- 15 STAR A — TEAMWORK -->
+<section class="slide" data-drill data-notes="FULL: Customer-service staff and brokers were juggling more than 20 separate systems per case, which capped how many cases the business could handle. I worked across product, customer service, and the people who used the tools every day — sitting with non-technical users to understand the real workflow, not the assumed one. I owned the end-to-end pipeline and the performance work, and aligned the build with how cases actually move. The result was a unified tool that put the workflow on one screen, built to roughly double capacity without new headcount, with the main view going from a 65-minute timeout to under a second.">
+  <div class="kicker">STAR A · teamwork · ~90s</div>
+  <h2 class="q">Tell me about working with a team to accomplish a goal.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>CS &amp; brokers juggling <b>20+ systems</b> per case — capping capacity</span></div>
+    <div class="r"><span class="n">T</span><span>one consolidated tool, without disrupting live operations</span></div>
+    <div class="r"><span class="n">A</span><span>worked across product / CS / daily users · sat with non-technical users for the <b>real</b> workflow · owned pipeline + perf</span></div>
+    <div class="r"><span class="n">R</span><span>one screen; built to roughly <b>double capacity</b>; main view <b>65 min → under a second</b></span></div>
+    <div class="r"><span class="n">shows</span><span>cross-functional collaboration · user empathy · ownership</span></div>
+  </div>
+  <div class="honesty">capacity is a <b>target</b>, not banked → say "built to roughly double." Collaborative → claim the consolidation vision, productionisation &amp; perf, <b>not</b> sole authorship.</div>
+  <details class="fu derived">
+    <summary>Follow-ups — derived, vet these (3) · press D</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">What was yours versus the team's?</div><div class="fu-a">I owned the <b>consolidation vision</b>, the productionisation, the end-to-end pipeline and the performance work. It was collaborative — I don't claim sole authorship. <span class="move">attribution</span></div></div>
+      <div><div class="fu-q">How did you know it was the right tool?</div><div class="fu-a">I sat with the <b>non-technical people who used the tools every day</b> and mapped the real workflow, not the assumed one, before building. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">Double capacity — is that banked?</div><div class="fu-a">It's the <b>target</b> the tool was built toward, not a banked result — the lever was one workflow on one screen, plus the perf work. <span class="move">honesty</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 16 STAR I — PROCESS -->
+<section class="slide" data-drill data-notes="FULL: A slow deployment pipeline and undocumented systems were a drag on the whole team. I cut the deployment pipeline from around two hours to 35 minutes, upgraded the runtime ahead of its end-of-life, and established documentation and a shared architectural vocabulary. The result was faster, safer delivery and a shared language for architecture decisions.">
+  <div class="kicker">STAR I · driving process change · ~90s</div>
+  <h2 class="q">Tell me about a time you improved how the team works.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>slow deploy pipeline + undocumented systems dragging the team</span></div>
+    <div class="r"><span class="n">A</span><span>cut the pipeline <b>~2h → 35 min</b> · upgraded the runtime ahead of EOL · documentation + shared architectural vocabulary</span></div>
+    <div class="r"><span class="n">R</span><span>faster, safer delivery · a shared language for architecture decisions</span></div>
+    <div class="r"><span class="n">shows</span><span>platform thinking · raising the team's floor</span></div>
+  </div>
+  <details class="fu derived">
+    <summary>Follow-ups — derived, vet these (4) · press D</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">Why does deployment speed matter so much to you?</div><div class="fu-a">A slow pipeline pushes people toward <b>big risky batches</b>; fast, trustworthy delivery lets you ship small and safe. It's the lesson behind my failure story. <span class="move">reframe</span></div></div>
+      <div><div class="fu-q">How did the shared vocabulary actually get adopted?</div><div class="fu-a">I wrote it down and used it consistently in reviews and docs until it became the team's default — <b>adoption by usefulness, not mandate</b>. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">How exactly did you cut the pipeline time?</div><div class="fu-a">The levers: <b>cache the expensive dependency</b> we were recompiling every build; <b>Docker layer caching</b> + a <b>.dockerignore</b> so we stopped rebuilding from scratch; <b>parallelise the test suite</b> (our PR CI already runs it in parallel); <b>slim the images</b> by dropping packages that didn't belong in production; and run the <b>independent test and build stages in parallel</b> instead of in series. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">What did the parallelism cost?</div><div class="fu-a">More <b>CI compute minutes</b> — I traded a little spend for a lot of wall-clock, and <b>quantified it</b> so it was a conscious call. Production stays <b>gated</b>; only the independent, non-prod stages run concurrently. <span class="move">trade-off</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 17 STAR G — USER FOCUS -->
+<section class="slide" data-drill data-notes="FULL: The bank-statement feature was failing users in a way that made them lose work, and I heard it directly through named user feedback. I treated the feedback as the specification, diagnosed the real cause, and rebuilt the approach so the data-loss path could not happen — a capability users could trust on real, messy documents. ALT: GOV.UK Step by Step, turning complex government processes into journeys ordinary people could follow.">
+  <div class="kicker">STAR G · user focus · ~90s</div>
+  <h2 class="q">Tell me about a time you put the user first.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>the bank-statement feature made users <b>lose work</b> — heard via named user feedback</span></div>
+    <div class="r"><span class="n">T</span><span>remove the failure mode, not patch around it</span></div>
+    <div class="r"><span class="n">A</span><span>treated the feedback as the <b>spec</b> · diagnosed the real cause · rebuilt so data-loss can't happen</span></div>
+    <div class="r"><span class="n">R</span><span>a capability users trust on real, messy documents</span></div>
+    <div class="r"><span class="n">shows</span><span>user empathy · feedback-driven engineering</span></div>
+  </div>
+  <details class="fu derived">
+    <summary>Follow-ups — derived, vet these (2) · press D</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">How did you hear the feedback?</div><div class="fu-a">Directly, through <b>named user feedback</b> — I treated it as the specification, not a nice-to-have. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">Why rebuild rather than patch around it?</div><div class="fu-a">A patch leaves the <b>data-loss path</b> in place; losing a user's work is the worst failure mode, so I removed the path entirely. <span class="move">systemic fix</span></div></div>
+    </div>
+  </details>
+  <div class="honesty" style="border-left-color:var(--meta)">same underlying work as the trade-off slide (#9) — here told as <b>user empathy</b>. Don't tell both back-to-back in one interview.</div>
+</section>
+
+<!-- 18 STAR H — MENTORING -->
+<section class="slide" data-drill data-notes="FULL: I've worked on teams with engineers at different levels who needed to ramp and level up, and the goal was to raise capability without slowing delivery. Consistent pair programming, one-to-ones, and team-wide knowledge-sharing sessions, plus structured onboarding for new hires at all levels — and more recently documenting previously undocumented systems and building onboarding tooling. The result was a faster ramp for new joiners and a higher shared baseline.">
+  <div class="kicker">STAR H · mentoring · ~90s</div>
+  <h2 class="q">How have you helped others grow?</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>teams with engineers at different levels needing to ramp and level up</span></div>
+    <div class="r"><span class="n">A</span><span>pairing · 1:1s · team knowledge-sharing · structured onboarding · documented undocumented systems + onboarding tooling</span></div>
+    <div class="r"><span class="n">R</span><span>faster ramp for new joiners · a higher shared baseline</span></div>
+    <div class="r"><span class="n">shows</span><span>multiplier effect · teaching instinct (ties to the author spine)</span></div>
+  </div>
+  <details class="fu derived">
+    <summary>Follow-ups — derived, vet these (2) · press D</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">Give me a concrete example.</div><div class="fu-a">I <b>documented a previously undocumented codebase</b> and built onboarding tooling so new people got productive without me; earlier, I mentored a junior through their part of a project who was <b>promoted to mid-level</b>. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">How do you mentor without slowing delivery?</div><div class="fu-a">In the flow of real work — pairing and review — plus writing things down so the knowledge scales <b>past me</b>: review, not rewrite. <span class="move">systemic fix</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 19 STAR J — STAKEHOLDERS -->
+<section class="slide" data-drill data-notes="FULL: At the Ministry of Justice, a service had to encode complex legal rules about disclosing cautions and convictions. I worked directly with policymakers and legal experts, using scenario-based requirements gathering to translate the law into algorithms, checking my understanding against real cases. The result was a service that handled genuinely complex rules and improved access to justice.">
+  <div class="kicker">STAR J · non-technical / expert stakeholders · ~2 min</div>
+  <h2 class="q">Tell me about working with non-technical stakeholders.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>at the Ministry of Justice — a service encoding complex <b>legal rules</b> (cautions/convictions disclosure)</span></div>
+    <div class="r"><span class="n">T</span><span>turn legal complexity into correct, usable software</span></div>
+    <div class="r"><span class="n">A</span><span>worked directly with policymakers &amp; legal experts · <b>scenario-based</b> requirements · translated law → algorithms · checked vs real cases</span></div>
+    <div class="r"><span class="n">R</span><span>handled genuinely complex rules · improved access to justice</span></div>
+    <div class="r"><span class="n">shows</span><span>translating ambiguity · stakeholder communication · public-service rigour</span></div>
+  </div>
+  <details class="fu derived">
+    <summary>Follow-ups — derived, vet these (2) · press D</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">How did you make sure you got the law right?</div><div class="fu-a"><b>Scenario-based</b> requirements with the policymakers and legal experts, checking my understanding against <b>real cases</b> rather than my reading of the text. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">What did you do when a rule was ambiguous?</div><div class="fu-a">Took the <b>specific real scenario</b> back to the experts instead of guessing, and translated the law into algorithms case by case. <span class="move">give the shape</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 20 STAR K — SOLO BUILD -->
+<section class="slide" data-drill data-notes="FULL: I wanted to solve a real documentation problem for UK domiciliary care providers, and I built CarerNotes solo: an offline-first PWA with medical transcription, AI summarisation, field-level encryption, and around 1,700 automated tests — a working B2B SaaS that handled sensitive data responsibly. The test count is the tell: discipline under solo conditions.">
+  <div class="kicker">STAR K · end-to-end solo build · ~2 min</div>
+  <h2 class="q">Tell me about something you built from nothing.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>a real documentation problem for UK domiciliary-care providers</span></div>
+    <div class="r"><span class="n">T</span><span>build a dependable product, solo</span></div>
+    <div class="r"><span class="n">A</span><span><b>CarerNotes</b> — offline-first PWA · medical transcription · AI summarisation · field-level encryption · <b>~1,700 tests</b></span></div>
+    <div class="r"><span class="n">R</span><span>a working B2B SaaS handling sensitive data responsibly</span></div>
+    <div class="r"><span class="n">shows</span><span>full-stack ownership · security-mindedness · discipline (the test count is the tell)</span></div>
+  </div>
+  <details class="fu derived">
+    <summary>Follow-ups — derived, vet these (2) · press D</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">Why ~1,700 tests for a solo project?</div><div class="fu-a">It handles <b>sensitive medical data</b>, so the test count is the discipline — solo, the tests are my safety net. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">How did you handle the sensitive data?</div><div class="fu-a"><b>Field-level encryption</b> and offline-first, so data stayed protected and usable without a connection — security as a <b>design constraint</b>, not an afterthought. <span class="move">systemic fix</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 21–26 FLAGSHIPS -->
+<section class="slide" data-notes="Reference card. The deep version of the teamwork story (#15). Lead with the consolidation vision and the perf work; hold the honesty line on capacity and authorship.">
+  <div class="kicker">Flagship 1 · deep-dive</div>
+  <h2 class="q">Case-tool consolidation</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">what</span><span>consolidated <b>22 systems</b> into one case-management workflow · owned the call pipeline (webhook → transcription → AI summary)</span></div>
+    <div class="r"><span class="n">perf</span><span>main case view <b>65-minute timeout → under one second</b></span></div>
+    <div class="r"><span class="n">aim</span><span>built to roughly <b>double case capacity</b> without added headcount</span></div>
+  </div>
+  <div class="honesty">capacity is a <b>target</b>, not banked. Collaborative → claim the vision, productionisation, pipeline &amp; perf, <b>not</b> sole authorship.</div>
+</section>
+
+<section class="slide" data-notes="Reference card / the trade-off story (#9). The hard part was the silent data loss; the fix was batched tool-use; the multiplier is the upstream OSS contribution.">
+  <div class="kicker">Flagship 2 · deep-dive</div>
+  <h2 class="q">AI bank-statement analysis</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">what</span><span>reads PDF bank statements → income, recurring payments, risk signals · LLM on <b>AWS Bedrock</b></span></div>
+    <div class="r"><span class="n">hard</span><span>long statements blew the <b>output-token limit</b> → silently dropped transactions (real data loss)</span></div>
+    <div class="r"><span class="n">fix</span><span><b>batched tool-use</b> — fixed slice per turn, fresh budget · contributed the provider <b>upstream</b> (OSS)</span></div>
+  </div>
+  <div class="honesty">the per-document figure is a <b>unit cost</b>. Driven by named user feedback.</div>
+</section>
+
+<section class="slide" data-notes="Reference card. Owned end-to-end with the partner's engineers. HOLD THE LINE: it's in delivery, not yet live to brokers — say 'in progress'.">
+  <div class="kicker">Flagship 3 · deep-dive</div>
+  <h2 class="q">Partner integration, owned end-to-end</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">what</span><span>automates lender application submission so brokers stop re-keying data into separate systems</span></div>
+    <div class="r"><span class="n">scope</span><span>owned from partner evaluation → <b>1,100+ fields</b> reconciled → build, with the partner's engineers</span></div>
+  </div>
+  <div class="honesty">in <b>delivery, not yet live</b> to brokers → describe it as <b>in progress</b>.</div>
+</section>
+
+<section class="slide" data-notes="Reference card / the influence story (#10). Visibility first, then fix from the data — and the board-level instrument is the unusual part.">
+  <div class="kicker">Flagship 4 · deep-dive</div>
+  <h2 class="q">Observability from scratch</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">what</span><span><b>6 production dashboards</b> from a standing start, incl. the <b>board-level instrument</b> the company tracks its main outcome on</span></div>
+    <div class="r"><span class="n">found</span><span>a critical integration at <b>~40% success</b> · <b>~17,000 dead jobs a week</b> — previously invisible</span></div>
+    <div class="r"><span class="n">pattern</span><span>create visibility first, then fix from the data</span></div>
+  </div>
+</section>
+
+<section class="slide" data-notes="Reference card / the pressure story (#8). Lead with the diagnosis — it was silently broken a month, nobody watching.">
+  <div class="kicker">Flagship 5 · deep-dive</div>
+  <h2 class="q">Recovering a silently broken sync</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">what</span><span>a nightly partner sync <b>silently failing ~1 month</b> — expired cert + a connection ceiling</span></div>
+    <div class="r"><span class="n">fix</span><span>dashboard overnight · sequential → <b>per-user fan-out</b>, throttled · fault classification + retry</span></div>
+    <div class="r"><span class="n">result</span><span>first clean run — <b>14,213 users</b>, zero failures; failure mode now visible</span></div>
+  </div>
+</section>
+
+<section class="slide" data-notes="Reference card. The vocabulary adoption is the influence tell. HOLD THE LINE: the roadmap is written and partly adopted, not fully executed.">
+  <div class="kicker">Flagship 6 · deep-dive</div>
+  <h2 class="q">Architecture direction</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">what</span><span>authored a platform review + modernisation roadmap · defined an engine-extraction pattern whose vocabulary entered the team glossary</span></div>
+    <div class="r"><span class="n">also</span><span>cut the deploy pipeline <b>~2h → 35 min</b> · upgraded the runtime ahead of EOL</span></div>
+  </div>
+  <div class="honesty">the roadmap is written and <b>partly adopted</b> (through the shared vocabulary) — don't claim it's fully executed.</div>
+</section>
+
+<!-- 27 POSITIONING -->
+<section class="slide center" data-notes="The throughline in one breath. Pragmatic by preference; turn broken/invisible into measured/trustworthy.">
+  <div class="kicker">Positioning · the throughline</div>
+  <div class="statement" style="max-width:30ch">Systems people rely on in high-stakes moments — <span class="accent">justice, credit, employment, home.</span></div>
+  <p class="sub" style="font-size:1.6vw">Pragmatic by preference: ship the boring, dependable design over the clever liability. I turn the broken or invisible into the measured and trustworthy.</p>
+</section>
+
+<!-- 28 CAREER -->
+<section class="slide" data-notes="GOV.UK is promoted to the top because it's the MOST relevant to a Publications role — content taxonomy + Step by Step + search at scale. Describe the current role by domain, never by employer internals.">
+  <div class="kicker">Career record</div>
+  <div class="scaffold" style="max-width:80vw">
+    <div class="r"><span class="n">GDS ★</span><span><b>GOV.UK</b>, 60M+/mo — content <b>taxonomy</b>, Step by Step, Elasticsearch search <em>(most relevant to this role)</em></span></div>
+    <div class="r"><span class="n">now</span><span>FCA-regulated mortgage fintech (Feb 2026–) — tech-lead scope · 1.7M req + 500K jobs/day · 8 services</span></div>
+    <div class="r"><span class="n">Indeed</span><span>2022–25 · 1M+ workers · <b>80%</b> fewer tickets · incident response 100K+ · early LLM</span></div>
+    <div class="r"><span class="n">MoJ</span><span>2020–22 · court services for millions · legal rules → algorithms · court payments modernised</span></div>
+    <div class="r"><span class="n">Creditspring</span><span>2018–20 · fintech <b>0 → 100K+</b> customers · event-driven · 99.9% uptime</span></div>
+    <div class="r"><span class="n">earlier</span><span>Unii · Sticky9 · HouseTrip · Think Orange · + two books, Vanilla (OSS ~5 yrs), CarerNotes</span></div>
+  </div>
+</section>
+
+<!-- 29 QUESTIONS TO ASK -->
+<section class="slide" data-notes="Pick three or four. They should sound like you're already imagining doing the job.">
+  <div class="kicker">Interviewing from strength · ask three or four</div>
+  <ul class="qa-list" style="list-style:none;max-width:74ch;font-size:1.4vw">
+    <li>▸ What does success look like for this role in the first 6–12 months?</li>
+    <li>▸ How does the publications backend balance authors who create content against developers who consume it?</li>
+    <li>▸ Where is the team investing next — scale, author tooling, search &amp; discovery?</li>
+    <li>▸ How are backend, tooling, and content people structured and working together?</li>
+    <li>▸ What's the most interesting hard problem the team faces right now?</li>
+    <li>▸ How do you think about quality and reliability for something so many developers depend on?</li>
+    <li>▸ What do the engineers who thrive here tend to have in common?</li>
+  </ul>
+</section>
+
+<!-- 30 SELF-QUIZ -->
+<section class="slide noprint" data-notes="Active recall: read the prompt, name which slide your answer lives on, then go rehearse it. Press R for a random one.">
+  <div class="kicker">Self-quiz · prompt → where your answer lives</div>
+  <div class="map">
+    <div class="row"><span>"Tell me about yourself"</span><a href="#5">#5</a></div>
+    <div class="row"><span>"Why do you want this role?"</span><a href="#6">#6</a></div>
+    <div class="row"><span>"…under pressure to a deadline?"</span><a href="#8">#8</a></div>
+    <div class="row"><span>"…a difficult technical decision?"</span><a href="#9">#9</a></div>
+    <div class="row"><span>"…drove something unasked?"</span><a href="#10">#10</a></div>
+    <div class="row"><span>"…a hard performance problem?"</span><a href="#34">#34</a></div>
+    <div class="row"><span>"…led work across teams?"</span><a href="#35">#35</a></div>
+    <div class="row"><span>"…led an incident / recovery?"</span><a href="#36">#36</a></div>
+    <div class="row"><span>"…a time you failed?"</span><a href="#11">#11</a></div>
+    <div class="row"><span>"…disagreed with a direction?"</span><a href="#12">#12</a></div>
+    <div class="row"><span>"…areas to develop?"</span><a href="#13">#13</a></div>
+    <div class="row"><span>"…worked with a team?"</span><a href="#15">#15</a></div>
+    <div class="row"><span>"…put the user first?"</span><a href="#17">#17</a></div>
+    <div class="row"><span>"…non-technical stakeholders?"</span><a href="#19">#19</a></div>
+    <div class="row"><span>"…built something from nothing?"</span><a href="#20">#20</a></div>
+  </div>
+</section>
+
+<!-- 31 FACT SHEET -->
+<section class="slide" data-notes="For recall under pressure. Have two or three numbers ready per story — vague impact is forgettable.">
+  <div class="kicker">Fact sheet · the numbers, ready</div>
+  <div class="scaffold" style="max-width:82vw">
+    <div class="r"><span class="n">scale</span><span>GOV.UK <b>60M+</b>/mo · current platform <b>1.7M</b> req/day, <b>500K+</b> jobs/day, <b>8</b> services</span></div>
+    <div class="r"><span class="n">impact</span><span>Indeed <b>80%</b> fewer tickets · Creditspring <b>0→100K+</b>, 99.9% uptime · case view <b>65 min → &lt;1s</b></span></div>
+    <div class="r"><span class="n">recent</span><span>22 systems → one · <b>1,100+</b> fields · <b>6</b> dashboards (~40% / ~<b>17,000</b> dead jobs/wk) · sync <b>14,213</b> · pipeline <b>2h → 35 min</b></span></div>
+    <div class="r"><span class="n">build</span><span>2 books · Vanilla (OSS ~5 yrs) · CarerNotes (<b>~1,700</b> tests) · upstream Bedrock provider</span></div>
+    <div class="r"><span class="n">stack</span><span>Ruby/Rails · PostgreSQL/Redis/Sidekiq/Kafka/Elasticsearch · AWS + Bedrock · NewRelic/Datadog/Sentry</span></div>
+  </div>
+</section>
+
+<!-- 32 PRE-FLIGHT -->
+<section class="slide" data-notes="Read this the night before and just before you join. You're interviewing from strength — let that steady you.">
+  <div class="kicker">Pre-flight · before each session</div>
+  <ul class="qa-list" style="list-style:none;max-width:72ch;font-size:1.5vw">
+    <li>▸ <b>Be yourself.</b> Don't over-rehearse to the point it sounds scripted.</li>
+    <li>▸ <b>Confidentiality.</b> Describe by <b>domain</b> and decision — never partner/vendor names, codenames, unreleased strategy, or internal disputes. It signals you'd protect theirs.</li>
+    <li>▸ <b>Lead with the alignment</b> — author + content-systems + backend at scale. Return to it.</li>
+    <li>▸ <b>Specifics win.</b> Two or three numbers per story. "65 minutes to under a second," not "much faster."</li>
+    <li>▸ <b>Logistics.</b> Quiet space, test the link, join ~15 min early.</li>
+    <li>▸ <b>From strength.</b> You have options. Let that steady you, not make you complacent.</li>
+  </ul>
+</section>
+
+<!-- 33 STRATEGY — holding ground under probing (reachable by M) -->
+<section class="slide" data-moves data-notes="This is the recovery card. When a probe lands and you feel the ground move, run these six. Every per-slide follow-up is tagged with one of them — so scanning the tags the night before IS the strategy review. The loop: read the question → answer aloud from the scaffold → N to check → press D to open Follow-ups → cover the screen, answer each probe aloud → uncover to check.">
+  <div class="kicker">Holding ground under probing · press M anytime to return here</div>
+  <h2 class="q" style="margin-bottom:2.4vh">Six moves for the second and third question.</h2>
+  <div class="scaffold" style="max-width:84vw">
+    <div class="r"><span class="n">1</span><span><b>Answer, then ONE layer.</b> Answer what's asked, add a single layer — keep depth in reserve, let them probe where they care.</span></div>
+    <div class="r"><span class="n">2</span><span><b>Decision + why first, not a timeline.</b> "I chose X because Y" reads senior; a play-by-play reads junior.</span></div>
+    <div class="r"><span class="n">3</span><span><b>Name the trade-off = judgement.</b> "I considered X, but chose Y because Z." The rejected alternative is the signal.</span></div>
+    <div class="r"><span class="n">4</span><span><b>End on the systemic fix.</b> "And here's what I changed so it can't recur." (their "constantly seek improvement").</span></div>
+    <div class="r"><span class="n">5</span><span><b>Blameless + name the boundary.</b> Never blame or name a person/partner. "I can't get into their internals, but the pattern was…"</span></div>
+    <div class="r"><span class="n">6</span><span><b>Don't know? Say so cleanly.</b> Never invent a number — give the shape, say you'd check, bridge back to the message.</span></div>
+  </div>
+</section>
+
+<!-- 34 STORY — the 65-minute page (technical depth, the most-probed) -->
+<section class="slide" data-drill data-notes="FULL: There was a core internal view that was effectively unusable — timing out at around 65 minutes. The cause wasn't mysterious once I looked: an unbounded count query running across a large table on every page load, plus missing indexes for how the data was actually queried. I switched the pagination to an approach that doesn't run that expensive count, and added composite indexes matched to the real access pattern. It went from a 65-minute timeout to under a second. The lesson: the dramatic wins are usually a boring root cause nobody profiled, not a clever optimisation. // BE PRECISE HERE; if you blank on a detail, give the shape and say you'd check — never bluff a specific.">
+  <div class="kicker">Technical depth · performance · the one they'll go 3 deep on</div>
+  <h2 class="q">Walk me through a hard performance problem you fixed.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>a core internal view <b>timing out at ~65 minutes</b> (504) — effectively unusable</span></div>
+    <div class="r"><span class="n">A</span><span>profiled it: an <b>unbounded COUNT</b> across a large table every load + <b>missing indexes</b> → countless pagination + <b>composite indexes</b> on the real access pattern</span></div>
+    <div class="r"><span class="n">R</span><span><b>65-min timeout → under a second</b></span></div>
+    <div class="r"><span class="n">shows</span><span>profile, don't guess · a boring root cause beats a clever optimisation</span></div>
+  </div>
+  <details class="fu">
+    <summary>Follow-ups they'll push (3) — answer each aloud, then check</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">How did you find the cause?</div><div class="fu-a">Profiled the slow request, didn't guess. The <b>count dominated</b>, and the query plan showed <b>sequential scans</b> where there should've been index lookups. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">Why was the count so expensive?</div><div class="fu-a">The default pagination counts the <b>whole filtered set on every load</b>; on a large table that's the killer. A pagination that doesn't need the full count removes it entirely. <span class="move">depth</span></div></div>
+      <div><div class="fu-q">Why composite indexes, not single-column?</div><div class="fu-a">The query <b>filtered AND ordered on a combination</b>, so a composite matching it satisfies in one go vs intersecting several. If I blanked on exact column order I'd say I'd check — but the shape was one index on the <b>filter-plus-sort</b> columns. <span class="move">never bluff</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 35 STORY — the cross-functional contract (lead without authority, altitude) -->
+<section class="slide" data-drill data-notes="FULL: We had a feature that touched several teams at once — front-end, back-end, product, partner management. Rather than let everyone discover the interface as they went, I authored a front-end to back-end contract up front and published it, so the others could build in parallel against something stable. I defined the approach, the messaging templates, the deep-linking, the data attributes, and the others built around it. I kept my updates explicit and timed, so nobody was blocked — I'd say 'the endpoint's available in forty minutes' and then deliver it, and I confirmed dependencies were ready before deploying. When the scope started to creep and I was asked to take on an adjacent piece I had no context on, I held the line politely: I was delivering the reminders, that other work wasn't mine to pick up — and saying so kept all three workstreams clean. // ALTITUDE: the Staff signal is the contract three teams built around, not the code you personally wrote.">
+  <div class="kicker">Leading without authority · the Staff-altitude story · ~2 min</div>
+  <h2 class="q">Tell me about leading a piece of work across several teams.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>a feature touching <b>several teams at once</b> — front-end, back-end, product, partner management</span></div>
+    <div class="r"><span class="n">A</span><span>authored + published a <b>front-end ↔ back-end contract</b> up front so they built in parallel · explicit <b>timed comms</b> ("endpoint in 40 min", then delivered) · held scope when it crept</span></div>
+    <div class="r"><span class="n">R</span><span><b>three workstreams</b> built around it, in parallel, unblocked</span></div>
+    <div class="r"><span class="n">shows</span><span>coordination is the Staff signal — not the code</span></div>
+  </div>
+  <details class="fu">
+    <summary>Follow-ups they'll push (3) — answer each aloud, then check</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">What made the contract good?</div><div class="fu-a">Concrete and <b>testable</b>: the endpoint shape, the payload, a live spec others could hit, plus realistic deploy ETAs — people built against it without waiting or guessing. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">How did you keep people unblocked?</div><div class="fu-a">Explicit, <b>timed comms</b> — I treated my own updates as a contract too: said 40 minutes, delivered in 40; confirmed dependencies were ready before deploying rather than assuming. <span class="move">systemic fix</span></div></div>
+      <div><div class="fu-q">What was yours vs the three teams — why is this a Staff story, not just a feature you coded?</div><div class="fu-a">My part was the <b>contract</b> — the testable interface three teams built around in parallel, plus the comms that kept them unblocked. They did their own builds; I didn't write their code. The signal isn't the code — it's that the <b>coordination only became possible once the contract existed</b>. <span class="move">attribution · altitude</span></div></div>
+    </div>
+  </details>
+</section>
+
+<!-- 36 STORY — migration recovery (incident response, blameless) -->
+<section class="slide" data-drill data-notes="FULL: At a major jobs platform we were launching a new tiering system that needed migrating historical data for around eighty thousand workers, calculating what their standing should be from their history. The early attempts went wrong in escalating ways and finally produced incorrect results that wrongly penalised real workers, triggering a spike in support tickets. The incident was called and I was brought in to lead the response. I insisted on dry-run tables so we could validate the output against reality before touching production again, and I put validation in place so we couldn't deploy another migration that would repeat the harm. The root cause was untested code plus a gap between staging and production. The lasting fix was process: nothing in that class shipped again without the validation step. // NEVER name the colleague; it's a leadership-and-recovery story, not a story about someone failing.">
+  <div class="kicker">Incident response · blameless leadership · ~2 min</div>
+  <h2 class="q">Tell me about leading an incident or a recovery.</h2>
+  <div class="scaffold">
+    <div class="r"><span class="n">S</span><span>a data migration for <b>~80K workers</b> produced incorrect results that <b>wrongly penalised</b> real people → a support-ticket spike</span></div>
+    <div class="r"><span class="n">T</span><span>lead the called incident, stop the harm, prevent a repeat</span></div>
+    <div class="r"><span class="n">A</span><span>insisted on <b>dry-run tables</b> to validate output against reality before prod · added validation so it couldn't repeat</span></div>
+    <div class="r"><span class="n">R</span><span>harm stopped once correct data went out · lasting fix was <b>process</b> — nothing in that class shipped again without validation</span></div>
+    <div class="r"><span class="n">shows</span><span>leading under fire · blameless · prevention over blame</span></div>
+  </div>
+  <details class="fu">
+    <summary>Follow-ups they'll push (3) — answer each aloud, then check</summary>
+    <div class="fu-list">
+      <div><div class="fu-q">Your specific contribution vs the team?</div><div class="fu-a">I <b>led the response</b> and owned the prevention — the dry-run-against-reality validation was what I insisted on and put in place. <span class="move">attribution</span></div></div>
+      <div><div class="fu-q">How did you know your fix worked?</div><div class="fu-a">The dry-run output was <b>validated against known-correct reality</b> before we went near production, and the ticket spike stopped once correct data went out. <span class="move">give the shape</span></div></div>
+      <div><div class="fu-q">Whose mistake was it — who wrote the broken code?</div><div class="fu-a">It was a <b>process gap</b> — untested code and a staging-production disparity — so the fix was process; nobody's the villain. <span class="move">blameless</span></div></div>
+    </div>
+  </details>
+</section>
+
+</div>
+
+<div id="deck-progress"></div>
+<div id="deck-counter">1 / 36</div>
+<div class="hint"><a href="#2">☰ Contents</a> · <button type="button" class="linkbtn" onclick="document.getElementById('deck-notes').classList.toggle('show')">✎ Notes</button> · <a href="#33">⚑ Moves</a> · <button type="button" class="linkbtn" onclick="window.print()">🖨 Print</button> · <b>D</b> follow-ups · <b>R</b> random</div>
+<div id="deck-notes" onclick="this.classList.remove('show');event.stopPropagation()"></div>
+
+<script src="deck.js"></script>
+</body>
+</html>
