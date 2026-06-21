@@ -28,6 +28,14 @@ Turning a Rails monolith into a *runnable refactor epic* — diagnosis, a phased
 
 ---
 
+## ux-auditor
+
+A code review for your live UX. Point it at a URL and five specialist agents — performance, accessibility, user journeys, visual hierarchy, and copy — audit it in parallel; a synthesis pass returns one verdict (🟢 ship / 🟡 worth fixing / 🔴 don't ship) with the evidence behind it. Invoked as `/ux-audit <url>`.
+
+[View presentation](/presentations/ux-auditor/)
+
+---
+
 ## How Rails Engines Solve the Modular Monolith Problem
 
 A talk on using Rails Engines to decompose monoliths without reaching for microservices. Based on [Modular Rails: Architecture for the Long Game](/modular-rails/).

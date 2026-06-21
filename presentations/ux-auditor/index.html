@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ux-auditor — a code review for your live UX · David Silva</title>
+<style>
+:root{
+  --bg:#FBF7F0; --ink:#22201C; --ink2:#46423a; --muted:#8a8578;
+  --coral:#E2603F; --coral-ink:#fff; --teal:#1F6F6B; --code:#F3EEE4; --line:#e6ddcc;
+  --red:#b23a2a; --redwash:#f7e3de; --green:#2f7d4f; --amber:#b07e00; --amber-line:#f4bf4f;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:7vh 9vw;opacity:0;transition:opacity .35s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+/* type scale */
+.kicker{font-family:var(--mono);font-size:1.05vw;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:2.2vh}
+h1{font-size:6.6vw;font-weight:800;line-height:.98;letter-spacing:-.02em}
+h2{font-size:4.4vw;font-weight:800;line-height:1.02;letter-spacing:-.015em}
+h3{font-size:2.9vw;font-weight:700;line-height:1.08}
+.big{font-size:5.2vw;font-weight:800;line-height:1.04;letter-spacing:-.02em}
+.lede{font-size:2.5vw;font-weight:500;line-height:1.3;color:var(--ink2);max-width:24ch}
+p.body{font-size:2vw;line-height:1.4;color:var(--ink2);max-width:30ch;margin-top:2.4vh}
+.sig{color:var(--coral)}
+.tealc{color:var(--teal)}
+.sub{font-size:1.7vw;color:var(--muted);margin-top:1.6vh;line-height:1.35;max-width:40ch}
+.stack{display:flex;flex-direction:column;gap:.4vh}
+.stack .w{font-size:6vw;font-weight:800;letter-spacing:-.02em;line-height:1.02}
+/* coral full-bleed act/statement slides */
+.slide.coral{background:var(--coral);color:var(--coral-ink)}
+.slide.coral .kicker{color:#ffe2d8}
+.slide.coral .big,.slide.coral h2,.slide.coral h1{color:#fff}
+.slide.coral .sub{color:#ffe2d8}
+/* quote slides */
+.slide.quote{align-items:center;text-align:center}
+.quote .q{font-size:3.3vw;font-weight:600;line-height:1.28;max-width:24ch;letter-spacing:-.01em}
+.quote .who{font-family:var(--mono);font-size:1.2vw;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3vh}
+/* code */
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:2.4vh 2vw;
+  font-family:var(--mono);font-size:1.55vw;line-height:1.55;overflow:hidden;max-width:62vw}
+pre .dim{opacity:.34}
+pre .hl{color:var(--ink);font-weight:600}
+pre .cmt{color:var(--muted)}
+pre .key{color:var(--coral)}
+pre .const{color:var(--teal)}
+.barline{border-left:3px solid var(--coral);padding-left:.6vw}
+/* faux terminal */
+.term{width:72vw;max-width:1100px;background:#1c1a17;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.term .bar{display:flex;gap:.6vw;align-items:center;padding:1.4vh 1.2vw;background:#2a2723}
+.term .dot{width:.95vw;height:.95vw;max-width:13px;max-height:13px;border-radius:50%}
+.d1{background:#ef6a5e}.d2{background:#f4bf4f}.d3{background:#62c554}
+.term .ttl{font-family:var(--mono);font-size:.95vw;letter-spacing:.04em;color:#8d867a;margin-left:1vw}
+.term .body{padding:2.6vh 1.8vw;font-family:var(--mono);font-size:1.5vw;line-height:1.7;color:#e9e4da}
+.term .body.cast{white-space:pre;word-break:break-word}
+.term .p{color:#7fd1a0}.term .c{color:#fff;font-weight:600}.term .o{color:#bdb6a8}
+.term .new{color:#7fd1a0;font-weight:600}.term .err{color:#ff8a76;font-weight:600}
+.term .ok{color:#8fe3a8}.term .arrow{color:#f4bf4f}
+/* diagrams */
+.diagram{display:flex;gap:1.4vw;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:1vh}
+.node{border:2px solid var(--teal);border-radius:12px;padding:1.6vh 1.4vw;font-family:var(--mono);font-size:1.3vw;color:var(--teal);background:#f0f6f5;font-weight:600}
+.node.mono-box{display:flex;flex-direction:column;gap:1vh;align-items:center;border-color:var(--ink);color:var(--ink);background:#fff;padding:2.4vh 2vw}
+.node.mono-box .row{display:flex;gap:1vw;flex-wrap:wrap;justify-content:center}
+.node.mono-box .e{border:1.5px solid var(--coral);color:var(--coral);border-radius:8px;padding:.7vh 1vw;font-size:1.1vw;background:#fdeee9}
+.arrowx{font-size:2.6vw;color:var(--coral);font-weight:800}
+.cap{font-family:var(--mono);font-size:1.2vw;color:var(--muted);margin-top:2.4vh;letter-spacing:.04em}
+/* objection rows */
+.rows{display:flex;flex-direction:column;gap:1.3vh;margin-top:1vh;max-width:74vw}
+.rows .r{display:grid;grid-template-columns:20vw 1fr;gap:1.6vw;align-items:baseline;padding-bottom:1.3vh;border-bottom:1px solid var(--line)}
+.rows .k{font-family:var(--mono);font-size:1.5vw;color:var(--coral);font-weight:600}
+.rows .v{font-size:1.55vw;color:var(--ink2);line-height:1.32}
+/* doors */
+.doors{display:flex;gap:1.6vw;margin-top:2vh}
+.door{flex:1;border:2px solid var(--line);border-radius:14px;padding:3vh 2vw;background:#fff}
+.door .t{font-family:var(--mono);font-size:1.3vw;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.door .d{font-size:1.7vw;font-weight:700;margin-top:1.2vh}
+.door .s{font-size:1.3vw;color:var(--muted);margin-top:.8vh;line-height:1.3}
+.urls{font-family:var(--mono);font-size:1.3vw;color:var(--ink2);margin-top:4vh;line-height:1.9}
+.urls b{color:var(--coral)}
+/* lists */
+ul.real{list-style:none;margin-top:1.5vh}
+ul.real li{font-size:1.7vw;line-height:1.7;color:var(--ink2);padding-left:1.6vw;position:relative}
+ul.real li::before{content:"▸";color:var(--coral);position:absolute;left:0}
+ul.real li b{color:var(--ink)}
+/* title slide */
+.titleslide .wm{font-size:7vw;font-weight:800;line-height:.95;letter-spacing:-.025em}
+.titleslide .wm .you{color:var(--coral)}
+.titleslide .meta{font-family:var(--mono);font-size:1.4vw;color:var(--muted);margin-top:3.5vh;letter-spacing:.08em}
+/* key-value card — warm editorial card */
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;margin-top:1vh;max-width:74vw;box-shadow:0 2px 4px rgba(0,0,0,.03)}
+.card .row{display:grid;grid-template-columns:16vw 1fr;gap:1.6vw;align-items:baseline;padding:1.7vh 2vw;border-bottom:1px solid var(--line)}
+.card .row:last-child{border-bottom:0}
+.card .k{font-family:var(--mono);font-size:1.25vw;letter-spacing:.1em;color:var(--coral);font-weight:700}
+.card .v{font-size:1.55vw;color:var(--ink2);line-height:1.34}
+.card .v b{color:var(--ink)}
+/* montage chips (the juggle) */
+.mont{display:flex;flex-wrap:wrap;gap:1.2vw;margin-top:1vh;max-width:74vw}
+.mont .m{font-family:var(--mono);font-size:1.4vw;color:var(--ink2);border:1px solid var(--line);
+  border-radius:30px;padding:1.1vh 1.6vw;background:#fff}
+/* ============ THE VERDICT TRIO — this deck's signature, in the warm palette ============ */
+.verdicts{display:flex;gap:1.8vw;margin-top:3.4vh;justify-content:center;max-width:78vw}
+.vd{flex:1;max-width:20vw;border:1px solid var(--line);border-top:4px solid var(--line);
+    border-radius:14px;padding:3.2vh 1.4vw;text-align:center;background:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.04)}
+.vd .e{font-size:3.4vw;line-height:1}
+.vd .l{font-family:var(--mono);font-size:1.1vw;letter-spacing:.06em;margin-top:1.6vh;
+    font-weight:700;text-transform:uppercase;white-space:nowrap}
+.vd .s{font-size:1.05vw;color:var(--muted);margin-top:1vh;line-height:1.34}
+.vd.green{border-top-color:var(--green)} .vd.green .l{color:var(--green)}
+.vd.amber{border-top-color:var(--amber-line)} .vd.amber .l{color:var(--amber)}
+.vd.red{border-top-color:var(--red)} .vd.red .l{color:var(--red)}
+/* roster (editorial list) */
+.agents{display:grid;grid-template-columns:1fr;gap:0;max-width:78vw;margin-top:2vh}
+.ag{display:grid;grid-template-columns:14vw 1fr;gap:1.6vw;align-items:baseline;
+    border-bottom:1px solid var(--line);padding:1.55vh 0}
+.ag .nm{font-family:var(--mono);color:var(--coral);font-size:1.5vw;font-weight:700}
+.ag .surf{font-size:1.7vw;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+.ag .tool{font-family:var(--mono);font-size:1.02vw;color:var(--muted);margin-top:.5vh}
+/* flow diagram (fan-out → funnel) */
+.flow{display:flex;align-items:center;justify-content:center;gap:1.1vw;flex-wrap:wrap;max-width:84vw;margin-top:1.6vh}
+.flow .stage{border:1.5px solid var(--teal);border-radius:12px;padding:2.2vh 1.4vw;text-align:center;
+    background:#f0f6f5;min-width:10vw}
+.flow .stage.synth{border-color:var(--green);border-width:2px;background:#eef6f0}
+.flow .stage .t{font-family:var(--mono);font-weight:700;font-size:1vw;color:var(--teal);
+    letter-spacing:.08em;text-transform:uppercase}
+.flow .stage.synth .t{color:var(--green)}
+.flow .stage .d{font-size:1.1vw;color:var(--ink2);margin-top:.8vh;line-height:1.26}
+.flow .arrow{color:var(--coral);font-size:2.2vw;font-weight:800}
+.fan{display:flex;flex-direction:column;gap:.65vh}
+.fan .p{font-family:var(--mono);font-size:1vw;color:var(--coral);
+    border:1.5px solid var(--coral);border-radius:8px;padding:.7vh 1vw;background:#fdeee9;font-weight:600}
+/* example-finding card — warm evidence + footnote */
+.exfind{background:#fff;border:1px solid var(--line);
+  border-left:6px solid var(--amber-line);border-radius:12px;
+  padding:3vh 2.8vw;max-width:68vw;margin-top:2.2vh;text-align:left;
+  box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.exfind.red{border-left-color:var(--red)}
+.exfind .tag{font-family:var(--mono);font-size:1.05vw;font-weight:700;color:var(--amber);letter-spacing:.02em}
+.exfind.red .tag{color:var(--red)}
+.exfind .title{font-size:2.4vw;font-weight:800;color:var(--ink);line-height:1.1;margin:1vh 0 1.6vh;letter-spacing:-.012em}
+.exfind .mean{font-size:1.4vw;line-height:1.46;color:var(--ink2);max-width:58ch}
+.exfind .mean b{color:var(--ink);font-weight:700}
+.exfind .meta-row{display:flex;gap:2.4vw;flex-wrap:wrap;margin-top:2vh;
+  border-top:1px solid var(--line);padding-top:1.6vh}
+.exfind .ev,.exfind .fix{font-family:var(--mono);font-size:1.05vw;line-height:1.4}
+.exfind .ev{color:var(--muted)}
+.exfind .fix{color:var(--green);font-weight:700}
+.exfind .ev .mk,.exfind .fix .mk{font-weight:700;margin-right:.35em}
+.exfind .ev .mk{color:var(--muted)} .exfind .fix .mk{color:var(--coral)}
+.exfind .ev code,.exfind .fix code{font-family:var(--mono);background:var(--code);border-radius:4px;padding:.05em .35em;color:var(--coral)}
+.exfind .mean code{font-family:var(--mono);background:var(--code);border-radius:4px;padding:.05em .35em;color:var(--coral);font-size:.86em}
+/* demo decode panel (warm cards) */
+.decode{display:grid;grid-template-columns:1fr 1fr;gap:1.6vw 2.6vw;max-width:80vw;margin-top:2.4vh;text-align:left}
+.decode .d{background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:2.4vh 2vw;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+.decode .d .n{font-family:var(--mono);font-weight:700;font-size:.95vw;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted)}
+.decode .d .h{font-size:1.85vw;font-weight:800;color:var(--ink);line-height:1.12;margin:.8vh 0 .9vh;letter-spacing:-.01em}
+.decode .d p{font-size:1.26vw;line-height:1.42;color:var(--ink2);margin:0}
+.decode .d.payoff{grid-column:1 / -1;border-color:var(--green);border-left:5px solid var(--green)}
+.decode .d.payoff .n{color:var(--green)}
+/* verdict report block (real output) — warm dark terminal card */
+.report{font-family:var(--mono);font-size:1.2vw;line-height:1.62;text-align:left;
+  background:#1c1a17;border-radius:12px;padding:3.2vh 2.6vw;max-width:64vw;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.report .head{font-weight:800;color:#f4bf4f;font-size:2vw;letter-spacing:-.01em}
+.report .counts{color:#9a948a;font-size:1.02vw;margin:.8vh 0 2.2vh}
+.report .sec{color:#ff8a76;font-weight:700;margin-top:1.8vh}
+.report .sec.w{color:#f4bf4f}
+.report .f{color:#e9e4da;padding-left:1.4vw}
+.report .ev{color:#9a948a;padding-left:2.8vw;font-size:1.02vw}
+.report .fix{color:#8fe3a8;padding-left:2.8vw;font-size:1.02vw}
+/* rule grid */
+.rulegrid{display:flex;flex-direction:column;gap:0;max-width:70vw}
+.rulegrid .r{display:grid;grid-template-columns:9vw 1fr;gap:1.4vw;align-items:baseline;
+  border-bottom:1px solid var(--line);padding:1.35vh 0;font-size:1.6vw;color:var(--ink2)}
+.rulegrid .r b{color:var(--ink)}
+.rulegrid .r .n{font-family:var(--mono);font-size:1.3vw;color:var(--coral);font-weight:700}
+/* split (v1/v2 honesty) */
+.split{display:flex;gap:2vw;margin-top:1.5vh;max-width:78vw}
+.split .a,.split .b{flex:1;border:1px solid var(--line);border-radius:12px;padding:2.6vh 2vw;background:#fff}
+.split .b{border-left:5px solid var(--amber-line)}
+.split .lab{font-family:var(--mono);font-size:1.2vw;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.split .b .lab{color:var(--amber)}
+.split .t{font-size:1.55vw;color:var(--ink2);line-height:1.34;margin-top:1.2vh}
+.split .a .lab{color:var(--green)}
+/* chrome */
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1.1vw;color:var(--muted);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--coral);transition:width .35s;z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(28,26,23,.96);color:#f0ece3;
+  font-family:var(--sans);font-size:1.5vh;line-height:1.5;padding:2.2vh 3vw;display:none;z-index:8;border-top:3px solid var(--coral)}
+.notes.show{display:block}
+.notes b{color:#f4bf4f}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
+@media(max-width:760px){h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}pre,.term{max-width:90vw;font-size:3.2vw}.decode{grid-template-columns:1fr}.verdicts{flex-direction:column}.vd{max-width:none}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 COLD OPEN -->
+<section class="slide center" data-notes="Open cold. No tool, no name. Just the question the whole room ships against every week. 'How do you actually KNOW the thing you're about to ship is good UX?' Wait. Let them realise the honest answer is usually: we don't — it looked fine on someone's laptop.">
+  <h1>How do you know the thing<br>you're about to ship<br>is <span class="sig">actually good UX?</span></h1>
+</section>
+
+<!-- 2 THE PAIN, NAMED -->
+<section class="slide" data-notes="Name the honest answer. Most of the time UX quality ships on a hunch — 'it looked fine on my laptop.' That's not a review. The real review exists; it's just slow, so the hunch keeps winning.">
+  <div class="kicker">The honest answer</div>
+  <div class="stack">
+    <span class="w">It looked fine.</span><span class="w sig">On my laptop.</span>
+  </div>
+  <p class="body">That's not a review. It's a <b>vibe</b> — and the vibe is what we keep shipping.</p>
+</section>
+
+<!-- 3 THE JUGGLE -->
+<section class="slide" data-notes="Why does the vibe win? Because a real review means juggling five different reviews and a lot of taste — Lighthouse for speed, axe for accessibility, clicking the journeys by hand on three screen sizes, eyeballing the design, reading the copy. Slow, siloed, inconsistent run to run. Nobody does all five, every time.">
+  <div class="kicker">The honest cost of a real review</div>
+  <h2>A proper pass means<br><span class="sig">juggling five reviews.</span></h2>
+  <div class="mont" style="margin-top:4vh">
+    <div class="m">Lighthouse — speed</div>
+    <div class="m">axe-core — accessibility</div>
+    <div class="m">click the journeys by hand</div>
+    <div class="m">eyeball the design</div>
+    <div class="m">read the copy</div>
+  </div>
+  <p class="sub" style="max-width:56ch">Slow, siloed across tools, inconsistent run to run. So most of the time, most of it gets skipped.</p>
+</section>
+
+<!-- 4 PERSONAL INCITING INCIDENT -->
+<section class="slide" data-notes="My own version. I already had /self-review — a reviewer that takes my code branch and hands me one verdict before I open the PR. I trusted it. Then I'd ship a website and judge its UX by eye, the old way. The mismatch nagged at me: I wanted that same one-verdict /self-review, pointed at a live website instead of a git branch.">
+  <div class="kicker">Where this came from</div>
+  <p class="big" style="margin-bottom:2.4vh">I already had <span class="sig">/self-review</span><br>for my code.<br>I wanted it for my <span class="sig">websites.</span></p>
+  <p class="sub" style="max-width:52ch">A reviewer that hands me one honest verdict before I ship — but pointed at a URL, not a branch. Judging UX by eye felt like the one place I still trusted a hunch.</p>
+</section>
+
+<!-- 5 TITLE (delayed) -->
+<section class="slide center titleslide" data-notes="NOW name it. ux-auditor. Read the one sentence slowly — five specialists review a URL in parallel, then one synthesis pass hands you a single verdict. Everything after this is detail. And who I am.">
+  <div class="wm"><span class="you">ux-auditor</span></div>
+  <div class="meta">five specialist agents audit a URL in parallel — performance · accessibility · journeys · vision · copy — then one synthesis pass hands you a single verdict</div>
+  <div class="meta" style="margin-top:2vh">David Silva · @davidslv · davidslv.uk</div>
+</section>
+
+<!-- 6 THESIS (one sentence) -->
+<section class="slide center" data-notes="The whole thing in one sentence. It's /self-review — the code-branch reviewer — but pointed at a live website. Same verdict shape. If you know one, you know the other. Invoked as /ux-audit <url>. Output: a directory of evidence plus one 🟢/🟡/🔴 line.">
+  <div class="kicker">What it is</div>
+  <div class="big" style="max-width:24ch">A code review —<br>for your <span class="sig">live UX.</span></div>
+  <p class="sub" style="max-width:52ch;margin-top:3vh">Invoked as <span class="tealc">/ux-audit &lt;url&gt;</span>. Out comes a directory of evidence — and one 🟢 / 🟡 / 🔴 line that tells you whether to ship.</p>
+</section>
+
+<!-- 7 ACT: five reviewers, one verdict (coral) -->
+<section class="slide coral center" data-notes="The act break — the line the talk turns on. You don't juggle five tools and cross-reference them yourself. Five specialists review at once, and the tool hands you ONE answer.">
+  <div class="big">Five reviewers.<br><span style="text-decoration:underline;text-decoration-color:#fff">One verdict.</span></div>
+</section>
+
+<!-- 8 THE ROSTER -->
+<section class="slide" data-notes="The five specialists. Each owns one surface and one toolchain. perf-console: Lighthouse plus live console and network listeners, with SEO basics. a11y: axe-core at WCAG 2.1 AA, a keyboard probe, a reduced-motion check. journey: Playwright replaying YOUR written journeys at three widths. vision: Claude vision for hierarchy and a Cognitive Load Score. copy: Flesch-Kincaid, jargon density, voice and trust signals. Name them — don't gesture.">
+  <div class="kicker">The roster · five surfaces, five toolchains</div>
+  <div class="agents">
+    <div class="ag"><div class="nm">perf-console</div><div><div class="surf">Performance · Core Web Vitals · SEO basics</div><div class="tool">Lighthouse + DevTools console / network listeners</div></div></div>
+    <div class="ag"><div class="nm">a11y</div><div><div class="surf">Accessibility</div><div class="tool">axe-core (WCAG 2.1 AA) + keyboard probe + reduced-motion</div></div></div>
+    <div class="ag"><div class="nm">journey</div><div><div class="surf">User journeys</div><div class="tool">Playwright @ 360 / 768 / 1280 · happy + unhappy paths</div></div></div>
+    <div class="ag"><div class="nm">vision</div><div><div class="surf">Visual hierarchy · Cognitive Load Score</div><div class="tool">Claude vision · Ollama Moondream fallback (--local-vision)</div></div></div>
+    <div class="ag"><div class="nm">copy</div><div><div class="surf">Copy &amp; content quality</div><div class="tool">Flesch-Kincaid + jargon density + voice + trust signals</div></div></div>
+  </div>
+</section>
+
+<!-- 9 A JOURNEY IS PLAIN ENGLISH -->
+<section class="slide" data-notes="The journey agent needs no code. You write the flow in plain English — five verbs, no more — and the translator generates a Playwright spec at run time and keeps it as evidence of exactly what ran. A real sample journey from the repo, against davidslv.uk.">
+  <div class="kicker">You write the journey in plain English</div>
+  <pre><span class="dim">---
+name: subscribe-happy
+url: https://davidslv.uk/
+viewports: [360, 768, 1280]
+---</span>
+<span class="hl barline">1. Enter "test+ux@example.com" in the email field</span>
+<span class="hl barline">2. Click "Subscribe"</span>
+<span class="hl barline">3. Expect: thank you heading visible</span>
+<span class="hl barline">4. Capture screenshot: after-subscribe</span></pre>
+  <p class="sub" style="max-width:60ch">Five verbs — Click / Enter / Expect / Capture / Navigate. The translator emits a Playwright <span class="tealc">.spec.ts</span> and keeps it as proof of what executed.</p>
+</section>
+
+<!-- 10 THE ARCHITECTURE -->
+<section class="slide center" data-notes="The architecture in one picture. The five agents run as Promise.allSettled — genuinely in parallel, and if one fails the survivors still report. Then a single synthesis pass: dedupe findings by a stable hash, run every signal through ONE severity table, and emit one verdict. Fan-out, then funnel.">
+  <div class="kicker">Architecture · fan-out, then funnel</div>
+  <div class="flow">
+    <div class="fan">
+      <div class="p">perf-console</div><div class="p">a11y</div><div class="p">journey</div><div class="p">vision</div><div class="p">copy</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="stage"><div class="t">dedupe</div><div class="d">merge by stable hash · max severity wins</div></div>
+    <div class="arrow">→</div>
+    <div class="stage"><div class="t">severity table</div><div class="d">one rules file · first match wins</div></div>
+    <div class="arrow">→</div>
+    <div class="stage synth"><div class="t">verdict</div><div class="d">🟢 / 🟡 / 🔴 + five buckets</div></div>
+  </div>
+  <p class="sub" style="max-width:58ch;margin-top:3.4vh">Parallel via <span class="tealc">Promise.allSettled</span> — if a specialist fails, the survivors still ship a verdict and the gap lands in Open questions.</p>
+</section>
+
+<!-- 11 ONE SEVERITY TABLE -->
+<section class="slide" data-notes="Why is the answer the same run-to-run? Because severity isn't a judgement call — it's a table. Every signal maps to must-fix, worth-fixing, or optional in one file, first match wins. Anything unmatched falls through to optional on purpose, so a new signal can't crash a run. Real rows from severity-rules.ts.">
+  <div class="kicker">Consistency · severity is a table, not a mood</div>
+  <h2 style="margin-bottom:1.4vh">One rules file decides<br>every severity.</h2>
+  <div class="rulegrid">
+    <div class="r"><span class="n">a11y</span><span>keyboard trap → <b>must-fix</b></span></div>
+    <div class="r"><span class="n">perf</span><span>LCP ≥ 4000 ms → <b>must-fix</b> &nbsp;·&nbsp; 2500–3999 ms → <b>worth-fixing</b></span></div>
+    <div class="r"><span class="n">journey</span><span>happy-path step failed → <b>must-fix</b> &nbsp;·&nbsp; mobile overflow → <b>worth-fixing</b></span></div>
+    <div class="r"><span class="n">copy</span><span>dark-pattern consent → <b>must-fix</b> &nbsp;·&nbsp; jargon ≥ 5 / 100 words → <b>worth-fixing</b></span></div>
+  </div>
+  <p class="sub" style="max-width:56ch">Unmatched signals fall through to <span class="tealc">optional</span> — a deliberate safety net, never a crash.</p>
+</section>
+
+<!-- 12 DEMO TEE-UP (coral) -->
+<section class="slide coral center" data-notes="Set the frame before the terminal arrives. One command in, five specialists fan out at once, one verdict drops. Watch the SHAPE, not the speed. And say it: recorded, scripted — so stage wifi can't kill it. Then advance; the cast is next.">
+  <div class="kicker">The demo · here's what you're about to watch</div>
+  <div class="big">One command in.<br>Five reviewers fan out.<br><span style="text-decoration:underline">One verdict</span> comes back.</div>
+  <p class="sub" style="color:#ffe2d8;max-width:54ch;margin-top:3vh">Watch the shape, not the speed. Recorded &amp; scripted — a replay of a real run, so it never fails on stage.</p>
+</section>
+
+<!-- 13 DEMO — the live cast (honest: fan-out → synthesis → rests on the verdict) -->
+<section class="slide center" data-notes="The demo — say 'recorded', not 'live'; it's a scripted asciinema cast so stage wifi can't kill it. Watch the shape: production mode locks in robots and throttle; five specialists fan out in parallel; synthesis dedupes and runs the table; out comes ONE amber verdict — ship-safe with 3 worth fixing — with the counts. The cast rests on that headline. Click to pause / replay.">
+  <div class="kicker">Demo · recorded · ux-audit &lt;url&gt;</div>
+  <div class="term" style="width:80vw">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="ttl">ux-audit — five specialists fan out → synthesis → one verdict (recorded)</span></div>
+    <div class="body cast" data-cast="#demo-cast" style="white-space:pre;text-align:left;height:50vh;overflow:hidden;font-size:1.2vw;line-height:1.55"></div>
+  </div>
+  <p class="cap">production guards → five specialists in parallel → synthesis → 🟡 ship-safe with 3 worth fixing &nbsp;<span style="color:var(--muted)">· click to pause / replay</span></p>
+</section>
+
+<!-- 14 DECODE — what that just did, in plain terms -->
+<section class="slide center" data-notes="The decode — the most important slide. Say what just happened in plain terms, slowly. Five reviewers ran AT ONCE; their overlapping findings were deduped; every signal scored against ONE shared rules table — so the answer is the same every run. Then what amber MEANS to a team about to ship: safe to ship, but three things worth fixing first; nothing blocks. Payoff: one synthesised verdict beats five separate reports because someone already did the cross-referencing and the prioritising.">
+  <div class="kicker">What that just did · in plain terms</div>
+  <h2 style="font-size:3.2vw;margin-bottom:.6vh">A 🟡 isn't a tool dump.<br>It's a <span class="sig">decision.</span></h2>
+  <div class="decode">
+    <div class="d">
+      <div class="n">What happened</div>
+      <div class="h">Five reviewers, at once</div>
+      <p>Speed, access, the real flow, the glance and the words — all reviewed in parallel, not one tool after another. If one stalls, the rest still report.</p>
+    </div>
+    <div class="d">
+      <div class="n">Then merged</div>
+      <div class="h">Deduped &amp; scored once</div>
+      <p>Overlapping findings collapse, then every signal is graded against one shared rules table — so the same page gets the same verdict every run.</p>
+    </div>
+    <div class="d">
+      <div class="n">What 🟡 means to ship</div>
+      <div class="h">Safe to ship — fix 3 first</div>
+      <p>🟢 = ship as-is. 🟡 = nothing blocks the release, but three things are worth fixing. 🔴 = there's a must-fix; don't ship yet.</p>
+    </div>
+    <div class="d">
+      <div class="n">Why one verdict</div>
+      <div class="h">A call, not five tabs</div>
+      <p>Five separate reports leave you to cross-reference and prioritise. One synthesised verdict has already done that — and tells you whether to ship.</p>
+    </div>
+    <div class="d payoff">
+      <div class="n">The payoff</div>
+      <p style="font-size:1.5vw;color:var(--ink)"><b>You point it at a URL and get back a ship / don't-ship decision with the evidence behind it</b> — instead of five dashboards and a judgement call you make yourself, under deadline.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 15 THE VERDICT, DECODED (the trio) -->
+<section class="slide center" data-notes="Decode the signature itself. The whole tool exists to produce one of three answers. Green: ship as-is — no must-fix, no worth-fixing. Amber: ship-safe, but N worth fixing first. Red: don't ship — there's a must-fix. Linger on amber: it's the most useful one for a team about to ship — it says GO, but here are the three things to fix on the way. Optional findings never escalate the verdict.">
+  <div class="kicker">The verdict, decoded · ship / worth-fixing / don't-ship</div>
+  <h2>One verdict. Three states.</h2>
+  <div class="verdicts">
+    <div class="vd green"><div class="e">🟢</div><div class="l">ship</div><div class="s">no must-fix,<br>no worth-fixing</div></div>
+    <div class="vd amber"><div class="e">🟡</div><div class="l">worth fixing</div><div class="s">ship-safe, but<br>N to fix first</div></div>
+    <div class="vd red"><div class="e">🔴</div><div class="l">don't ship</div><div class="s">a must-fix<br>is present</div></div>
+  </div>
+  <p class="sub" style="max-width:62ch">Optional findings are surfaced but never escalate the verdict. The rule is one function: any must-fix → red; else any worth-fixing → amber; else green.</p>
+</section>
+
+<!-- 16 EXAMPLES lead-in -->
+<section class="slide center coral" data-notes="Stop naming capabilities; show what each specialist actually catches. Five real-shaped findings, one per agent, each with what it MEANS for a user and the fix. This is what 'five specialists' concretely buys you.">
+  <div class="kicker">What each specialist actually catches</div>
+  <div class="big">Five surfaces.<br><span style="text-decoration:underline">Five real findings.</span></div>
+  <p class="sub" style="color:#ffe2d8;max-width:52ch;margin-top:3vh">Not capabilities — examples. One concrete finding per agent, in the exact shape it reports, with its plain meaning and the fix.</p>
+</section>
+
+<!-- 17 perf-console finding -->
+<section class="slide" data-notes="perf-console. LCP = Largest Contentful Paint = how long until the biggest thing on screen, usually the hero image, has loaded and appears. Core Web Vitals call under 2.5s good; this page is 3,420ms. The table buckets 2500–3999 as worth-fixing — above 4000 it'd be a must-fix. Evidence is the raw Lighthouse JSON.">
+  <div class="kicker">1 / 5 · perf-console — speed &amp; Core Web Vitals</div>
+  <div class="exfind">
+    <div class="tag">[ performance · worth-fixing ]</div>
+    <div class="title">LCP 3,420 ms — above the 2.5 s "good" line</div>
+    <div class="mean"><b>What it means:</b> LCP (Largest Contentful Paint) is how long until the biggest thing on screen — usually the hero image — actually appears. Over 2.5 s the page feels slow, and first-time visitors start to bounce.</div>
+    <div class="meta-row"><span class="ev"><span class="mk">1</span>Evidence · <code>assets/lighthouse.json</code></span><span class="fix"><span class="mk">→</span>Fix · preload the hero image, inline the LCP font-face</span></div>
+  </div>
+  <p class="sub" style="max-width:60ch">The rule: 2500–3999 ms is worth-fixing; ≥ 4000 ms would flip the whole verdict to red.</p>
+</section>
+
+<!-- 18 a11y finding (the must-fix) -->
+<section class="slide" data-notes="a11y — the only must-fix in the demo run. axe-core is an automated accessibility checker scoring against WCAG AA, but THIS one comes from the keyboard probe, not axe: pressing Tab through the cookie banner cycles and never escapes. A keyboard-only user, no mouse, is stuck — can't reach the page at all. The table makes any keyboard trap an automatic must-fix.">
+  <div class="kicker">2 / 5 · a11y — can everyone actually use it</div>
+  <div class="exfind red">
+    <div class="tag">[ a11y · must-fix ]</div>
+    <div class="title">Keyboard trap in the cookie banner</div>
+    <div class="mean"><b>What it means:</b> someone navigating by keyboard (no mouse) presses Tab and gets stuck — focus cycles inside the banner and never escapes. They can't reach the rest of the page at all. Caught by the keyboard probe; axe-core (an automated checker) backs the rest.</div>
+    <div class="meta-row"><span class="ev"><span class="mk">2</span>Evidence · <code>assets/axe.json</code></span><span class="fix"><span class="mk">→</span>Fix · trap focus, release on Escape</span></div>
+  </div>
+  <p class="sub" style="max-width:60ch">Any keyboard trap is an automatic must-fix — it locks keyboard-only users out entirely, so it blocks the release.</p>
+</section>
+
+<!-- 19 journey finding -->
+<section class="slide" data-notes="journey. Playwright replays your written sign-up flow at three widths. At 360px — a small phone — the page scrolls sideways: content wider than the screen. Evidence is the actual screenshot at that width. Horizontal scroll on mobile reads as 'broken' to a first-time user; the table buckets it worth-fixing.">
+  <div class="kicker">3 / 5 · journey — does the real flow work on a phone</div>
+  <div class="exfind">
+    <div class="tag">[ journey · worth-fixing ]</div>
+    <div class="title">Mobile overflow on signup at 360 px</div>
+    <div class="mean"><b>What it means:</b> on a small phone (360 px wide) the signup page scrolls sideways — content is wider than the screen. To a first-time user that reads as "broken", and it dents their confidence right at the sign-up step. Caught by replaying your written journey at 360 / 768 / 1280.</div>
+    <div class="meta-row"><span class="ev"><span class="mk">3</span>Evidence · <code>assets/screenshots/signup-360.png</code></span><span class="fix"><span class="mk">→</span>Fix · constrain the over-wide element to the viewport</span></div>
+  </div>
+  <p class="sub" style="max-width:60ch">The screenshot at that exact width is saved as proof — you can see the overflow, not just read about it.</p>
+</section>
+
+<!-- 20 vision finding (CLS illustrative) -->
+<section class="slide" data-notes="vision. Cognitive Load Score = how hard the page is to grasp at a glance, 1 to 10, 10 effortless. A blend of four things: clickable items above the fold, text density, hierarchy clarity, reading level. IMPORTANT honesty: the repo ships no sample value — so this number is ILLUSTRATIVE, say that out loud. It's a thermometer, never a release blocker on its own.">
+  <div class="kicker">4 / 5 · vision — is the page overwhelming at a glance</div>
+  <div class="exfind">
+    <div class="tag">[ vision · worth-fixing · illustrative ]</div>
+    <div class="title">Cognitive Load Score — busy above the fold</div>
+    <div class="mean"><b>What it means:</b> the Cognitive Load Score (<b>illustrative</b> — the repo ships no sample value; 1–10, where 10 is effortless) is how hard the page is to grasp in a glance. A high score says the top of the page is crowded: too many competing clickable things, dense text, before the user has decided where to look.</div>
+    <div class="meta-row"><span class="ev"><span class="mk">4</span>Evidence · <code>agents/vision.md</code> (four-part breakdown)</span><span class="fix"><span class="mk">→</span>Fix · thin the above-fold options, lift one clear primary action</span></div>
+  </div>
+  <p class="sub" style="max-width:60ch">A thermometer, not a gate: a high score surfaces and trends in the diff, but never blocks a release on its own.</p>
+</section>
+
+<!-- 21 copy finding -->
+<section class="slide" data-notes="copy. The copy agent reads the page like a first-time customer. Jargon density = insider words per 100 words; over 5 it flags. 6.2 means roughly one word in sixteen is jargon a newcomer won't know. It also checks reading grade (Flesch-Kincaid) and trust signals like a regulator line. Worth-fixing — clarity, not a blocker.">
+  <div class="kicker">5 / 5 · copy — can a newcomer actually read it</div>
+  <div class="exfind">
+    <div class="tag">[ copy · worth-fixing ]</div>
+    <div class="title">Jargon density 6.2 per 100 words (threshold 5.0)</div>
+    <div class="mean"><b>What it means:</b> roughly one word in sixteen is insider language a first-time customer won't know. The copy agent reads the page like a newcomer — also scoring reading grade (Flesch-Kincaid) and checking trust signals like a regulator line.</div>
+    <div class="meta-row"><span class="ev"><span class="mk">5</span>Evidence · <code>assets/copy.json</code></span><span class="fix"><span class="mk">→</span>Fix · swap the flagged terms for plain words</span></div>
+  </div>
+  <p class="sub" style="max-width:62ch">That's what "five specialists" concretely buys you: speed, access, the real flow, the glance, and the words — each with a fix attached.</p>
+</section>
+
+<!-- 22 THE VERDICT MOMENT (real output) -->
+<section class="slide center" data-notes="Freeze on the verdict itself — the actual index.md shape from the repo's USAGE guide. One amber headline, the counts, then the buckets. Every finding carries a surface, a severity, an evidence pointer into assets/, and a concrete fix. This is the thing the whole tool exists to produce.">
+  <div class="kicker">The verdict moment · real output shape</div>
+  <div class="report">
+    <div class="head">🟡 Ship-safe with 3 worth fixing.</div>
+    <div class="counts">1 must-fix / 3 worth-fixing / 4 optional / 6 verified clean</div>
+    <div class="sec">## Must fix</div>
+    <div class="f">[a11y · must-fix] Keyboard trap in cookie banner</div>
+    <div class="ev">Evidence: assets/axe.json</div>
+    <div class="fix">Fix: trap focus, release on Escape.</div>
+    <div class="sec w">## Worth fixing</div>
+    <div class="f">[performance · worth-fixing] LCP 3,420 ms (above the 2.5 s line)</div>
+    <div class="ev">Evidence: assets/lighthouse.json</div>
+    <div class="f">[journey · worth-fixing] Mobile overflow on signup at 360 px</div>
+    <div class="ev">Evidence: assets/screenshots/signup-360.png</div>
+  </div>
+</section>
+
+<!-- 23 THE FIVE BUCKETS -->
+<section class="slide" data-notes="Under the headline, every finding sorts into five buckets — same shape as /self-review. Verified clean matters as much as the rest: it names the surfaces that came back clean, so absence of findings is auditable, not assumed. Open questions is where a failed specialist surfaces honestly instead of silently.">
+  <div class="kicker">Every finding lands in one of five buckets</div>
+  <h2 style="margin-bottom:1.4vh">Five buckets — including<br>the one most tools skip.</h2>
+  <div class="rulegrid">
+    <div class="r"><span class="n">🔴</span><span><b>Must fix</b> — blocks the release</span></div>
+    <div class="r"><span class="n">🟡</span><span><b>Worth fixing</b> — real impact, not blocking</span></div>
+    <div class="r"><span class="n">·</span><span><b>Optional</b> — paper cuts</span></div>
+    <div class="r"><span class="n">✓</span><span><b>Verified clean</b> — absence made auditable</span></div>
+    <div class="r"><span class="n">?</span><span><b>Open questions</b> — a specialist ran partial</span></div>
+  </div>
+</section>
+
+<!-- 24 REGRESSION DIFF --since -->
+<section class="slide" data-notes="Because every finding carries a stable hash — surface plus normalised selector plus rule key — you can diff two runs. --since latest resolves to the previous run for that site and shows what's new, what's resolved, and how the headline scores moved. A re-ordered finding isn't counted as new. Real diff.md shape.">
+  <div class="kicker">Catch regressions · ux-audit &lt;url&gt; --since latest</div>
+  <pre><span class="dim"># UX audit diff — 2026-05-14-2035 vs 2026-05-12-2010</span>
+
+<span class="hl barline">## New</span>
+<span class="hl">- [performance · worth-fixing] LCP 3,420 ms (was 2,310 ms)</span>
+
+<span class="dim">## Resolved</span>
+<span class="dim">- [a11y · worth-fixing] Moderate axe finding on .cookie-accept</span>
+
+<span class="dim"># Δ  LCP +1110 ⚠   CLS -0.03 ✓   Cognitive Load +0.3 ✓</span></pre>
+  <p class="sub" style="max-width:60ch">Diffed on stable hashes, so a re-ordered finding never reads as new. Scores are a thermometer; a small move never re-opens the verdict.</p>
+</section>
+
+<!-- 25 ACT: honest status (coral) -->
+<section class="slide coral center" data-notes="The honesty act — David's hard rule. Don't claim what isn't wired. v1 is real and tested; v2 is flagged, not built. Name the line before the next slide spells it out.">
+  <div class="big">v1 ships today.<br>v2 is <span style="text-decoration:underline">flagged, not wired.</span></div>
+</section>
+
+<!-- 26 HONEST STATUS v1/v2 -->
+<section class="slide" data-notes="The honesty slide. v1 is feature-complete and running end-to-end against live sites, with 82 test files across all five agents, synthesis, the diff and the safety guards. What's genuinely still open: the CI shape — --ci, --json, --post-pr parse today but the GitHub wiring is future — and widening to eight agents is a separate v2 Epic. Say it plainly. Stating the limits buys more trust than any feature.">
+  <div class="kicker">Checkable honesty · what's done vs what's next</div>
+  <div class="split">
+    <div class="a">
+      <div class="lab">v1 — done &amp; tested</div>
+      <div class="t">Five agents in parallel · synthesis &amp; severity table · <span class="tealc">--since</span> diff · Scribe mirror · production safety · <span class="tealc">--install / --init</span></div>
+      <p class="sub" style="margin-top:1.6vh;max-width:none"><b style="color:var(--green)">82 test files.</b> Run end-to-end against live sites.</p>
+    </div>
+    <div class="b">
+      <div class="lab">v2 / future — flagged, not wired</div>
+      <div class="t">CI shape (<span class="tealc">--ci / --json / --post-pr</span>) parses but isn't wired yet · widen to eight agents · overlay severity overrides</div>
+      <p class="sub" style="margin-top:1.6vh;max-width:none"><b style="color:var(--amber)">Marked future on purpose.</b> The flags exist; the plumbing doesn't.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 27 OBJECTIONS -->
+<section class="slide" data-notes="Pre-empt the folded arms. One sentence each, warmly, move on. The depth was in the demo, not this slide.">
+  <div class="kicker">I know what you're about to ask</div>
+  <div class="rows">
+    <div class="r"><span class="k">Just run Lighthouse?</span><span class="v">Lighthouse scores ONE surface — speed. ux-auditor runs it <i>and</i> four more reviewers, then dedupes and scores them all against one table into a single ship/don't-ship call.</span></div>
+    <div class="r"><span class="k">vs a manual UX review?</span><span class="v">A senior afternoon, every release, inconsistent run to run. This hands you the same five-surface pass in minutes — with the evidence saved.</span></div>
+    <div class="r"><span class="k">An LLM eyeballing a screenshot?</span><span class="v">That's <i>one</i> of the five agents — vision — and it's labelled a thermometer, never a blocker. The verdict comes from a deterministic severity table, not a vibe.</span></div>
+    <div class="r"><span class="k">vs CI a11y linters?</span><span class="v">A linter flags a rule. ux-auditor adds the keyboard probe, the real journeys, the copy, the speed — and one verdict across all of them, with a <span class="tealc">--since</span> diff.</span></div>
+  </div>
+</section>
+
+<!-- 28 ACT: one verdict to act on (coral) -->
+<section class="slide coral center" data-notes="Name the frame now, because I've earned it. It doesn't replace your judgement. It does the juggling and the cross-referencing so your judgement has ONE clear thing to act on.">
+  <div class="big">It doesn't replace your judgement.<br>It gives you <span style="text-decoration:underline">one verdict to act on.</span></div>
+</section>
+
+<!-- 29 DO THIS MONDAY -->
+<section class="slide center" data-notes="The human payoff, then one concrete Monday action about THEM, not my stars. ux-auditor does the juggling so your judgement goes where only it can — the call. Run it on the page you're about to ship; let it tell you ship or don't.">
+  <div class="big" style="font-size:3.4vw;max-width:30ch">ux-auditor does the juggling so your judgement goes where only it can — <span class="sig">the call.</span></div>
+  <p class="sub" style="margin-top:3vh;font-size:2vw;max-width:54ch"><b style="color:var(--ink)">Do this Monday:</b> point it at the page you're about to ship — and let it tell you ship, worth-fixing, or don't.</p>
+</section>
+
+<!-- 30 A QUIET QUOTE -->
+<section class="slide quote" data-notes="My real voice — the whole talk in two sentences. Don't let polish sand it down. Say it quietly. Pause after.">
+  <div class="q">"I trusted a reviewer for my code.<br><span class="sig">I wanted the same honesty for my websites.</span>"</div>
+  <div class="who">David Silva</div>
+</section>
+
+<!-- 31 THREE DOORS / THANK YOU -->
+<section class="slide center" data-notes="Don't read the URLs aloud — let them photograph it. End on the human note: stop reviewing UX by vibes; point it at a URL, get one verdict. Thank you.">
+  <div class="kicker">Stop reviewing UX by vibes</div>
+  <div class="doors">
+    <div class="door"><div class="t">Point it</div><div class="d">at a URL</div><div class="s">five specialists → one verdict</div></div>
+    <div class="door"><div class="t">Read</div><div class="d">the evidence</div><div class="s">every finding has a path and a fix</div></div>
+    <div class="door"><div class="t">Ship</div><div class="d">on a decision</div><div class="s">🟢 / 🟡 / 🔴 — not a hunch</div></div>
+  </div>
+  <div class="urls"><b>davidslv.uk</b> &nbsp;·&nbsp; <b>@davidslv</b></div>
+  <p class="sub" style="margin-top:3vh">Point it at a URL — get one honest verdict, and the evidence behind it. Thank you.</p>
+</section>
+
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 31</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
+
+<script type="text/cast" id="demo-cast">
+{"version": 2, "width": 92, "height": 30, "timestamp": 0, "title": "ux-audit demo", "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}}
+[0.0, "o", "\u001b[32m$ \u001b[0m"]
+[0.0, "o", "u"]
+[0.043, "o", "x"]
+[0.076, "o", "-"]
+[0.137, "o", "a"]
+[0.166, "o", "u"]
+[0.22, "o", "d"]
+[0.265, "o", "i"]
+[0.294, "o", "t"]
+[0.347, "o", " "]
+[0.374, "o", "h"]
+[0.422, "o", "t"]
+[0.451, "o", "t"]
+[0.481, "o", "p"]
+[0.53, "o", "s"]
+[0.6, "o", ":"]
+[0.632, "o", "/"]
+[0.669, "o", "/"]
+[0.729, "o", "m"]
+[0.806, "o", "y"]
+[0.863, "o", "-"]
+[0.909, "o", "a"]
+[0.988, "o", "p"]
+[1.016, "o", "p"]
+[1.088, "o", "."]
+[1.129, "o", "e"]
+[1.162, "o", "x"]
+[1.193, "o", "a"]
+[1.235, "o", "m"]
+[1.305, "o", "p"]
+[1.34, "o", "l"]
+[1.397, "o", "e"]
+[1.457, "o", "."]
+[1.503, "o", "c"]
+[1.558, "o", "o"]
+[1.586, "o", "m"]
+[1.614, "o", "\r\n"]
+[2.024, "o", "\u001b[90m  mode: production  ·  robots.txt ok  ·  throttle 1000ms\u001b[0m\r\n"]
+[2.084, "o", "\r\n"]
+[2.794, "o", "\u001b[1;97m  fan-out · five specialists, in parallel\u001b[0m\r\n"]
+[2.854, "o", "\u001b[36m    perf-console\u001b[0m\u001b[90m   lighthouse + console/network ............ \u001b[0m\u001b[33mrunning\u001b[0m\r\n"]
+[2.914, "o", "\u001b[36m    a11y\u001b[0m\u001b[90m           axe-core + keyboard + reduced-motion .. \u001b[0m\u001b[33mrunning\u001b[0m\r\n"]
+[2.974, "o", "\u001b[36m    journey\u001b[0m\u001b[90m        playwright 360 / 768 / 1280 ........... \u001b[0m\u001b[33mrunning\u001b[0m\r\n"]
+[3.034, "o", "\u001b[36m    vision\u001b[0m\u001b[90m         claude vision · cognitive load score .. \u001b[0m\u001b[33mrunning\u001b[0m\r\n"]
+[3.094, "o", "\u001b[36m    copy\u001b[0m\u001b[90m           flesch-kincaid + jargon + trust ....... \u001b[0m\u001b[33mrunning\u001b[0m\r\n"]
+[4.204, "o", "\u001b[36m    perf-console\u001b[0m\u001b[90m   lighthouse + console/network ............ \u001b[0m\u001b[92mdone\u001b[0m\r\n"]
+[4.264, "o", "\u001b[36m    a11y\u001b[0m\u001b[90m           axe-core + keyboard + reduced-motion .. \u001b[0m\u001b[92mdone\u001b[0m\r\n"]
+[4.324, "o", "\u001b[36m    journey\u001b[0m\u001b[90m        playwright 360 / 768 / 1280 ........... \u001b[0m\u001b[92mdone\u001b[0m\r\n"]
+[4.384, "o", "\u001b[36m    vision\u001b[0m\u001b[90m         claude vision · cognitive load score .. \u001b[0m\u001b[92mdone\u001b[0m\r\n"]
+[4.444, "o", "\u001b[36m    copy\u001b[0m\u001b[90m           flesch-kincaid + jargon + trust ....... \u001b[0m\u001b[92mdone\u001b[0m\r\n"]
+[4.504, "o", "\r\n"]
+[5.314, "o", "\u001b[90m  synthesis · dedupe by hash → severity table → one verdict\u001b[0m\r\n"]
+[5.374, "o", "\r\n"]
+[6.284, "o", "\u001b[90m  written → .scribe-ux/audits/my-app-example-com/2026-05-14-2035/\u001b[0m\r\n"]
+[6.344, "o", "\r\n"]
+[7.154, "o", "\u001b[90m  ────────────────────────────────────────────\u001b[0m\r\n"]
+[7.764, "o", "\u001b[1;33m  🟡 Ship-safe with 3 worth fixing.\u001b[0m\r\n"]
+[7.824, "o", "\u001b[90m     1 must-fix / 3 worth-fixing / 4 optional / 6 verified clean\u001b[0m\r\n"]
+</script>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes');
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;
+  progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');
+  location.hash=i+1;
+}
+function next(){show(i+1)} function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+});
+document.addEventListener('click',e=>{ if(e.target.closest('.cast'))return; if(e.clientX < innerWidth*0.25) prev(); else next(); });
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+window.deck={show:n=>show(n),next,prev};
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+<script src="castplay.js"></script>
+</body>
+</html>
