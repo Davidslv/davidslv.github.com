@@ -2,35 +2,32 @@
 layout: page
 title: About
 permalink: /about/
+description: "David Silva — senior software engineer, 15+ years of Ruby, focused on software architecture and the modular monolith. Author of Modular Rails and Building Your Own Roguelike."
 ---
 
-It's really hard to talk about myself, the first time I remember using a computer
-was still MS-DOS, I was about 6 years old and I remember loving the sound of
-keyboard keys (which I still do), basically someone had the idea of getting two
-computers for our school, the thing was that no adult knew how they worked, I
-think it's needless to say how things went, being part of a generation that was
-starting to have electronic gadgets like for example the Game Boy it didn't took
-us that long to figure out how to interact with the computer and soon we were all
-playing games.
+I'm **David Silva** — a senior software engineer with 15+ years building Ruby applications. I care about one thing above all: **software that stays maintainable long after the first release.**
 
-Not long after I got my first computer back in 1998, [Pentium 3 650Mhz](http://ark.intel.com/products/27547/Intel-Pentium-III-Processor-650-MHz-256K-Cache-100-MHz-FSB)
-with 256MB RAM and 9.2GB of HDD, and of course came with [Windows 98](http://en.wikipedia.org/wiki/Windows_98).
-Since I wanted to master the keyboard and type without looking into the keys I
-started writing stories and sometimes just copy some excerpts of text I
-would read in a book, of course games helped but in a different way, I think
-they triggered the developer inside of me, I wanted to learn how to build them,
-but it was 1999-2000 and I was the first one in the family to have the need for
-more but there wasn't any resources I could use, there wasn't internet in my house,
-and I didn't had access to any IT magazines that could have existed at that time.
+I work on the back end, where the durable problems live — architecture, boundaries, data, scale. I'm currently a Senior Software Engineer at **Tembo Money**, leading the architectural modernisation of an FCA-regulated mortgage platform: decomposing a large Rails monolith into modular engines — the same patterns I write about.
 
-Anyway... I don't want to bother you too much with my childhood.
+Over the years I've built for fintech (**Tembo Money**, **Creditspring**), UK government services (**GOV.UK**, the **Ministry of Justice**), and consumer platforms serving over a million users (**Indeed**). Different domains, the same questions every time: where do the boundaries go, what earns its keep, and how do you keep a codebase legible as it grows.
 
-Nowadays I'm a Ruby developer, lately more a back-end than a full-stack,
-I feel that I belong on the back-end, there's so much to learn and master from
-a programming perspective, I love to improve my programming skills all the time,
-and seriously even though I like to do front-end there are people with better
-knowledge than me and no doubt they will deliver a better final product.
+## What I make
 
-I'm interested in several topics like security, game development, web development,
-scalability, algorithms, programming best practices and architecture
-(with no particular order of mention).
+I write the books I wish I'd had when I needed them:
+
+- **[Modular Rails: Architecture for the Long Game](/modular-rails/)** — the first comprehensive guide to building maintainable Rails applications with mountable engines.
+- **[Building Your Own Roguelike: A Practical Guide](/books/vanilla-roguelike/)** — a complete game in plain Ruby, architecture and all.
+
+And I build the tools those ideas demand: **[Seams](https://github.com/Davidslv/seams)** generates pre-wired modular Rails engines straight into your own repo; **Quire** turns markdown into print-ready books. I also founded **[CarerNotes](https://carernotes.uk)**.
+
+## What I believe
+
+Good architecture isn't the system with the most boundaries — it's the one where every boundary earns its keep. I build for the long game: clear seams, honest trade-offs, code you can still reason about at 200 models. And I think the best tools clear the boilerplate without taking the keyboard — they keep *you* the architect.
+
+I write regularly about all of this in **[the Engineer's Notebook](/writing/)**.
+
+## Elsewhere
+
+**[Books](/books/)** · **[Writing](/writing/)** · **[CV](/cv-resume.html)** · **[GitHub](https://github.com/davidslv)** · **[@davidslv](https://twitter.com/davidslv)**
+
+Building something on Rails — or untangling a monolith? Find me on **[@davidslv](https://twitter.com/davidslv)** or **[GitHub](https://github.com/davidslv)**.
