@@ -145,10 +145,10 @@ h1{font-size:5.4vw;font-weight:800;line-height:1.02;letter-spacing:-.02em}
   <div class="huge">I didn't get faster at typing.<br>I got a <span class="u">team.</span></div>
 </section>
 
-<!-- 6 THE NERVE -->
-<section class="slide" data-notes="And I have to name the thing in this room, out loud, early. AI taking artists' jobs is a real fear. I'm not going to pretend it away. Here's my actual position —">
-  <div class="big" style="max-width:30ch">AI taking artists' jobs is a real fear.<br><span class="dim">I'm not going to pretend it away.</span></div>
-  <div class="sub" style="font-size:2vw;color:var(--amber)">Here's my actual position —</div>
+<!-- 6 NOT FEAR — DISCLOSURE -->
+<section class="slide" data-notes="And let me be clear about why I'm here. I'm not here to sell you fear, or tell you the machines are coming. I'm here to show you, honestly, how one person got a game — and a novel — to the finish line, with a team I built. So here's how it actually went.">
+  <div class="big" style="max-width:28ch">I'm not here to sell you fear.</div>
+  <div class="sub" style="font-size:2vw;color:var(--ink)">I'm here to show you how I got it to the finish line — <span class="amber">with my own team.</span></div>
 </section>
 
 <!-- 7 MATCHED PAIR -->
@@ -240,6 +240,13 @@ h1{font-size:5.4vw;font-weight:800;line-height:1.02;letter-spacing:-.02em}
   </div>
 </section>
 
+<!-- 16b SHOWN: you make your own gaps (the title, as play) -->
+<section class="slide" data-notes="And here's my favourite mechanic, because it's the title of this talk turned into play. Margaret signed off the gaps in the watch. In the game, YOU make your own. Knock a wall, or a cover — they carry different distances — or use your own running footsteps, to pull a guard's attention and open a gap in his watch. Then you move through the dark you just made.">
+  <div class="kicker">You make your own gaps</div>
+  <div class="big" style="max-width:28ch">Lure a guard with a <span class="amber">knock</span> — or your own footsteps — and open a gap in his watch.</div>
+  <div class="sub">A wall and a cover carry different distances. You pull his attention, then move through the dark you just made. Margaret signed off the gaps; here, <b style="color:var(--ink)">you make them.</b></div>
+</section>
+
 <!-- 17 MONTAGE -->
 <section class="slide" data-notes="The rest, in one breath — because the feeling, not the feature list, is the point. The in-browser level editor. A procedural level generator. The website. The press kit. The cover. Each one a card, each one posted, each one mine to judge.">
   <div class="kicker">The rest, in one breath</div>
@@ -250,47 +257,78 @@ h1{font-size:5.4vw;font-weight:800;line-height:1.02;letter-spacing:-.02em}
   </div>
 </section>
 
-<!-- 18 SECTION: correct != good -->
-<section class="slide center void2" data-notes="Now the honest part. The part that mattered most. A correct game is not the same as a good one.">
-  <div class="statement"><span class="amber">A correct</span> game is not the same as a <span class="amber">good</span> one.</div>
+<!-- SECTION: the two walls -->
+<section class="slide center void2" data-notes="Now the honest part — the part that mattered most. Twice on this project I hit a wall for days. Not a bug. A wall. I had the team, the tooling, the solver, the validators — and I was completely stuck.">
+  <div class="statement">Twice, I hit a wall <span class="amber">for days.</span></div>
+  <div class="sub" style="font-size:1.5vw">I had the team. The tooling. The solver. And I was stuck.</div>
 </section>
 
-<!-- 19 SPLIT: fair vs solvable -->
-<section class="slide center" data-notes="Here's the line I'd draw between the machine and me, and it's the most honest thing I can tell you. I built a solver that can PROVE a never-detected route through a level exists. But it cannot tell me whether a catch was FAIR — a catch the player could have read in advance. Unfair catches were the dominant failure in my playtest data. The machine proves existence. Only a human judges experience.">
-  <div class="split">
-    <div class="col machine"><div class="lab">The machine</div><div class="t">proves a never-detected route <span class="amber">exists.</span></div></div>
-    <div class="col human"><div class="lab">Only a human</div><div class="t">judges whether the catch was <span class="amber">fair.</span></div></div>
-  </div>
-  <div class="sub" style="font-size:1.4vw">Unfair catches were the dominant failure in the playtest data.</div>
+<!-- WALL 1 — flat maps -->
+<section class="slide" data-notes="Wall one — procedurally generating new levels. Each map took forty to sixty minutes and millions of iterations. And every one came out flat — same structure, different noise. I tuned the prompt. It changed nothing. The prompt was never the problem.">
+  <div class="kicker">Wall one — the maps</div>
+  <div class="big" style="max-width:30ch">40–60 minutes a map. Millions of iterations. Every one came out <span class="amber">flat.</span></div>
+  <div class="sub" style="font-size:1.5vw">Same structure, different noise. Tuning the prompt changed nothing — the prompt was never the problem.</div>
 </section>
 
-<!-- 20 SHOWN: feedback -->
-<section class="slide" data-notes="And here's the moment that proves it. My team built a correct stealth game. I gave it to two friends. Both of them, separately, said the same thing — read it. The system was right. The experience was broken. No solver catches that. A player did, and my judgment about which feedback mattered did.">
+<!-- WALL 1 — the real problem -->
+<section class="slide" data-notes="The real problem wasn't the AI generating maps. It was my own tooling. I'd built a solver, validators, linters — reachability, solvability, a dozen hard rules — and I ran them all at once, on every map. A pile of contradicting constraints no creative work could get past. The guardrails were so strict nothing interesting could be born. And underneath it, I couldn't even tell the team what 'wrong' meant — I had no shared vocabulary.">
+  <div class="kicker">The problem wasn't the AI</div>
+  <div class="big" style="max-width:26ch">It was my own <span class="amber">tooling.</span></div>
+  <div class="sub">Solver, validators, linters — all running at once, on every map. A pile of contradicting rules no creative work could survive. And I had no <b style="color:var(--ink)">shared vocabulary</b> to say what 'wrong' even meant.</div>
+</section>
+
+<!-- WALL 1 — fun isn't on paper -->
+<section class="slide center" data-notes="And here's the thing the tooling could never measure. You cannot put fun on paper. I was collecting the data — event logs, replays, and in the game itself players rate every level on FUN, FAIR and DIFFICULTY, zero to ten. The numbers help. They don't decide. Only a person decides whether a level is worth playing.">
+  <div class="huge" style="font-size:4.4vw">You can't put <span class="amber">fun</span> on paper.</div>
+  <div class="sub" style="font-size:1.6vw">Even with the data — event logs, replays, players rating each level <b style="color:var(--ink)">FUN · FAIR · DIFFICULTY</b>, 0–10. The numbers help. They don't decide.</div>
+</section>
+
+<!-- WALL 1 — the fix -->
+<section class="slide" data-notes="So I threw out the gatekeeping. I went back to the drawing board, level by level, until I could name the problem — that was the shared vocabulary I'd been missing. And I came back with nine simple rules, and ignored every solver and validator. The level had to be created first, freely, before any technical rule was ever allowed to decide it couldn't exist.">
+  <div class="kicker">The fix</div>
+  <div class="big" style="max-width:28ch">Nine rules. <span class="amber">Ignore the solver.</span></div>
+  <div class="sub">Create the level first — freely — before any technical rule is allowed to decide it can't exist. Gatekeeping that runs too early kills the thing before it's born.</div>
+</section>
+
+<!-- feedback — only a player catches it -->
+<section class="slide" data-notes="And sometimes only a player catches it. My team built a correct stealth game. I gave it to two friends. Both, separately, said the same thing — read it. The system was right; the experience was broken. No solver catches that. A person bouncing off it did.">
   <div class="shown">
     <img src="assets/frame.png" alt="A shadow-heavy in-game frame.">
     <div class="cap">
       <div class="badge">Shown · FEEDBACK.md</div>
       <div class="t" style="font-family:var(--serif);font-weight:600">"…are those black squares places I can hide?"</div>
-      <div class="d">— came up twice. The system was correct. The experience was broken. Only a person bouncing off it could tell me.</div>
+      <div class="d">— came up twice. The system was correct. The experience was broken. Only a person could tell me.</div>
     </div>
   </div>
 </section>
 
-<!-- 21 CUTS -->
-<section class="slide" data-notes="And the gaps I did NOT sign off — the corners I cut on purpose, to ship. Capture is instant — no manhunt model. No crawl, no knock, no doors, no dogs. I cut these as decisions, with reasons, because the team is there to get me to a PRODUCT, not to gold-plate forever.">
+<!-- WALL 2 — the trailer -->
+<section class="slide" data-notes="Wall two — the trailer. I wanted one. I didn't know what it should be. I spent half a day rejecting output before I saw it: I was the problem again. I wasn't communicating, and starting over with a new idea every attempt only made it worse.">
+  <div class="kicker">Wall two — the trailer</div>
+  <div class="big" style="max-width:30ch">Half a day rejecting output — until I saw I wasn't <span class="amber">communicating.</span></div>
+</section>
+
+<!-- WALL 2 — the method -->
+<section class="slide" data-notes="The fix was a method. Stop gambling on the whole thing at once. Break it into phases and lock each one: the documents, then the gameplay treatment, then the sound, then a storyboard — and approve each before assembling anything. By the time we reached the final render there were no surprises left. And when something broke, I only had to redo that one phase — never start over.">
+  <div class="kicker">The fix — break it into phases, lock each</div>
+  <div class="loop" style="font-size:1.6vw">
+    documents → <b>lock</b><br>
+    gameplay treatment → <b>lock</b><br>
+    sound → <b>lock</b><br>
+    storyboard → <b>lock</b><br>
+    → <b>then</b> assemble — no surprises left.
+  </div>
+  <div class="sub" style="font-size:1.4vw">When it broke, I redid one phase — not the whole thing.</div>
+</section>
+
+<!-- CUTS — knock/sound-luring is a REAL mechanic, kept out of this list -->
+<section class="slide" data-notes="And the gaps I did NOT sign off — the corners I cut on purpose, to ship. Capture is instant — no manhunt. No crawl, no doors, no dogs. I cut these as decisions, with reasons, because the team is there to get me to a product, not to gold-plate forever.">
   <div class="kicker">Corners I cut to ship</div>
   <div class="cuts">
     <b>Capture is instant</b> — no manhunt.<br>
-    No crawl · no knock · no doors · no dogs.<br>
+    No crawl · no doors · no dogs.<br>
     <span class="dim">Cut on purpose, with reasons — to reach a product, not to polish forever.</span>
   </div>
-</section>
-
-<!-- 22 BUG -->
-<section class="slide" data-notes="And the night it bit me. Time spent on the menu was silently banked as unspent game-time — so the first second of every level played in fast-forward until the debt paid off. A real bug, a real postmortem. The team is fast; it is not infallible. That's exactly why the bar has to be a person's.">
-  <div class="kicker">The night the level fast-forwarded</div>
-  <div class="big" style="max-width:32ch;font-size:3.2vw">Menu time was banked as game-time — so the first second of a level played at <span class="amber">5×</span>.</div>
-  <div class="sub" style="font-size:1.4vw">A real bug, a real postmortem. Fast is not the same as infallible.</div>
 </section>
 
 <!-- 23 TURN: the novel -->
@@ -322,15 +360,11 @@ h1{font-size:5.4vw;font-weight:800;line-height:1.02;letter-spacing:-.02em}
   <!-- POST-PREMIERE: replace the still with the trailer embed (held for FGS) -->
 </section>
 
-<!-- 27 METHOD -->
-<section class="slide" data-notes="So here's the method, distilled. You won't know exactly what you want at the start. You learn, you struggle, you study, you repeat. You build a SYSTEM to overcome. And you reach a product. That loop is the whole thing.">
-  <div class="kicker">The method</div>
-  <div class="loop">
-    You won't know exactly what you want.<br>
-    → <b>learn · struggle · study · repeat</b><br>
-    → build a <b>system</b> to overcome<br>
-    → reach a <b>product.</b>
-  </div>
+<!-- METHOD — the real lesson from both walls -->
+<section class="slide center" data-notes="So if there's one thing I learned, from both walls, it's this. When you hit a wall, it is almost never the team, and almost never the tools. It's the process — and the words you're using. Slow down. Go back to the drawing board. Build a shared vocabulary. Break it into phases. That's the system you build to overcome — and it's most of the job.">
+  <div class="big" style="max-width:26ch">When you hit a wall, it's almost never the team or the tools.</div>
+  <div class="huge" style="font-size:4.2vw;margin-top:3vh">It's the <span class="u">process.</span></div>
+  <div class="sub" style="font-size:1.5vw">Slow down · build a shared vocabulary · break it into phases. That's the system you build to overcome.</div>
 </section>
 
 <!-- 28 condition -->
