@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "Understanding Grids and Cells"
 permalink: /books/vanilla-roguelike/04-grids-and-cells/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/03-first-prototype/">&larr; Your First Playable Prototype</a>
@@ -226,3 +228,4 @@ permalink: /books/vanilla-roguelike/04-grids-and-cells/
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/05-maze-algorithms-beginning/">Maze Generation Algorithms &rarr;</a>
 </nav>
+{% endraw %}

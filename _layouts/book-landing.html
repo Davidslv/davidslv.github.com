@@ -1,0 +1,32 @@
+---
+layout: default
+---
+{%- assign book = site.data.books[page.book] -%}
+<div class="book book--landing" data-book="{{ page.book }}">
+  <article class="book-reading">
+
+    <header class="book-cover">
+      <div class="book-cover__kicker">A free, complete web edition</div>
+      <h1 class="book-cover__title">{{ book.title }}</h1>
+      {%- if book.subtitle %}<p class="book-cover__subtitle">{{ book.subtitle }}</p>{% endif -%}
+      <p class="book-cover__byline">by {{ book.author }}</p>
+      <p class="book-cover__note">The entire book, free to read online &mdash; the same text as the paperback and EPUB editions.</p>
+    </header>
+
+    <nav class="book-contents-grid" aria-label="Contents">
+      <h2 class="book-contents-grid__heading">Contents</h2>
+      {%- assign n = 0 -%}
+      {%- for c in book.chapters -%}
+        {%- if c.type == 'part-divider' -%}
+          {%- unless forloop.first -%}</ol>{%- endunless -%}
+          <h3 class="book-contents-grid__part">{{ c.part }}</h3><ol class="book-contents-grid__list">
+        {%- else -%}
+          {%- if forloop.first -%}<ol class="book-contents-grid__list">{%- endif -%}
+          <li><a href="{{ c.url | relative_url }}">{{ c.title }}</a></li>
+        {%- endif -%}
+        {%- if forloop.last -%}</ol>{%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+  </article>
+</div>

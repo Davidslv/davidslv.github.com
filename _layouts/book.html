@@ -1,0 +1,92 @@
+---
+layout: default
+---
+{%- assign book = site.data.books[page.book] -%}
+{%- assign chapters = book.chapters -%}
+{%- assign current = nil -%}
+{%- for c in chapters -%}{%- if c.url == page.url -%}{%- assign current = c -%}{%- break -%}{%- endif -%}{%- endfor -%}
+
+{%- capture prevnext -%}
+{%- if current.prev or current.next -%}
+<nav class="book-prevnext" aria-label="Chapter navigation">
+  {% if current.prev %}<a class="book-prevnext__link prev" href="{{ current.prev.url | relative_url }}"><span class="dir">&larr; Previous</span><span class="t">{{ current.prev.title }}</span></a>{% else %}<span class="book-prevnext__spacer"></span>{% endif %}
+  {% if current.next %}<a class="book-prevnext__link next" href="{{ current.next.url | relative_url }}"><span class="dir">Next &rarr;</span><span class="t">{{ current.next.title }}</span></a>{% else %}<span class="book-prevnext__spacer"></span>{% endif %}
+</nav>
+{%- endif -%}
+{%- endcapture -%}
+
+<div class="book" data-book="{{ page.book }}">
+
+  <input type="checkbox" id="book-contents-cb" class="book-contents-cb" hidden>
+  <nav class="book-contents" aria-label="Table of contents">
+    <a class="book-contents__home" href="{{ book.home | relative_url }}">{{ book.short_title }}</a>
+    <label for="book-contents-cb" class="book-contents__drawer">Contents</label>
+    <div class="book-contents__list">
+    {%- for c in chapters -%}
+      {%- if c.type == 'part-divider' -%}
+        <div class="book-contents__part">{{ c.part }}</div>
+      {%- else -%}
+        <a class="book-contents__link{% if c.url == page.url %} is-current{% endif %}"{% if c.url == page.url %} aria-current="page"{% endif %} href="{{ c.url | relative_url }}">{{ c.title }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+    </div>
+  </nav>
+
+  <article class="book-reading">
+    {%- if current -%}
+    <div class="book-locator">
+      <a href="{{ book.home | relative_url }}">{{ book.short_title }}</a>
+      {%- if current.part and current.part != 'Front Matter' %} <span class="sep">&rsaquo;</span> <span>{{ current.part }}</span>{% endif -%}
+      {%- if current.locator and current.type != 'front-matter' %} <span class="sep">&middot;</span> <span class="loc">{{ current.locator }}</span>{% endif -%}
+    </div>
+    {%- endif -%}
+
+    {{ prevnext }}
+
+    <div class="book-prose">
+      {{ content }}
+    </div>
+
+    {{ prevnext }}
+  </article>
+
+  {%- if current -%}
+  <nav class="book-onthispage" aria-label="On this page" hidden>
+    <div class="book-onthispage__title">On this page</div>
+    <ol class="book-onthispage__list"></ol>
+  </nav>
+  {%- endif -%}
+
+</div>
+
+<script>
+/* Progressive enhancement only: builds the "On this page" rail from the chapter's
+   own headings and highlights the section in view. Everything works with JS off. */
+(function () {
+  var prose = document.querySelector('.book-prose');
+  var rail  = document.querySelector('.book-onthispage');
+  if (!prose || !rail) return;
+  var hs = [].slice.call(prose.querySelectorAll('h2[id], h3[id]'));
+  if (hs.filter(function (h) { return h.tagName === 'H2'; }).length < 3) return;
+  var ol = rail.querySelector('.book-onthispage__list');
+  hs.forEach(function (h) {
+    var li = document.createElement('li');
+    li.className = 'lvl-' + h.tagName.toLowerCase();
+    var a = document.createElement('a');
+    a.href = '#' + h.id; a.textContent = h.textContent;
+    li.appendChild(a); ol.appendChild(li);
+  });
+  rail.hidden = false;
+  var links = [].slice.call(ol.querySelectorAll('a'));
+  var byId = {}; links.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+  var spy = new IntersectionObserver(function (ents) {
+    ents.forEach(function (e) {
+      if (e.isIntersecting) {
+        links.forEach(function (a) { a.classList.remove('is-active'); });
+        var a = byId[e.target.id]; if (a) a.classList.add('is-active');
+      }
+    });
+  }, { rootMargin: '0px 0px -75% 0px', threshold: 0 });
+  hs.forEach(function (h) { spy.observe(h); });
+})();
+</script>

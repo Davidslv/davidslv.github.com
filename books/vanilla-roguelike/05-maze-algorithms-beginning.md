@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "Maze Generation Algorithms"
 permalink: /books/vanilla-roguelike/05-maze-algorithms-beginning/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/04-grids-and-cells/">&larr; Understanding Grids and Cells</a>
@@ -183,3 +185,4 @@ After processing (example):
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/06-algorithm-diversity/">Exploring Algorithm Diversity &rarr;</a>
 </nav>
+{% endraw %}

@@ -1,0 +1,277 @@
+---
+title: Building Your Own Roguelike
+short_title: Vanilla Roguelike
+subtitle: A Practical Guide
+author: David Silva
+home: "/books/vanilla-roguelike/"
+chapters:
+- slug: 01-what-is-a-roguelike
+  url: "/books/vanilla-roguelike/01-what-is-a-roguelike/"
+  title: What is a Roguelike?
+  part: Chapters
+  type: chapter
+  locator: Chapter 1 of 22
+  next:
+    url: "/books/vanilla-roguelike/02-development-mindset/"
+    title: The Development Mindset
+- slug: 02-development-mindset
+  url: "/books/vanilla-roguelike/02-development-mindset/"
+  title: The Development Mindset
+  part: Chapters
+  type: chapter
+  locator: Chapter 2 of 22
+  prev:
+    url: "/books/vanilla-roguelike/01-what-is-a-roguelike/"
+    title: What is a Roguelike?
+  next:
+    url: "/books/vanilla-roguelike/03-first-prototype/"
+    title: Your First Playable Prototype
+- slug: 03-first-prototype
+  url: "/books/vanilla-roguelike/03-first-prototype/"
+  title: Your First Playable Prototype
+  part: Chapters
+  type: chapter
+  locator: Chapter 3 of 22
+  prev:
+    url: "/books/vanilla-roguelike/02-development-mindset/"
+    title: The Development Mindset
+  next:
+    url: "/books/vanilla-roguelike/04-grids-and-cells/"
+    title: Understanding Grids and Cells
+- slug: 04-grids-and-cells
+  url: "/books/vanilla-roguelike/04-grids-and-cells/"
+  title: Understanding Grids and Cells
+  part: Chapters
+  type: chapter
+  locator: Chapter 4 of 22
+  prev:
+    url: "/books/vanilla-roguelike/03-first-prototype/"
+    title: Your First Playable Prototype
+  next:
+    url: "/books/vanilla-roguelike/05-maze-algorithms-beginning/"
+    title: Maze Generation Algorithms
+- slug: 05-maze-algorithms-beginning
+  url: "/books/vanilla-roguelike/05-maze-algorithms-beginning/"
+  title: Maze Generation Algorithms
+  part: Chapters
+  type: chapter
+  locator: Chapter 5 of 22
+  prev:
+    url: "/books/vanilla-roguelike/04-grids-and-cells/"
+    title: Understanding Grids and Cells
+  next:
+    url: "/books/vanilla-roguelike/06-algorithm-diversity/"
+    title: Exploring Algorithm Diversity
+- slug: 06-algorithm-diversity
+  url: "/books/vanilla-roguelike/06-algorithm-diversity/"
+  title: Exploring Algorithm Diversity
+  part: Chapters
+  type: chapter
+  locator: Chapter 6 of 22
+  prev:
+    url: "/books/vanilla-roguelike/05-maze-algorithms-beginning/"
+    title: Maze Generation Algorithms
+  next:
+    url: "/books/vanilla-roguelike/07-beyond-mazes/"
+    title: Beyond Mazes — Procedural Content
+- slug: 07-beyond-mazes
+  url: "/books/vanilla-roguelike/07-beyond-mazes/"
+  title: Beyond Mazes — Procedural Content
+  part: Chapters
+  type: chapter
+  locator: Chapter 7 of 22
+  prev:
+    url: "/books/vanilla-roguelike/06-algorithm-diversity/"
+    title: Exploring Algorithm Diversity
+  next:
+    url: "/books/vanilla-roguelike/08-architecture-problem/"
+    title: The Architecture Problem
+- slug: '08-architecture-problem'
+  url: "/books/vanilla-roguelike/08-architecture-problem/"
+  title: The Architecture Problem
+  part: Chapters
+  type: chapter
+  locator: Chapter 8 of 22
+  prev:
+    url: "/books/vanilla-roguelike/07-beyond-mazes/"
+    title: Beyond Mazes — Procedural Content
+  next:
+    url: "/books/vanilla-roguelike/09-intro-ecs/"
+    title: Introduction to Entity-Component-System (ECS)
+- slug: '09-intro-ecs'
+  url: "/books/vanilla-roguelike/09-intro-ecs/"
+  title: Introduction to Entity-Component-System (ECS)
+  part: Chapters
+  type: chapter
+  locator: Chapter 9 of 22
+  prev:
+    url: "/books/vanilla-roguelike/08-architecture-problem/"
+    title: The Architecture Problem
+  next:
+    url: "/books/vanilla-roguelike/10-ecs-entities-components/"
+    title: Building ECS — Entities and Components
+- slug: 10-ecs-entities-components
+  url: "/books/vanilla-roguelike/10-ecs-entities-components/"
+  title: Building ECS — Entities and Components
+  part: Chapters
+  type: chapter
+  locator: Chapter 10 of 22
+  prev:
+    url: "/books/vanilla-roguelike/09-intro-ecs/"
+    title: Introduction to Entity-Component-System (ECS)
+  next:
+    url: "/books/vanilla-roguelike/11-ecs-systems/"
+    title: Building ECS — Systems
+- slug: 11-ecs-systems
+  url: "/books/vanilla-roguelike/11-ecs-systems/"
+  title: Building ECS — Systems
+  part: Chapters
+  type: chapter
+  locator: Chapter 11 of 22
+  prev:
+    url: "/books/vanilla-roguelike/10-ecs-entities-components/"
+    title: Building ECS — Entities and Components
+  next:
+    url: "/books/vanilla-roguelike/12-world-coordinator/"
+    title: The World Coordinator
+- slug: 12-world-coordinator
+  url: "/books/vanilla-roguelike/12-world-coordinator/"
+  title: The World Coordinator
+  part: Chapters
+  type: chapter
+  locator: Chapter 12 of 22
+  prev:
+    url: "/books/vanilla-roguelike/11-ecs-systems/"
+    title: Building ECS — Systems
+  next:
+    url: "/books/vanilla-roguelike/13-input-movement/"
+    title: Input and Movement
+- slug: 13-input-movement
+  url: "/books/vanilla-roguelike/13-input-movement/"
+  title: Input and Movement
+  part: Chapters
+  type: chapter
+  locator: Chapter 13 of 22
+  prev:
+    url: "/books/vanilla-roguelike/12-world-coordinator/"
+    title: The World Coordinator
+  next:
+    url: "/books/vanilla-roguelike/14-collision-interaction/"
+    title: Collision and Interaction
+- slug: 14-collision-interaction
+  url: "/books/vanilla-roguelike/14-collision-interaction/"
+  title: Collision and Interaction
+  part: Chapters
+  type: chapter
+  locator: Chapter 14 of 22
+  prev:
+    url: "/books/vanilla-roguelike/13-input-movement/"
+    title: Input and Movement
+  next:
+    url: "/books/vanilla-roguelike/15-combat-system/"
+    title: Combat System
+- slug: 15-combat-system
+  url: "/books/vanilla-roguelike/15-combat-system/"
+  title: Combat System
+  part: Chapters
+  type: chapter
+  locator: Chapter 15 of 22
+  prev:
+    url: "/books/vanilla-roguelike/14-collision-interaction/"
+    title: Collision and Interaction
+  next:
+    url: "/books/vanilla-roguelike/16-items-inventory/"
+    title: Items and Inventory
+- slug: 16-items-inventory
+  url: "/books/vanilla-roguelike/16-items-inventory/"
+  title: Items and Inventory
+  part: Chapters
+  type: chapter
+  locator: Chapter 16 of 22
+  prev:
+    url: "/books/vanilla-roguelike/15-combat-system/"
+    title: Combat System
+  next:
+    url: "/books/vanilla-roguelike/17-ai-monsters/"
+    title: AI and Monsters
+- slug: 17-ai-monsters
+  url: "/books/vanilla-roguelike/17-ai-monsters/"
+  title: AI and Monsters
+  part: Chapters
+  type: chapter
+  locator: Chapter 17 of 22
+  prev:
+    url: "/books/vanilla-roguelike/16-items-inventory/"
+    title: Items and Inventory
+  next:
+    url: "/books/vanilla-roguelike/18-event-driven/"
+    title: Event-Driven Architecture
+- slug: 18-event-driven
+  url: "/books/vanilla-roguelike/18-event-driven/"
+  title: Event-Driven Architecture
+  part: Chapters
+  type: chapter
+  locator: Chapter 18 of 22
+  prev:
+    url: "/books/vanilla-roguelike/17-ai-monsters/"
+    title: AI and Monsters
+  next:
+    url: "/books/vanilla-roguelike/19-testing/"
+    title: Testing Your Roguelike
+- slug: 19-testing
+  url: "/books/vanilla-roguelike/19-testing/"
+  title: Testing Your Roguelike
+  part: Chapters
+  type: chapter
+  locator: Chapter 19 of 22
+  prev:
+    url: "/books/vanilla-roguelike/18-event-driven/"
+    title: Event-Driven Architecture
+  next:
+    url: "/books/vanilla-roguelike/20-performance/"
+    title: Performance Considerations
+- slug: 20-performance
+  url: "/books/vanilla-roguelike/20-performance/"
+  title: Performance Considerations
+  part: Chapters
+  type: chapter
+  locator: Chapter 20 of 22
+  prev:
+    url: "/books/vanilla-roguelike/19-testing/"
+    title: Testing Your Roguelike
+  next:
+    url: "/books/vanilla-roguelike/21-extending/"
+    title: Extending Your Game
+- slug: 21-extending
+  url: "/books/vanilla-roguelike/21-extending/"
+  title: Extending Your Game
+  part: Chapters
+  type: chapter
+  locator: Chapter 21 of 22
+  prev:
+    url: "/books/vanilla-roguelike/20-performance/"
+    title: Performance Considerations
+  next:
+    url: "/books/vanilla-roguelike/22-journey/"
+    title: Your Roguelike Journey
+- slug: 22-journey
+  url: "/books/vanilla-roguelike/22-journey/"
+  title: Your Roguelike Journey
+  part: Chapters
+  type: chapter
+  locator: Chapter 22 of 22
+  prev:
+    url: "/books/vanilla-roguelike/21-extending/"
+    title: Extending Your Game
+  next:
+    url: "/books/vanilla-roguelike/23-about-the-author/"
+    title: About the Author
+- slug: 23-about-the-author
+  url: "/books/vanilla-roguelike/23-about-the-author/"
+  title: About the Author
+  part: Chapters
+  type: back-matter
+  locator: About the author
+  prev:
+    url: "/books/vanilla-roguelike/22-journey/"
+    title: Your Roguelike Journey

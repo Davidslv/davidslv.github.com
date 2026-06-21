@@ -1,0 +1,84 @@
+// ============================================================================
+//  Bookshelf — the /books listing page. Theme-aware: every colour comes from the
+//  site's CSS custom properties (or a fixed accent that reads on both themes), so
+//  it works in light AND dark. Replaces the old hardcoded inline styles.
+// ============================================================================
+
+$shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark backgrounds
+
+.book-listing {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 0 0 1.5rem;
+  &__cover {
+    max-width: 200px;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+  }
+  &__body { flex: 1; min-width: 18rem; }
+}
+
+/* buy options grid (format | price | buttons) */
+.buy-grid {
+  display: grid;
+  grid-template-columns: minmax(140px, auto) minmax(110px, auto) 1fr;
+  gap: .7rem 1.2rem;
+  align-items: center;
+  margin: 1.2rem 0;
+  max-width: 600px;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: .25rem 1rem;
+    .buy-price { margin-bottom: .5rem; }
+  }
+}
+.buy-label { font-weight: 600; color: var(--text-color); }
+.buy-price { color: var(--meta-color); font-size: .9em; }
+.buy-row   { display: flex; gap: .5em; flex-wrap: wrap; }
+
+.btn-buy {
+  display: inline-block;
+  background: var(--background-alt);
+  color: var(--text-color);
+  border: 1.5px solid var(--border-color);
+  padding: .42em .9em;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: .9em;
+  &:hover { border-color: var(--link-color); color: var(--link-color); }
+}
+
+/* free web-edition call-out */
+.web-cta {
+  background: var(--background-alt);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid $shelf-gold;
+  padding: 1.25rem 1.5rem;
+  margin: 0 0 2.5rem;
+  border-radius: 6px;
+  p { margin: 0 0 1rem; }
+  p:last-child { margin: 0; }
+  &__label {
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: $shelf-gold;
+    margin: 0 0 .5rem;
+  }
+  .more { margin-left: 1rem; font-size: .95em; }
+}
+.btn-read {
+  display: inline-block;
+  background: $shelf-gold;
+  color: #1a1208;            // dark text on gold — high contrast in both themes
+  padding: .55em 1.4em;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: .02em;
+  &:hover { background: darken($shelf-gold, 8%); color: #1a1208; }
+}

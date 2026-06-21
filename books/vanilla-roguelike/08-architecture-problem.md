@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "The Architecture Problem"
 permalink: /books/vanilla-roguelike/08-architecture-problem/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/07-beyond-mazes/">&larr; Beyond Mazes — Procedural Content</a>
@@ -260,3 +262,4 @@ hence my assumption). We can't move forward until we fix this issue.
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/09-intro-ecs/">Introduction to Entity-Component-System (ECS) &rarr;</a>
 </nav>
+{% endraw %}

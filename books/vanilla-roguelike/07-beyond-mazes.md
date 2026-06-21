@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "Beyond Mazes — Procedural Content"
 permalink: /books/vanilla-roguelike/07-beyond-mazes/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/06-algorithm-diversity/">&larr; Exploring Algorithm Diversity</a>
@@ -275,3 +277,4 @@ permalink: /books/vanilla-roguelike/07-beyond-mazes/
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/08-architecture-problem/">The Architecture Problem &rarr;</a>
 </nav>
+{% endraw %}

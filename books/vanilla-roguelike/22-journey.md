@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "Your Roguelike Journey"
 permalink: /books/vanilla-roguelike/22-journey/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/21-extending/">&larr; Extending Your Game</a>
@@ -168,3 +170,4 @@ David Silva</p>
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/23-about-the-author/">About the Author &rarr;</a>
 </nav>
+{% endraw %}

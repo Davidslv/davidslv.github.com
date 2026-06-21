@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "About the Author"
 permalink: /books/vanilla-roguelike/23-about-the-author/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/22-journey/">&larr; Your Roguelike Journey</a>
@@ -78,3 +80,4 @@ or dies on word of mouth from engineers who got value from it.</li>
   <a href="/books/vanilla-roguelike/">Contents</a>
   <span></span>
 </nav>
+{% endraw %}

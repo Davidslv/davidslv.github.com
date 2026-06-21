@@ -1,0 +1,296 @@
+// ============================================================================
+//  Book reading experience — a dedicated long-form layout for the free web books.
+//  Elevation, not rebuild: built entirely on the site's CSS custom properties so
+//  light/dark "just work". Scoped to .book. Reusable across books via [data-book].
+// ============================================================================
+
+$book-serif:   Charter, "Charter BT", "Iowan Old Style", Iowan, Georgia, Cambria, "Times New Roman", serif;
+$book-measure: 34rem;   // prose column (~68ch)
+$book-wide:    46rem;   // code / diagrams / tables widen to here
+$book-bp:      1100px;  // 3-column threshold
+
+/* ---- 3-zone layout: contents | reading | on-this-page ---- */
+.book {
+  @media (min-width: $book-bp) {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr) 12.5rem;
+    gap: 2.6rem;
+    align-items: start;
+  }
+}
+.book--landing { display: block; }
+.book-reading { min-width: 0; }
+
+/* ---- hide the Quire-baked chapter nav (both class names); we render our own ---- */
+.book .quire-chapter-nav,
+.book .chapter-nav { display: none; }
+
+/* ---- breadcrumb / locator ---- */
+.book-locator {
+  font-family: $base-font-family;
+  font-size: .82rem;
+  color: var(--meta-color);
+  margin-bottom: 1.6rem;
+  a { color: var(--meta-color); text-decoration: none; }
+  a:hover { color: var(--link-color); }
+  .sep { margin: 0 .4rem; opacity: .6; }
+  .loc { color: var(--text-color); }
+}
+
+/* ---- the reading column ---- */
+.book-prose {
+  font-family: $book-serif;
+  font-size: 1.13rem;
+  line-height: 1.7;
+  color: var(--text-color);
+  max-width: $book-wide;
+
+  // text elements keep the narrow measure; code/diagrams/tables run wider
+  > p, > ul, > ol, > blockquote, > h2, > h3, > h4, > h5, > h6, > hr { max-width: $book-measure; }
+
+  > p  { margin: 0 0 1.25rem; }
+  > ul, > ol { margin: 0 0 1.25rem; padding-left: 1.4rem; }
+  li { margin: .3rem 0; }
+  a { color: var(--link-color); }
+
+  // headings — override the site's thin font-weight:300 so 18 chapters stay scannable
+  h1 { font-family: $base-font-family; font-weight: 800; font-size: 2.1rem; line-height: 1.18; letter-spacing: -.01em; margin: 0 0 1rem; max-width: $book-measure; }
+  h2 { font-family: $base-font-family; font-weight: 700; font-size: 1.55rem; line-height: 1.25; margin: 2.8rem 0 1rem; scroll-margin-top: 1.5rem; }
+  h3 { font-family: $base-font-family; font-weight: 700; font-size: 1.2rem; margin: 2rem 0 .7rem; scroll-margin-top: 1.5rem; }
+  h4 { font-family: $base-font-family; font-weight: 700; font-size: 1.02rem; margin: 1.6rem 0 .6rem; }
+
+  // the chapter epigraph (the quote right after the H1) — distinct from in-body quotes
+  h1 + blockquote {
+    font-family: $book-serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    color: var(--meta-color);
+    border: 0;
+    padding: 0;
+    margin: 1.4rem 0 2.6rem;
+    max-width: $book-measure;
+    p { margin: .2rem 0; }
+    p:last-child { font-size: .95rem; font-style: normal; } // attribution line
+  }
+
+  // in-body blockquote — kept visually different (a pulled-out note)
+  blockquote {
+    border-left: 3px solid var(--border-color);
+    padding: .2rem 0 .2rem 1.1rem;
+    margin: 1.4rem 0;
+    color: var(--meta-color);
+    font-style: italic;
+  }
+
+  // inline code
+  :not(pre) > code {
+    font-family: $mono-font-family;
+    font-size: .86em;
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 4px;
+    padding: .08em .35em;
+  }
+}
+
+/* ---- code listings: frame + language rail (Rouge colours untouched) ---- */
+.book-prose div.highlighter-rouge,
+.book-prose figure.highlight,
+.book-prose > .highlight {
+  position: relative;
+  max-width: $book-wide;
+  margin: 1.6rem 0;
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  border-radius: 8px;
+  overflow: hidden;
+
+  .highlight, pre.highlight, pre { margin: 0; background: transparent; border: 0; }
+  pre {
+    padding: 1.1rem 1.15rem;
+    padding-top: 1.05rem;
+    overflow-x: auto;
+    font-family: $mono-font-family;
+    font-size: .85rem;
+    line-height: 1.55;
+  }
+}
+// a quiet language rail across the top
+.book-prose div[class*="language-"] {
+  padding-top: 1.7rem;
+  &::before {
+    content: "code";
+    position: absolute; top: 0; left: 0; right: 0;
+    font-family: $mono-font-family;
+    font-size: .68rem; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--meta-color);
+    background: var(--background-alt);
+    border-bottom: 1px solid var(--code-border);
+    padding: .3rem .9rem;
+  }
+}
+.book-prose div.language-ruby::before  { content: "ruby"; }
+.book-prose div.language-bash::before,
+.book-prose div.language-sh::before,
+.book-prose div.language-shell::before,
+.book-prose div.language-console::before { content: "shell"; }
+.book-prose div.language-sql::before    { content: "sql"; }
+.book-prose div.language-yaml::before,
+.book-prose div.language-yml::before    { content: "yaml"; }
+.book-prose div.language-erb::before    { content: "erb"; }
+.book-prose div.language-html::before   { content: "html"; }
+.book-prose div.language-json::before   { content: "json"; }
+.book-prose div.language-diff::before   { content: "diff"; }
+.book-prose div.language-plaintext::before,
+.book-prose div.language-text::before   { content: "text"; }
+
+/* ---- diagrams: a light "paper card" in BOTH themes (never invert) ---- */
+.book-prose .diagram,
+.book-prose figure.diagram {
+  max-width: $book-wide;
+  margin: 1.9rem 0;
+  padding: 1.15rem;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  img { max-width: 100%; height: auto; }
+  figcaption { font-family: $base-font-family; font-size: .82rem; color: var(--meta-color); margin-top: .7rem; }
+}
+[data-theme="dark"] .book-prose .diagram,
+[data-theme="dark"] .book-prose figure.diagram { box-shadow: 0 0 0 1px rgba(255,255,255,.06); }
+
+/* ---- tables (appendix reference material) ---- */
+.book-prose table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: $book-wide;
+  margin: 1.7rem 0;
+  font-family: $base-font-family;
+  font-size: .9rem;
+  th, td { border: 1px solid var(--border-color); padding: .5rem .7rem; text-align: left; vertical-align: top; }
+  thead th { background: var(--background-alt); font-weight: 700; }
+  tbody tr:nth-child(even) { background: var(--background-alt); }
+}
+
+/* ---- prev / next ---- */
+.book-prevnext {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2.6rem 0;
+  max-width: $book-wide;
+  font-family: $base-font-family;
+  &__link {
+    flex: 1 1 0; max-width: 49%;
+    display: flex; flex-direction: column; gap: .25rem;
+    padding: .8rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+    &.next { text-align: right; align-items: flex-end; }
+    &:hover { border-color: var(--link-color); }
+    .dir { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--meta-color); }
+    .t { font-weight: 600; line-height: 1.25; }
+  }
+  &__spacer { flex: 1 1 0; max-width: 49%; }
+}
+
+/* ---- contents sidebar ---- */
+.book-contents {
+  font-family: $base-font-family;
+  &__home { display: block; font-weight: 800; font-size: 1.05rem; color: var(--text-color); text-decoration: none; margin-bottom: 1rem; }
+  &__home:hover { color: var(--link-color); }
+  &__drawer { display: none; }
+  &__part { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--meta-color); font-weight: 700; margin: 1.2rem 0 .4rem; }
+  &__list { }
+  &__link {
+    display: block;
+    padding: .28rem 0 .28rem .7rem;
+    margin-left: -2px;
+    border-left: 2px solid transparent;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: .9rem;
+    line-height: 1.3;
+    &:hover { color: var(--link-color); }
+    &.is-current { color: var(--link-color); border-left-color: var(--link-color); font-weight: 600; }
+  }
+
+  @media (min-width: $book-bp) {
+    position: sticky; top: 1.5rem; align-self: start;
+    max-height: calc(100vh - 3rem); overflow-y: auto;
+    padding-right: .4rem;
+  }
+  @media (max-width: $book-bp - 1) {
+    margin-bottom: 1.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: .7rem 1rem;
+    &__home { display: inline-block; margin-bottom: 0; }
+    &__drawer { display: block; cursor: pointer; user-select: none; font-weight: 600; color: var(--link-color); margin-top: .3rem; }
+    &__drawer::before { content: "\25B8\00a0"; } // ▸
+    &__list { display: none; margin-top: .7rem; }
+  }
+}
+.book-contents-cb:checked ~ .book-contents {
+  .book-contents__list { display: block; }
+  .book-contents__drawer::before { content: "\25BE\00a0"; } // ▾
+}
+
+/* ---- on this page ---- */
+.book-onthispage {
+  font-family: $base-font-family;
+  @media (max-width: $book-bp - 1) { display: none; }
+  @media (min-width: $book-bp) {
+    position: sticky; top: 1.5rem; align-self: start;
+    max-height: calc(100vh - 3rem); overflow-y: auto;
+  }
+  &__title { font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--meta-color); margin-bottom: .6rem; }
+  &__list { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--border-color); }
+  li { margin: 0; }
+  li.lvl-h3 a { padding-left: 1.5rem; font-size: .78rem; }
+  a {
+    display: block;
+    padding: .25rem .4rem .25rem .8rem;
+    margin-left: -2px;
+    border-left: 2px solid transparent;
+    color: var(--meta-color);
+    text-decoration: none;
+    font-size: .82rem;
+    line-height: 1.3;
+    &:hover { color: var(--text-color); }
+    &.is-active { color: var(--link-color); border-left-color: var(--link-color); }
+  }
+}
+
+/* ---- landing / cover ---- */
+.book--landing .book-reading { max-width: 50rem; margin: 0 auto; }
+.book-cover {
+  text-align: center;
+  margin: 1rem 0 2.6rem;
+  padding-bottom: 2.2rem;
+  border-bottom: 1px solid var(--border-color);
+  &__kicker { font-family: $base-font-family; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; color: var(--meta-color); margin-bottom: 1rem; }
+  &__title { font-family: $base-font-family; font-weight: 800; font-size: 2.5rem; line-height: 1.14; letter-spacing: -.01em; margin: 0 0 .9rem; }
+  &__subtitle { font-family: $book-serif; font-style: italic; font-size: 1.3rem; color: var(--meta-color); max-width: 32rem; margin: 0 auto 1.3rem; }
+  &__byline { font-family: $book-serif; font-size: 1.15rem; margin: 0 0 1.4rem; }
+  &__note { font-family: $base-font-family; font-size: .9rem; color: var(--meta-color); max-width: 34rem; margin: 0 auto; line-height: 1.55; }
+}
+.book-contents-grid {
+  font-family: $base-font-family;
+  &__heading { font-weight: 800; font-size: 1.3rem; margin: 0 0 1.4rem; }
+  &__part { font-weight: 700; font-size: 1.05rem; color: var(--meta-color); margin: 1.9rem 0 .5rem; }
+  &__list {
+    list-style: decimal;
+    padding-left: 1.5rem;
+    margin: 0 0 1rem;
+    font-family: $book-serif;
+    font-size: 1.08rem;
+    line-height: 1.9;
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  }
+}

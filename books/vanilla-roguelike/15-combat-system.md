@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "Combat System"
 permalink: /books/vanilla-roguelike/15-combat-system/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/14-collision-interaction/">&larr; Collision and Interaction</a>
@@ -200,3 +202,4 @@ permalink: /books/vanilla-roguelike/15-combat-system/
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/16-items-inventory/">Items and Inventory &rarr;</a>
 </nav>
+{% endraw %}

@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book-landing
+book: vanilla_roguelike
 title: "Building Your Own Roguelike"
 permalink: /books/vanilla-roguelike/
 ---
+{% raw %}
 
 <p><em>by David Silva</em></p>
 
@@ -31,3 +33,4 @@ permalink: /books/vanilla-roguelike/
   <li><a href="/books/vanilla-roguelike/22-journey/">Your Roguelike Journey</a></li>
   <li><a href="/books/vanilla-roguelike/23-about-the-author/">About the Author</a></li>
 </ol>
+{% endraw %}

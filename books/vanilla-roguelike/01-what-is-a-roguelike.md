@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "What is a Roguelike?"
 permalink: /books/vanilla-roguelike/01-what-is-a-roguelike/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <span></span>
@@ -130,3 +132,4 @@ permalink: /books/vanilla-roguelike/01-what-is-a-roguelike/
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/02-development-mindset/">The Development Mindset &rarr;</a>
 </nav>
+{% endraw %}

@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "Introduction to Entity-Component-System (ECS)"
 permalink: /books/vanilla-roguelike/09-intro-ecs/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/08-architecture-problem/">&larr; The Architecture Problem</a>
@@ -276,3 +278,4 @@ permalink: /books/vanilla-roguelike/09-intro-ecs/
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/10-ecs-entities-components/">Building ECS — Entities and Components &rarr;</a>
 </nav>
+{% endraw %}

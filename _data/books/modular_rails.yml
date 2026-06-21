@@ -1,0 +1,324 @@
+---
+title: 'Modular Rails: Architecture for the Long Game'
+short_title: Modular Rails
+subtitle: A practical guide to building maintainable Ruby on Rails applications using
+  Rails Engines
+author: David Silva
+home: "/books/modular-rails/"
+chapters:
+- slug: also-by
+  url: "/books/modular-rails/also-by/"
+  title: Also by David Silva
+  part: Front Matter
+  type: front-matter
+  locator: Front matter
+  next:
+    url: "/books/modular-rails/foreword/"
+    title: Foreword
+- slug: foreword
+  url: "/books/modular-rails/foreword/"
+  title: Foreword
+  part: Front Matter
+  type: front-matter
+  locator: Front matter
+  prev:
+    url: "/books/modular-rails/also-by/"
+    title: Also by David Silva
+  next:
+    url: "/books/modular-rails/introduction/"
+    title: Introduction
+- slug: introduction
+  url: "/books/modular-rails/introduction/"
+  title: Introduction
+  part: Front Matter
+  type: front-matter
+  locator: Front matter
+  prev:
+    url: "/books/modular-rails/foreword/"
+    title: Foreword
+  next:
+    url: "/books/modular-rails/chapter-01-why-architecture-matters/"
+    title: Why Architecture Matters
+- type: part-divider
+  part: Part I · Principles
+- slug: chapter-01-why-architecture-matters
+  url: "/books/modular-rails/chapter-01-why-architecture-matters/"
+  title: Why Architecture Matters
+  part: Part I · Principles
+  type: chapter
+  locator: Chapter 1 of 18
+  prev:
+    url: "/books/modular-rails/introduction/"
+    title: Introduction
+  next:
+    url: "/books/modular-rails/chapter-02-clean-architecture-for-rubyists/"
+    title: Clean Architecture for Rubyists
+- slug: chapter-02-clean-architecture-for-rubyists
+  url: "/books/modular-rails/chapter-02-clean-architecture-for-rubyists/"
+  title: Clean Architecture for Rubyists
+  part: Part I · Principles
+  type: chapter
+  locator: Chapter 2 of 18
+  prev:
+    url: "/books/modular-rails/chapter-01-why-architecture-matters/"
+    title: Why Architecture Matters
+  next:
+    url: "/books/modular-rails/chapter-03-the-hard-parts/"
+    title: The Hard Parts — Reasoning About Trade-offs
+- slug: chapter-03-the-hard-parts
+  url: "/books/modular-rails/chapter-03-the-hard-parts/"
+  title: The Hard Parts — Reasoning About Trade-offs
+  part: Part I · Principles
+  type: chapter
+  locator: Chapter 3 of 18
+  prev:
+    url: "/books/modular-rails/chapter-02-clean-architecture-for-rubyists/"
+    title: Clean Architecture for Rubyists
+  next:
+    url: "/books/modular-rails/chapter-04-extreme-programming-and-emergent-design/"
+    title: Extreme Programming and Emergent Design
+- slug: chapter-04-extreme-programming-and-emergent-design
+  url: "/books/modular-rails/chapter-04-extreme-programming-and-emergent-design/"
+  title: Extreme Programming and Emergent Design
+  part: Part I · Principles
+  type: chapter
+  locator: Chapter 4 of 18
+  prev:
+    url: "/books/modular-rails/chapter-03-the-hard-parts/"
+    title: The Hard Parts — Reasoning About Trade-offs
+  next:
+    url: "/books/modular-rails/chapter-05-rails-engines-from-the-inside-out/"
+    title: Rails Engines from the Inside Out
+- type: part-divider
+  part: Part II · The Mechanism
+- slug: chapter-05-rails-engines-from-the-inside-out
+  url: "/books/modular-rails/chapter-05-rails-engines-from-the-inside-out/"
+  title: Rails Engines from the Inside Out
+  part: Part II · The Mechanism
+  type: chapter
+  locator: Chapter 5 of 18
+  prev:
+    url: "/books/modular-rails/chapter-04-extreme-programming-and-emergent-design/"
+    title: Extreme Programming and Emergent Design
+  next:
+    url: "/books/modular-rails/chapter-06-namespace-isolation/"
+    title: Namespace Isolation
+- slug: chapter-06-namespace-isolation
+  url: "/books/modular-rails/chapter-06-namespace-isolation/"
+  title: Namespace Isolation
+  part: Part II · The Mechanism
+  type: chapter
+  locator: Chapter 6 of 18
+  prev:
+    url: "/books/modular-rails/chapter-05-rails-engines-from-the-inside-out/"
+    title: Rails Engines from the Inside Out
+  next:
+    url: "/books/modular-rails/chapter-07-building-your-first-engine/"
+    title: Building Your First Engine
+- slug: chapter-07-building-your-first-engine
+  url: "/books/modular-rails/chapter-07-building-your-first-engine/"
+  title: Building Your First Engine
+  part: Part II · The Mechanism
+  type: chapter
+  locator: Chapter 7 of 18
+  prev:
+    url: "/books/modular-rails/chapter-06-namespace-isolation/"
+    title: Namespace Isolation
+  next:
+    url: "/books/modular-rails/chapter-08-engine-integration-patterns/"
+    title: Engine Integration Patterns
+- slug: chapter-08-engine-integration-patterns
+  url: "/books/modular-rails/chapter-08-engine-integration-patterns/"
+  title: Engine Integration Patterns
+  part: Part II · The Mechanism
+  type: chapter
+  locator: Chapter 8 of 18
+  prev:
+    url: "/books/modular-rails/chapter-07-building-your-first-engine/"
+    title: Building Your First Engine
+  next:
+    url: "/books/modular-rails/chapter-09-identifying-boundaries/"
+    title: Identifying Boundaries in an Existing Application
+- type: part-divider
+  part: Part III · Practice
+- slug: chapter-09-identifying-boundaries
+  url: "/books/modular-rails/chapter-09-identifying-boundaries/"
+  title: Identifying Boundaries in an Existing Application
+  part: Part III · Practice
+  type: chapter
+  locator: Chapter 9 of 18
+  prev:
+    url: "/books/modular-rails/chapter-08-engine-integration-patterns/"
+    title: Engine Integration Patterns
+  next:
+    url: "/books/modular-rails/chapter-10-extracting-your-first-engine/"
+    title: Extracting Your First Engine
+- slug: chapter-10-extracting-your-first-engine
+  url: "/books/modular-rails/chapter-10-extracting-your-first-engine/"
+  title: Extracting Your First Engine
+  part: Part III · Practice
+  type: chapter
+  locator: Chapter 10 of 18
+  prev:
+    url: "/books/modular-rails/chapter-09-identifying-boundaries/"
+    title: Identifying Boundaries in an Existing Application
+  next:
+    url: "/books/modular-rails/chapter-11-managing-inter-engine-dependencies/"
+    title: Managing Inter-Engine Dependencies
+- slug: chapter-11-managing-inter-engine-dependencies
+  url: "/books/modular-rails/chapter-11-managing-inter-engine-dependencies/"
+  title: Managing Inter-Engine Dependencies
+  part: Part III · Practice
+  type: chapter
+  locator: Chapter 11 of 18
+  prev:
+    url: "/books/modular-rails/chapter-10-extracting-your-first-engine/"
+    title: Extracting Your First Engine
+  next:
+    url: "/books/modular-rails/chapter-12-data-ownership/"
+    title: Data Ownership and the Database Question
+- slug: chapter-12-data-ownership
+  url: "/books/modular-rails/chapter-12-data-ownership/"
+  title: Data Ownership and the Database Question
+  part: Part III · Practice
+  type: chapter
+  locator: Chapter 12 of 18
+  prev:
+    url: "/books/modular-rails/chapter-11-managing-inter-engine-dependencies/"
+    title: Managing Inter-Engine Dependencies
+  next:
+    url: "/books/modular-rails/chapter-13-testing-strategy/"
+    title: Testing Strategy for a Modular Monolith
+- slug: chapter-13-testing-strategy
+  url: "/books/modular-rails/chapter-13-testing-strategy/"
+  title: Testing Strategy for a Modular Monolith
+  part: Part III · Practice
+  type: chapter
+  locator: Chapter 13 of 18
+  prev:
+    url: "/books/modular-rails/chapter-12-data-ownership/"
+    title: Data Ownership and the Database Question
+  next:
+    url: "/books/modular-rails/chapter-14-team-workflow/"
+    title: Team Workflow and Developer Experience
+- slug: chapter-14-team-workflow
+  url: "/books/modular-rails/chapter-14-team-workflow/"
+  title: Team Workflow and Developer Experience
+  part: Part III · Practice
+  type: chapter
+  locator: Chapter 14 of 18
+  prev:
+    url: "/books/modular-rails/chapter-13-testing-strategy/"
+    title: Testing Strategy for a Modular Monolith
+  next:
+    url: "/books/modular-rails/chapter-15-when-engines-are-wrong/"
+    title: When Engines Are the Wrong Tool
+- type: part-divider
+  part: Part IV · Trade-offs
+- slug: chapter-15-when-engines-are-wrong
+  url: "/books/modular-rails/chapter-15-when-engines-are-wrong/"
+  title: When Engines Are the Wrong Tool
+  part: Part IV · Trade-offs
+  type: chapter
+  locator: Chapter 15 of 18
+  prev:
+    url: "/books/modular-rails/chapter-14-team-workflow/"
+    title: Team Workflow and Developer Experience
+  next:
+    url: "/books/modular-rails/chapter-16-engines-vs-alternatives/"
+    title: Engines vs the Alternatives
+- slug: chapter-16-engines-vs-alternatives
+  url: "/books/modular-rails/chapter-16-engines-vs-alternatives/"
+  title: Engines vs the Alternatives
+  part: Part IV · Trade-offs
+  type: chapter
+  locator: Chapter 16 of 18
+  prev:
+    url: "/books/modular-rails/chapter-15-when-engines-are-wrong/"
+    title: When Engines Are the Wrong Tool
+  next:
+    url: "/books/modular-rails/chapter-17-the-microservices-question/"
+    title: The Microservices Question
+- slug: chapter-17-the-microservices-question
+  url: "/books/modular-rails/chapter-17-the-microservices-question/"
+  title: The Microservices Question
+  part: Part IV · Trade-offs
+  type: chapter
+  locator: Chapter 17 of 18
+  prev:
+    url: "/books/modular-rails/chapter-16-engines-vs-alternatives/"
+    title: Engines vs the Alternatives
+  next:
+    url: "/books/modular-rails/chapter-18-evolving-your-architecture/"
+    title: Evolving Your Architecture Over Time
+- slug: chapter-18-evolving-your-architecture
+  url: "/books/modular-rails/chapter-18-evolving-your-architecture/"
+  title: Evolving Your Architecture Over Time
+  part: Part IV · Trade-offs
+  type: chapter
+  locator: Chapter 18 of 18
+  prev:
+    url: "/books/modular-rails/chapter-17-the-microservices-question/"
+    title: The Microservices Question
+  next:
+    url: "/books/modular-rails/appendix-a-companion-application/"
+    title: 'Appendix A: The Companion Application'
+- type: part-divider
+  part: Appendices
+- slug: appendix-a-companion-application
+  url: "/books/modular-rails/appendix-a-companion-application/"
+  title: 'Appendix A: The Companion Application'
+  part: Appendices
+  type: appendix
+  locator: Appendix 1 of 5
+  prev:
+    url: "/books/modular-rails/chapter-18-evolving-your-architecture/"
+    title: Evolving Your Architecture Over Time
+  next:
+    url: "/books/modular-rails/appendix-b-quick-reference/"
+    title: 'Appendix B: Rails Engine Quick Reference'
+- slug: appendix-b-quick-reference
+  url: "/books/modular-rails/appendix-b-quick-reference/"
+  title: 'Appendix B: Rails Engine Quick Reference'
+  part: Appendices
+  type: appendix
+  locator: Appendix 2 of 5
+  prev:
+    url: "/books/modular-rails/appendix-a-companion-application/"
+    title: 'Appendix A: The Companion Application'
+  next:
+    url: "/books/modular-rails/appendix-c-further-reading/"
+    title: 'Appendix C: Further Reading'
+- slug: appendix-c-further-reading
+  url: "/books/modular-rails/appendix-c-further-reading/"
+  title: 'Appendix C: Further Reading'
+  part: Appendices
+  type: appendix
+  locator: Appendix 3 of 5
+  prev:
+    url: "/books/modular-rails/appendix-b-quick-reference/"
+    title: 'Appendix B: Rails Engine Quick Reference'
+  next:
+    url: "/books/modular-rails/appendix-d-glossary/"
+    title: 'Appendix D: Glossary'
+- slug: appendix-d-glossary
+  url: "/books/modular-rails/appendix-d-glossary/"
+  title: 'Appendix D: Glossary'
+  part: Appendices
+  type: appendix
+  locator: Appendix 4 of 5
+  prev:
+    url: "/books/modular-rails/appendix-c-further-reading/"
+    title: 'Appendix C: Further Reading'
+  next:
+    url: "/books/modular-rails/about-the-author/"
+    title: About the Author
+- slug: about-the-author
+  url: "/books/modular-rails/about-the-author/"
+  title: About the Author
+  part: Appendices
+  type: appendix
+  locator: Appendix 5 of 5
+  prev:
+    url: "/books/modular-rails/appendix-d-glossary/"
+    title: 'Appendix D: Glossary'

@@ -1,8 +1,10 @@
 ---
-layout: page
+layout: book
+book: vanilla_roguelike
 title: "Performance Considerations"
 permalink: /books/vanilla-roguelike/20-performance/
 ---
+{% raw %}
 
 <nav class="chapter-nav" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;font-size:0.9rem;margin:1.5rem 0;">
   <a href="/books/vanilla-roguelike/19-testing/">&larr; Testing Your Roguelike</a>
@@ -169,3 +171,4 @@ permalink: /books/vanilla-roguelike/20-performance/
   <a href="/books/vanilla-roguelike/">Contents</a>
   <a href="/books/vanilla-roguelike/21-extending/">Extending Your Game &rarr;</a>
 </nav>
+{% endraw %}
