@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every File Is Yours (Lightning) — Modular Rails / Seams · David Silva</title>
+<meta name="description" content="A 5-minute lightning talk: the modular monolith in your repo. Seams generates real Rails engines — boilerplate gone, boundaries enforced, every file yours. By David Silva.">
+<link rel="canonical" href="https://davidslv.uk/presentations/every-file-is-yours/lightning.html">
+<meta property="og:title" content="Every File Is Yours (Lightning) — Modular Rails / Seams">
+<meta property="og:description" content="The modular monolith, in your repo — a 5-minute cut. By David Silva.">
+<meta property="og:image" content="https://davidslv.uk/presentations/every-file-is-yours/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://davidslv.uk/presentations/every-file-is-yours/assets/og.jpg">
+<style>
+:root{
+  --bg:#FBF7F0; --ink:#22201C; --ink2:#46423a; --muted:#8a8578;
+  --coral:#E2603F; --teal:#1F6F6B; --code:#F3EEE4; --line:#e6ddcc;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;padding:7vh 9vw;opacity:0;transition:opacity .3s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+.kicker{font-family:var(--mono);font-size:1.05vw;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:2.2vh}
+h1{font-size:6.4vw;font-weight:800;line-height:.99;letter-spacing:-.02em}
+.big{font-size:5vw;font-weight:800;line-height:1.04;letter-spacing:-.02em}
+.lede{font-size:2.4vw;font-weight:500;line-height:1.3;color:var(--ink2);max-width:26ch}
+p.body{font-size:2vw;line-height:1.4;color:var(--ink2);max-width:32ch;margin-top:2.4vh}
+.sig{color:var(--coral)} .tealc{color:var(--teal)}
+.sub{font-size:1.7vw;color:var(--muted);margin-top:1.6vh;line-height:1.35;max-width:46ch}
+.stack .w{font-size:5.6vw;font-weight:800;letter-spacing:-.02em;line-height:1.03}
+.slide.coral{background:var(--coral);color:#fff}
+.slide.coral .big,.slide.coral h1{color:#fff}
+.slide.quote{align-items:center;text-align:center}
+.quote .q{font-size:3.1vw;font-weight:600;line-height:1.28;max-width:24ch;letter-spacing:-.01em}
+.quote .who{font-family:var(--mono);font-size:1.2vw;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3vh}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:2.4vh 2vw;font-family:var(--mono);font-size:1.6vw;line-height:1.55;max-width:60vw}
+pre .dim{opacity:.34} pre .hl{color:var(--ink);font-weight:600} pre .cmt{color:var(--muted)}
+.barline{border-left:3px solid var(--coral);padding-left:.6vw}
+.term{width:70vw;max-width:1050px;background:#1c1a17;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.term .bar{display:flex;gap:.6vw;align-items:center;padding:1.4vh 1.2vw;background:#2a2723}
+.term .dot{width:.95vw;height:.95vw;max-width:13px;max-height:13px;border-radius:50%}
+.d1{background:#ef6a5e}.d2{background:#f4bf4f}.d3{background:#62c554}
+.term .body{padding:2.6vh 1.8vw;font-family:var(--mono);font-size:1.5vw;line-height:1.7;color:#e9e4da}
+.term .p{color:#7fd1a0}.term .c{color:#fff;font-weight:600}.term .o{color:#bdb6a8}.term .new{color:#7fd1a0;font-weight:600}.term .err{color:#ff8a76;font-weight:600}
+.node{border:2px solid var(--teal);border-radius:12px;padding:1.4vh 1.2vw;font-family:var(--mono);font-size:1.2vw;color:var(--teal);background:#f0f6f5;font-weight:600}
+.diagram{display:flex;gap:1.2vw;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:1vh}
+.arrowx{font-size:2.4vw;color:var(--coral);font-weight:800}
+.cap{font-family:var(--mono);font-size:1.2vw;color:var(--muted);margin-top:2.4vh;letter-spacing:.04em}
+.doors{display:flex;gap:1.6vw;margin-top:2vh}
+.door{flex:1;border:2px solid var(--line);border-radius:14px;padding:2.6vh 2vw;background:#fff}
+.door .t{font-family:var(--mono);font-size:1.3vw;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.door .d{font-size:1.7vw;font-weight:700;margin-top:1vh}
+.urls{font-family:var(--mono);font-size:1.3vw;color:var(--ink2);margin-top:3.5vh;line-height:1.9}
+.urls b{color:var(--coral)}
+.titleslide .wm{font-size:6.4vw;font-weight:800;line-height:.96;letter-spacing:-.025em}
+.titleslide .wm .you{color:var(--coral)}
+.titleslide .meta{font-family:var(--mono);font-size:1.4vw;color:var(--muted);margin-top:3vh;letter-spacing:.08em}
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1.1vw;color:var(--muted);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--coral);transition:width .3s;z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(28,26,23,.96);color:#f0ece3;font-family:var(--sans);font-size:1.5vh;line-height:1.5;padding:2.2vh 3vw;display:none;z-index:8;border-top:3px solid var(--coral)}
+.notes.show{display:block} .notes b{color:#f4bf4f}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
+.lt{position:fixed;top:2.4vh;right:2.6vw;font-family:var(--mono);font-size:.95vw;letter-spacing:.2em;text-transform:uppercase;color:var(--coral);z-index:5}
+@media(max-width:760px){h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw}pre,.term{max-width:90vw;font-size:3.2vw}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 COLD OPEN -->
+<section class="slide center" data-notes="No intro. 'How many of you wrote auth from scratch this year? Again?' Hands, groan — that's the tax. ~20s.">
+  <h1>Wrote auth from scratch<br>this year? <span class="sig">Again?</span></h1>
+</section>
+
+<!-- 2 THE TAX -->
+<section class="slide" data-notes="Every new app, week one — the same four things. Weeks before anything that's yours. I got tired of paying it.">
+  <div class="kicker">The boilerplate tax</div>
+  <div class="stack"><span class="w">Auth.</span><span class="w">Billing.</span><span class="w">Teams.</span><span class="w sig">Notifications.</span></div>
+  <p class="body">Weeks — before you ship a thing that's actually <b>yours</b>.</p>
+</section>
+
+<!-- 3 TITLE FLASH -->
+<section class="slide center titleslide" data-notes="Quick: who I am, and the bet. A book about boundaries became a tool that builds them.">
+  <div class="wm">Every File Is <span class="you">Yours</span></div>
+  <div class="meta">David Silva · 15+ yrs Ruby · @davidslv</div>
+</section>
+
+<!-- 4 THE FIX -->
+<section class="slide center" data-notes="The answer is the modular monolith — microservice benefits, monolith bill — and the mechanism isn't new. It's Rails Engines. Real boundaries inside one process. Not a new layer.">
+  <div class="big">Modular monolith.<br><span class="sig">Microservice benefits, monolith bill.</span></div>
+  <p class="sub" style="margin-top:2.6vh">The mechanism is just <b class="tealc">Rails Engines</b> — real boundaries inside one process. No new layer.</p>
+</section>
+
+<!-- 5 MEET SEAMS -->
+<section class="slide" data-notes="The hard part is wiring engines well. Seams does it — a CLI that generates real, pre-wired engines into your repo.">
+  <div class="kicker">github.com/Davidslv/seams</div>
+  <h1 style="font-size:5vw">Seams</h1>
+  <p class="body" style="max-width:34ch">A CLI that generates modular Rails engines — <span class="sig">into your repo.</span></p>
+</section>
+
+<!-- 6 SUBSTRATE / JUST RAILS -->
+<section class="slide center" data-notes="The whole differentiator: every file is yours. It's just Rails — latest stable, your conventions. The gem generates and walks away. No new framework.">
+  <div class="big">Every file is yours.<br><span class="sig">It's just Rails.</span></div>
+  <p class="sub" style="margin-top:2.6vh">Latest stable, your conventions. The gem generates and walks away — nothing hidden, nothing in your hot path.</p>
+</section>
+
+<!-- 7 DEMO: the live cast -->
+<section class="slide center" data-notes="A real run (scripted asciinema cast). ~18s — narrate over it: engines appear in your repo, open the billing controller (it's just Rails), reach across a boundary, the cop you already run FAILS, then the event graph. Pause on the red. Click to replay.">
+  <div class="kicker">Demo · bin/seams</div>
+  <div class="term" style="width:80vw">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+    <div class="body cast" data-cast="assets/seams-demo.cast" style="white-space:pre;text-align:left;height:46vh;overflow:hidden;font-size:1.15vw;line-height:1.55"></div>
+  </div>
+  <p class="cap">generate → it's just Rails → the cop says no → the event graph &nbsp;<span style="color:var(--muted)">· click to replay</span></p>
+</section>
+
+<!-- 8 THE TAKEAWAY (cop) -->
+<section class="slide center" data-notes="The takeaway from what they just watched. Anyone scaffolds files. Almost nobody ships enforcement — a cop you already run won't let you cross a boundary by accident.">
+  <div class="big" style="font-size:3.8vw;max-width:24ch">Anyone scaffolds files.<br>Almost nobody ships <span class="sig">enforcement.</span></div>
+  <p class="sub" style="margin-top:3vh;font-family:var(--mono);font-size:1.5vw">Seams/NoCrossEngineModelAccess — the boundary is real, not folder cosmetics.</p>
+</section>
+
+<!-- 9 HONEST LIMIT -->
+<section class="slide center" data-notes="One honesty beat — it buys the room. Beta, synchronous events, one process. If you need true service isolation, this isn't that — and that's the point.">
+  <div class="lede" style="max-width:38ch">Beta. Synchronous events. One process.</div>
+  <p class="body" style="font-size:2.2vw;max-width:34ch">Need true service isolation? This isn't that — <span class="sig">and that's the point.</span></p>
+</section>
+
+<!-- 10 PROOF -->
+<section class="slide center" data-notes="And it builds real things — I dogfooded it into a real beta product: six canonical engines + one thin adapter. You don't need all seven.">
+  <div class="kicker">I built a real thing with it</div>
+  <div class="diagram">
+    <span class="node">6 engines</span><span class="arrowx">+</span><span class="node" style="border-color:var(--coral);color:var(--coral);background:#fdeee9">1 adapter</span><span class="arrowx">→</span><span class="node">a real beta product</span>
+  </div>
+  <p class="cap">Plug only what you need. 60+ system tests. You don't need all seven.</p>
+</section>
+
+<!-- 11 THE BET / FOREWORD -->
+<section class="slide coral center" data-notes="The close, earned. The opposite bet to tools that replace you — it clears the boilerplate so you stay the architect. Then the real line, quiet.">
+  <div class="big" style="font-size:3.4vw;max-width:28ch">It doesn't write your code or hide it. It clears the boilerplate so <span style="text-decoration:underline">you stay the architect.</span></div>
+  <p class="sub" style="color:#ffe2d8;margin-top:3vh;font-size:1.9vw">"I couldn't find the tool, so I built it."</p>
+</section>
+
+<!-- 12 CTA -->
+<section class="slide center" data-notes="One action, theirs not mine. Pick the engine you're dreading; let Seams hand it to you this week. Photograph the links.">
+  <div class="kicker">Do this Monday</div>
+  <h1 style="font-size:3.4vw;max-width:24ch">Pick the engine you're dreading. Let Seams hand it to you, <span class="sig">in your repo,</span> this week.</h1>
+  <div class="urls">davidslv.uk/modular-rails &nbsp;·&nbsp; github.com/Davidslv/<b>seams</b> &nbsp;·&nbsp; <b>@davidslv</b></div>
+  <p class="sub" style="margin-top:2.4vh">Every file is yours. Thank you.</p>
+</section>
+
+</div>
+<div class="progress" id="progress"></div>
+<div class="lt">⚡ Lightning · 5 min</div>
+<div class="counter" id="counter">1 / 12</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes');
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');location.hash=i+1;}
+function next(){show(i+1)}function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);});
+document.addEventListener('click',e=>{if(e.clientX<innerWidth*0.25)prev();else next();});
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+<script src="assets/castplay.js"></script>
+</body>
+</html>

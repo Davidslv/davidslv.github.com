@@ -8,7 +8,7 @@ permalink: /presentations/
 
 The modular monolith, in your repo — boilerplate gone, boundaries enforced, you still the architect. The story from a Rails architecture book to [Seams](https://github.com/Davidslv/seams), a CLI that generates real, pre-wired Rails engines into your own repo. Based on [Modular Rails: Architecture for the Long Game](/modular-rails/).
 
-[View presentation](/presentations/every-file-is-yours/)
+[View presentation](/presentations/every-file-is-yours/) · [5-minute lightning version](/presentations/every-file-is-yours/lightning.html)
 
 ---
 

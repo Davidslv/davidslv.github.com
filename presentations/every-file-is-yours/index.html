@@ -4,17 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Every File Is Yours — Modular Rails / Seams · David Silva</title>
-<meta name="description" content="A Rails-conference talk: the modular monolith in your repo. Seams generates real Rails engines — boilerplate gone, boundaries enforced by a cop, every file yours. By David Silva.">
-<link rel="canonical" href="https://davidslv.uk/presentations/every-file-is-yours/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Every File Is Yours — Modular Rails / Seams">
-<meta property="og:description" content="The modular monolith, in your repo — boilerplate gone, boundaries enforced, you still the architect. A talk by David Silva.">
-<meta property="og:url" content="https://davidslv.uk/presentations/every-file-is-yours/">
-<meta property="og:image" content="https://davidslv.uk/presentations/every-file-is-yours/assets/og.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Every File Is Yours — Modular Rails / Seams">
-<meta name="twitter:description" content="The modular monolith, in your repo — boilerplate gone, boundaries enforced, you still the architect.">
-<meta name="twitter:image" content="https://davidslv.uk/presentations/every-file-is-yours/assets/og.jpg">
 <style>
 :root{
   --bg:#FBF7F0; --ink:#22201C; --ink2:#46423a; --muted:#8a8578;
@@ -229,66 +218,14 @@ ul.real li b{color:var(--ink)}
   <div class="big">Watch what the next<br>45 seconds <span style="text-decoration:underline">replaces.</span></div>
 </section>
 
-<!-- 15 DEMO 1: generate -->
-<section class="slide center" data-notes="Narrate calmly. There's auth. There's billing. There's teams. Real engines — in YOUR engines/ folder. Not behind a gem.">
-  <div class="term">
+<!-- 15 DEMO — the live cast (generate → it's just Rails → the cop → the event graph) -->
+<section class="slide center" data-notes="The demo, as one recorded run (scripted asciinema cast). ~18s. Narrate the beats over it: there's auth/billing/teams in YOUR repo → open the billing controller, it's just Rails → reach across a boundary and the rubocop you already run FAILS (the credibility beat — click to PAUSE and hold on the red) → then the event graph. Click again to resume; click when finished to replay.">
+  <div class="kicker">Demo · bin/seams</div>
+  <div class="term" style="width:82vw">
     <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
-    <div class="body">
-<span class="p">$</span> <span class="c">bin/seams auth billing teams notifications</span>
-<span class="o">      create  engines/auth        (Identity, Session, OAuth, API tokens)</span>
-<span class="o">      create  engines/billing     (Stripe webhooks, subscriptions)</span>
-<span class="o">      create  engines/teams        (Team, Membership, Invitation)</span>
-<span class="o">      create  engines/notifications (STI strategies, ActionCable bell)</span>
-<span class="new">      ✓ 4 engines mounted · specs green · rubocop clean</span>
-    </div>
+    <div class="body cast" data-cast="assets/seams-demo.cast" style="white-space:pre;text-align:left;height:50vh;overflow:hidden;font-size:1.2vw;line-height:1.55"></div>
   </div>
-  <p class="cap">Real Rails engines — under <b>engines/</b>, in your repo.</p>
-</section>
-
-<!-- 16 DEMO 2: open one, it's yours -->
-<section class="slide" data-notes="Open it. This is real substance — official Stripe gem, a 13-handler webhook router. And it's YOURS: edit a line, delete a line, own it. Plain Rails — a controller you recognise.">
-  <div class="kicker">engines/billing — open it. it's just Rails.</div>
-  <pre><span class="cmt"># engines/billing/app/controllers/billing/webhooks_controller.rb</span>
-<span class="dim">module Billing</span>
-<span class="dim">  class WebhooksController &lt; ApplicationController</span>
-<span class="dim">    def create</span>
-<span class="hl">      event = Stripe::Webhook.construct_event(payload, sig, secret)</span>
-<span class="hl barline">      HANDLERS.fetch(event.type) { :ignore }.call(event)   <span class="cmt"># 13 handlers</span></span>
-<span class="dim">    end</span>
-<span class="dim">  end</span>
-<span class="dim">end</span></pre>
-  <p class="cap">Official Stripe gem · a 13-handler webhook router. <b>Yours to edit or delete.</b></p>
-</section>
-
-<!-- 17 DEMO 3: the cop says NO (hero) -->
-<section class="slide" data-notes="THE moment. Anyone can scaffold files. Almost nobody ships ENFORCEMENT. The boundary isn't folder cosmetics — a cop you already run won't let you cross it by accident. This is the credibility beat. Land it slowly.">
-  <div class="kicker">Reach across a boundary…</div>
-  <pre><span class="cmt"># inside engines/auth — reaching into Billing</span>
-<span class="hl">Billing::Subscription.find(current_user.subscription_id)</span></pre>
-  <div class="term" style="width:62vw;margin-top:3vh;background:#241a18">
-    <div class="bar" style="background:#33211d"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
-    <div class="body" style="font-size:1.4vw">
-<span class="p">$</span> <span class="c">bundle exec rubocop</span>
-<span class="err">  C: Seams/NoCrossEngineModelAccess</span>
-<span class="o">  Engine `auth` must not access `Billing::Subscription` directly.</span>
-<span class="o">  Subscribe to an event instead.</span>
-    </div>
-  </div>
-</section>
-
-<!-- 18 DEMO 4: the green path -->
-<section class="slide" data-notes="Here's the right way: emit an event, an explicit subscriber picks it up. bin/seams list shows the real graph — no magic behind it. Synchronous events, explicit subscribers.">
-  <div class="kicker">…the green path: events with explicit subscribers</div>
-  <div class="term">
-    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
-    <div class="body" style="font-size:1.35vw">
-<span class="p">$</span> <span class="c">bin/seams list</span>
-<span class="o">  auth           emits   <span class="ok">user.created</span>, <span class="ok">session.started</span></span>
-<span class="o">  billing        <span class="arrow">subscribes</span> <span class="ok">user.created</span>  → create customer</span>
-<span class="o">  notifications  <span class="arrow">subscribes</span> <span class="ok">user.created</span>  → welcome email</span>
-<span class="new">  synchronous · explicit subscribers · no magic</span>
-    </div>
-  </div>
+  <p class="cap">generate → it's just Rails → the cop says no → the event graph &nbsp;<span style="color:var(--muted)">· click to pause / replay</span></p>
 </section>
 
 <!-- 19 FREEZE: what's real -->
@@ -444,5 +381,6 @@ document.addEventListener('click',e=>{ if(e.clientX < innerWidth*0.25) prev(); e
 window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
 const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
 </script>
+<script src="assets/castplay.js"></script>
 </body>
 </html>
