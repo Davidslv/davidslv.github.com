@@ -4,6 +4,8 @@ title:  "Testing Strategy for a Modular Rails Application"
 date:   2026-06-02
 series: engineers-notebook
 series_order: 6
+description: "How a modular Rails test suite runs in 4 minutes instead of 40: per-engine unit tests, dummy apps, contract tests for boundaries, selective execution, and a CI flow that scales as you grow."
+image: /img/modular-rails-cover.png
 ---
 
 *This is an adapted excerpt from Chapter 13 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*
@@ -225,4 +227,4 @@ That is why your test suite takes 40 minutes and mine takes 4. Not cleverness. S
 
 *This was adapted from Chapter 13 of [Modular Rails: Architecture for the Long Game](/modular-rails/). The book covers the full testing strategy including SimpleCov configuration, Capybara setup, database cleaning, CI YAML examples, and automated quality tools.*
 
-*[Get the book on Amazon UK](https://www.amazon.co.uk/dp/B0GZL7D53M) · [Amazon US](https://www.amazon.com/dp/B0GZL7D53M) · [Learn more](/modular-rails/)*
+*Read the [**entire book free on the web**](/books/modular-rails/) — every chapter, no paywall. Prefer print or Kindle? [Amazon US](https://www.amazon.com/dp/1066649405) · [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [all editions &amp; prices](/modular-rails/).*

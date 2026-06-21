@@ -4,6 +4,8 @@ title:  "How to Identify Boundaries in a Rails Monolith"
 date:   2026-05-12
 series: engineers-notebook
 series_order: 2
+description: "Your git history already knows where your Rails boundaries belong. Use co-change analysis to find domain clusters, tame the God-Object User model, and draw your first engine interfaces."
+image: /img/modular-rails-cover.png
 ---
 
 *This is an adapted excerpt from Chapter 9 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*
@@ -161,4 +163,4 @@ The codebase already knows where the boundaries are. Your job is to listen.
 
 *This was adapted from Chapter 9 of [Modular Rails: Architecture for the Long Game](/modular-rails/). The book covers 18 chapters across four parts -- from Clean Architecture principles to extracting your first engine, testing strategies, team workflow, and the honest trade-offs most architecture books skip.*
 
-*[Get the book on Amazon UK](https://www.amazon.co.uk/dp/B0GZL7D53M) · [Amazon US](https://www.amazon.com/dp/B0GZL7D53M) · [Learn more](/modular-rails/)*
+*Read the [**entire book free on the web**](/books/modular-rails/) — every chapter, no paywall. Prefer print or Kindle? [Amazon US](https://www.amazon.com/dp/1066649405) · [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [all editions &amp; prices](/modular-rails/).*

@@ -4,6 +4,8 @@ title:  "Seeding for Reproducibility: Debugging Procedural Generation"
 date:   2025-11-13 07:41:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "Seeding turns procedural generation from a black box into a debuggable, testable system. How to use srand correctly in Ruby, avoid RNG leaks, reproduce bugs, and let players share seeds."
+image: /img/roguelike-cover.jpg
 ---
 
 One of the most powerful features of procedural generation is the ability to reproduce the same content using a seed. This capability transforms debugging from a frustrating exercise in randomness into a systematic process. This article explores how to implement seeding effectively and use it for debugging, testing, and player experience.
@@ -344,4 +346,8 @@ From implementing seeding in Vanilla Roguelike:
 Seeding is one of the most important features for procedural generation. It enables debugging, makes testing possible, and enhances player experience through seed sharing. The key is to set the seed early, ensure all systems respect it, and log seeds for debugging.
 
 By implementing seeding correctly, you transform procedural generation from a black box into a debuggable, testable system. This is essential for building reliable roguelike games.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

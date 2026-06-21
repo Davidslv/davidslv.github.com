@@ -4,6 +4,8 @@ title:  "Rails Engines vs Packwerk: When to Use What"
 date:   2026-05-19
 series: engineers-notebook
 series_order: 4
+description: "Rails engines enforce hard runtime boundaries; Packwerk catches violations with static analysis. A side-by-side comparison — plus gems, namespaces and Hanami slices — to pick the right tool."
+image: /img/modular-rails-cover.png
 ---
 
 *This is an adapted excerpt from Chapter 16 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*
@@ -132,4 +134,4 @@ The best architecture teams I have worked with use this layered approach. They s
 
 *This was adapted from Chapter 16 of [Modular Rails: Architecture for the Long Game](/modular-rails/). The book covers all five approaches in depth -- with working code, migration guides, and the honest trade-offs for each.*
 
-*[Get the book on Amazon UK](https://www.amazon.co.uk/dp/B0GZL7D53M) · [Amazon US](https://www.amazon.com/dp/B0GZL7D53M) · [Learn more](/modular-rails/)*
+*Read the [**entire book free on the web**](/books/modular-rails/) — every chapter, no paywall. Prefer print or Kindle? [Amazon US](https://www.amazon.com/dp/1066649405) · [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [all editions &amp; prices](/modular-rails/).*

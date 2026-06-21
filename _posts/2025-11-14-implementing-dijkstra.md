@@ -4,6 +4,8 @@ title:  "Implementing Dijkstra's Algorithm for Game Pathfinding"
 date:   2025-11-14 10:40:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "A practical Ruby implementation of Dijkstra's algorithm for roguelikes — why it collapses to BFS on uniform-cost grids, path reconstruction by distance gradient, and when to use A* instead."
+image: /img/roguelike-cover.jpg
 ---
 
 Dijkstra's algorithm is a fundamental pathfinding algorithm that finds the shortest path between points in a graph. For roguelike games, it's perfect for grid-based movement, distance calculations, and AI pathfinding. This article explores a practical implementation of Dijkstra's algorithm specifically for roguelike game development.
@@ -416,4 +418,8 @@ From implementing Dijkstra's in Vanilla Roguelike:
 Dijkstra's algorithm is a fundamental tool for roguelike development. Its simple implementation, good performance, and multiple use cases make it ideal for grid-based games. By implementing it correctly, you enable pathfinding, distance calculations, accessibility checks, and AI behavior—all with one algorithm.
 
 The key is understanding that for uniform-cost grids, Dijkstra's simplifies to breadth-first search, making implementation straightforward while maintaining all the benefits of the algorithm.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

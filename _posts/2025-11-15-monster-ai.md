@@ -4,6 +4,8 @@ title:  "Monster AI: Simple Pathfinding That Feels Smart"
 date:   2025-11-15 10:05:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "Monster AI that feels smart without behaviour trees: blending random wandering, greedy Manhattan pursuit and full Dijkstra pathfinding by distance, plus spawn rules and performance tactics."
+image: /img/roguelike-cover.jpg
 ---
 
 Creating engaging monster AI in roguelikes doesn't require complex behavior trees or state machines. Simple pathfinding techniques can create monsters that feel intelligent and challenging without being frustrating. This article explores how to implement effective monster AI using basic pathfinding.
@@ -420,4 +422,8 @@ From implementing monster AI in Vanilla Roguelike:
 Monster AI in roguelikes doesn't need to be complex. Simple pathfinding techniques—from random wandering to full Dijkstra's—can create engaging, challenging monsters. The key is choosing the right approach for each situation and balancing challenge with performance.
 
 By using distance-based spawning, appropriate pathfinding strategies, and behavior variety, you can create monsters that feel intelligent and challenging without being frustrating or performance-intensive.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

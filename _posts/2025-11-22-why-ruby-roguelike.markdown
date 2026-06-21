@@ -4,6 +4,8 @@ title:  "Why I Chose Ruby to Build a Roguelike Game"
 date:   2025-11-22 11:06:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "Why Ruby — not C++ or Python — was the right language for a turn-based roguelike: rapid iteration, an elegant ECS, the Command pattern, and seedable tests for procedural generation."
+image: /img/roguelike-cover.jpg
 ---
 
 
@@ -256,4 +258,4 @@ Thank you for reading.
 
 ---
 
-**P.S.** – I documented this entire journey in a book I recently published: [Building Your Own Roguelike: A Practical Guide](https://www.amazon.com/Building-Your-Own-Roguelike-Hands-ebook/dp/B0G1RBWF6V). It walks through building this from scratch – the ECS pattern, event systems, maze generation algorithms, and everything you see in Vanilla Roguelike.
+**P.S.** – I documented this entire journey in a book: [Building Your Own Roguelike](/books/vanilla-roguelike/). It walks through building this from scratch – the ECS pattern, event systems, maze generation algorithms, and everything you see in Vanilla Roguelike. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).

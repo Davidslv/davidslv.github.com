@@ -4,6 +4,8 @@ title:  "Ensuring Player Accessibility in Procedurally Generated Levels"
 date:   2025-11-11 10:00:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "How to guarantee procedurally generated roguelike levels stay winnable: Dijkstra-based placement to put stairs at a reachable farthest cell, plus greedy path verification and repair for safety."
+image: /img/roguelike-cover.jpg
 ---
 
 When building a roguelike game, one of the most critical challenges is ensuring that procedurally generated levels are playable. The player must always be able to reach critical objectives—like stairs to the next level, important items, or quest objectives. This article explores how to guarantee accessibility using pathfinding algorithms and path verification techniques.
@@ -242,4 +244,8 @@ From implementing this in Vanilla Roguelike:
 Ensuring player accessibility in procedurally generated levels is critical for playability. Using Dijkstra's algorithm for smart entity placement and path verification techniques provides a robust solution. The key is to place critical entities at guaranteed reachable locations and verify paths when needed.
 
 By implementing these techniques, you can create procedurally generated levels that are both interesting and playable, ensuring players never get stuck and always have a path to victory.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

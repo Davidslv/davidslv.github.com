@@ -4,6 +4,8 @@ title:  "Testing Procedural Generation: How to Test Randomness"
 date:   2025-11-18 10:00:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "How to test non-deterministic procedural generation: seed for determinism, assert on properties like connectivity and accessibility instead of outputs, and run property-based tests across many seeds."
+image: /img/roguelike-cover.jpg
 ---
 
 Testing procedural generation is challenging because it's inherently non-deterministic. How do you test code that produces different results every time? This article explores strategies for testing procedural generation systems effectively.
@@ -469,4 +471,8 @@ From testing procedural generation in Vanilla Roguelike:
 Testing procedural generation requires a different approach than traditional testing. By using seeds for determinism, testing properties instead of outputs, and running property-based tests across many seeds, you can ensure your procedural generation systems are correct, reliable, and performant.
 
 The key is to think about what properties your generation should have (connectivity, accessibility, distribution) and test those properties, not the specific outputs. With careful testing, procedural generation can be as reliable as any other system.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

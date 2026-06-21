@@ -4,6 +4,8 @@ title:  "Finding the Longest Path: A Key to Better Level Design"
 date:   2025-11-12 23:46:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "The two-pass Dijkstra longest-path algorithm — the graph diameter — for roguelike level design: optimal objective placement, measuring maze complexity, and natural difficulty progression."
+image: /img/roguelike-cover.jpg
 ---
 
 In roguelike game development, placing objectives at the right distance from the player is crucial for creating engaging gameplay. Too close, and the level feels trivial. Too far, and it becomes frustrating. The longest path algorithm provides a mathematical way to find optimal placement locations and measure maze complexity.
@@ -284,4 +286,8 @@ The longest path algorithm opens up possibilities:
 The longest path algorithm is a powerful tool for roguelike level design. By finding the path that requires maximum exploration, you can place objectives optimally, measure maze complexity, and create more engaging gameplay experiences.
 
 While it requires two pathfinding calculations, the benefits in terms of level quality and player experience make it worthwhile. Combined with other techniques like path verification and complexity measurement, longest path algorithms help create procedurally generated levels that feel intentional and well-designed.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

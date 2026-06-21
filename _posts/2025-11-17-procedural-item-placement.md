@@ -4,6 +4,8 @@ title:  "Procedural Item Placement: Balancing Loot Distribution"
 date:   2025-11-17 09:45:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "Procedural loot placement that stays fair: distance-based and weighted placement, anti-clustering spacing, accessibility checks, and drop rates that scale with difficulty."
+image: /img/roguelike-cover.jpg
 ---
 
 Placing items procedurally in roguelike games is more complex than it seems. Items need to be accessible, fairly distributed, and balanced for difficulty. This article explores strategies for procedural item placement that create engaging gameplay without manual level design.
@@ -488,4 +490,8 @@ From implementing item placement in Vanilla Roguelike:
 Procedural item placement is a balancing act between accessibility, distribution, and gameplay. By using distance-based placement, accessibility verification, spacing constraints, and difficulty scaling, you can create engaging loot distribution that enhances gameplay without manual level design.
 
 The key is to combine multiple strategies: use distance calculations for reachability, spacing for distribution, and weighted placement for interest. With careful implementation, procedural item placement can create levels that feel intentional and well-designed.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

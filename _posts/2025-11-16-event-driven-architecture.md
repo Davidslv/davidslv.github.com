@@ -4,6 +4,8 @@ title:  "Event-Driven Architecture for Game Debugging"
 date:   2025-11-16 02:00:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "An event-driven architecture for game debugging: decouple systems with a publish/subscribe event manager, persist a JSONL event log per session, then replay and visualise to diagnose bugs."
+image: /img/roguelike-cover.jpg
 ---
 
 Event-driven architecture is a powerful pattern for game development that provides decoupling, comprehensive logging, and powerful debugging capabilities. This article explores how to implement an event system and use it to transform game debugging from guesswork into systematic analysis.
@@ -503,4 +505,8 @@ From implementing events in Vanilla Roguelike:
 Event-driven architecture is a game-changer for debugging. By decoupling systems, providing comprehensive logging, and enabling visualization, events transform game development from frustrating guesswork into systematic analysis.
 
 The key is to start simple—emit events for important actions, store them persistently, and use visualization tools to understand what happened. As your game grows, the event system becomes increasingly valuable for debugging, testing, and understanding player behavior.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

@@ -4,6 +4,8 @@ title:  "Building Vanilla Roguelike: A Journey Through Algorithms, Architecture,
 date:   2025-11-08 11:15:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "Five years building a roguelike from scratch in pure Ruby — maze algorithms, a catastrophic BREAKINGPOINT, and the ECS migration that saved the project and taught me real architecture."
+image: /img/roguelike-cover.jpg
 ---
 
 What does it take to build a roguelike game from scratch? Not with a game engine, not with external libraries, but with pure Ruby—just you, the language, and a terminal. That's the challenge I set for myself in April 2020, and over the next five years, this passion project would teach me more about algorithms, game programming patterns, and software architecture than any tutorial ever could.
@@ -346,3 +348,7 @@ The BREAKINGPOINT that nearly ended the project became its salvation. The crisis
 [Vanilla Roguelike](https://github.com/Davidslv/vanilla-roguelike) is still a work in progress. There's polish to add, features to complete, bugs to fix. But it's playable, it's built on solid architecture, and it represents five years of learning. That's enough.
 
 For now.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey — the ECS pattern, maze generation, event systems, and more. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*

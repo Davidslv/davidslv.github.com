@@ -4,6 +4,8 @@ title:  "From One Controller to Thirteen Handlers: A Webhook Refactor"
 date:   2026-06-16
 series: engineers-notebook
 series_order: 7
+description: "Refactoring a 200-line Stripe webhook god-object into thirteen single-purpose handlers, using Template Method, Strategy and Registry to make adding an event type a one-class job."
+image: /img/modular-rails-cover.png
 ---
 
 A webhook controller is the natural place to put webhook code. You name it `WebhooksController`, you put a `def stripe` action in it, and you start writing. Six months later it is 200 lines long and you cannot remember what half of it does. This post is about the moment I noticed mine had become a god object, and the small architectural shift that fixed it.
@@ -187,4 +189,4 @@ The webhook controller is just the example. The shape is everywhere.
 
 *The code in this post is from [Seams](https://github.com/Davidslv/seams), an open-source gem that scaffolds modular Rails engines. The Billing engine ships the full handler hierarchy, the registry, and the opt-in async job, ready to use in your host application. If you find yourself building this pattern by hand, you might save a few hours.*
 
-*If you want the longer story on building modular Rails applications, that is what [Modular Rails: Architecture for the Long Game](/modular-rails/) covers in depth.*
+*If you want the longer story on building modular Rails applications — boundaries, engines, testing, and the trade-offs — that is what [Modular Rails: Architecture for the Long Game](/modular-rails/) covers in depth. [Read it free on the web](/books/modular-rails/), or get the [paperback](https://www.amazon.com/dp/1066649405) ([UK](https://www.amazon.co.uk/dp/1066649405)).*

@@ -4,6 +4,8 @@ title:  "Optimizing Procedural Generation: When Speed Matters"
 date:   2025-11-19 08:01:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
+description: "When procedural generation gets slow: comparing maze-algorithm time and space complexity, choosing when to generate, and optimising with distance caching, batching and spatial partitioning."
+image: /img/roguelike-cover.jpg
 ---
 
 Procedural generation can be expensive, especially for large grids or when generating during gameplay. This article explores performance considerations and optimization strategies for procedural generation in roguelike games.
@@ -469,4 +471,8 @@ From optimizing procedural generation:
 Optimizing procedural generation requires understanding algorithm complexity, choosing the right generation timing, and applying targeted optimizations like caching and batching. For most roguelikes, O(n) algorithms like Binary Tree or Recursive Backtracker are fast enough, but for large grids or real-time generation, careful optimization is essential.
 
 The key is to measure first, optimize bottlenecks, and choose algorithms and strategies appropriate for your grid size and performance requirements. With careful optimization, procedural generation can be fast enough for real-time gameplay even on large grids.
+
+---
+
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 
