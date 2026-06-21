@@ -8,10 +8,6 @@ description: "Rails engines aren't free. When adding engine boundaries is over-e
 image: /img/modular-rails-cover.png
 ---
 
-*This is an adapted excerpt from Chapter 15 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*
-
----
-
 I have spent the better part of this book making the case for Rails engines. Now I am going to tell you when not to use them.
 
 This is not a hedge. It is honesty. Every architectural tool has a cost, and engines are no exception. Using them when they are not warranted creates overhead that slows your team down rather than speeding them up. Knowing when *not* to reach for an engine is just as important as knowing how to build one.
