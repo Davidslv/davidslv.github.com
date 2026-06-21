@@ -163,9 +163,12 @@ $book-bp:      1100px;  // 3-column threshold
 
 /* ---- tables (appendix reference material) ---- */
 .book-prose table {
+  display: block;                       // a wide table scrolls within the column…
+  width: fit-content;
+  max-width: 100%;                      // …instead of overflowing onto the nav
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
-  width: 100%;
-  max-width: $book-wide;
   margin: 1.7rem 0;
   font-family: $base-font-family;
   font-size: .9rem;
