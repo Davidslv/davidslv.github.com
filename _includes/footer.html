@@ -1,7 +1,15 @@
 <footer class="site-footer">
   <div class="wrapper">
-    <div class="footer-content">
-      <p>{{ site.description }}</p>
+    <div class="footer-content footer-cols">
+      <div class="footer-tagline">{{ site.description }}</div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="{{ site.baseurl }}/about/">About</a>
+        <a href="{{ site.baseurl }}/">Writing</a>
+        <a href="{{ site.baseurl }}/books/">Books</a>
+        <a href="{{ site.baseurl }}/feed.xml">RSS</a>
+        <a href="https://github.com/davidslv" rel="me">GitHub</a>
+        <a href="{{ site.baseurl }}/cv-resume.html">CV</a>
+      </nav>
     </div>
   </div>
 </footer>

@@ -1,0 +1,159 @@
+// ============================================================================
+//  Writing index — the homepage / `/writing/` design.
+//  Featured hero · the Engineer's Notebook series card · de-duped post list.
+//  Built on the shared CSS custom properties; serif headings reuse $book-serif.
+// ============================================================================
+
+$writing-serif: $book-serif;
+
+.writing { max-width: 1000px; margin: 0 auto; }
+
+.writing-head {
+  padding: 2.6rem 0 1.4rem;
+
+  h1 {
+    font-family: $writing-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -.015em;
+    margin: 0 0 .5rem;
+    color: var(--text-color, $text-color);
+  }
+  p {
+    color: var(--meta-color, $meta-color);
+    margin: 0;
+    font-size: 1.05rem;
+  }
+}
+
+.writing-section-label {
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--link-color, $link-color);
+  font-weight: 700;
+  margin: 2.6rem 0 1.1rem;
+}
+
+/* featured hero card */
+.writing-featured {
+  display: block;
+  border: 1px solid var(--border-color, $border-color);
+  border-radius: 14px;
+  padding: 1.8rem;
+  background: var(--background-alt, $background-alt);
+  text-decoration: none;
+  margin-bottom: .5rem;
+
+  &:hover { border-color: var(--link-color, $link-color); text-decoration: none; }
+
+  .meta {
+    font-size: .8rem;
+    color: var(--meta-color, $meta-color);
+    margin-bottom: .5rem;
+  }
+  h2 {
+    font-family: $writing-serif;
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 .6rem;
+    color: var(--text-color, $text-color);
+  }
+  p { margin: 0; color: var(--meta-color, $meta-color); }
+}
+
+/* the Engineer's Notebook series card */
+.writing-series-card {
+  border: 1px solid var(--border-color, $border-color);
+  border-radius: 14px;
+  overflow: hidden;
+
+  .series-head {
+    padding: 1.3rem 1.5rem;
+    background: linear-gradient(180deg, var(--background-alt, $background-alt), transparent);
+    border-bottom: 1px solid var(--border-color, $border-color);
+
+    .t {
+      font-family: $writing-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-color, $text-color);
+    }
+    .d { color: var(--meta-color, $meta-color); font-size: .9rem; margin: .3rem 0 0; }
+  }
+}
+.writing-series-list {
+  list-style: none;
+  margin: 0;
+  padding: .4rem 0;
+
+  li {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    padding: .6rem 1.5rem;
+    border-bottom: 1px solid var(--border-color, $border-color);
+    &:last-child { border-bottom: 0; }
+  }
+  .num {
+    font-family: $mono-font-family;
+    font-size: .8rem;
+    color: var(--meta-color, $meta-color);
+    width: 1.4rem;
+    flex: none;
+  }
+  a { color: var(--text-color, $text-color); font-weight: 600; text-decoration: none; flex: 1 1 auto; }
+  a:hover { color: var(--link-color, $link-color); }
+  .when { margin-left: auto; color: var(--meta-color, $meta-color); font-size: .8rem; flex: none; }
+}
+
+/* the de-duped "All writing" list */
+.writing-row {
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--border-color, $border-color);
+  display: flex;
+  gap: 1.2rem;
+  align-items: baseline;
+
+  .when {
+    color: var(--meta-color, $meta-color);
+    font-size: .82rem;
+    width: 6.5rem;
+    flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .body { min-width: 0; }
+  .body h3 { margin: 0 0 .25rem; font-size: 1.18rem; font-weight: 600; line-height: 1.3; }
+  .body h3 a { color: var(--text-color, $text-color); text-decoration: none; }
+  .body h3 a:hover { color: var(--link-color, $link-color); }
+
+  .badge {
+    display: inline-block;
+    font-size: .68rem;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--link-color, $link-color);
+    border: 1px solid var(--link-color, $link-color);
+    border-radius: 20px;
+    padding: .05rem .55rem;
+    margin-left: .5rem;
+    vertical-align: middle;
+  }
+  .dek { color: var(--meta-color, $meta-color); font-size: .95rem; margin: 0; }
+
+  @include media-query($on-palm) {
+    flex-direction: column;
+    gap: .3rem;
+    .when { width: auto; }
+  }
+}
+
+.writing-archive-link {
+  display: inline-block;
+  margin: 1.6rem 0;
+  font-weight: 600;
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+}

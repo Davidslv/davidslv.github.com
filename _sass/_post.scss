@@ -1,0 +1,384 @@
+// ============================================================================
+//  Article reading layout — the writing post experience.
+//  Shares the book's serif stack, framed code, diagram card and on-this-page
+//  scroll-spy patterns (see _book.scss), built on the same CSS custom properties
+//  so light/dark "just work". Scoped to .post--article.
+// ============================================================================
+
+$post-serif:   $book-serif;          // reuse the exact serif stack — no webfont
+$post-measure: 42rem;                // reading column (~68ch)
+$post-bp:      1080px;               // 3-column threshold
+
+/* scroll-progress bar pinned to the top of the viewport */
+.post-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--link-color, $link-color);
+  z-index: 60;
+  transition: width .1s linear;
+}
+
+/* ---- 3-zone grid: series | reading | on-this-page ---- */
+.post--article {
+  @media (min-width: $post-bp) {
+    display: grid;
+    grid-template-columns: 15.5rem minmax(0, 1fr) 13rem;
+    gap: 2.5rem;
+    align-items: start;
+  }
+}
+
+/* the left column collapses entirely below the breakpoint */
+.post-rail-empty { display: none; }
+
+/* ---- shared rail look ---- */
+.post-rail {
+  font-family: $base-font-family;
+  font-size: .86rem;
+
+  h4 {
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--meta-color, $meta-color);
+    font-weight: 700;
+    margin: 0 0 .8rem;
+  }
+
+  @media (min-width: $post-bp) {
+    position: sticky;
+    top: 1.5rem;
+    align-self: start;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+  }
+}
+
+/* ---- left: series rail (desktop only) ---- */
+.post-series-rail {
+  @media (max-width: $post-bp - 1) { display: none; }
+}
+.post-series-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--border-color, $border-color);
+
+  li { margin: 0; }
+  a {
+    display: block;
+    padding: .4rem .9rem;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    color: var(--meta-color, $meta-color);
+    text-decoration: none;
+    line-height: 1.4;
+
+    &:hover { color: var(--text-color, $text-color); text-decoration: none; }
+    &.current {
+      color: var(--text-color, $text-color);
+      font-weight: 600;
+      border-left-color: var(--link-color, $link-color);
+    }
+  }
+}
+.post-back-link {
+  display: inline-block;
+  margin-top: 1.4rem;
+  color: var(--meta-color, $meta-color);
+  font-size: .85rem;
+  text-decoration: none;
+  &:hover { color: var(--text-color, $text-color); }
+}
+
+/* ---- centre: reading column ---- */
+.post-reading {
+  min-width: 0;
+  max-width: $post-measure;
+  margin: 0 auto;
+}
+
+.post-breadcrumb {
+  font-family: $base-font-family;
+  font-size: .8rem;
+  color: var(--meta-color, $meta-color);
+  margin-bottom: 1.4rem;
+
+  a { color: var(--meta-color, $meta-color); text-decoration: none; }
+  a:hover { color: var(--text-color, $text-color); }
+}
+
+/* override the generic .post-header border treatment for articles */
+.post--article .post-header {
+  margin-bottom: 2rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.post-kicker {
+  font-family: $base-font-family;
+  font-size: .74rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--link-color, $link-color);
+  font-weight: 700;
+  margin: 0 0 .7rem;
+}
+
+.post--article .post-title {
+  font-family: $post-serif;
+  font-size: 2.5rem;
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  font-weight: 700;
+  margin: 0 0 1rem;
+
+  @include media-query($on-palm) { font-size: 1.9rem; }
+}
+
+.post-byline {
+  display: flex;
+  gap: .9rem;
+  flex-wrap: wrap;
+  align-items: center;
+  font-family: $base-font-family;
+  font-size: .85rem;
+  color: var(--meta-color, $meta-color);
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--border-color, $border-color);
+
+  .dot { opacity: .5; }
+}
+
+/* mobile "on this page" drawer */
+.post-contents-mobile {
+  display: block;
+  margin: 1.6rem 0;
+  border: 1px solid var(--border-color, $border-color);
+  border-radius: 8px;
+  background: var(--background-alt, $background-alt);
+  padding: .4rem .9rem;
+
+  @media (min-width: $post-bp) { display: none; }
+
+  summary {
+    cursor: pointer;
+    font-family: $base-font-family;
+    font-weight: 600;
+    padding: .5rem 0;
+    list-style: none;
+    &::-webkit-details-marker { display: none; }
+    &::before { content: "\2630\00a0\00a0"; color: var(--meta-color, $meta-color); }
+  }
+  .post-otp-list {
+    list-style: none;
+    margin: .2rem 0 .6rem;
+    padding: 0;
+    border: 0;
+    a { display: block; padding: .3rem 0; color: var(--meta-color, $meta-color); text-decoration: none; }
+    a:hover { color: var(--text-color, $text-color); }
+  }
+}
+
+/* ---- article prose: serif column, reuse book treatments ---- */
+.post-prose {
+  font-family: $post-serif;
+  font-size: 1.16rem;
+  line-height: 1.72;
+  color: var(--text-color, $text-color);
+  max-width: $post-measure;
+  // reading layout owns its own width/centering
+  margin-left: 0;
+  margin-right: 0;
+
+  p { margin: 0 0 1.4rem; }
+
+  h2 {
+    font-family: $post-serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 2.8rem 0 1rem;
+    scroll-margin-top: 1.5rem;
+  }
+  h3 {
+    font-family: $post-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 2rem 0 .7rem;
+    scroll-margin-top: 1.5rem;
+  }
+  h4 {
+    font-family: $post-serif;
+    font-size: 1.08rem;
+    font-weight: 700;
+    margin: 1.6rem 0 .6rem;
+  }
+
+  ul, ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+  li { margin: .35rem 0; }
+
+  // inline code
+  :not(pre) > code {
+    font-family: $mono-font-family;
+    font-size: .86em;
+    background: var(--code-bg, $code-bg);
+    border: 1px solid var(--code-border, $code-border);
+    border-radius: 5px;
+    padding: .1em .4em;
+    overflow-wrap: anywhere;
+  }
+
+  // blockquote as accent pull-aside
+  blockquote {
+    margin: 1.7rem 0;
+    padding: .4rem 0 .4rem 1.4rem;
+    border-left: 3px solid var(--link-color, $link-color);
+    color: var(--text-color, $text-color);
+    font-style: italic;
+    font-size: 1.18rem;
+  }
+
+  // horizontal rules used by some posts as separators
+  hr {
+    border: 0;
+    border-top: 1px solid var(--border-color, $border-color);
+    margin: 2.4rem 0;
+  }
+}
+
+/* ---- framed code with language rail (reuse the book pattern) ---- */
+.post-prose div.highlighter-rouge,
+.post-prose figure.highlight,
+.post-prose > .highlight {
+  position: relative;
+  margin: 1.7rem 0;
+  background: var(--code-bg, $code-bg);
+  border: 1px solid var(--code-border, $code-border);
+  border-radius: 10px;
+  overflow: hidden;
+
+  .highlight, pre.highlight, pre { margin: 0; background: transparent; border: 0; }
+  pre {
+    padding: 1rem 1.1rem;
+    overflow-x: auto;
+    font-family: $mono-font-family;
+    font-size: .86rem;
+    line-height: 1.55;
+  }
+  pre > code { border: 0; padding: 0; background: transparent; }
+}
+.post-prose div[class*="language-"] {
+  padding-top: 1.7rem;
+  &::before {
+    content: "code";
+    position: absolute; top: 0; left: 0; right: 0;
+    font-family: $mono-font-family;
+    font-size: .68rem; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--meta-color, $meta-color);
+    background: var(--background-alt, $background-alt);
+    border-bottom: 1px solid var(--code-border, $code-border);
+    padding: .3rem .9rem;
+  }
+}
+.post-prose div.language-ruby::before    { content: "ruby"; }
+.post-prose div.language-bash::before,
+.post-prose div.language-sh::before,
+.post-prose div.language-shell::before,
+.post-prose div.language-console::before { content: "shell"; }
+.post-prose div.language-sql::before     { content: "sql"; }
+.post-prose div.language-yaml::before,
+.post-prose div.language-yml::before     { content: "yaml"; }
+.post-prose div.language-erb::before     { content: "erb"; }
+.post-prose div.language-ruby.language-erb::before { content: "erb"; }
+.post-prose div.language-html::before    { content: "html"; }
+.post-prose div.language-json::before    { content: "json"; }
+.post-prose div.language-javascript::before,
+.post-prose div.language-js::before      { content: "javascript"; }
+.post-prose div.language-diff::before    { content: "diff"; }
+.post-prose div.language-plaintext::before,
+.post-prose div.language-text::before    { content: "text"; }
+
+/* ---- diagrams: white paper-card in BOTH themes (applies to .mermaid for posts) ---- */
+.post-prose .mermaid,
+.post-prose .diagram,
+.post-prose figure.diagram {
+  margin: 1.8rem 0;
+  padding: 1.4rem;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid var(--border-color, $border-color);
+  border-radius: 10px;
+  overflow-x: auto;
+
+  svg { max-width: 100%; height: auto; }
+  img { max-width: 100%; height: auto; }
+  figcaption { font-family: $base-font-family; font-size: .8rem; color: $light-meta-color; margin-top: .8rem; font-style: normal; }
+}
+[data-theme="dark"] .post-prose .mermaid,
+[data-theme="dark"] .post-prose .diagram { box-shadow: 0 0 0 1px rgba(255,255,255,.06); }
+
+/* ---- right rail: on this page ---- */
+.post-otp {
+  @media (max-width: $post-bp - 1) { display: none; }
+
+  .post-otp-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--border-color, $border-color);
+
+    li { margin: 0; }
+    a {
+      display: block;
+      padding: .32rem .9rem;
+      margin-left: -1px;
+      border-left: 2px solid transparent;
+      color: var(--meta-color, $meta-color);
+      text-decoration: none;
+      line-height: 1.35;
+      font-size: .82rem;
+
+      &:hover { color: var(--text-color, $text-color); }
+      &.is-active {
+        color: var(--link-color, $link-color);
+        border-left-color: var(--link-color, $link-color);
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+/* ---- prev / next pills ---- */
+.post-prevnext {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  margin: 3rem 0 0;
+  max-width: $post-measure;
+
+  @include media-query($on-palm) { grid-template-columns: 1fr; }
+
+  .pn {
+    border: 1px solid var(--border-color, $border-color);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    display: block;
+    text-decoration: none;
+    color: var(--text-color, $text-color);
+
+    &:hover { border-color: var(--link-color, $link-color); text-decoration: none; }
+    .dir {
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--meta-color, $meta-color);
+      font-family: $base-font-family;
+    }
+    .t { display: block; margin-top: .3rem; font-weight: 600; line-height: 1.3; }
+    &.next { text-align: right; }
+  }
+  .pn-spacer { display: block; }
+}

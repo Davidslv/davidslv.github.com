@@ -1,13 +1,163 @@
 ---
 layout: default
 ---
-<div class="post">
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title }}</h1>
-    <p class="post-meta">{{ page.date | date: "%B %-d, %Y" }}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
-  </header>
+{%- comment -%} Article reading layout — 3-zone grid (series · reading · on-this-page). {%- endcomment -%}
+{%- assign author = page.author | default: site.author | default: "David Silva" -%}
+{%- assign reading_time = content | number_of_words | divided_by: 200.0 | ceil -%}
+{%- if reading_time < 1 %}{% assign reading_time = 1 %}{% endif -%}
 
-  <article class="post-content">
-    {{ content }}
+{%- assign in_series = false -%}
+{%- if page.series -%}
+  {%- assign in_series = true -%}
+  {%- assign series_posts = site.posts | where: "series", page.series | sort: "series_order" -%}
+  {%- assign series_count = series_posts | size -%}
+  {%- assign series_info = site.series_meta[page.series] -%}
+  {%- assign series_title = series_info.title | default: page.series -%}
+{%- endif -%}
+
+{%- if in_series -%}{%- assign kicker = series_title -%}
+{%- elsif page.categories and page.categories.size > 0 -%}{%- assign kicker = page.categories.first -%}
+{%- else -%}{%- assign kicker = "Writing" -%}{%- endif -%}
+
+<div class="post post--article">
+
+  {%- comment -%} LEFT rail: series context (desktop only) {%- endcomment -%}
+  {%- if in_series -%}
+  <aside class="post-rail post-series-rail" aria-label="Series contents">
+    <h4>{{ series_title }}</h4>
+    <ul class="post-series-list">
+      {%- for sp in series_posts -%}
+      <li><a href="{{ sp.url | relative_url }}"{% if sp.url == page.url %} class="current" aria-current="page"{% endif %}>{{ sp.title }}</a></li>
+      {%- endfor -%}
+    </ul>
+    <a class="post-back-link" href="{{ '/' | relative_url }}">&larr; All writing</a>
+  </aside>
+  {%- else -%}
+  <div class="post-rail-empty" aria-hidden="true"></div>
+  {%- endif -%}
+
+  {%- comment -%} CENTER: reading column {%- endcomment -%}
+  <article class="post-reading">
+    <nav class="post-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ '/' | relative_url }}">Writing</a>
+      {%- if in_series %} &rsaquo; <span>{{ series_title }}</span> &rsaquo; <span>Essay {{ page.series_order }} of {{ series_count }}</span>
+      {%- else %} &rsaquo; <span>{{ page.title }}</span>{% endif -%}
+    </nav>
+
+    <header class="post-header">
+      <p class="post-kicker">{{ kicker }}</p>
+      <h1 class="post-title">{{ page.title }}</h1>
+      <div class="post-byline">
+        <span>{{ author }}</span>
+        <span class="dot">&middot;</span>
+        <span>{{ page.date | date: "%B %-d, %Y" }}</span>
+        <span class="dot">&middot;</span>
+        <span>{{ reading_time }} min read</span>
+        {%- if page.categories and page.categories.size > 0 %}
+        <span class="dot">&middot;</span>
+        <span>{{ page.categories | join: " &middot; " }}</span>
+        {%- endif -%}
+      </div>
+    </header>
+
+    <details class="post-contents-mobile">
+      <summary>On this page</summary>
+      <ol class="post-otp-list"></ol>
+    </details>
+
+    <div class="post-content post-prose">
+      {{ content }}
+    </div>
+
+    {%- comment -%} prev = older (page.previous), next = newer (page.next) {%- endcomment -%}
+    {%- if page.previous or page.next -%}
+    <nav class="post-prevnext" aria-label="More writing">
+      {%- if page.previous %}
+      <a class="pn prev" href="{{ page.previous.url | relative_url }}"><span class="dir">&larr; Older</span><span class="t">{{ page.previous.title }}</span></a>
+      {%- else %}<span class="pn-spacer"></span>{% endif -%}
+      {%- if page.next %}
+      <a class="pn next" href="{{ page.next.url | relative_url }}"><span class="dir">Newer &rarr;</span><span class="t">{{ page.next.title }}</span></a>
+      {%- else %}<span class="pn-spacer"></span>{% endif -%}
+    </nav>
+    {%- endif -%}
   </article>
+
+  {%- comment -%} RIGHT rail: on this page (built by JS, only if >= 3 h2) {%- endcomment -%}
+  <aside class="post-rail post-otp" aria-label="On this page" hidden>
+    <h4>On this page</h4>
+    <ol class="post-otp-list"></ol>
+  </aside>
+
 </div>
+
+<div class="post-progress" id="post-progress"></div>
+
+<script>
+/* Builds the "On this page" rail (desktop) + mobile drawer from the article's own
+   <h2> headings and scroll-spies the active section. Progressive enhancement only. */
+(function () {
+  var prose = document.querySelector('.post-prose');
+  if (!prose) return;
+
+  var hs = [].slice.call(prose.querySelectorAll('h2'));
+  // ensure every h2 has an id (Kramdown usually adds them; belt-and-braces)
+  hs.forEach(function (h) {
+    if (!h.id) {
+      h.id = h.textContent.trim().toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+    }
+  });
+
+  var lists = [].slice.call(document.querySelectorAll('.post-otp-list'));
+  if (hs.length < 3) {
+    // not enough sections: drop the mobile drawer too
+    var md = document.querySelector('.post-contents-mobile');
+    if (md) md.parentNode.removeChild(md);
+    return;
+  }
+
+  // populate every on-this-page list (desktop rail + mobile drawer)
+  lists.forEach(function (ol) {
+    hs.forEach(function (h) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent;
+      li.appendChild(a);
+      ol.appendChild(li);
+    });
+  });
+
+  var rail = document.querySelector('.post-otp');
+  if (rail) rail.hidden = false;
+
+  var railLinks = rail ? [].slice.call(rail.querySelectorAll('a')) : [];
+  var byId = {};
+  railLinks.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+
+  if (railLinks.length) {
+    var spy = new IntersectionObserver(function (ents) {
+      ents.forEach(function (e) {
+        if (e.isIntersecting) {
+          railLinks.forEach(function (a) { a.classList.remove('is-active'); });
+          var a = byId[e.target.id];
+          if (a) a.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '0px 0px -75% 0px', threshold: 0 });
+    hs.forEach(function (h) { spy.observe(h); });
+  }
+
+  // tiny scroll-progress bar
+  var bar = document.getElementById('post-progress');
+  if (bar) {
+    var onScroll = function () {
+      var d = document.documentElement;
+      var max = d.scrollHeight - d.clientHeight;
+      bar.style.width = (max > 0 ? (d.scrollTop / max * 100) : 0) + '%';
+    };
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+})();
+</script>

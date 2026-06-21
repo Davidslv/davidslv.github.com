@@ -2,6 +2,8 @@
 layout: post
 title:  "When Rails Engines Are the Wrong Tool"
 date:   2026-06-09
+series: engineers-notebook
+series_order: 5
 ---
 
 *This is an adapted excerpt from Chapter 15 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

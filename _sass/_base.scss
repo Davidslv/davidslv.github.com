@@ -209,3 +209,39 @@ pre {
         }
     }
 }
+
+
+
+/**
+ * Accessibility — universal improvements
+ */
+
+// Skip link: off-screen until focused (first focusable element in <body>)
+.skip {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 100;
+    background: var(--link-color, $link-color);
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius: 0 0 6px 0;
+    text-decoration: none;
+
+    &:focus {
+        left: 0;
+    }
+}
+
+// Respect users who ask for less motion
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+// Inline code can wrap (kills mobile overflow); <pre> keeps scrolling untouched
+.post-content code {
+    overflow-wrap: anywhere;
+}

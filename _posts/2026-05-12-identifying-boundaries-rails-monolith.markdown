@@ -2,6 +2,8 @@
 layout: post
 title:  "How to Identify Boundaries in a Rails Monolith"
 date:   2026-05-12
+series: engineers-notebook
+series_order: 2
 ---
 
 *This is an adapted excerpt from Chapter 9 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

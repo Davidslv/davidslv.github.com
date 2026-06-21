@@ -11,3 +11,14 @@ github_username:  davidslv
 # Build settings
 markdown: kramdown
 future: false
+
+# Default author for post bylines
+author: David Silva
+
+# Series metadata (keyed by the post `series:` slug)
+series_meta:
+  engineers-notebook:
+    title: The Engineer's Notebook
+    description: >-
+      A throughline on modular Rails: how to find boundaries, when to reach for
+      engines, and how to keep a codebase legible as it grows.

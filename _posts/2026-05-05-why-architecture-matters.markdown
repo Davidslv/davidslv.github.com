@@ -2,6 +2,8 @@
 layout: post
 title:  "Why Architecture Matters in Rails Applications"
 date:   2026-05-05
+series: engineers-notebook
+series_order: 1
 ---
 
 *This is an adapted excerpt from Chapter 1 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

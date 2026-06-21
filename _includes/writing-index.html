@@ -1,0 +1,68 @@
+{%- comment -%}
+  The Writing index — featured hero, the Engineer's Notebook series card, and a
+  de-duped "All writing" list. Shared by `/` and `/writing/`.
+{%- endcomment -%}
+{%- assign featured = site.posts.first -%}
+{%- assign notebook = site.posts | where: "series", "engineers-notebook" | sort: "series_order" -%}
+{%- assign notebook_info = site.series_meta["engineers-notebook"] -%}
+
+<div class="writing">
+  <div class="writing-head">
+    <h1>Writing</h1>
+    <p>Essays on software architecture, modular Rails, and the craft of building for the long game.</p>
+  </div>
+
+  {%- if featured -%}
+  <a class="writing-featured" href="{{ featured.url | relative_url }}">
+    <div class="meta">
+      Latest &middot; {{ featured.date | date: "%B %-d, %Y" }}
+      {%- if featured.series -%}{%- assign fi = site.series_meta[featured.series] %} &middot; {{ fi.title | default: featured.series }}{% endif -%}
+    </div>
+    <h2>{{ featured.title }}</h2>
+    {%- assign fdek = featured.description | default: featured.excerpt | strip_html | strip_newlines | truncatewords: 24 -%}
+    {%- if fdek and fdek != "" %}<p>{{ fdek }}</p>{% endif -%}
+  </a>
+  {%- endif -%}
+
+  {%- if notebook.size > 0 -%}
+  <div class="writing-section-label">The Engineer's Notebook &mdash; a series</div>
+  <div class="writing-series-card">
+    <div class="series-head">
+      <p class="t">{{ notebook_info.title | default: "The Engineer's Notebook" }}</p>
+      {%- if notebook_info.description %}<p class="d">{{ notebook_info.description }}</p>{% endif -%}
+    </div>
+    <ol class="writing-series-list">
+      {%- for sp in notebook -%}
+      <li>
+        <span class="num">{{ sp.series_order | prepend: "0" | slice: -2, 2 }}</span>
+        <a href="{{ sp.url | relative_url }}">{{ sp.title }}</a>
+        <span class="when">{{ sp.date | date: "%b %-d" }}</span>
+      </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+  {%- endif -%}
+
+  <div class="writing-section-label">All writing</div>
+  {%- assign recent = site.posts | slice: 1, 8 -%}
+  {%- for post in recent -%}
+  <div class="writing-row">
+    <div class="when">{{ post.date | date: "%b %-d, %Y" }}</div>
+    <div class="body">
+      <h3>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {%- if post.series -%}
+          {%- assign pi = site.series_meta[post.series] -%}
+          <span class="badge">{{ pi.title | default: post.series | split: " " | last }} &middot; {{ post.series_order | prepend: "0" | slice: -2, 2 }}</span>
+        {%- elsif post.categories and post.categories.size > 0 -%}
+          <span class="badge">{{ post.categories.first }}</span>
+        {%- endif -%}
+      </h3>
+      {%- assign dek = post.description | default: post.excerpt | strip_html | strip_newlines | truncatewords: 24 -%}
+      {%- if dek and dek != "" %}<p class="dek">{{ dek }}</p>{% endif -%}
+    </div>
+  </div>
+  {%- endfor -%}
+
+  <a class="writing-archive-link" href="{{ '/archive/' | relative_url }}">Browse the full archive ({{ site.posts.size }} posts) &rarr;</a>
+</div>

@@ -2,6 +2,8 @@
 layout: post
 title:  "The Modular Monolith as the Default Starting Point"
 date:   2026-05-26
+series: engineers-notebook
+series_order: 3
 ---
 
 *This is an adapted excerpt from Chapter 17 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

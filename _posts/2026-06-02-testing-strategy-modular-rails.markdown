@@ -2,6 +2,8 @@
 layout: post
 title:  "Testing Strategy for a Modular Rails Application"
 date:   2026-06-02
+series: engineers-notebook
+series_order: 6
 ---
 
 *This is an adapted excerpt from Chapter 13 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

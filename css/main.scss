@@ -18,10 +18,10 @@ $spacing-unit:     30px;
 $light-text-color:       #1a1a1a;
 $light-background:       #ffffff;
 $light-background-alt:   #fafafa;
-$light-border-color:     #e5e5e5;
+$light-border-color:     #dcdcdc;
 $light-code-bg:          #f6f8fa;
 $light-code-border:      #e1e4e8;
-$light-meta-color:       #6a737d;
+$light-meta-color:       #595f66;
 $light-link-color:       #0366d6;
 $light-link-hover:       #1a1a1a;
 
@@ -29,7 +29,7 @@ $light-link-hover:       #1a1a1a;
 $dark-text-color:        #e1e4e8;
 $dark-background:        #0d1117;
 $dark-background-alt:    #161b22;
-$dark-border-color:      #30363d;
+$dark-border-color:      #444c56;
 $dark-code-bg:           #161b22;
 $dark-code-border:       #30363d;
 $dark-meta-color:         #8b949e;
@@ -84,7 +84,9 @@ $on-laptop:        900px;
         "syntax-highlighting",
         "portfolio",
         "book",
-        "bookshelf"
+        "bookshelf",
+        "post",
+        "writing"
 ;
 
 // Dark mode styles
