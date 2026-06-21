@@ -4,6 +4,14 @@ title: Presentations
 permalink: /presentations/
 ---
 
+## The Gap I Signed
+
+Shipping a game (and a novel) as a studio of one — and the part that couldn't be synthesised. What it is to be a solo indie developer in 2026 directing a coached AI team across every discipline, told through [Filed Under No One](https://filedundernoone.uk) and the studio behind it, [DS Laboratory](https://dslaboratory.uk).
+
+[View presentation](/presentations/the-gap-i-signed/)
+
+---
+
 ## Every File Is Yours
 
 The modular monolith, in your repo — boilerplate gone, boundaries enforced, you still the architect. The story from a Rails architecture book to [Seams](https://github.com/Davidslv/seams), a CLI that generates real, pre-wired Rails engines into your own repo. Based on [Modular Rails: Architecture for the Long Game](/modular-rails/).

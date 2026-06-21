@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Gap I Signed — David Silva / DS Laboratory</title>
+<meta name="description" content="Shipping a game (and a novel) as a studio of one — and the part that couldn't be synthesised. A talk by David Silva, DS Laboratory.">
+<link rel="canonical" href="https://davidslv.uk/presentations/the-gap-i-signed/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Gap I Signed">
+<meta property="og:description" content="Shipping a game (and a novel) as a studio of one — and the part that couldn't be synthesised.">
+<meta property="og:url" content="https://davidslv.uk/presentations/the-gap-i-signed/">
+<meta property="og:image" content="https://davidslv.uk/presentations/the-gap-i-signed/assets/keeper.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://davidslv.uk/presentations/the-gap-i-signed/assets/keeper.jpg">
+<style>
+:root{
+  --void:#0b0d12; --void2:#070a10; --ink:#eef2fb; --ink2:#aeb9d6; --meta:#7f8bb0; --steel:#8e9ec4;
+  --amber:#ffc31f; --buff:#c9bb98; --buffink:#1f1a0f; --buffmeta:#5c5236; --line:rgba(150,170,220,.14);
+  --red:#b2402f; --calm:#5dc36b; --hunt:#e0664f;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--void);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;padding:9vh 10vw;opacity:0;transition:opacity .4s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+.kicker{font-family:var(--mono);font-size:1vw;letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:2.6vh}
+h1{font-size:5.4vw;font-weight:800;line-height:1.02;letter-spacing:-.02em}
+.big{font-size:4.4vw;font-weight:700;line-height:1.12;letter-spacing:-.015em;max-width:26ch}
+.huge{font-size:6vw;font-weight:800;line-height:1;letter-spacing:-.02em}
+.amber{color:var(--amber)} .u{position:relative;display:inline-block}
+.u::after{content:"";position:absolute;left:0;right:0;bottom:-.06em;height:.06em;background:var(--amber)}
+.sub{font-size:1.7vw;color:var(--ink2);margin-top:2.4vh;line-height:1.42;max-width:48ch}
+.dim{color:var(--meta)}
+/* void statement */
+.slide.void2{background:var(--void2)}
+.statement{font-size:3.4vw;font-weight:600;line-height:1.26;max-width:24ch}
+/* novel page */
+.slide.novel{background:var(--buff);color:var(--buffink)}
+.novel .src{font-family:var(--mono);font-size:1vw;letter-spacing:.14em;text-transform:uppercase;color:var(--buffmeta);margin-bottom:3vh}
+.novel .prose{font-family:var(--serif);font-size:1.9vw;line-height:1.6;max-width:40ch;color:#2a2410}
+.novel .prose em{font-style:italic}
+.novel .big-line{font-family:var(--serif);font-size:3vw;line-height:1.32;max-width:24ch;color:#2a2410}
+/* title */
+.title .wm{font-family:var(--sans);font-weight:800;text-transform:uppercase;line-height:.9;letter-spacing:-.02em;font-size:7vw}
+.title .wm .no{position:relative}
+.title .wm .no::after{content:"";position:absolute;left:-1%;right:-1%;top:54%;height:.07em;background:var(--amber);transform:rotate(-1.5deg)}
+.title .st{font-size:1.7vw;color:var(--ink2);margin-top:3vh;max-width:40ch;line-height:1.4}
+.title .seal{font-family:var(--mono);font-size:1.1vw;letter-spacing:.2em;text-transform:uppercase;color:var(--meta);margin-top:4vh}
+/* gap card */
+.gapcard{border:2px solid var(--buff);background:rgba(201,187,152,.07);border-radius:4px;padding:4vh 3vw;max-width:54vw;font-family:var(--mono)}
+.gapcard .row{display:flex;gap:1.4vw;padding:1.4vh 0;border-bottom:1px solid var(--line);font-size:1.6vw}
+.gapcard .row:last-child{border-bottom:0}
+.gapcard .k{color:var(--amber);min-width:9vw;letter-spacing:.1em}
+.gapcard .v{color:var(--ink)}
+.gapcard .v.blank{color:var(--meta)}
+/* roster */
+.roster{display:flex;flex-wrap:wrap;gap:1vw 1.2vw;max-width:70vw;margin-top:1vh}
+.roster .sp{font-family:var(--mono);font-size:1.5vw;color:var(--ink2);border:1px solid var(--line);border-radius:30px;padding:.8vh 1.4vw}
+.roster .sp .n{color:var(--amber);margin-right:.4vw}
+/* shown frame */
+.shown{display:flex;gap:3vw;align-items:center}
+.shown img{max-height:62vh;border:1px solid var(--line);border-radius:6px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.shown .cap{max-width:24ch}
+.shown .cap .t{font-size:2.2vw;font-weight:700;line-height:1.2}
+.shown .cap .d{font-size:1.5vw;color:var(--ink2);margin-top:1.6vh;line-height:1.4}
+.shown .cap .badge{font-family:var(--mono);font-size:.9vw;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:1.4vh}
+/* doc pair */
+.pair{display:flex;gap:2vw;align-items:center;justify-content:center}
+.pair figure{text-align:center}
+.pair img{height:54vh;border:1px solid var(--line);border-radius:4px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.pair figcaption{font-family:var(--mono);font-size:1vw;letter-spacing:.1em;text-transform:uppercase;color:var(--meta);margin-top:1.6vh}
+.pair .arrow{font-size:3vw;color:var(--amber)}
+/* split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:3vw;max-width:74vw}
+.split .col .lab{font-family:var(--mono);font-size:1.1vw;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1.6vh}
+.split .machine .lab{color:var(--steel)} .split .human .lab{color:var(--amber)}
+.split .col .t{font-size:2.1vw;font-weight:700;line-height:1.24}
+.split .human{border-left:3px solid var(--amber);padding-left:2vw}
+/* montage */
+.mont{display:flex;flex-wrap:wrap;gap:1.2vw;max-width:72vw;margin-top:1vh}
+.mont .m{font-family:var(--mono);font-size:1.4vw;color:var(--ink2);border:1px solid var(--line);border-radius:6px;padding:1.4vh 1.6vw}
+/* method loop */
+.loop{font-family:var(--mono);font-size:1.7vw;color:var(--ink2);line-height:2.1;max-width:60ch}
+.loop b{color:var(--amber);font-weight:600}
+/* cuts list */
+.cuts{font-size:1.9vw;color:var(--ink2);line-height:1.9;margin-top:1vh}
+.cuts b{color:var(--ink)}
+/* trailer peak */
+.peak{position:relative;width:100%;height:100%;display:flex;align-items:flex-end;justify-content:flex-start}
+.peak img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.85)}
+.peak .vig{position:absolute;inset:0;background:radial-gradient(120% 100% at 20% 90%,rgba(11,13,18,.95),rgba(11,13,18,.5) 45%,transparent)}
+.peak .q{position:relative;padding:0 0 9vh 0;max-width:30ch}
+.peak .q .l{font-size:2.6vw;font-weight:700;line-height:1.2;text-shadow:0 2px 30px #000}
+.peak .q .s{font-size:1.4vw;color:var(--ink2);margin-top:1.6vh}
+/* seal close */
+.sealslide .seal{font-family:var(--sans);font-weight:800;text-transform:uppercase;font-size:3vw;letter-spacing:.04em}
+.sealslide .url{font-family:var(--mono);font-size:1.6vw;color:var(--amber);margin-top:3vh;letter-spacing:.04em}
+/* chrome */
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--meta);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:3px;background:var(--amber);transition:width .4s;z-index:5}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:.85vw;color:var(--meta);z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:38vh;overflow:auto;background:#05070d;color:#dfe6f2;font-size:1.55vh;line-height:1.55;padding:2.4vh 3vw;display:none;z-index:8;border-top:3px solid var(--amber)}
+.notes.show{display:block} .notes b{color:var(--amber)}
+.hbpulse{width:3vw;height:3vw;border-radius:50%;background:var(--amber);opacity:0}
+.hbpulse.beat{animation:beat 1.1s ease-out}
+@keyframes beat{0%{opacity:0;transform:scale(.6)}20%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.5)}}
+@media(max-width:760px){h1,.huge{font-size:11vw}.big,.statement{font-size:8vw}.novel .prose{font-size:4.4vw}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide center void2" data-notes="No logo, no name. Read it slowly, into silence. This is the first line of the novel I wrote. Then stop. Let it sit.">
+  <div class="big-line" style="font-family:var(--serif);font-size:3.4vw;max-width:26ch;color:var(--ink)">The file said the man was dead, so Margaret Vane closed it.</div>
+</section>
+
+<!-- 2 -->
+<section class="slide center void2" data-heartbeat="1" data-notes="One heartbeat sounds. In the game, that heartbeat is the sound of being seen — its tempo tracks the detection meter, and it goes silent the instant you reach shadow. I built that. Hold the room a beat, then go.">
+  <div class="hbpulse" id="hb1"></div>
+  <div class="sub" style="margin-top:5vh;font-size:2vw;color:var(--ink)">In my game, that heartbeat is the sound of <span class="amber">being seen.</span></div>
+</section>
+
+<!-- 3 TITLE -->
+<section class="slide center title" data-notes="Now the title. I'm David. I run DS Laboratory — a studio of one. This is a talk about shipping a game and a novel by myself, with a team — and the part of it that couldn't be synthesised.">
+  <div class="wm">The Gap<br>I <span class="no">Signed</span></div>
+  <div class="st">Shipping a game (and a novel) as a studio of one — and the part that couldn't be synthesised.</div>
+  <div class="seal">David Silva · DS Laboratory</div>
+</section>
+
+<!-- 4 WHO -->
+<section class="slide" data-notes="Quickly, who's talking. Fifteen years as an engineer — government, fintech, regulated scale. Three published books. And a studio of one. I say that not to list a CV, but because everything in this talk runs on that experience.">
+  <div class="kicker">Who's talking</div>
+  <div class="big">15 years — government · fintech · regulated scale.<br>Three books. <span class="amber">A studio of one.</span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide center" data-notes="Here's what changed in 2026. I didn't get faster at typing. I got a team.">
+  <div class="huge">I didn't get faster at typing.<br>I got a <span class="u">team.</span></div>
+</section>
+
+<!-- 6 THE NERVE -->
+<section class="slide" data-notes="And I have to name the thing in this room, out loud, early. AI taking artists' jobs is a real fear. I'm not going to pretend it away. Here's my actual position —">
+  <div class="big" style="max-width:30ch">AI taking artists' jobs is a real fear.<br><span class="dim">I'm not going to pretend it away.</span></div>
+  <div class="sub" style="font-size:2vw;color:var(--amber)">Here's my actual position —</div>
+</section>
+
+<!-- 7 MATCHED PAIR -->
+<section class="slide center" data-notes="The matched pair — and I always say both halves in the same breath. You CAN have a powerful team behind you; it can be synthesised. And the one thing that can't be synthesised is the person who knows what good feels like.">
+  <div class="statement">You can have a powerful team behind you.<br>It can be <span class="dim">synthesised.</span></div>
+  <div class="statement" style="margin-top:4vh">The one thing that can't is the person who knows what <span class="amber">good feels like.</span></div>
+</section>
+
+<!-- 8 FOUNDATION: a world -->
+<section class="slide" data-notes="And here is where it actually started. Not with a feature, or an engine. With a WORLD. I wrote the story first — a le Carré spy novel. I read real declassified MI5 files in the archives. That world became the spec every other discipline built against. You cannot direct a team well against a hollow brief. I gave them a world.">
+  <div class="kicker">Where it started</div>
+  <div class="big" style="max-width:28ch">It started with a <span class="amber">world</span>, not a feature.</div>
+  <div class="sub">I wrote the story first — a le Carré spy novel — and read real declassified <b style="color:var(--ink)">MI5 files</b> in the archives. That world became the spec every discipline built against.</div>
+</section>
+
+<!-- 9 FOUNDATION SHOWN: doc -> prop -->
+<section class="slide center" data-notes="And this is the most human thing in the whole project. On the left, a real declassified MI5 minute sheet — I read these. On the right, the in-world document my team built from those conventions, for the game and the press. A person read the archives. Then the world was true. No model asked me to do that. I did it because I cared whether it was real.">
+  <div class="kicker">A real file → the world it shaped</div>
+  <div class="pair">
+    <figure><img src="assets/mi5.png" alt="A real declassified MI5 minute sheet from the National Archives."><figcaption>Real — TNA / declassified</figcaption></figure>
+    <div class="arrow">→</div>
+    <figure><img src="assets/prop.png" alt="The in-world registry minute sheet built from those conventions."><figcaption>Built — the world's own paper</figcaption></figure>
+  </div>
+  <div class="sub" style="font-size:1.4vw">A person read the archives. Then the world was true.</div>
+</section>
+
+<!-- 10 NOVEL: acceptable gaps -->
+<section class="slide novel" data-notes="And the novel didn't just set the mood — it gave me the spine of this whole talk. Margaret Vane's job is to sign off the 'acceptable gaps' — the corners there isn't money to watch. Read it. This is real, from chapter one.">
+  <div class="src">Filed Under No One — ch.1</div>
+  <div class="prose">"There was never enough money to watch everything… So someone had to decide which corners would go dark. These were the <em>acceptable gaps.</em> Margaret signed them off."</div>
+</section>
+
+<!-- 11 NOVEL: the rule -->
+<section class="slide novel center" data-notes="And the rule she lives by — which turns out to be the rule a solo developer lives by too. A gap you signed off was under control. A gap off the plan was a hole in the floor with the lights off.">
+  <div class="big-line">"A gap you had signed off was under control. A gap off the plan was a hole in the floor <em>with the lights off.</em>"</div>
+</section>
+
+<!-- 12 THE GAP CARD -->
+<section class="slide center" data-notes="So that became my method, and the device for the rest of this talk. For every part of the game I couldn't personally build perfectly, I made a card. THE GAP — the thing. POSTED — which coached specialist I put on it. MINE — the bar I kept for myself and would not move. Coached, not prompted. A coach is accountable for the team.">
+  <div class="kicker">My method, in one card</div>
+  <div class="gapcard">
+    <div class="row"><span class="k">THE GAP</span><span class="v blank">— a discipline I can't perfect alone</span></div>
+    <div class="row"><span class="k">POSTED</span><span class="v blank">— a coached specialist, grounded in my experience</span></div>
+    <div class="row"><span class="k">MINE</span><span class="v">— the bar. I keep this. It does not move.</span></div>
+  </div>
+  <div class="sub" style="font-size:1.3vw">Coached, not prompted — a coach is accountable for the team.</div>
+</section>
+
+<!-- 13 ROSTER -->
+<section class="slide" data-notes="Here's the team. Nine coached specialists — each a discipline of game development, each grounded in my own career and ethos, synthesised into someone who listened. I directed; they executed; the decisions and the bar stayed mine.">
+  <div class="kicker">The studio I never had — nine coached specialists</div>
+  <div class="roster">
+    <span class="sp"><span class="n">01</span>engine</span><span class="sp"><span class="n">02</span>game</span><span class="sp"><span class="n">03</span>algorithms</span>
+    <span class="sp"><span class="n">04</span>level editor</span><span class="sp"><span class="n">05</span>in-game art</span><span class="sp"><span class="n">06</span>audio</span>
+    <span class="sp"><span class="n">07</span>website</span><span class="sp"><span class="n">08</span>promo / trailer</span><span class="sp"><span class="n">09</span>the novel</span>
+  </div>
+</section>
+
+<!-- 14 GAP: engine -->
+<section class="slide center" data-notes="First card. The engine. POSTED: the sim and shell engineers. MINE: it had to be deterministic, with zero runtime dependencies. That's a bar no model volunteers — it's a decision a person makes because they've been burned before.">
+  <div class="gapcard" style="max-width:60vw">
+    <div class="row"><span class="k">THE GAP</span><span class="v">the engine — "lockstep"</span></div>
+    <div class="row"><span class="k">POSTED</span><span class="v">the sim + shell specialists</span></div>
+    <div class="row"><span class="k">MINE</span><span class="v">deterministic · zero runtime dependencies — the bar I would not move</span></div>
+  </div>
+</section>
+
+<!-- 15 SHOWN: tape -->
+<section class="slide" data-notes="And here's why determinism is the cleanest proof a human set the bar. Every run is a tape. Same inputs, same run, every single time — so a playthrough can be replayed bit-for-bit. (Show the replay.) No model asked for this. I did, because I know what it's worth.">
+  <div class="shown">
+    <img src="assets/frame.png" alt="An in-game frame — a guard vision cone, shadow tiles, the player.">
+    <div class="cap">
+      <div class="badge">Shown · determinism</div>
+      <div class="t">Every run is a tape.</div>
+      <div class="d">Same inputs → same run, every time. A whole playthrough, replayable bit-for-bit. That discipline is a decision, not a default.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 SHOWN: drawn in code -->
+<section class="slide" data-heartbeat="1" data-notes="Look closely at one frame. The vision cone, the shadow tile, the figure — none of it is a loaded image. It's all drawn live in code, Canvas primitives. 'No PNG — that's a draw function.' And the heartbeat you're hearing: its tempo climbs as you're detected and goes silent in shadow. That's a decision about DREAD, not a prompt.">
+  <div class="shown">
+    <img src="assets/frame.png" alt="Zoom into an in-game frame — all Canvas 2D primitives.">
+    <div class="cap">
+      <div class="badge">Shown · drawn in code · audio</div>
+      <div class="t">No PNG. That's a draw function.</div>
+      <div class="d">Nothing in the playfield is a loaded image. And the heartbeat — tempo tracks the detection meter, silent in shadow. A decision about dread.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 MONTAGE -->
+<section class="slide" data-notes="The rest, in one breath — because the feeling, not the feature list, is the point. The in-browser level editor. A procedural level generator. The website. The press kit. The cover. Each one a card, each one posted, each one mine to judge.">
+  <div class="kicker">The rest, in one breath</div>
+  <div class="mont">
+    <span class="m">the in-browser level editor</span><span class="m">a procedural level generator</span>
+    <span class="m">filedundernoone.uk</span><span class="m">the press kit</span><span class="m">the cover</span>
+    <span class="m">the procedural score</span><span class="m">the in-game art</span>
+  </div>
+</section>
+
+<!-- 18 SECTION: correct != good -->
+<section class="slide center void2" data-notes="Now the honest part. The part that mattered most. A correct game is not the same as a good one.">
+  <div class="statement"><span class="amber">A correct</span> game is not the same as a <span class="amber">good</span> one.</div>
+</section>
+
+<!-- 19 SPLIT: fair vs solvable -->
+<section class="slide center" data-notes="Here's the line I'd draw between the machine and me, and it's the most honest thing I can tell you. I built a solver that can PROVE a never-detected route through a level exists. But it cannot tell me whether a catch was FAIR — a catch the player could have read in advance. Unfair catches were the dominant failure in my playtest data. The machine proves existence. Only a human judges experience.">
+  <div class="split">
+    <div class="col machine"><div class="lab">The machine</div><div class="t">proves a never-detected route <span class="amber">exists.</span></div></div>
+    <div class="col human"><div class="lab">Only a human</div><div class="t">judges whether the catch was <span class="amber">fair.</span></div></div>
+  </div>
+  <div class="sub" style="font-size:1.4vw">Unfair catches were the dominant failure in the playtest data.</div>
+</section>
+
+<!-- 20 SHOWN: feedback -->
+<section class="slide" data-notes="And here's the moment that proves it. My team built a correct stealth game. I gave it to two friends. Both of them, separately, said the same thing — read it. The system was right. The experience was broken. No solver catches that. A player did, and my judgment about which feedback mattered did.">
+  <div class="shown">
+    <img src="assets/frame.png" alt="A shadow-heavy in-game frame.">
+    <div class="cap">
+      <div class="badge">Shown · FEEDBACK.md</div>
+      <div class="t" style="font-family:var(--serif);font-weight:600">"…are those black squares places I can hide?"</div>
+      <div class="d">— came up twice. The system was correct. The experience was broken. Only a person bouncing off it could tell me.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 21 CUTS -->
+<section class="slide" data-notes="And the gaps I did NOT sign off — the corners I cut on purpose, to ship. Capture is instant — no manhunt model. No crawl, no knock, no doors, no dogs. I cut these as decisions, with reasons, because the team is there to get me to a PRODUCT, not to gold-plate forever.">
+  <div class="kicker">Corners I cut to ship</div>
+  <div class="cuts">
+    <b>Capture is instant</b> — no manhunt.<br>
+    No crawl · no knock · no doors · no dogs.<br>
+    <span class="dim">Cut on purpose, with reasons — to reach a product, not to polish forever.</span>
+  </div>
+</section>
+
+<!-- 22 BUG -->
+<section class="slide" data-notes="And the night it bit me. Time spent on the menu was silently banked as unspent game-time — so the first second of every level played in fast-forward until the debt paid off. A real bug, a real postmortem. The team is fast; it is not infallible. That's exactly why the bar has to be a person's.">
+  <div class="kicker">The night the level fast-forwarded</div>
+  <div class="big" style="max-width:32ch;font-size:3.2vw">Menu time was banked as game-time — so the first second of a level played at <span class="amber">5×</span>.</div>
+  <div class="sub" style="font-size:1.4vw">A real bug, a real postmortem. Fast is not the same as infallible.</div>
+</section>
+
+<!-- 23 TURN: the novel -->
+<section class="slide center" data-notes="And here's the turn — the thing I'm proudest of, and the least synthesisable thing I made. I set out to build a game. I built a novel too. Because I cared about the storyline. Nobody asked for it. No brief demanded it. I wanted to deliver an experience, not just a game.">
+  <div class="huge" style="max-width:22ch">I set out to build a game.<br>I built a <span class="amber">novel</span> too.</div>
+  <div class="sub" style="font-size:1.9vw">Because I cared about the storyline — I wanted an experience, not just a game.</div>
+</section>
+
+<!-- 24 book stops at the fence -->
+<section class="slide center void2" data-notes="The book stops at the fence. The game is the night the book won't narrate. The two halves are one work.">
+  <div class="statement">The book stops at the fence.</div>
+  <div class="statement amber" style="margin-top:3vh">The game is the night the book won't narrate.</div>
+</section>
+
+<!-- 25 SHOWN: she -> you -->
+<section class="slide novel center" data-notes="And here's how the two halves join — the single detail I'm proudest of. In the book, Margaret is 'she' — you watch her. Then, at the fence, the pronoun turns. The game is 'you' — you become her. Read the real handoff from chapter eight. Nobody synthesised that. I cared enough to find it.">
+  <div class="src">Filed Under No One — ch.8, the fence</div>
+  <div class="big-line">"Her hand is on the wire." <span style="color:var(--buffmeta);font-size:1.3vw;font-family:var(--mono)">— she</span><br><br>"You go over." <span style="color:var(--buffmeta);font-size:1.3vw;font-family:var(--mono)">— you</span></div>
+</section>
+
+<!-- 26 PEAK (trailer stills; full trailer slots in post-premiere) -->
+<section class="slide peak" data-notes="This is where the trailer plays, at the emotional peak. [For now, the still — the full trailer goes live after the Future Games Show premiere.] Margaret, from behind, walled by the files she kept. Sell the question — who is she now? — never the face, never the twist.">
+  <img src="assets/keeper.jpg" alt="Margaret from behind at the records desk, walled by dossiers.">
+  <div class="vig"></div>
+  <div class="q">
+    <div class="l">A person was the sum of their records.<br><span class="amber">Then they struck her off.</span></div>
+    <div class="s">Sell the question — never the face.</div>
+  </div>
+  <!-- POST-PREMIERE: replace the still with the trailer embed (held for FGS) -->
+</section>
+
+<!-- 27 METHOD -->
+<section class="slide" data-notes="So here's the method, distilled. You won't know exactly what you want at the start. You learn, you struggle, you study, you repeat. You build a SYSTEM to overcome. And you reach a product. That loop is the whole thing.">
+  <div class="kicker">The method</div>
+  <div class="loop">
+    You won't know exactly what you want.<br>
+    → <b>learn · struggle · study · repeat</b><br>
+    → build a <b>system</b> to overcome<br>
+    → reach a <b>product.</b>
+  </div>
+</section>
+
+<!-- 28 condition -->
+<section class="slide center" data-notes="And it's yours now — the studio of one is available to every person in this room. But with one condition. It only works if you bring a point of view. Pick the gaps. Coach the team. Keep the bar. Decide. Test. Care. Ship.">
+  <div class="big" style="max-width:26ch">The studio of one is <span class="amber">yours.</span></div>
+  <div class="sub" style="font-size:1.8vw;max-width:40ch">But only if you bring a point of view: pick the gaps · coach the team · keep the bar · decide · test · care · ship.</div>
+</section>
+
+<!-- 29 margaret's logic -->
+<section class="slide center void2" data-notes="Let me bring it home through Margaret's own logic. A gap you sign off is under control. A gap you forget is a hole in the floor with the lights off. I signed mine. The product shipped.">
+  <div class="statement">A gap you sign off is under control.<br>A gap you <span class="amber">forget</span> is a hole in the floor with the lights off.</div>
+  <div class="sub" style="font-size:1.6vw">I signed mine. The product shipped.</div>
+</section>
+
+<!-- 30 PUSH ON -->
+<section class="slide center void2" data-notes="And so. We need creativity — it's what lets us push through the limitations. The team can be synthesised. The caring can't. We must push on. (Pause. Let it land.)">
+  <div class="big" style="max-width:24ch;font-size:3.6vw">We need creativity — it's what lets us push through the limitations.</div>
+  <div class="huge" style="font-size:4.6vw;margin-top:4vh">We must <span class="u">push on.</span></div>
+</section>
+
+<!-- 31 SEAL -->
+<section class="slide center sealslide void2" data-heartbeat="1" data-notes="Hold the seal in silence. The heartbeat sounds once, and stops. The last thing they hear is the human; the last thing they're handed is a free game they can verify themselves. Don't thank — just stop.">
+  <div class="hbpulse" id="hb2"></div>
+  <div class="seal" style="margin-top:4vh">DS Laboratory</div>
+  <div class="url">Free, in your browser — filedundernoone.uk</div>
+</section>
+
+</div>
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 31</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
+<audio id="hb" src="assets/heartbeat.wav" preload="auto"></audio>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes'),hb=document.getElementById('hb');
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');location.hash=i+1;
+  if(slides[i].dataset.heartbeat){ try{hb.currentTime=0;hb.play().catch(()=>{});}catch(e){}
+    const p=slides[i].querySelector('.hbpulse'); if(p){p.classList.remove('beat');void p.offsetWidth;p.classList.add('beat');} }
+}
+function next(){show(i+1)}function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);});
+document.addEventListener('click',e=>{if(e.clientX<innerWidth*0.25)prev();else next();});
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+</body>
+</html>
