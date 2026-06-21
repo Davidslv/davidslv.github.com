@@ -2,11 +2,15 @@
 layout: page
 title: "Modular Rails: Architecture for the Long Game"
 permalink: /modular-rails/
+description: "Build maintainable Ruby on Rails apps with mountable engines — clean architecture, namespace isolation, and the modular monolith. Working code, honest trade-offs."
+image: /img/modular-rails-cover.png
 ---
 
 <div style="text-align: center; margin-bottom: 2em;">
   <img src="/img/modular-rails-cover.png" alt="Modular Rails: Architecture for the Long Game book cover" style="max-width: 350px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
 </div>
+
+<p style="text-align:center; margin:-0.5em 0 2.5em;"><a class="btn-read" href="/books/modular-rails/">Read the entire book free online</a></p>
 
 **A practical guide to building maintainable Ruby on Rails applications using Rails Engines.**
 
@@ -47,9 +51,11 @@ Four parts. Eighteen chapters. From principles to practice to the hard questions
 
 ---
 
-## Read Chapter 1 for free
+## Read it free online
 
-[Why Architecture Matters in Rails Applications](/2026/05/05/why-architecture-matters.html) -- an adapted excerpt from Chapter 1. See the writing style, the diagrams, and the practical code examples before you buy.
+The **entire book** — every chapter, code sample, and diagram — is [**free to read on the web**](/books/modular-rails/): the same text as the paperback and Kindle editions, on any screen. No paywall, no sign-up.
+
+Prefer a taste first? [Why Architecture Matters in Rails Applications](/2026/05/05/why-architecture-matters.html) is an adapted excerpt from Chapter 1 — the writing style, the diagrams, and the practical code, before you commit.
 
 ---
 
@@ -138,3 +144,23 @@ Three open-source repositories accompany the book at increasing levels of archit
 1. **[Orbit](https://github.com/Davidslv/orbit)** — the original worked example. A small, focused Rails app demonstrating the engine pattern from Parts II and III, deliberately kept simple enough to read in an afternoon.
 2. **[seams](https://github.com/Davidslv/seams)** — a CLI framework that ships the patterns from this book as opinionated generators. Auth, accounts, billing, notifications, teams, and admin engines, all installable into any Rails 8 host with `bin/rails generate seams:<engine>`. The book's later chapters reference seams directly.
 3. **[seams-example](https://github.com/Davidslv/seams-example)** — a reference Rails 8 host wiring all six canonical seams engines, regenerated against seams main on every release. The "what does a real production-shaped seams app look like" answer.
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Modular Rails: Architecture for the Long Game",
+  "author": { "@type": "Person", "name": "David Silva", "url": "https://davidslv.uk" },
+  "inLanguage": "en",
+  "isbn": "1066649405",
+  "numberOfPages": 378,
+  "url": "https://davidslv.uk/modular-rails/",
+  "image": "https://davidslv.uk/img/modular-rails-cover.png",
+  "publisher": { "@type": "Organization", "name": "David Silva" },
+  "offers": [
+    { "@type": "Offer", "name": "Colour Paperback", "price": "49.99", "priceCurrency": "USD", "url": "https://www.amazon.com/dp/1066649405", "availability": "https://schema.org/InStock" },
+    { "@type": "Offer", "name": "Black & White Paperback", "price": "29.99", "priceCurrency": "USD", "url": "https://www.amazon.com/dp/1066649421", "availability": "https://schema.org/InStock" },
+    { "@type": "Offer", "name": "Kindle", "price": "24.99", "priceCurrency": "USD", "url": "https://www.amazon.com/dp/B0GZL7D53M", "availability": "https://schema.org/InStock" }
+  ]
+}
+</script>

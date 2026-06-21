@@ -52,10 +52,10 @@ layout: default
     {%- assign buy = book.buy -%}
     {%- if buy -%}
     <aside class="book-buy-inline" aria-label="Buy the book">
-      <span class="book-buy-inline__text">Prefer it in print or on Kindle?</span>
+      {%- assign kindle = buy.formats | where: "name", "Kindle" | first -%}
+      <span class="book-buy-inline__text">{% if kindle %}Prefer it in print or on Kindle?{% else %}Prefer a print copy?{% endif %}</span>
       {%- assign first = buy.formats | first -%}
       <a class="book-buy-inline__link" href="{{ first.us }}">Paperback</a>
-      {%- assign kindle = buy.formats | where: "name", "Kindle" | first -%}
       {%- if kindle %} &middot; <a class="book-buy-inline__link" href="{{ kindle.us }}">Kindle</a>{% endif -%}
       {%- if buy.learn_more %} &middot; <a class="book-buy-inline__link" href="{{ buy.learn_more | relative_url }}">All editions</a>{% else %} &middot; <a class="book-buy-inline__link" href="{{ book.home | relative_url }}">All editions</a>{% endif -%}
     </aside>
