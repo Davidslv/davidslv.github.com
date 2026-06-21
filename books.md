@@ -2,6 +2,8 @@
 layout: page
 title: Books
 permalink: /books/
+description: "Two technical books by David Silva — Modular Rails: Architecture for the Long Game, and Building Your Own Roguelike — each with a complete, free web edition alongside print and eBook."
+image: /img/og-default.png
 ---
 
 Two technical books — each with a **complete, free web edition** alongside the print and eBook editions.

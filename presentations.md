@@ -2,6 +2,8 @@
 layout: page
 title: Presentations
 permalink: /presentations/
+description: "Talks and runnable decks by David Silva — modular Rails and Rails engines, AI-directed agents for refactors and UX review, building a roguelike from scratch, and shipping solo as a studio of one."
+image: /img/og-default.png
 ---
 
 ## The Gap I Signed

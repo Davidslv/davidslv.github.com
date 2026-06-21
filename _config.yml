@@ -41,3 +41,11 @@ series_meta:
     description: >-
       A throughline on modular Rails: how to find boundaries, when to reach for
       engines, and how to keep a codebase legible as it grows.
+
+# Sitewide default share image — jekyll-seo-tag emits this as og:image for any
+# page without its own `image:` in front matter. Pages that set `image:` win.
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /img/og-default.png
