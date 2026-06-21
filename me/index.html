@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>David Silva — Built on Evidence</title>
+<meta name="description" content="David Silva — backend engineer, 15+ years (mostly Ruby). Systems where being wrong is expensive: government, lending, and a regulated mortgage platform. An interactive professional intro.">
+<link rel="canonical" href="https://davidslv.uk/me/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="David Silva — Built on Evidence">
+<meta property="og:description" content="Backend engineer, 15+ years. I build systems where being wrong is expensive — and prove every architecture call with evidence.">
+<meta property="og:url" content="https://davidslv.uk/me/">
+<meta property="og:image" content="https://davidslv.uk/me/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://davidslv.uk/me/assets/og.jpg">
+<style>
+:root{
+  --bg:#faf7f2; --ink:#1f2933; --ink2:#46505c; --muted:#8a8578; --soft:#6b7280;
+  --blue:#2c5f8d; --blue2:#3d77ad; --line:#e6e0d6; --panel:#fff; --warm:#b5602f;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;padding:8vh 9vw;opacity:0;transition:opacity .3s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+.kicker{font-family:var(--mono);font-size:1vw;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:2.4vh}
+h1{font-size:5.6vw;font-weight:800;line-height:1;letter-spacing:-.02em}
+h2{font-size:3.4vw;font-weight:800;line-height:1.04;letter-spacing:-.015em}
+.lede{font-size:2.2vw;font-weight:500;line-height:1.34;color:var(--ink2);max-width:30ch}
+.sub{font-size:1.6vw;color:var(--soft);margin-top:1.6vh;line-height:1.4;max-width:48ch}
+.blue{color:var(--blue)} .warm{color:var(--warm)}
+/* title */
+.title .name{font-size:6.4vw;font-weight:800;letter-spacing:-.025em;line-height:1}
+.title .role{font-size:1.9vw;color:var(--ink2);margin-top:2vh;font-weight:500}
+.title .pos{font-size:2.4vw;font-weight:600;color:var(--blue);margin-top:4vh;max-width:26ch;line-height:1.22}
+.title .foot{font-family:var(--mono);font-size:1.1vw;color:var(--muted);margin-top:5vh;letter-spacing:.06em}
+/* arc */
+.arc{display:flex;gap:1vw;align-items:stretch;justify-content:center;margin-top:1vh;flex-wrap:wrap}
+.arc .step{flex:1;min-width:14vw;border-top:3px solid var(--blue);padding:2.4vh 1.4vw 0;text-align:left}
+.arc .step h3{font-size:2.2vw;font-weight:800;letter-spacing:-.01em}
+.arc .step p{font-size:1.3vw;color:var(--soft);margin-top:1vh;line-height:1.3}
+.arc .to{display:flex;align-items:center;font-size:2.4vw;color:var(--blue);font-weight:800}
+.throughline{font-size:1.5vw;color:var(--ink2);margin-top:4vh;max-width:74ch;line-height:1.4;text-align:center}
+/* timeline */
+.tl{position:relative;margin-top:4vh;padding-top:3vh;border-top:2px solid var(--line)}
+.tl .row{display:flex;justify-content:space-between;gap:1vw}
+.tl .job{flex:1;text-align:center;position:relative}
+.tl .job::before{content:"";position:absolute;top:-3.6vh;left:50%;width:11px;height:11px;border-radius:50%;background:var(--blue);transform:translateX(-50%)}
+.tl .job .org{font-size:1.5vw;font-weight:800}
+.tl .job .yr{font-family:var(--mono);font-size:1vw;color:var(--soft);margin-top:.6vh}
+.tl .job .tag{font-size:.95vw;color:var(--muted);margin-top:.4vh}
+.tl .job.now .org{color:var(--blue)}
+.tl .pre{font-family:var(--mono);font-size:1vw;color:var(--muted);margin-top:3vh;text-align:left}
+/* scope */
+.ctx{font-family:var(--mono);font-size:1.4vw;color:var(--ink2);letter-spacing:.02em}
+.scopeband{font-size:2.4vw;font-weight:700;color:var(--ink);margin:3vh 0;max-width:30ch;line-height:1.25}
+.scopeband .blue{color:var(--blue)}
+.chips{display:flex;gap:1vw;flex-wrap:wrap;margin-top:1vh}
+.chip{border:1.5px solid var(--blue);color:var(--blue);border-radius:30px;padding:.9vh 1.4vw;font-size:1.2vw;font-weight:600;background:#eef4fa}
+.scopemark{font-family:var(--mono);font-size:1vw;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:3vh}
+/* hero number */
+.hero .lab{font-family:var(--mono);font-size:1.3vw;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.hero .num{font-size:11vw;font-weight:800;letter-spacing:-.03em;line-height:.95;color:var(--blue);margin:1vh 0}
+.hero .num small{font-size:3.2vw;font-weight:700;color:var(--ink2)}
+.hero .unit{font-family:var(--mono);font-size:1.3vw;color:var(--muted);letter-spacing:.04em;margin-top:-1vh}
+.hero .act{font-size:2vw;font-weight:600;color:var(--ink);margin-top:3vh;max-width:30ch;line-height:1.28}
+.hero .ctxline{font-size:1.5vw;color:var(--soft);margin-top:1.4vh;max-width:40ch;line-height:1.35}
+/* AI slide */
+.aih{font-size:2.8vw;font-weight:800;line-height:1.1;max-width:24ch}
+.evchips{display:flex;gap:1.4vw;margin-top:4vh;flex-wrap:wrap}
+.ev{border:1px solid var(--line);border-radius:12px;padding:2.4vh 1.8vw;background:var(--panel);max-width:26vw}
+.ev.multi{border:2px solid var(--blue);background:#eef4fa}
+.ev .t{font-family:var(--mono);font-size:1vw;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);font-weight:700}
+.ev .d{font-size:1.5vw;color:var(--ink2);margin-top:1vh;line-height:1.3}
+/* foundations two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:4vw;margin-top:2vh}
+.two h4{font-family:var(--mono);font-size:1.1vw;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.two ul{list-style:none;margin-top:1.4vh}
+.two li{font-size:1.4vw;color:var(--ink2);line-height:1.7;padding-left:1.4vw;position:relative}
+.two li::before{content:"·";color:var(--blue);position:absolute;left:0;font-weight:800}
+.two li b{color:var(--ink)}
+/* how I work */
+.tenets{display:flex;gap:1.6vw;margin-top:4vh}
+.tenet{flex:1;border-top:3px solid var(--blue);padding-top:2vh}
+.tenet .t{font-size:1.7vw;font-weight:700;line-height:1.2}
+.tenet .s{font-size:1.2vw;color:var(--soft);margin-top:1vh;line-height:1.3}
+/* books */
+.books{display:flex;gap:1.6vw;margin-top:2vh;align-items:flex-end}
+.book{flex:1;border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:3vh 1.6vw;min-height:24vh;display:flex;flex-direction:column;justify-content:flex-end}
+.book.tech{border-bottom:5px solid var(--blue)} .book.fic{border-bottom:5px solid var(--warm)}
+.book .ty{font-family:var(--mono);font-size:.9vw;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.book .ti{font-size:1.5vw;font-weight:700;margin-top:1vh;line-height:1.2}
+.seams{font-size:1.5vw;color:var(--ink2);margin-top:3vh;max-width:60ch;line-height:1.4}
+.seams b{color:var(--blue)}
+/* range */
+.range .studio{font-size:2.4vw;font-weight:800}
+.range p{font-size:1.7vw;color:var(--ink2);margin-top:2vh;max-width:34ch;line-height:1.4}
+.range .q{font-family:var(--mono);font-size:1.3vw;color:var(--soft);margin-top:3vh;letter-spacing:.04em}
+/* close */
+.want{display:flex;flex-direction:column;gap:1.4vh;margin-top:1vh}
+.want .w{font-size:2.1vw;font-weight:700;border-left:4px solid var(--blue);padding-left:1.2vw;line-height:1.2}
+.drive{font-size:1.6vw;color:var(--ink2);margin-top:4vh;max-width:48ch;line-height:1.4}
+.contact{font-family:var(--mono);font-size:1.3vw;color:var(--ink2);margin-top:4vh;letter-spacing:.02em}
+.contact a{color:var(--blue);text-decoration:none}
+/* chrome */
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--blue);transition:width .3s;z-index:5}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:.9vw;color:var(--muted);z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:36vh;overflow:auto;background:#1f2933;color:#eef2f7;font-size:1.6vh;line-height:1.55;padding:2.4vh 3vw;display:none;z-index:8;border-top:3px solid var(--blue)}
+.notes.show{display:block} .notes b{color:#7fb0db}
+@media(max-width:760px){h1,.title .name{font-size:10vw}.hero .num{font-size:20vw}.lede{font-size:5vw}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 TITLE -->
+<section class="slide center title" data-notes="Open cold, no slide-reading: 'I'm a backend engineer — fifteen years, mostly Ruby. I've spent that time on systems where being wrong is expensive: government services, lending, and now a regulated mortgage platform. Let me walk you through how I got here and the handful of things I'm proudest of — about five minutes, stop me wherever you want to go deeper.'">
+  <div class="name">David Silva</div>
+  <div class="role">Backend Engineer · 15+ years, mostly Ruby · London</div>
+  <div class="pos">Systems where being wrong is expensive.</div>
+  <div class="foot">davidslv.uk · linkedin.com/in/davidslv</div>
+</section>
+
+<!-- 2 THE ARC -->
+<section class="slide" data-notes="There's a thread through all of it. Government — GOV.UK and the Ministry of Justice — where correctness is a legal obligation and the user is everyone. Then fintech, where the stakes are money and auditability. And now Tembo, a regulated mortgage platform — all three at once. So when I make a scaling or architecture call, it's because I've made it before, under real consequences.">
+  <div class="kicker">The thread</div>
+  <div class="arc">
+    <div class="step"><h3>Government</h3><p>Services for millions · correctness as a legal obligation</p></div>
+    <div class="to">→</div>
+    <div class="step"><h3>Fintech</h3><p>Money · auditability · 0 → 100K customers</p></div>
+    <div class="to">→</div>
+    <div class="step"><h3>Regulated scale</h3><p>Millions of requests · AI · reliability you can't get wrong</p></div>
+  </div>
+  <p class="throughline">Each domain raised the stakes of being wrong — which is why the present work feels less like a leap than the next step.</p>
+</section>
+
+<!-- 3 TIMELINE -->
+<section class="slide" data-notes="Quick orientation. The pattern is multi-year and deliberate — two to three years each. I joined Tembo in early 2026, into an under-instrumented platform that gave me a lot of room to own end to end — which is why the recent work is broad. Most of our time will be there, but I can jump back to any of these. (Only expand the tenure point if probed — plainly, never defensively.)">
+  <div class="kicker">Fifteen years, five chapters</div>
+  <div class="tl">
+    <div class="row">
+      <div class="job"><div class="org">GDS</div><div class="yr">2016–18</div><div class="tag">GOV.UK · 60M+/mo</div></div>
+      <div class="job"><div class="org">Creditspring</div><div class="yr">2018–20</div><div class="tag">fintech · 0→100K</div></div>
+      <div class="job"><div class="org">Ministry of Justice</div><div class="yr">2020–22</div><div class="tag">gov services</div></div>
+      <div class="job"><div class="org">Indeed</div><div class="yr">2022–25</div><div class="tag">1M+ workers</div></div>
+      <div class="job now"><div class="org">Tembo</div><div class="yr">2026–now</div><div class="tag">Senior SWE · tech-lead scope</div></div>
+    </div>
+    <div class="pre">earlier — Unii · HouseTrip · Sticky9 · Think Orange</div>
+  </div>
+</section>
+
+<!-- 4 TEMBO SCOPE -->
+<section class="slide" data-notes="Tembo is an FCA-regulated mortgage platform — roughly 1.7 million requests and half a million background jobs a day across eight services. I work at tech-lead scope across four areas: architecture, observability, AI, and reliability. Rather than list everything, I'll show you three problem spaces I've owned — that's the honest shape of the job. (Scope statement — never say 'Staff' out loud; let the evidence claim the level.)">
+  <div class="kicker">Tembo Money · Senior SWE · tech-lead scope</div>
+  <div class="ctx">FCA-regulated mortgage platform · ~1.7M requests + 500K+ background jobs / day · 8 services</div>
+  <div class="scopeband">I work across <span class="blue">architecture, observability, AI & reliability</span> — at tech-lead scope.</div>
+  <div class="chips"><span class="chip">Collapsed the broker workflow</span><span class="chip">Made the platform observable</span><span class="chip">Recovered silent failures</span></div>
+  <div class="scopemark">Owned end-to-end · platform-wide</div>
+</section>
+
+<!-- 5 SIG 1 -->
+<section class="slide center hero" data-notes="Situation: a broker handling one applicant was juggling 22 separate systems — slow, error-prone. Action: I designed and built a unified case-management tool that collapses all of it into one workflow. Result: the time and complexity of a case dropped from ~65 minutes of a broker's work to ~10 — and it was built so the business can double mortgage capacity without hiring. That last part is the point: a capacity decision, not a feature. (Broker task time — never 'timeout' / 'under a second'.)">
+  <div class="lab">Collapsed the broker workflow</div>
+  <div class="num">65 <small>→</small> 10<small> min</small></div>
+  <div class="unit">broker time per case &nbsp;·&nbsp; 22 systems → one workflow</div>
+  <div class="act">Built to <span class="blue">double mortgage capacity without added headcount.</span></div>
+  <div class="ctxline">A unified case-management tool — a business-capacity decision, not a feature.</div>
+</section>
+
+<!-- 6 SIG 2 -->
+<section class="slide center hero" data-notes="Situation: when I arrived there was almost no observability — you couldn't see what the platform was doing. Action: I stood up observability from scratch — six NewRelic dashboards, including the board-level OKR instrument the company now steers by. Result: it immediately surfaced an integration running at ~40% success, quietly generating ~17,000 dead jobs a week. The dashboards matter, but the real point is finding the thing nobody was assigned to look at.">
+  <div class="lab">Made the platform observable</div>
+  <div class="num">~17,000</div>
+  <div class="unit">dead jobs / week — surfaced, that nobody was watching</div>
+  <div class="act">Observability <span class="blue">from scratch</span> — 6 dashboards, incl. the board-level OKR the company steers by.</div>
+  <div class="ctxline">An integration silently running at ~40% success, made visible.</div>
+</section>
+
+<!-- 7 SIG 3 -->
+<section class="slide center hero" data-notes="Situation: a partner sync had been silently broken for a month — no alarms, nobody watching, data going stale. Action: I diagnosed it and re-architected the sync to per-user fan-out with retry resilience, so one failure can't take down the run or hide. Result: first clean overnight run came in at 14,213 users. The fix wasn't the symptom — it was the system that let a failure stay invisible.">
+  <div class="lab">Recovered silent failures</div>
+  <div class="num">14,213</div>
+  <div class="unit">users — first clean overnight run</div>
+  <div class="act">A partner sync <span class="blue">silently broken for a month</span> — re-architected to per-user fan-out with retry.</div>
+  <div class="ctxline">The fix was the system that let a failure stay invisible — not just the symptom.</div>
+</section>
+
+<!-- 8 SIG 4 AI -->
+<section class="slide hero" data-notes="Situation: we needed income and risk signals out of applicants' PDF bank statements — under regulated stakes, where a quietly wrong number is dangerous. Action: I shipped it on AWS Bedrock, and found a token-limit failure silently dropping transactions — exactly the subtle correctness bug that erodes trust in model output. Result: fixed it, and contributed the Bedrock provider back upstream to the ActiveAgent open-source project — so the fix outlives our codebase. That's how I think about AI: rigor and correctness first, not novelty.">
+  <div class="kicker">AI with engineering rigor · Tembo</div>
+  <div class="aih">AI bank-statement analysis on <span class="blue">AWS Bedrock</span> — income &amp; risk signals from PDF statements.</div>
+  <div class="evchips">
+    <div class="ev"><div class="t">Correctness</div><div class="d">Caught a token-limit bug silently dropping transactions.</div></div>
+    <div class="ev multi"><div class="t">Multiplier · upstream OSS</div><div class="d">Contributed the Bedrock provider upstream to <b>ActiveAgent</b> — the fix outlives our codebase.</div></div>
+  </div>
+</section>
+
+<!-- 9 INDEED BRIDGE -->
+<section class="slide center hero" data-notes="I'll head off an obvious question — is the Tembo scope just a new-job fluke? No. At Indeed, on a platform serving 1M+ workers, I spent six months with cross-functional teams transforming the penalty-appeals system — support tickets dropped ~80%, and we eliminated wrongful bans. Same pattern: own the problem space, work across teams, ship a measurable outcome. I can tell you exactly how that 80% was measured.">
+  <div class="lab">It's not new — Indeed · 2022–25</div>
+  <div class="num">80<small>%</small></div>
+  <div class="unit">fewer support tickets — penalty-appeals system, rebuilt over 6 months</div>
+  <div class="act">Cross-functional, on a platform serving <span class="blue">1M+ workers</span> — wrongful bans eliminated.</div>
+  <div class="ctxline">Also: led incident response for 100K+ workers · built an AI chat interface (OpenAI) · mentored &amp; onboarded.</div>
+</section>
+
+<!-- 10 FOUNDATIONS -->
+<section class="slide" data-notes="Briefly, the foundations. In government I built services real people depend on — applying to court about child arrangements, and a tool that works out when someone must disclose a caution or conviction, which meant turning complex legal rules into algorithms alongside policymakers. At Creditspring I helped take a fintech from zero to 100K+ paying customers on an event-driven Rails stack with full financial auditability. That's where the correctness instinct comes from. (Skip or compress if short on time.)">
+  <div class="kicker">Foundations — government &amp; fintech &nbsp;<span style="color:var(--muted)">· skippable</span></div>
+  <div class="two">
+    <div>
+      <h4>Government — MoJ &amp; GDS</h4>
+      <ul>
+        <li><b>Apply to court</b> about child arrangements — validated through user research</li>
+        <li><b>Cautions / convictions disclosure</b> — complex legal rules turned into algorithms with policymakers</li>
+        <li>Core <b>GOV.UK</b> features for <b>60M+</b> monthly visitors — Step by Step, search, taxonomy</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Fintech — Creditspring</h4>
+      <ul>
+        <li>Pre-launch → <b>0 to 100K+</b> paying customers (500K+ registered)</li>
+        <li><b>Event-driven</b> Rails · PostgreSQL · Redis · Sidekiq</li>
+        <li>Full financial <b>auditability</b> · <b>99.9%+</b> uptime through rapid growth</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 11 HOW I WORK -->
+<section class="slide" data-notes="A bit on how I make decisions, since that's what working with me is actually like. I'm an Extreme Programming person — TDD, pairing, CI — and I lean toward modular monoliths over premature microservices. My rule is architecture has to earn its complexity through evidence; I don't add a boundary until the codebase shows me it needs one. I cared about this enough to work it out in public — I wrote a book on it.">
+  <div class="kicker">How I work</div>
+  <h2 style="max-width:24ch">Architecture that earns its complexity through <span class="blue">evidence.</span></h2>
+  <div class="tenets">
+    <div class="tenet"><div class="t">Modular monoliths</div><div class="s">over premature microservices — boundaries via Rails Engines, when the code earns them.</div></div>
+    <div class="tenet"><div class="t">Extreme Programming</div><div class="s">TDD, pairing, continuous integration. Feedback over ceremony.</div></div>
+    <div class="tenet"><div class="t">Evidence before abstraction</div><div class="s">no boundary until the codebase has shown me it needs one.</div></div>
+  </div>
+</section>
+
+<!-- 12 AUTHOR & BUILDER -->
+<section class="slide" data-notes="I build things to their finished form, not just to a demo. Modular Rails is the worked-out version of that architecture conviction — and Seams is the CLI that generates the engine structure the book argues for, so the idea actually ships. Three books in total. Writing something down for other people is the hardest test of whether I really understand it.">
+  <div class="kicker">Author &amp; builder · three published books</div>
+  <div class="books">
+    <div class="book tech"><div class="ty">Technical</div><div class="ti">Modular Rails: Architecture for the Long Game</div></div>
+    <div class="book tech"><div class="ty">Technical</div><div class="ti">Building Your Own Roguelike</div></div>
+    <div class="book fic"><div class="ty">Fiction</div><div class="ti">A spy novel</div></div>
+  </div>
+  <p class="seams"><b>Seams</b> — a CLI I wrote that generates the modular Rails engine structure the book argues for, so the architecture actually ships. Writing it down is the hardest test of understanding it.</p>
+</section>
+
+<!-- 13 RANGE -->
+<section class="slide center range" data-notes="One personal thing, then back to business. Outside work I run a tiny studio — I built a free in-browser stealth game on an engine I wrote from scratch: zero dependencies, fully deterministic, with a companion novel. The deterministic-engine part is the bit I care about — same instinct I bring to production: build the whole system end to end, understand every layer, no magic. I do it for the love of it when the constraints are mine.">
+  <div class="kicker">Range — when the constraints are mine</div>
+  <div class="studio">DS Laboratory — a one-person studio.</div>
+  <p><span class="blue">Filed Under No One</span> — a free in-browser stealth game on an owned, zero-dependency, deterministic engine, with a companion spy novel.</p>
+  <div class="q">Same instinct as production: build the whole system end to end, understand every layer, no magic.</div>
+</section>
+
+<!-- 14 CLOSE -->
+<section class="slide" data-notes="To close — what I'm looking for. I do my best work on systems where being wrong is expensive, with real ownership over architecture and reliability — regulated or high-scale, ideally both. What drives me is making complex systems honest: visible, correct, and built to last longer than the people who wrote them. If that's the shape of the problem you have, I'd like to talk about it. (Stop here — end on intent, not a thank-you.)">
+  <div class="kicker">What I'm looking for</div>
+  <div class="want">
+    <div class="w">High-stakes correctness &amp; scale</div>
+    <div class="w">Ownership of architecture &amp; reliability</div>
+    <div class="w">Regulated / distributed systems</div>
+  </div>
+  <p class="drive">What drives me is making complex systems <span class="blue">honest</span> — visible, correct, and built to last longer than the people who wrote them.</p>
+  <div class="contact">linkedin.com/in/davidslv &nbsp;·&nbsp; davidslv.london@gmail.com &nbsp;·&nbsp; davidslv.uk</div>
+</section>
+
+</div>
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 14</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes');
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');location.hash=i+1;}
+function next(){show(i+1)}function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0);else if(e.key==='End')show(slides.length-1);});
+document.addEventListener('click',e=>{if(e.clientX<innerWidth*0.25)prev();else next();});
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+</body>
+</html>
