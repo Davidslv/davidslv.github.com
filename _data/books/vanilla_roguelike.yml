@@ -4,6 +4,14 @@ short_title: Vanilla Roguelike
 subtitle: A Practical Guide
 author: David Silva
 home: "/books/vanilla-roguelike/"
+buy:
+  cover: "/img/roguelike-cover.jpg"
+  asin: B0G1SGN181
+  formats:
+  - name: Paperback
+    us: https://www.amazon.com/dp/B0G1SGN181
+    uk: https://www.amazon.co.uk/dp/B0G1SGN181
+    ingram: https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO
 chapters:
 - slug: 01-what-is-a-roguelike
   url: "/books/vanilla-roguelike/01-what-is-a-roguelike/"

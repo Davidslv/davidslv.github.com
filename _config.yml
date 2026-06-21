@@ -4,9 +4,28 @@ email: davidslv@users.noreply.github.com
 description: >
   Senior Software Engineer · 15+ years of Ruby · Author of two books on software architecture and game development.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://davidslv.uk" # the base hostname & protocol for your site
+url: "https://davidslv.uk" # the base hostname & protocol for your site
 twitter_username: davidslv
 github_username:  davidslv
+
+# Plugins (whitelisted + bundled by the github-pages gem)
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# jekyll-seo-tag configuration
+twitter:
+  username: davidslv
+  card: summary_large_image
+social:
+  name: David Silva
+  links:
+    - https://twitter.com/davidslv
+    - https://github.com/davidslv
+
+# Paste the verification code from Google Search Console here; once set,
+# jekyll-seo-tag emits the <meta name="google-site-verification"> tag.
+google_site_verification:
 
 # Build settings
 markdown: kramdown
