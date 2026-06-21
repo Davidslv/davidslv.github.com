@@ -98,6 +98,12 @@ h1{font-size:5.4vw;font-weight:800;line-height:1.02;letter-spacing:-.02em}
 .peak .q{position:relative;padding:0 0 9vh 0;max-width:30ch}
 .peak .q .l{font-size:2.6vw;font-weight:700;line-height:1.2;text-shadow:0 2px 30px #000}
 .peak .q .s{font-size:1.4vw;color:var(--ink2);margin-top:1.6vh}
+/* nine rules */
+.rules9{display:grid;grid-template-columns:1fr 1fr;gap:1.1vh 3vw;max-width:74vw;margin-top:1vh}
+.rules9 .r{display:flex;gap:1vw;font-size:1.5vw;line-height:1.28;color:var(--ink2);padding-bottom:1vh;border-bottom:1px solid var(--line)}
+.rules9 .r .n{color:var(--amber);font-family:var(--mono);font-size:1.2vw}
+.rules9 .r b{color:var(--ink);font-weight:700}
+.rules9 .r.key{border-bottom-color:rgba(255,195,31,.4)}
 /* seal close */
 .sealslide .seal{font-family:var(--sans);font-weight:800;text-transform:uppercase;font-size:3vw;letter-spacing:.04em}
 .sealslide .url{font-family:var(--mono);font-size:1.6vw;color:var(--amber);margin-top:3vh;letter-spacing:.04em}
@@ -283,11 +289,21 @@ h1{font-size:5.4vw;font-weight:800;line-height:1.02;letter-spacing:-.02em}
   <div class="sub" style="font-size:1.6vw">Even with the data — event logs, replays, players rating each level <b style="color:var(--ink)">FUN · FAIR · DIFFICULTY</b>, 0–10. The numbers help. They don't decide.</div>
 </section>
 
-<!-- WALL 1 — the fix -->
-<section class="slide" data-notes="So I threw out the gatekeeping. I went back to the drawing board, level by level, until I could name the problem — that was the shared vocabulary I'd been missing. And I came back with nine simple rules, and ignored every solver and validator. The level had to be created first, freely, before any technical rule was ever allowed to decide it couldn't exist.">
-  <div class="kicker">The fix</div>
-  <div class="big" style="max-width:28ch">Nine rules. <span class="amber">Ignore the solver.</span></div>
-  <div class="sub">Create the level first — freely — before any technical rule is allowed to decide it can't exist. Gatekeeping that runs too early kills the thing before it's born.</div>
+<!-- WALL 1 — the fix: NAME the nine rules -->
+<section class="slide" data-notes="So I threw out the gatekeeping and went back to the drawing board — and I didn't invent rules from nothing. I went to the people who actually design levels: John Romero and Shigeru Miyamoto. Nine human rules. Read a couple — number three, generous not clinical; number nine, 'not generator-shallow' — could a carver have produced this? If yes, it isn't done. That last one was my whole problem named in five words. The solver guards the FLOOR: is it correct. These are the CEILING: is it good. And only real players see fun. The tooling runs AFTER these now — never instead of them.">
+  <div class="kicker">The fix — nine rules, from Romero &amp; Miyamoto (people who design levels)</div>
+  <div class="rules9">
+    <div class="r"><span class="n">1</span><span><b>Interesting start</b> — the spawn opens onto a choice.</span></div>
+    <div class="r"><span class="n">2</span><span><b>Fits its purpose</b> — teach, or test; not both.</span></div>
+    <div class="r"><span class="n">3</span><span><b>Generous, not clinical</b> — windows forgive.</span></div>
+    <div class="r"><span class="n">4</span><span><b>It breathes</b> — tension peaks are spread.</span></div>
+    <div class="r"><span class="n">5</span><span><b>Reuse &amp; ownership</b> — you learn the space.</span></div>
+    <div class="r"><span class="n">6</span><span><b>Clear transitions</b> — the zones read.</span></div>
+    <div class="r"><span class="n">7</span><span><b>Problem before solution</b> — see the wall first.</span></div>
+    <div class="r"><span class="n">8</span><span><b>A secret</b> — a shortcut to discover.</span></div>
+    <div class="r key"><span class="n">9</span><span><b>Not generator-shallow</b> — "could a carver have made this?" If yes, it isn't done.</span></div>
+  </div>
+  <div class="sub" style="font-size:1.35vw">The solver guards the <b style="color:var(--ink)">floor</b> (correct). These are the <b style="color:var(--amber)">ceiling</b> (good). Only real players see fun. The tooling runs <em>after</em> these — never instead.</div>
 </section>
 
 <!-- feedback — only a player catches it -->
