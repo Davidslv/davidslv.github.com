@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every File Is Yours — Modular Rails / Seams · David Silva</title>
+<meta name="description" content="A Rails-conference talk: the modular monolith in your repo. Seams generates real Rails engines — boilerplate gone, boundaries enforced by a cop, every file yours. By David Silva.">
+<link rel="canonical" href="https://davidslv.uk/presentations/every-file-is-yours/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Every File Is Yours — Modular Rails / Seams">
+<meta property="og:description" content="The modular monolith, in your repo — boilerplate gone, boundaries enforced, you still the architect. A talk by David Silva.">
+<meta property="og:url" content="https://davidslv.uk/presentations/every-file-is-yours/">
+<meta property="og:image" content="https://davidslv.uk/presentations/every-file-is-yours/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Every File Is Yours — Modular Rails / Seams">
+<meta name="twitter:description" content="The modular monolith, in your repo — boilerplate gone, boundaries enforced, you still the architect.">
+<meta name="twitter:image" content="https://davidslv.uk/presentations/every-file-is-yours/assets/og.jpg">
+<style>
+:root{
+  --bg:#FBF7F0; --ink:#22201C; --ink2:#46423a; --muted:#8a8578;
+  --coral:#E2603F; --coral-ink:#fff; --teal:#1F6F6B; --code:#F3EEE4; --line:#e6ddcc;
+  --red:#b23a2a; --redwash:#f7e3de; --green:#2f7d4f;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:7vh 9vw;opacity:0;transition:opacity .35s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+/* type scale */
+.kicker{font-family:var(--mono);font-size:1.05vw;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:2.2vh}
+h1{font-size:6.6vw;font-weight:800;line-height:.98;letter-spacing:-.02em}
+h2{font-size:4.4vw;font-weight:800;line-height:1.02;letter-spacing:-.015em}
+h3{font-size:2.9vw;font-weight:700;line-height:1.08}
+.big{font-size:5.2vw;font-weight:800;line-height:1.04;letter-spacing:-.02em}
+.lede{font-size:2.5vw;font-weight:500;line-height:1.3;color:var(--ink2);max-width:24ch}
+p.body{font-size:2vw;line-height:1.4;color:var(--ink2);max-width:30ch;margin-top:2.4vh}
+.sig{color:var(--coral)}
+.tealc{color:var(--teal)}
+.sub{font-size:1.7vw;color:var(--muted);margin-top:1.6vh;line-height:1.35;max-width:40ch}
+.stack{display:flex;flex-direction:column;gap:.4vh}
+.stack .w{font-size:6vw;font-weight:800;letter-spacing:-.02em;line-height:1.02}
+/* coral full-bleed act/statement slides */
+.slide.coral{background:var(--coral);color:var(--coral-ink)}
+.slide.coral .kicker{color:#ffe2d8}
+.slide.coral .big,.slide.coral h2,.slide.coral h1{color:#fff}
+.slide.coral .sub{color:#ffe2d8}
+/* quote slides */
+.slide.quote{align-items:center;text-align:center}
+.quote .q{font-size:3.3vw;font-weight:600;line-height:1.28;max-width:24ch;letter-spacing:-.01em}
+.quote .who{font-family:var(--mono);font-size:1.2vw;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3vh}
+/* code */
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:2.4vh 2vw;
+  font-family:var(--mono);font-size:1.55vw;line-height:1.55;overflow:hidden;max-width:62vw}
+pre .dim{opacity:.34}
+pre .hl{color:var(--ink);font-weight:600}
+pre .cmt{color:var(--muted)}
+pre .key{color:var(--coral)}
+pre .const{color:var(--teal)}
+.barline{border-left:3px solid var(--coral);padding-left:.6vw}
+/* faux terminal */
+.term{width:72vw;max-width:1100px;background:#1c1a17;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.term .bar{display:flex;gap:.6vw;align-items:center;padding:1.4vh 1.2vw;background:#2a2723}
+.term .dot{width:.95vw;height:.95vw;max-width:13px;max-height:13px;border-radius:50%}
+.d1{background:#ef6a5e}.d2{background:#f4bf4f}.d3{background:#62c554}
+.term .body{padding:2.6vh 1.8vw;font-family:var(--mono);font-size:1.5vw;line-height:1.7;color:#e9e4da}
+.term .p{color:#7fd1a0}/* prompt */
+.term .c{color:#fff;font-weight:600}/* command */
+.term .o{color:#bdb6a8}/* output */
+.term .new{color:#7fd1a0;font-weight:600}
+.term .err{color:#ff8a76;font-weight:600}
+.term .ok{color:#8fe3a8}
+.term .arrow{color:#f4bf4f}
+/* diagrams */
+.diagram{display:flex;gap:1.4vw;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:1vh}
+.node{border:2px solid var(--teal);border-radius:12px;padding:1.6vh 1.4vw;font-family:var(--mono);font-size:1.3vw;color:var(--teal);background:#f0f6f5;font-weight:600}
+.node.mono-box{display:flex;flex-direction:column;gap:1vh;align-items:center;border-color:var(--ink);color:var(--ink);background:#fff;padding:2.4vh 2vw}
+.node.mono-box .row{display:flex;gap:1vw;flex-wrap:wrap;justify-content:center}
+.node.mono-box .e{border:1.5px solid var(--coral);color:var(--coral);border-radius:8px;padding:.7vh 1vw;font-size:1.1vw;background:#fdeee9}
+.arrowx{font-size:2.6vw;color:var(--coral);font-weight:800}
+.cap{font-family:var(--mono);font-size:1.2vw;color:var(--muted);margin-top:2.4vh;letter-spacing:.04em}
+/* objection rows */
+.rows{display:flex;flex-direction:column;gap:1.3vh;margin-top:1vh;max-width:74vw}
+.rows .r{display:grid;grid-template-columns:18vw 1fr;gap:1.6vw;align-items:baseline;padding-bottom:1.3vh;border-bottom:1px solid var(--line)}
+.rows .k{font-family:var(--mono);font-size:1.5vw;color:var(--coral);font-weight:600}
+.rows .v{font-size:1.55vw;color:var(--ink2);line-height:1.32}
+/* doors */
+.doors{display:flex;gap:1.6vw;margin-top:2vh}
+.door{flex:1;border:2px solid var(--line);border-radius:14px;padding:3vh 2vw;background:#fff}
+.door .t{font-family:var(--mono);font-size:1.3vw;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.door .d{font-size:1.7vw;font-weight:700;margin-top:1.2vh}
+.door .s{font-size:1.3vw;color:var(--muted);margin-top:.8vh;line-height:1.3}
+.urls{font-family:var(--mono);font-size:1.3vw;color:var(--ink2);margin-top:4vh;line-height:1.9}
+.urls b{color:var(--coral)}
+/* wall image */
+.wallwrap{display:flex;gap:3vw;align-items:center}
+.wallwrap img{height:64vh;border:1px solid var(--line);border-radius:6px;box-shadow:0 20px 50px rgba(0,0,0,.16);transform:rotate(-1.3deg)}
+.wallwrap .cap2{font-size:1.7vw;color:var(--ink2);max-width:20ch;line-height:1.34}
+.wallwrap .cap2 b{color:var(--coral)}
+/* lists */
+ul.real{list-style:none;margin-top:1.5vh}
+ul.real li{font-size:1.7vw;line-height:1.7;color:var(--ink2);padding-left:1.6vw;position:relative}
+ul.real li::before{content:"▸";color:var(--coral);position:absolute;left:0}
+ul.real li b{color:var(--ink)}
+/* title slide */
+.titleslide .wm{font-size:7vw;font-weight:800;line-height:.95;letter-spacing:-.025em}
+.titleslide .wm .you{color:var(--coral)}
+.titleslide .meta{font-family:var(--mono);font-size:1.4vw;color:var(--muted);margin-top:3.5vh;letter-spacing:.08em}
+/* chrome */
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1.1vw;color:var(--muted);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--coral);transition:width .35s;z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(28,26,23,.96);color:#f0ece3;
+  font-family:var(--sans);font-size:1.5vh;line-height:1.5;padding:2.2vh 3vw;display:none;z-index:8;border-top:3px solid var(--coral)}
+.notes.show{display:block}
+.notes b{color:#f4bf4f}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
+@media(max-width:760px){h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}pre,.term{max-width:90vw;font-size:3.2vw}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 COLD OPEN -->
+<section class="slide center" data-notes="No title, no name yet. Just ask it. 'This year — how many of you wrote auth from scratch? Again?' Wait for hands. Then: 'Billing? Teams and invites? Notifications?' Let the groan land. That groan is the tax.">
+  <h1>This year, how many of you<br>wrote auth from scratch?<br><span class="sig">Again?</span></h1>
+</section>
+
+<!-- 2 THE TAX -->
+<section class="slide" data-notes="We all pay it. Every new app, week one, the same four things. I got tired of paying it. Keep it light — one self-deprecating beat is allowed soon.">
+  <div class="kicker">The boilerplate tax</div>
+  <div class="stack">
+    <span class="w">Auth.</span><span class="w">Billing.</span><span class="w">Teams.</span><span class="w sig">Notifications.</span>
+  </div>
+  <p class="body">Weeks — before you've shipped a single thing that's actually <b>yours</b>.</p>
+</section>
+
+<!-- 3 THE WALL -->
+<section class="slide" data-notes="My wall wasn't an app. I'd written a book — my second. Then I tried to PRINT it. Three weeks fighting trim size, margins, a diagram that wouldn't stay on one page — at 2am — instead of writing. That's the inciting incident.">
+  <div class="wallwrap">
+    <img src="assets/wall.png" alt="A page of the Modular Rails book — Rails engine routing code.">
+    <div class="cap2"><b>2am.</b> Trim 6×9. The margins fight back. A diagram straddles a page break. I wrote a book — then spent three weeks trying to <b>print</b> it.</div>
+  </div>
+</section>
+
+<!-- 4 QUIRE ORIGIN -->
+<section class="slide" data-notes="I wasn't building a product. I was trying to finish my book. That accidental tool became Quire — markdown chapters to a print-ready book. Hold that thought; it matters at the end.">
+  <div class="kicker">So I built a tool to finish my own book</div>
+  <h2>Quire</h2>
+  <p class="body">Markdown chapters <span class="sig">→</span> a print-ready book.</p>
+</section>
+
+<!-- 5 TITLE -->
+<section class="slide center titleslide" data-notes="NOW the title. And who I am. The thread: a book ABOUT boundaries turned into a tool that BUILDS them. 15+ years Ruby, currently at Tembo Money on an FCA-regulated mortgage platform.">
+  <div class="wm">Every File<br>Is <span class="you">Yours</span></div>
+  <div class="meta">The modular monolith, in your repo — boilerplate gone, boundaries enforced, you still the architect</div>
+  <div class="meta" style="margin-top:2vh">David Silva · 15+ yrs Ruby · @davidslv</div>
+</section>
+
+<!-- 6 THE BOOK / MAP -->
+<section class="slide" data-notes="The book is the THINKING behind the boundaries — the map. I did the architectural homework so the tool wouldn't be a weekend scaffold. First comprehensive Rails architecture book since Crafting Rails, 2011.">
+  <div class="kicker">What the book is about</div>
+  <div class="diagram" style="justify-content:flex-start">
+    <span class="node">Clean Architecture</span><span class="arrowx">→</span>
+    <span class="node">The Hard Parts</span><span class="arrowx">→</span>
+    <span class="node">XP</span><span class="arrowx">→</span>
+    <span class="node" style="border-color:var(--coral);color:var(--coral);background:#fdeee9">Rails Engines</span>
+  </div>
+  <p class="cap">The first comprehensive Rails architecture book since <i>Crafting Rails</i>, 2011. The map.</p>
+</section>
+
+<!-- 7 THE TURN -->
+<section class="slide" data-notes="Here's the moment it clicked. The book was ABOUT modular boundaries. The app I was building NEEDED the same boundaries. Theory and practice rhymed. This is the heart of the talk.">
+  <div class="kicker">The turn — same problem, two places</div>
+  <div class="diagram">
+    <span class="node mono-box"><b>The book</b><span style="font-size:1vw;color:var(--muted)">chapters · modules · boundaries</span></span>
+    <span class="arrowx">the same boundary problem</span>
+    <span class="node mono-box"><b>The app I was building</b><span style="font-size:1vw;color:var(--muted)">auth · billing · teams · …</span></span>
+  </div>
+</section>
+
+<!-- 8 QUIET FAILURE -->
+<section class="slide quote" data-notes="This is the LIFETIME cost — after the weeks. Tangled boundaries. The thing breaks at a distance, and you find out from a customer. Straight from the book's Foreword.">
+  <div class="q">"A change to billing could quietly break notifications — and nobody would notice <span class="sig">until a customer did.</span>"</div>
+  <div class="who">Modular Rails — Foreword</div>
+</section>
+
+<!-- 9 THESIS -->
+<section class="slide center" data-notes="Clear boundaries, independent testing, team autonomy — WITHOUT the operational cost of going distributed. The right default for a Rails team.">
+  <div class="big">The modular monolith.<br><span class="sig">Microservice benefits, monolith bill.</span></div>
+  <p class="sub" style="max-width:48ch;margin-top:3vh">clear boundaries · independent testing · team autonomy &nbsp;—&nbsp; one process · no HTTP · no distributed-systems tax</p>
+</section>
+
+<!-- 10 MECHANISM -->
+<section class="slide" data-notes="The mechanism isn't new — it's Rails Engines. Real boundaries inside one deployable app. The plumbing to wire them well is the hard part — and that's exactly the part Seams does.">
+  <div class="kicker">The mechanism: Rails Engines</div>
+  <div class="diagram">
+    <span class="node mono-box" style="padding:3vh 3vw">
+      <b style="font-size:1.5vw">One monolith · one process</b>
+      <span class="row"><span class="e">auth</span><span class="e">billing</span><span class="e">teams</span><span class="e">notifications</span><span class="e">accounts</span><span class="e">core</span></span>
+    </span>
+  </div>
+  <p class="cap">Boundaries <i>inside</i> one process. Native Rails — not a new layer.</p>
+</section>
+
+<!-- 11 ACT SEAM (coral) -->
+<section class="slide coral center" data-notes="A book can ARGUE this. But you shouldn't take an argument on faith. So I made it executable. This is the seam into the tool.">
+  <div class="big">The book is the artefact.<br>The code is the <span style="text-decoration:underline;text-decoration-color:#fff">evidence.</span></div>
+</section>
+
+<!-- 12 MEET SEAMS -->
+<section class="slide" data-notes="Seams is the thesis, executable. You say what you want and where the boundaries sit; it generates real, pre-wired engines — into your repo.">
+  <div class="kicker">github.com/Davidslv/seams</div>
+  <h2>Seams</h2>
+  <p class="body" style="max-width:34ch">A CLI that generates modular Rails engines — <span class="sig">into your repo.</span></p>
+</section>
+
+<!-- 13 SUBSTRATE NOT STARTER KIT -->
+<section class="slide center" data-notes="THE differentiator — and I say it BEFORE the demo. The code lands in your repo. The gem generates and walks away. It's just Rails: latest stable, your conventions, nothing in your hot path, no new framework to learn.">
+  <div class="big">Every file is yours to edit.<br><span class="sig">Nothing is hidden behind the gem.</span></div>
+  <p class="sub" style="max-width:46ch;margin-top:3vh">It's just Rails — latest stable, your conventions. The gem is the generator; it walks away. No new framework. Nothing in your hot path.</p>
+</section>
+
+<!-- 14 DEMO TEE-UP -->
+<section class="slide center coral" data-notes="Set the frame. This isn't 'it made some files.' This is weeks of your Monday — gone. Now watch.">
+  <div class="big">Watch what the next<br>45 seconds <span style="text-decoration:underline">replaces.</span></div>
+</section>
+
+<!-- 15 DEMO 1: generate -->
+<section class="slide center" data-notes="Narrate calmly. There's auth. There's billing. There's teams. Real engines — in YOUR engines/ folder. Not behind a gem.">
+  <div class="term">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+    <div class="body">
+<span class="p">$</span> <span class="c">bin/seams auth billing teams notifications</span>
+<span class="o">      create  engines/auth        (Identity, Session, OAuth, API tokens)</span>
+<span class="o">      create  engines/billing     (Stripe webhooks, subscriptions)</span>
+<span class="o">      create  engines/teams        (Team, Membership, Invitation)</span>
+<span class="o">      create  engines/notifications (STI strategies, ActionCable bell)</span>
+<span class="new">      ✓ 4 engines mounted · specs green · rubocop clean</span>
+    </div>
+  </div>
+  <p class="cap">Real Rails engines — under <b>engines/</b>, in your repo.</p>
+</section>
+
+<!-- 16 DEMO 2: open one, it's yours -->
+<section class="slide" data-notes="Open it. This is real substance — official Stripe gem, a 13-handler webhook router. And it's YOURS: edit a line, delete a line, own it. Plain Rails — a controller you recognise.">
+  <div class="kicker">engines/billing — open it. it's just Rails.</div>
+  <pre><span class="cmt"># engines/billing/app/controllers/billing/webhooks_controller.rb</span>
+<span class="dim">module Billing</span>
+<span class="dim">  class WebhooksController &lt; ApplicationController</span>
+<span class="dim">    def create</span>
+<span class="hl">      event = Stripe::Webhook.construct_event(payload, sig, secret)</span>
+<span class="hl barline">      HANDLERS.fetch(event.type) { :ignore }.call(event)   <span class="cmt"># 13 handlers</span></span>
+<span class="dim">    end</span>
+<span class="dim">  end</span>
+<span class="dim">end</span></pre>
+  <p class="cap">Official Stripe gem · a 13-handler webhook router. <b>Yours to edit or delete.</b></p>
+</section>
+
+<!-- 17 DEMO 3: the cop says NO (hero) -->
+<section class="slide" data-notes="THE moment. Anyone can scaffold files. Almost nobody ships ENFORCEMENT. The boundary isn't folder cosmetics — a cop you already run won't let you cross it by accident. This is the credibility beat. Land it slowly.">
+  <div class="kicker">Reach across a boundary…</div>
+  <pre><span class="cmt"># inside engines/auth — reaching into Billing</span>
+<span class="hl">Billing::Subscription.find(current_user.subscription_id)</span></pre>
+  <div class="term" style="width:62vw;margin-top:3vh;background:#241a18">
+    <div class="bar" style="background:#33211d"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+    <div class="body" style="font-size:1.4vw">
+<span class="p">$</span> <span class="c">bundle exec rubocop</span>
+<span class="err">  C: Seams/NoCrossEngineModelAccess</span>
+<span class="o">  Engine `auth` must not access `Billing::Subscription` directly.</span>
+<span class="o">  Subscribe to an event instead.</span>
+    </div>
+  </div>
+</section>
+
+<!-- 18 DEMO 4: the green path -->
+<section class="slide" data-notes="Here's the right way: emit an event, an explicit subscriber picks it up. bin/seams list shows the real graph — no magic behind it. Synchronous events, explicit subscribers.">
+  <div class="kicker">…the green path: events with explicit subscribers</div>
+  <div class="term">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+    <div class="body" style="font-size:1.35vw">
+<span class="p">$</span> <span class="c">bin/seams list</span>
+<span class="o">  auth           emits   <span class="ok">user.created</span>, <span class="ok">session.started</span></span>
+<span class="o">  billing        <span class="arrow">subscribes</span> <span class="ok">user.created</span>  → create customer</span>
+<span class="o">  notifications  <span class="arrow">subscribes</span> <span class="ok">user.created</span>  → welcome email</span>
+<span class="new">  synchronous · explicit subscribers · no magic</span>
+    </div>
+  </div>
+</section>
+
+<!-- 19 FREEZE: what's real -->
+<section class="slide center" data-notes="Say the line over this freeze, not over the scroll: 'Seams takes away the boilerplate — not the keyboard.' This is the peak-attention beat. Pause here.">
+  <div class="kicker">What's actually real</div>
+  <ul class="real" style="font-size:1.9vw;columns:2;column-gap:5vw">
+    <li><b>4</b> RuboCop boundary cops</li>
+    <li><b>GDPR-encrypted PII</b> (Auth)</li>
+    <li><b>13-handler</b> Stripe webhook router</li>
+    <li>STI notification strategies</li>
+    <li>Synchronous events, explicit subscribers</li>
+    <li>Generated specs, green</li>
+  </ul>
+  <div class="big" style="font-size:3.2vw;margin-top:4vh">Seams takes away the boilerplate — <span class="sig">not the keyboard.</span></div>
+</section>
+
+<!-- 20 EXEMPTIONS (judge me) -->
+<section class="slide" data-notes="Look at the exemptions. A cop with NONE is naive. These say someone hit the real false-positives and reasoned about them — per-request Current attributes are allowed; a soft probe for an optional engine. Judge me on the nuance, not the polish.">
+  <div class="kicker">The exemptions are where you judge me</div>
+  <pre><span class="dim">def on_const(node)</span>
+<span class="dim">  return if same_engine?(node)</span>
+<span class="hl barline">  return if current_attributes?(node)   <span class="cmt"># Auth::Current is shared, by design</span></span>
+<span class="hl barline">  return unless defined?(Teams::Team)   <span class="cmt"># Teams is optional — don't false-flag</span></span>
+<span class="dim">  add_offense(node, message: cross_engine_msg(node))</span>
+<span class="dim">end</span></pre>
+  <p class="cap">A cop with no exemptions is naive. These are where the real thinking lives.</p>
+</section>
+
+<!-- 21 OBJECTIONS -->
+<section class="slide" data-notes="Pre-empt the folded arms. One sentence each, warmly, move on. The depth was in the demo, not this slide. Do NOT skip the Packwerk row.">
+  <div class="kicker">I know what you're about to ask</div>
+  <div class="rows">
+    <div class="r"><span class="k">Packwerk?</span><span class="v">Checks packages you already drew. Seams <i>generates</i> the engines and the cops — in the RuboCop you already run.</span></div>
+    <div class="r"><span class="k">rails plugin new?</span><span class="v">Same engines — but empty. Seams' come pre-wired: events, registry, boundary cops, tests.</span></div>
+    <div class="r"><span class="k">Bullet Train / Jumpstart?</span><span class="v">Their code lives behind a gem. <b>Yours lives in your repo.</b> The substrate, not a starter kit.</span></div>
+    <div class="r"><span class="k">Microservices?</span><span class="v">One process. No HTTP. Synchronous events with explicit subscribers — none of the distributed bill.</span></div>
+  </div>
+</section>
+
+<!-- 22 HONEST LIMITS -->
+<section class="slide" data-notes="Out loud, plainly. Stating the limits buys more trust than any feature. It's a modular monolith, not microservices — 'this isn't that, and that's the point.'">
+  <div class="kicker">The honest limits</div>
+  <p class="lede" style="max-width:40ch">Beta. Waves 1–9. Events are synchronous <span class="tealc">ActiveSupport::Notifications</span> — subscribers enqueue jobs, they don't do network work inline. One process.</p>
+  <p class="body" style="max-width:40ch;font-size:2.2vw">Need true service isolation? This isn't that — <span class="sig">and that's the point.</span></p>
+</section>
+
+<!-- 23 ACT: I built a real thing (coral) -->
+<section class="slide coral center" data-notes="A demo proves the tool runs. A SHIPPED product proves it's worth running. So I dogfooded it.">
+  <div class="big">I needed to prove it builds real things.<br>So I <span style="text-decoration:underline">built a real thing.</span></div>
+</section>
+
+<!-- 24 DOGFOOD listing -->
+<section class="slide" data-notes="Six canonical engines, next to ONE thin adapter — quire_rails. That single adapter is the visual proof of 'plug only what you need.' 60+ system tests. Beta-ready.">
+  <div class="kicker">The dogfood — a directory listing, not a claim</div>
+  <div class="term">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span></div>
+    <div class="body">
+<span class="p">$</span> <span class="c">ls quire-saas/engines/</span>
+<span class="o">  accounts   auth   billing   core   notifications   teams</span>
+<span class="new">  quire_rails        ← the one adapter that makes it Quire</span>
+    </div>
+  </div>
+  <p class="cap"><b>6 canonical engines + 1 thin adapter.</b> 60+ system tests. Beta-ready. You don't need all seven.</p>
+</section>
+
+<!-- 25 WHAT IT IS -->
+<section class="slide" data-notes="A hosted UK self-publishing platform, assembled from the substrate — not the example repo, a real beta product carrying weight: PLR, ALCS, Nielsen ISBNs, HMRC guidance.">
+  <div class="kicker">What it is</div>
+  <div class="diagram">
+    <span class="node mono-box"><b>6 engines + quire_rails</b><span class="row"><span class="e">auth</span><span class="e">billing</span><span class="e">teams</span><span class="e">…</span></span></span>
+    <span class="arrowx">→</span>
+    <span class="node" style="border-color:var(--coral);color:var(--coral);background:#fdeee9;font-size:1.5vw">Quire SaaS</span>
+  </div>
+  <p class="cap">A hosted UK self-publishing platform — PLR, ALCS, Nielsen ISBNs, HMRC guidance.</p>
+</section>
+
+<!-- 26 THE LOOP CLOSES -->
+<section class="slide center" data-notes="The book sent me down this whole road. And the book's own publishing platform is what proves the road leads somewhere. The loop closes.">
+  <div class="kicker">The loop closes</div>
+  <div class="diagram">
+    <span class="node">Book</span><span class="arrowx">→</span>
+    <span class="node">Quire CLI</span><span class="arrowx">→</span>
+    <span class="node" style="border-color:var(--coral);color:var(--coral);background:#fdeee9">Seams</span><span class="arrowx">→</span>
+    <span class="node">Quire SaaS</span><span class="arrowx">↺</span>
+    <span class="node">publishes books</span>
+  </div>
+</section>
+
+<!-- 27 OPPOSITE BET (coral) -->
+<section class="slide coral center" data-notes="Name the frame now — and ONLY now, because I've earned it. This isn't the tool that writes your code and hides it.">
+  <div class="big">In 2026 there's a lot of talk of tools<br>that replace the developer.<br><span style="text-decoration:underline">This is the opposite bet.</span></div>
+</section>
+
+<!-- 28 KEEPS YOU ARCHITECT -->
+<section class="slide center" data-notes="The human payoff, as the earned conclusion of the architecture argument. Every file is yours. You keep the keyboard.">
+  <div class="big" style="font-size:3.6vw;max-width:30ch">Seams doesn't write your code or hide it. It clears the boilerplate tax so your energy goes where only you can — <span class="sig">where your boundaries are.</span></div>
+  <p class="sub" style="margin-top:3vh;font-size:2vw">Leverage that keeps you the architect.</p>
+</section>
+
+<!-- 29 FOREWORD -->
+<section class="slide quote" data-notes="My real voice — the whole talk in two sentences. Don't let polish sand it down. Say it quietly. Pause after.">
+  <div class="q">"I couldn't find the book I wanted, so I wrote it.<br>I couldn't find the tool, <span class="sig">so I built it.</span>"</div>
+  <div class="who">David Silva</div>
+</section>
+
+<!-- 30 DO THIS MONDAY -->
+<section class="slide" data-notes="One concrete, low-friction action — about THEM, not my stars. Say it aloud.">
+  <div class="kicker">Do this Monday</div>
+  <h3 style="max-width:26ch">Pick the one engine you're dreading writing next — auth, billing, whatever. Let Seams hand it to you, <span class="sig">in your repo,</span> this week.</h3>
+  <p class="body" style="font-size:2vw">You don't need all seven.</p>
+</section>
+
+<!-- 31 THREE DOORS / THANK YOU -->
+<section class="slide center" data-notes="Don't read the URLs aloud — let them photograph it. End on the human note: go find the one you wish existed. Thank you.">
+  <div class="kicker">Every file is yours</div>
+  <div class="doors">
+    <div class="door"><div class="t">Read</div><div class="d">Modular Rails</div><div class="s">the thinking behind the boundaries</div></div>
+    <div class="door"><div class="t">Try</div><div class="d">gem "seams"</div><div class="s">bin/seams &lt;engine&gt; — in your repo</div></div>
+    <div class="door"><div class="t">Build</div><div class="d">Extract one seam</div><div class="s">this week. you don't need all seven.</div></div>
+  </div>
+  <div class="urls">davidslv.uk/modular-rails &nbsp;·&nbsp; github.com/Davidslv/<b>seams</b> &nbsp;·&nbsp; <b>@davidslv</b></div>
+  <p class="sub" style="margin-top:3vh">Go find the one you wish existed. Thank you.</p>
+</section>
+
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 31</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes');
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;
+  progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');
+  location.hash=i+1;
+}
+function next(){show(i+1)} function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+});
+document.addEventListener('click',e=>{ if(e.clientX < innerWidth*0.25) prev(); else next(); });
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+</body>
+</html>
