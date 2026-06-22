@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Identifying Boundaries in an Existing Application"
 permalink: /books/modular-rails/chapter-09-identifying-boundaries/
+description: "Where to draw boundaries in a 150-model Rails monolith — using git history, coupling signals and domain analysis to find the seams that are really there."
 ---
 {% raw %}
 

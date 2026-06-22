@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Engines vs the Alternatives"
 permalink: /books/modular-rails/chapter-16-engines-vs-alternatives/
+description: "Rails engines vs Packwerk, gems and namespaced modules — a side-by-side comparison to choose the right modularisation tool for your context."
 ---
 {% raw %}
 

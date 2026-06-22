@@ -6,6 +6,29 @@ layout: default
 {%- assign current = nil -%}
 {%- for c in chapters -%}{%- if c.url == page.url -%}{%- assign current = c -%}{%- break -%}{%- endif -%}{%- endfor -%}
 
+{%- comment -%} Per-chapter structured data: an Article that is part of the Book. {%- endcomment -%}
+{%- if current and current.type != 'part-divider' and current.type != 'front-matter' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ page.title | jsonify }},
+  {% if page.description %}"description": {{ page.description | jsonify }},
+  {% endif %}"url": {{ page.url | absolute_url | jsonify }},
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "author": { "@type": "Person", "name": {{ book.author | jsonify }}, "url": "https://davidslv.uk" },
+  "isPartOf": {
+    "@type": "Book",
+    "name": {{ book.title | jsonify }},
+    "url": {{ book.home | absolute_url | jsonify }},
+    "isbn": {{ book.buy.isbn | jsonify }},
+    "author": { "@type": "Person", "name": {{ book.author | jsonify }} }
+  }
+}
+</script>
+{%- endif -%}
+
 {%- capture prevnext -%}
 {%- if current.prev or current.next -%}
 <nav class="book-prevnext" aria-label="Chapter navigation">

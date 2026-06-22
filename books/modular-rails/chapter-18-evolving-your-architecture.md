@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Evolving Your Architecture Over Time"
 permalink: /books/modular-rails/chapter-18-evolving-your-architecture/
+description: "Architecture is a journey, not a destination — how to recognise when your Rails architecture needs to change and evolve it without a full rewrite."
 ---
 {% raw %}
 

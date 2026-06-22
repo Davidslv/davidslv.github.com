@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "The Hard Parts — Reasoning About Trade-offs"
 permalink: /books/modular-rails/chapter-03-the-hard-parts/
+description: "Architecture is trade-off analysis, not best practices — a framework for reasoning about Rails engine decisions, from Ford & Richards' The Hard Parts."
 ---
 {% raw %}
 

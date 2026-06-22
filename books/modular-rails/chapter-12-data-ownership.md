@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Data Ownership and the Database Question"
 permalink: /books/modular-rails/chapter-12-data-ownership/
+description: "Who owns a table once its domain becomes an engine? Data ownership, shared databases and migration strategy for a Rails modular monolith."
 ---
 {% raw %}
 

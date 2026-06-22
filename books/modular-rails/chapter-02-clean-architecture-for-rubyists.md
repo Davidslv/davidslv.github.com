@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Clean Architecture for Rubyists"
 permalink: /books/modular-rails/chapter-02-clean-architecture-for-rubyists/
+description: "Scaling Robert C. Martin's SOLID and component principles from Ruby classes up to Rails engines — Clean Architecture applied for Rubyists."
 ---
 {% raw %}
 

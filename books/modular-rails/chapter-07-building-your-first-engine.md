@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Building Your First Engine"
 permalink: /books/modular-rails/chapter-07-building-your-first-engine/
+description: "Build a real notifications engine from the terminal up: generating, mounting, wiring and testing your first mountable Rails engine, no theory."
 ---
 {% raw %}
 

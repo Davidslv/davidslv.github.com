@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Extreme Programming and Emergent Design"
 permalink: /books/modular-rails/chapter-04-extreme-programming-and-emergent-design/
+description: "Why solid Rails architecture emerges through feedback and simple design rather than big up-front planning — Kent Beck's XP applied to engines."
 ---
 {% raw %}
 

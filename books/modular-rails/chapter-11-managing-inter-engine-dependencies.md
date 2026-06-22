@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Managing Inter-Engine Dependencies"
 permalink: /books/modular-rails/chapter-11-managing-inter-engine-dependencies/
+description: "Keep your engine dependency graph acyclic — declaring dependencies explicitly and avoiding cycles as a Rails modular monolith grows past five engines."
 ---
 {% raw %}
 
