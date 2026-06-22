@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Engine Integration Patterns"
 permalink: /books/modular-rails/chapter-08-engine-integration-patterns/
+description: "Let a Rails engine talk to the host app and other engines without breaking its boundaries — concerns, dependency injection and event-based patterns."
 ---
 {% raw %}
 

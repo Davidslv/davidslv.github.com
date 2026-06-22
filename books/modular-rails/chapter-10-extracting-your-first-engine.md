@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Extracting Your First Engine"
 permalink: /books/modular-rails/chapter-10-extracting-your-first-engine/
+description: "A complete walkthrough of extracting a billing domain from a Rails monolith into a mountable engine: models, migrations, controllers, routes and tests."
 ---
 {% raw %}
 

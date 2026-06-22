@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Rails Engines from the Inside Out"
 permalink: /books/modular-rails/chapter-05-rails-engines-from-the-inside-out/
+description: "How Rails engines really work, read from the Rails 8.1 source: the boot process, the inheritance chain, and why your app is itself an engine."
 ---
 {% raw %}
 

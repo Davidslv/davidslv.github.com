@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Testing Strategy for a Modular Monolith"
 permalink: /books/modular-rails/chapter-13-testing-strategy/
+description: "Cut a 40-minute Rails test suite to 4 by testing engines in isolation — the testing pyramid and boundary-driven test strategy for a modular monolith."
 ---
 {% raw %}
 

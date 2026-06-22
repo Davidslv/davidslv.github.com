@@ -1,0 +1,7 @@
+# Author metadata for jekyll-seo-tag. Keyed by the author name used in
+# `author:` (config default + post front matter). Lets seo-tag emit the
+# correct twitter:creator handle without changing the byline string.
+David Silva:
+  name: David Silva
+  twitter: davidslv
+  url: https://davidslv.uk

@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "When Engines Are the Wrong Tool"
 permalink: /books/modular-rails/chapter-15-when-engines-are-wrong/
+description: "When Rails engines are the wrong tool: apps that are too small, premature boundaries, and the real costs of modularising before you need to."
 ---
 {% raw %}
 

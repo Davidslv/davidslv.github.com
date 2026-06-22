@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Namespace Isolation"
 permalink: /books/modular-rails/chapter-06-namespace-isolation/
+description: "What isolate_namespace actually does, traced line by line through the Rails 8.1 source — how engine boundaries, tables and route helpers stay separate."
 ---
 {% raw %}
 

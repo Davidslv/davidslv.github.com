@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Why Architecture Matters"
 permalink: /books/modular-rails/chapter-01-why-architecture-matters/
+description: "Why the cost of change in a growing Rails app climbs exponentially — and how architectural boundaries keep a large Rails monolith maintainable."
 ---
 {% raw %}
 

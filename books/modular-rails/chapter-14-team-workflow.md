@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "Team Workflow and Developer Experience"
 permalink: /books/modular-rails/chapter-14-team-workflow/
+description: "The daily workflows that keep a modular Rails monolith pleasant to work in — developing separate-repo engines locally, path gems and developer experience."
 ---
 {% raw %}
 

@@ -3,6 +3,7 @@ layout: book
 book: modular_rails
 title: "The Microservices Question"
 permalink: /books/modular-rails/chapter-17-the-microservices-question/
+description: "Modular monolith vs microservices for Rails — when distribution is genuinely necessary, with the Amazon Prime Video case study and DHH's take."
 ---
 {% raw %}
 
