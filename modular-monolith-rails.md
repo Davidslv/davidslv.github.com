@@ -15,7 +15,7 @@ seo:
 
 What follows is a question I get asked, in one form or another, almost every month: *"We have a big Rails app, it's getting hard to work in, everyone's stepping on each other — do we need to break it into microservices?"*
 
-Almost always, the answer is no. What you need is a **modular monolith**: a single deployable Ruby on Rails application whose internals are split into well-defined modules with enforced boundaries. You keep one deploy, one test suite, one database connection pool and one place to reason about a request — but you stop letting any object reach into any other object across the whole codebase.
+Almost always, the answer is no. What you need is a **modular monolith**: a single deployable Ruby on Rails application whose internals are split into well-defined modules with enforced boundaries. You keep one deploy, one test suite, one database connection pool and one place to reason about a request — but you stop letting any object reach into any other across the whole codebase.
 
 This page is the honest, current (Rails 8, Zeitwerk-era) guide to doing that. It covers what a modular monolith actually is, the three real mechanisms for building one in Rails — **Rails Engines**, **Packwerk**, and plain namespaced modules — and a fair, side-by-side comparison so you can pick. It walks through namespace isolation, inter-module boundaries, data ownership, and testing. And — because nobody else seems to write this part down — it tells you when you should *not* do any of this.
 
