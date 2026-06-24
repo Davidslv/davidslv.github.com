@@ -15,6 +15,8 @@ description: "How Rails engines really work, read from the Rails 8.1 source: the
 
 <h1 id="chapter-5-rails-engines-from-the-inside-out">Chapter 5: Rails Engines from the Inside Out</h1>
 
+<p><em>Want the overview first? <a href="/modular-monolith-rails/">The Modular Monolith in Rails</a> is a free, single-page guide to engines, Packwerk and namespace isolation before you go source-diving here.</em></p>
+
 <p>You’ve been using engines every day without knowing it. Your Rails application <em>is</em> an engine. Understanding that fact – really understanding it, down to the source code – changes how you think about modularising your application.</p>
 
 <p>This chapter takes you inside the Rails source. We’ll read the actual code that powers engines in Rails 8.1, and by the end you’ll understand exactly what happens when Rails boots an engine, how <code>isolate_namespace</code> works, and why the inheritance chain matters.</p>

@@ -15,6 +15,8 @@ description: "Modular monolith vs microservices for Rails — when distribution 
 
 <h1 id="chapter-17-the-microservices-question">Chapter 17: The Microservices Question</h1>
 
+<p><em>For the bigger picture, <a href="/modular-monolith-rails/">The Modular Monolith in Rails</a> is a free overview of why a well-bounded monolith beats microservices for most teams.</em></p>
+
 <blockquote>
   <p><em>“Microservices pose perhaps the biggest siren song for needlessly complicating your system.”</em><br />
 – David Heinemeier Hansson</p>

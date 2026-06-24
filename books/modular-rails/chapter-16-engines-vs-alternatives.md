@@ -15,6 +15,8 @@ description: "Rails engines vs Packwerk, gems and namespaced modules — a side-
 
 <h1 id="chapter-16-engines-vs-the-alternatives">Chapter 16: Engines vs the Alternatives</h1>
 
+<p><em>New to this? <a href="/modular-monolith-rails/">The Modular Monolith in Rails</a> is a free, single-page overview of engines, Packwerk and the trade-offs this chapter explores in depth.</em></p>
+
 <p>This chapter puts the tools side by side. Not to declare a winner – each has its sweet spot – but to help you choose the right one for your context.</p>
 
 <hr />
