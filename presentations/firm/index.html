@@ -145,6 +145,78 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 .loop .back{flex-basis:100%;text-align:center;font-family:var(--mono);font-size:1.2vw;color:var(--coral);margin-top:1.4vh}
 @media(max-width:760px){h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}pre,.term{max-width:90vw;font-size:3.2vw}.four,.three{grid-template-columns:1fr}.diagram{flex-wrap:wrap}.flowarrow{display:none}}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "David Silva",
+          "item": "https://davidslv.uk"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Presentations",
+          "item": "https://davidslv.uk/presentations/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "firm — an engineering operating system"
+        }
+      ]
+    },
+    {
+      "@type": "PresentationDigitalDocument",
+      "name": "firm — an engineering operating system",
+      "headline": "firm — an engineering operating system",
+      "description": "firm is a Claude Code plugin that handles the work around the code — the roles, skills, gates and contracts that turn a feature idea into shipped, defensible software without skipping a discipline. One engineer wearing every hat, with a producer keeping them coherent.",
+      "url": "https://davidslv.uk/presentations/firm/",
+      "image": "https://davidslv.uk/presentations/firm/assets/og.png",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "firm",
+        "applicationCategory": "DeveloperApplication",
+        "url": "https://github.com/Davidslv/firm",
+        "operatingSystem": "Claude Code"
+      },
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "firm",
+        "applicationCategory": "DeveloperApplication",
+        "url": "https://github.com/Davidslv/firm",
+        "operatingSystem": "Claude Code"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="deck" id="deck">
@@ -165,12 +237,12 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 
 <!-- 3 WHY IT STAYS STUCK -->
 <section class="slide center" data-notes="Name the real failure. With AI you can now move fast in every discipline at once — but speed without coherence just produces confident, undisciplined output faster. The bottleneck was never knowing what good looks like. It's holding all of it at once, every cycle, without dropping one.">
-  <div class="big">The hard part was never<br>knowing what good looks like.<br><span class="sig">It's holding all of it at once.</span></div>
+  <h2 class="big">The hard part was never<br>knowing what good looks like.<br><span class="sig">It's holding all of it at once.</span></h2>
 </section>
 
 <!-- 4 THE TURN -->
 <section class="slide center" data-notes="The turn — the whole pitch as a question. What if the disciplines weren't a checklist you try to remember, but a system that won't let you skip them, and that gets sharper every time you use it? Hold the pause.">
-  <div class="big">What if the disciplines were<br>a system you couldn't skip —<br><span style="text-decoration:underline;text-decoration-color:var(--coral)">and that compounded?</span></div>
+  <h2 class="big">What if the disciplines were<br>a system you couldn't skip —<br><span style="text-decoration:underline;text-decoration-color:var(--coral)">and that compounded?</span></h2>
 </section>
 
 <!-- 5 TITLE -->
@@ -183,19 +255,19 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 <!-- 6 WHAT IT IS -->
 <section class="slide" data-notes="The definition, plainly. firm is a meta-tool: a set of Claude Code plugins you run ON your repositories. It doesn't write the feature — it handles everything around the feature so the feature ships defensibly. The pun is deliberate: a firm of specialists, and holding firm to a standard.">
   <div class="kicker">What it is</div>
-  <p class="big" style="margin-bottom:1.6vh">A <span class="sig">firm</span> of specialists you run<br>on your own repository.</p>
+  <h2 class="big" style="margin-bottom:1.6vh">A <span class="sig">firm</span> of specialists you run<br>on your own repository.</h2>
   <p class="sub" style="max-width:56ch">Nineteen skills and five agents, each owning one <i>seam</i> of the engineering process — orchestrated by a producer that keeps them coherent. It handles the work <b style="color:var(--ink)">around</b> the code. It is the meta-tool; your repo is the product.</p>
 </section>
 
 <!-- 7 PHILOSOPHY 1 (coral act) -->
 <section class="slide coral center" data-notes="The first philosophical commitment, said as the act break. One engineer now wears every hat — firm doesn't pretend otherwise. It gives each hat a name, a standard, and a keeper, and puts a producer over all of them so the hats don't contradict each other. This is the whole design in one line.">
-  <div class="big">One engineer wearing every hat —<br>with a producer keeping<br><span style="text-decoration:underline">them coherent.</span></div>
+  <h2 class="big">One engineer wearing every hat —<br>with a producer keeping<br><span style="text-decoration:underline">them coherent.</span></h2>
 </section>
 
 <!-- 8 PHILOSOPHY 2 — seams -->
 <section class="slide" data-notes="The core organising idea: the seam. A seam is a standard owned by exactly ONE role and respected by all the others. The migration-safety reviewer owns data safety; nobody else gets to lower that bar. One owner, no overlap, and a producer who owns the coherence between seams. A gate enforces one-owner-per-seam mechanically — it's not a guideline.">
   <div class="kicker">The organising idea · the seam</div>
-  <p class="big" style="margin-bottom:1.2vh">A <span class="sig">seam</span> is one standard,<br>owned by one role,<br>respected by all.</p>
+  <h2 class="big" style="margin-bottom:1.2vh">A <span class="sig">seam</span> is one standard,<br>owned by one role,<br>respected by all.</h2>
   <p class="sub" style="max-width:60ch">The reviewer who owns <i>data safety</i> sets that bar; no one else may lower it. One owner per seam, no overlap — and a gate (<code>check-roster.sh</code>) enforces it mechanically, so the contract can't quietly rot.</p>
 </section>
 
@@ -219,14 +291,14 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 
 <!-- 11 GROUNDING / Profile (coral) -->
 <section class="slide coral center" data-notes="The differentiator, said plainly. A portable reviewer that guesses how your repo is wired is just an opinion. firm's reviewers read a Profile — machine-readable data describing this repo's engines, asset layout, test command, integrations, criticality map. The same reviewer is then CORRECT on any repo, instead of hard-coded to one. Evidence over guesswork.">
-  <div class="big">A reviewer that guesses your repo<br>is an opinion. One that reads its<br><span style="text-decoration:underline">Profile is correct.</span></div>
+  <h2 class="big">A reviewer that guesses your repo<br>is an opinion. One that reads its<br><span style="text-decoration:underline">Profile is correct.</span></h2>
   <p class="sub" style="color:#ffe2d8;max-width:54ch;margin-top:3vh">The Profile is data, not prose — engines, asset layout, test command, integrations, criticality. The same reviewer grounds itself against whatever repo it's pointed at.</p>
 </section>
 
 <!-- 12 ASSEMBLY LINE TEE-UP (teal) -->
 <section class="slide teal center" data-notes="Set up the workflow. A feature doesn't hit all 24 roles at once — it moves through five stations, and the producer routes which roles fire based on the seams the change crosses. Frame it as an assembly line for the work around the code.">
   <div class="kicker">How a feature moves</div>
-  <div class="big">Five stations. An idea in,<br><span style="text-decoration:underline">defensible software out.</span></div>
+  <h2 class="big">Five stations. An idea in,<br><span style="text-decoration:underline">defensible software out.</span></h2>
   <p class="sub" style="color:#cfeae7;max-width:52ch;margin-top:3vh">The producer reads the seams a change crosses and fires only the stations that apply. No ceremony for a typo; full rigour for a migration.</p>
 </section>
 
@@ -261,7 +333,7 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 <!-- 15 DEMO TEE-UP (coral) -->
 <section class="slide coral center" data-notes="Set the frame before the terminal. A tool that enforces a standard had better hold its own. firm ships three deterministic gates that run in CI and pre-commit — they check firm against itself. Watch them run: the roster gate, the strategy gate's self-test, the why-section gate, and the eval methodology. Everything on screen is a real run.">
   <div class="kicker">The demo · firm holds its own standard</div>
-  <div class="big">It enforces discipline.<br><span style="text-decoration:underline">So it gates itself.</span></div>
+  <h2 class="big">It enforces discipline.<br><span style="text-decoration:underline">So it gates itself.</span></h2>
   <p class="sub" style="color:#ffe2d8;max-width:50ch;margin-top:3vh">Recorded, not live — real output from firm's own gates. Watch what 'a standard you can't skip' actually looks like.</p>
 </section>
 
@@ -278,7 +350,7 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 <!-- 17 DECODE -->
 <section class="slide" data-notes="The most important slide after the demo. Say what those gates MEANT, plainly. The roster gate means the docs can never silently drift from disk. The seam gate means two roles can never quietly claim the same standard. The strategy gate tests itself — so the gate can't rot unnoticed. The why-section gate means no file exists without justifying why. firm doesn't ask you to remember the standard; it fails the build when the standard slips.">
   <div class="kicker">What those gates mean · in plain terms</div>
-  <p class="big" style="margin-bottom:1.4vh">firm doesn't <i>remind</i> you of the<br>standard. It <span class="sig">fails the build</span> when it slips.</p>
+  <h2 class="big" style="margin-bottom:1.4vh">firm doesn't <i>remind</i> you of the<br>standard. It <span class="sig">fails the build</span> when it slips.</h2>
   <div class="four">
     <div class="cell"><div class="h">Docs can't drift</div><div class="s">the roster gate counts disk vs README — they must match</div></div>
     <div class="cell"><div class="h">No seam is shared</div><div class="s">exactly one owner per numbered seam, enforced mechanically</div></div>
@@ -290,7 +362,7 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 <!-- 18 THE LOOP (teal act) -->
 <section class="slide teal center" data-notes="The loop — the reason it compounds. Borrowed from compound engineering: after EVERY cycle, good or bad, the compound step asks 'what did this teach, and where does each lesson belong?' Reusable patterns to the solutions folder, conventions to the agent files, the rest by hand-off. The next cycle starts ahead of where this one began. That's the difference between a checklist and a system that learns.">
   <div class="kicker">The loop · why it compounds</div>
-  <div class="big">Every cycle writes back what it<br>learned. The next one<br><span style="text-decoration:underline">starts ahead.</span></div>
+  <h2 class="big">Every cycle writes back what it<br>learned. The next one<br><span style="text-decoration:underline">starts ahead.</span></h2>
 </section>
 
 <!-- 19 THE LOOP DIAGRAM -->
@@ -311,7 +383,7 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 <!-- 20 THE EVALUATIONS -->
 <section class="slide" data-notes="How firm proves a skill earns its place — this is the part most 'AI workflow' tools skip entirely. Every judgment skill ships an eval: the same task run WITH the skill and WITHOUT it (bare model), graded by a judge across 3 votes for a majority. The score is a fraction — cases passed — and a delta: did the skill BEAT the baseline, match it, or regress? A skill that only matches the bare model hasn't earned its slot.">
   <div class="kicker">The evaluations · does the skill actually help?</div>
-  <p class="big" style="margin-bottom:1.4vh">Every judgment skill is run<br><span class="sig">with it</span> and <span class="tealc">without it</span> — and judged.</p>
+  <h2 class="big" style="margin-bottom:1.4vh">Every judgment skill is run<br><span class="sig">with it</span> and <span class="tealc">without it</span> — and judged.</h2>
   <div class="card">
     <div class="row"><span class="k">WITH / WITHOUT</span><span class="v">the same task, the skill on vs the bare model — does the skill add anything?</span></div>
     <div class="row"><span class="k">3-VOTE JUDGE</span><span class="v">each case scored by a 3-judge majority, not a single coin-flip</span></div>
@@ -334,14 +406,14 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 <!-- 22 LEAVES NO TRACE -->
 <section class="slide" data-notes="A design commitment people care about: firm leaves no trace. Everything it writes — the Profile, the flag ledger — lives under a gitignored .firm/ directory. It's regenerated on demand, never committed by default. Seeding the repo's own knowledge files is an explicit opt-in, off by default. You can run firm on someone else's repo and leave their git history exactly as you found it.">
   <div class="kicker">A design commitment · firm leaves no trace</div>
-  <p class="big" style="margin-bottom:1.4vh">It works <span class="sig">on</span> your repo<br>without writing <span class="sig">into</span> it.</p>
+  <h2 class="big" style="margin-bottom:1.4vh">It works <span class="sig">on</span> your repo<br>without writing <span class="sig">into</span> it.</h2>
   <p class="sub" style="max-width:60ch">The Profile and flag ledger live under a gitignored <code>.firm/</code> — regenerated on demand, never committed by default. Seeding the repo's own knowledge files is an explicit opt-in. Run it on any repo; leave the git history exactly as you found it.</p>
 </section>
 
 <!-- 23 NOT A MIRACLE -->
 <section class="slide" data-notes="The honesty beat the whole talk earns the right to make. firm is not a miracle. It is only as good as what it's grounded on. Point it at a codebase with no runbooks, scattered tribal knowledge, and a decade of stale comments and confidently-wrong docs, and it will be confidently wrong with you — faster. firm's real leverage shows up where there's centralised, structured documentation, runbooks, and tooling it can reach. Its biggest enemy is the misinformation every long-lived codebase accumulates. Say this plainly: the work to feed it well is the work.">
   <div class="kicker">The honest part · firm is not a miracle</div>
-  <p class="big" style="margin-bottom:1.6vh">It's only as good as<br><span class="sig">what you ground it on.</span></p>
+  <h2 class="big" style="margin-bottom:1.6vh">It's only as good as<br><span class="sig">what you ground it on.</span></h2>
   <div class="four">
     <div class="cell"><div class="h">Garbage in, faster garbage out</div><div class="s">no runbooks, no structured docs → confident, wrong, at speed</div></div>
     <div class="cell"><div class="h">Long-lived codebases lie</div><div class="s">stale comments, dead docs, tribal knowledge — misinformation it can't see through</div></div>
@@ -370,7 +442,7 @@ p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);
 
 <!-- 26 THE BET (coral) -->
 <section class="slide coral center" data-notes="Name the frame now, because I've earned it. In 2026 there's endless talk of tools that replace the engineer. firm is the opposite bet — it doesn't replace the engineer, it keeps the engineer coherent across every hat they already have to wear, and makes the next cycle start ahead of this one.">
-  <div class="big">This doesn't replace the engineer.<br>It keeps the engineer <span style="text-decoration:underline">coherent.</span></div>
+  <h2 class="big">This doesn't replace the engineer.<br>It keeps the engineer <span style="text-decoration:underline">coherent.</span></h2>
 </section>
 
 <!-- 27 QUIET QUOTE -->

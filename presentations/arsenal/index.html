@@ -157,6 +157,74 @@ p.body code,.sub code{font-family:var(--mono);background:var(--code);border-radi
 .hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
 @media(max-width:760px){h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}pre,.term{max-width:90vw;font-size:3.2vw}.four{grid-template-columns:1fr}}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "David Silva",
+          "item": "https://davidslv.uk"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Presentations",
+          "item": "https://davidslv.uk/presentations/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "arsenal — A Rails refactor you can run"
+        }
+      ]
+    },
+    {
+      "@type": "PresentationDigitalDocument",
+      "name": "arsenal — A Rails refactor you can run",
+      "headline": "arsenal — A Rails refactor you can run",
+      "description": "Turn a stuck Rails monolith into a runnable refactor epic: evidence-backed diagnosis, a phased plan, a dependency graph, sequenced GitHub issues, safe stops and a definition of done.",
+      "url": "https://davidslv.uk/presentations/arsenal/",
+      "image": "https://davidslv.uk/presentations/arsenal/assets/og.png",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "arsenal",
+        "applicationCategory": "DeveloperApplication"
+      },
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "arsenal",
+        "applicationCategory": "DeveloperApplication"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="deck" id="deck">
@@ -177,19 +245,19 @@ p.body code,.sub code{font-family:var(--mono);background:var(--code);border-radi
 
 <!-- 3 WHY IT STAYS STUCK -->
 <section class="slide center" data-notes="Name the real failure. This isn't a code problem — it's a commitment problem. 'Refactor' sounds like 'rewrite from scratch': unfundable, unfinishable. The fix isn't more conviction. It's evidence, and a plan you can stop in the middle of.">
-  <div class="big">Most stuck-monolith problems<br>aren't code problems.<br><span class="sig">They're commitment problems.</span></div>
+  <h2 class="big">Most stuck-monolith problems<br>aren't code problems.<br><span class="sig">They're commitment problems.</span></h2>
 </section>
 
 <!-- 4 PERSONAL INCITING INCIDENT -->
 <section class="slide" data-notes="My own version of it. I wrote Modular Rails — the thinking about boundaries. Then I kept walking into real monoliths where the boundaries were the problem and I had no honest way to PROVE it to the team. I was waving a book at a codebase. I got tired of opinions. I wanted evidence I could hand someone.">
   <div class="kicker">Where this came from</div>
-  <p class="big" style="margin-bottom:2.4vh">I wrote the book on the boundaries.<br>Then I had to <span class="sig">prove</span> them<br>in someone else's monolith.</p>
+  <h2 class="big" style="margin-bottom:2.4vh">I wrote the book on the boundaries.<br>Then I had to <span class="sig">prove</span> them<br>in someone else's monolith.</h2>
   <p class="sub" style="max-width:48ch">Waving <i>Modular Rails</i> at a codebase isn't evidence. I wanted a thing I could hand an engineer on a Monday.</p>
 </section>
 
 <!-- 5 THE TURN -->
 <section class="slide center" data-notes="The turn — the whole pitch in one question. Hold the pause before answering it on the next slide.">
-  <div class="big">What if a refactor were<br>not a pitch — but a<br><span style="text-decoration:underline;text-decoration-color:var(--coral)">runnable plan?</span></div>
+  <h2 class="big">What if a refactor were<br>not a pitch — but a<br><span style="text-decoration:underline;text-decoration-color:var(--coral)">runnable plan?</span></h2>
 </section>
 
 <!-- 6 TITLE (delayed) -->
@@ -212,13 +280,13 @@ p.body code,.sub code{font-family:var(--mono);background:var(--code);border-radi
 
 <!-- 8 ACT SEAM (coral) — the thesis -->
 <section class="slide coral center" data-notes="The act break. This is the line the whole talk turns on. Most tools say 'based on best practices' and name neither the practice nor the practitioner. arsenal does the opposite.">
-  <div class="big">It doesn't give you an opinion.<br>It gives you <span style="text-decoration:underline">evidence.</span></div>
+  <h2 class="big">It doesn't give you an opinion.<br>It gives you <span style="text-decoration:underline">evidence.</span></h2>
 </section>
 
 <!-- 9 GROUNDING — the four pillars -->
 <section class="slide" data-notes="The differentiator, said plainly. Every arsenal detector cites a named authority. When a finding is flagged, the answer to 'why?' is never 'because the tool said so' — it's 'because Page-Jones's connascence names this, and here is the Fowler refactoring that fixes it.' Debatable. Auditable. Four pillars.">
   <div class="kicker">The difference · grounding</div>
-  <p class="big" style="margin-bottom:1vh">Every finding cites a <span class="sig">named authority.</span></p>
+  <h2 class="big" style="margin-bottom:1vh">Every finding cites a <span class="sig">named authority.</span></h2>
   <div class="four">
     <div class="cell"><div class="h">Robert C. Martin</div><div class="s">component principles — REP · CCP · CRP · ADP · SDP · SAP</div></div>
     <div class="cell"><div class="h">Meilir Page-Jones</div><div class="s">connascence — name · meaning · algorithm · timing · identity</div></div>
@@ -238,7 +306,7 @@ p.body code,.sub code{font-family:var(--mono);background:var(--code);border-radi
 <!-- 11 DEMO TEE-UP (coral) -->
 <section class="slide coral center" data-notes="Set the frame before the terminal arrives. Five real commands, run in order, that take a codebase nobody has scoped and end with a plan you could open as issues. Watch for one thing: nothing is the tool's opinion — every number comes off the codebase. Then advance; the cast is next.">
   <div class="kicker">The demo</div>
-  <div class="big">Five commands. A cold codebase in,<br>a <span style="text-decoration:underline">runnable plan</span> out.</div>
+  <h2 class="big">Five commands. A cold codebase in,<br>a <span style="text-decoration:underline">runnable plan</span> out.</h2>
   <p class="sub" style="color:#ffe2d8;max-width:50ch;margin-top:3vh">Recorded, not live — a replay of a real run. Watch the numbers: every one comes off the codebase, not the tool.</p>
 </section>
 
@@ -255,7 +323,7 @@ p.body code,.sub code{font-family:var(--mono);background:var(--code);border-radi
 <!-- 13 DECODE — what that just did, in plain terms -->
 <section class="slide" data-notes="The most important slide. The terminal looked fast and technical; now say what it MEANT, slowly, plainly. It read the whole codebase, fired 26 of 66 cited detectors for 583 findings, surfaced a real CRITICAL bug with a fix, saw a coupling no static analysis can — two files in different layers that move together in the git history. Then it scaffolded the deliverable TEMPLATE you fill in. Payoff: a team can start on Monday with evidence — no senior architect required in the room. Pause.">
   <div class="kicker">What that just did · in plain terms</div>
-  <p class="big" style="margin-bottom:1.4vh">It produced the evidence a senior<br>architect spends a <span class="sig">week</span> gathering.</p>
+  <h2 class="big" style="margin-bottom:1.4vh">It produced the evidence a senior<br>architect spends a <span class="sig">week</span> gathering.</h2>
   <div class="four">
     <div class="cell"><div class="h">It read the whole codebase</div><div class="s">33.6k LOC — every model, spec, migration. not a sample</div></div>
     <div class="cell"><div class="h">26 of 66 detectors fired</div><div class="s">583 findings, each cited to a named authority — not "best practice"</div></div>
@@ -283,7 +351,7 @@ p.body code,.sub code{font-family:var(--mono);background:var(--code);border-radi
 
 <!-- 15 GIT HISTORY thesis (coral-quote style statement) -->
 <section class="slide center" data-notes="Why history mining matters. Static analysis is blind to time. Files that change together reveal coupling no AST traversal can see. The schema tells you the truth; the history tells you the story.">
-  <div class="big">Static analysis is blind to time.<br><span class="sig">Files that change together</span><br>reveal the coupling the AST can't see.</div>
+  <h2 class="big">Static analysis is blind to time.<br><span class="sig">Files that change together</span><br>reveal the coupling the AST can't see.</h2>
 </section>
 
 <!-- 16 CO-CHANGE finding -->
@@ -326,7 +394,7 @@ p.body code,.sub code{font-family:var(--mono);background:var(--code);border-radi
 <!-- 19 SAFE STOPS payoff -->
 <section class="slide" data-notes="The emotional centre — the reason a team can actually start. The epic is sequenced so you can stop after any phase and the business is better off. Real, from a delivered epic. Stop after phase one: new code dormant, zero behaviour change, revert by deletion. Stop after phase two: win banked, flip a flag to undo. You execute without fear because retreat is always safe.">
   <div class="kicker">The payoff · safe stopping points</div>
-  <div class="big" style="font-size:3.6vw;margin-bottom:2vh">Stop after any phase. <span class="sig">Keep the win.</span></div>
+  <h2 class="big" style="font-size:3.6vw;margin-bottom:2vh">Stop after any phase. <span class="sig">Keep the win.</span></h2>
   <div class="split">
     <div class="a"><div class="lab">Stop after Phase 1</div><div class="t">New code exists but dormant. No behaviour change. Revert by deleting it.</div></div>
     <div class="b"><div class="lab">Stop after Phase 2</div><div class="t">The win is banked. Failures isolated. Flip one flag to revert instantly.</div></div>
@@ -365,12 +433,12 @@ p.body code,.sub code{font-family:var(--mono);background:var(--code);border-radi
 
 <!-- 23 ACT (coral) — the opposite bet -->
 <section class="slide coral center" data-notes="Name the frame now, and only now, because I've earned it. In 2026 there's a lot of talk of tools that replace the engineer. This is the opposite bet. arsenal hands the engineer the evidence — it doesn't replace them.">
-  <div class="big">This hands the engineer the evidence.<br><span style="text-decoration:underline">It doesn't replace them.</span></div>
+  <h2 class="big">This hands the engineer the evidence.<br><span style="text-decoration:underline">It doesn't replace them.</span></h2>
 </section>
 
 <!-- 24 KEEPS YOU ARCHITECT / DO THIS MONDAY -->
 <section class="slide center" data-notes="The human payoff, as the earned conclusion. arsenal clears the diagnosis grind so the engineer's judgement goes where only it can — the decisions. You stay the architect. Then one concrete Monday action about THEM, not my stars.">
-  <div class="big" style="font-size:3.4vw;max-width:30ch">arsenal does the evidence-gathering so your judgement goes where only it can — <span class="sig">the decisions.</span></div>
+  <h2 class="big" style="font-size:3.4vw;max-width:30ch">arsenal does the evidence-gathering so your judgement goes where only it can — <span class="sig">the decisions.</span></h2>
   <p class="sub" style="margin-top:3vh;font-size:2vw;max-width:50ch"><b style="color:var(--ink)">Do this Monday:</b> run it on the one repo your team keeps arguing about — and bring evidence to the argument.</p>
 </section>
 

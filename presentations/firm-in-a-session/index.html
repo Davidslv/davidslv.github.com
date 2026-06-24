@@ -112,6 +112,78 @@ p.body code,.sub code,.lede code,.split .t code,.card .v code{font-family:var(--
 .hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
 @media(max-width:760px){h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}.four{grid-template-columns:1fr}.timeline{max-width:92vw}.tl .ev{font-size:3vw}}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "David Silva",
+          "item": "https://davidslv.uk"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Presentations",
+          "item": "https://davidslv.uk/presentations/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "firm in a session — how a Claude session benefits from firm"
+        }
+      ]
+    },
+    {
+      "@type": "PresentationDigitalDocument",
+      "name": "firm in a session — how a Claude session benefits from firm",
+      "headline": "firm in a session — how a Claude session benefits from firm",
+      "description": "A Claude Code session is fast, capable, and amnesiac. firm injects the disciplines a fast session skips at the moment they matter — and makes the session's learning outlive the context window. A walk through one session, with and without firm.",
+      "url": "https://davidslv.uk/presentations/firm-in-a-session/",
+      "image": "https://davidslv.uk/presentations/firm-in-a-session/assets/og.png",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "firm",
+        "applicationCategory": "DeveloperApplication",
+        "url": "https://github.com/Davidslv/firm",
+        "operatingSystem": "Claude Code"
+      },
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "firm",
+        "applicationCategory": "DeveloperApplication",
+        "url": "https://github.com/Davidslv/firm",
+        "operatingSystem": "Claude Code"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="deck" id="deck">
@@ -150,7 +222,7 @@ p.body code,.sub code,.lede code,.split .t code,.card .v code{font-family:var(--
 
 <!-- 5 THE FRAME (coral) -->
 <section class="slide coral center" data-notes="The frame, before the timeline. firm isn't a wrapper that slows every prompt down. It's a producer that watches what the change touches and fires only the disciplines that seam demands. A typo crosses no seam — firm stays silent. A CSV export of invoices crosses PII and tenancy — firm wakes up. Discipline proportional to blast radius.">
-  <div class="big">firm is the producer in the room.<br>It fires only when the change<br><span style="text-decoration:underline">crosses a seam.</span></div>
+  <h2 class="big">firm is the producer in the room.<br>It fires only when the change<br><span style="text-decoration:underline">crosses a seam.</span></h2>
   <p class="sub" style="color:#ffe2d8;max-width:52ch;margin-top:3vh">Discipline proportional to blast radius — silent on a typo, fully awake on a PII export.</p>
 </section>
 
@@ -172,7 +244,7 @@ p.body code,.sub code,.lede code,.split .t code,.card .v code{font-family:var(--
 <!-- 7 THE MOMENT IT EARNS ITS KEEP -->
 <section class="slide" data-notes="Pull out the single most important moment and dwell on it. The fast session would have shipped that export — it compiles, it passes the happy-path test, the demo works. The bug is a cross-tenant data leak that only shows up when a second tenant exports. firm's security-reviewer reads the diff against the repo's Profile, sees the un-scoped query, and blocks it. That one catch is the whole value proposition in one frame: the discipline fired exactly where a fast session is blind.">
   <div class="kicker">The moment it earns its keep</div>
-  <p class="big" style="margin-bottom:1.4vh">The fast session would have<br><span class="sig">shipped the leak.</span></p>
+  <h2 class="big" style="margin-bottom:1.4vh">The fast session would have<br><span class="sig">shipped the leak.</span></h2>
   <p class="sub" style="max-width:62ch">It compiles. The happy-path test passes. The demo works. The bug — one tenant reads another's invoices — only appears in production, with a second tenant. firm's reviewer read the diff against the repo's Profile and <b style="color:var(--ink)">blocked it before the PR</b>.</p>
 </section>
 
@@ -189,7 +261,7 @@ p.body code,.sub code,.lede code,.split .t code,.card .v code{font-family:var(--
 <!-- 9 THE AMNESIA FIX (teal act) -->
 <section class="slide teal center" data-notes="The act break — the benefit most specific to a Claude session, and the one nothing else gives you. A session's intelligence is trapped in its context window. When the window closes, the lesson is gone; tomorrow's session re-learns it, or doesn't. firm's compound step writes that lesson into the repo's knowledge files — durable, outside the window. The session's learning stops dying with the context.">
   <div class="kicker">The benefit only a session has</div>
-  <div class="big">The context window closes.<br>The lesson <span style="text-decoration:underline">doesn't.</span></div>
+  <h2 class="big">The context window closes.<br>The lesson <span style="text-decoration:underline">doesn't.</span></h2>
   <p class="sub" style="color:#cfeae7;max-width:54ch;margin-top:3vh">compound writes what the session learned into the repo's knowledge files — durable, outside the window. The next session inherits it instead of re-deriving it.</p>
 </section>
 
@@ -218,13 +290,13 @@ p.body code,.sub code,.lede code,.split .t code,.card .v code{font-family:var(--
 <!-- 12 NOT A MIRACLE -->
 <section class="slide" data-notes="The honesty beat — the same one from the main deck, and it matters even more at the session level. firm makes a session disciplined, but it can't invent ground truth. Point a session at a codebase with no runbooks and a decade of stale, confidently-wrong comments, and firm will reinforce the confidence, not the truth. Its leverage is real only where there's structured documentation and tooling it can reach. The honest line: firm makes the missing ground visible — which is often the first reason a team fills it in.">
   <div class="kicker">The honest part · firm is not a miracle</div>
-  <p class="big" style="margin-bottom:1.4vh">A disciplined session still can't<br><span class="sig">invent ground truth.</span></p>
+  <h2 class="big" style="margin-bottom:1.4vh">A disciplined session still can't<br><span class="sig">invent ground truth.</span></h2>
   <p class="sub" style="max-width:62ch">No runbooks, stale comments, tribal knowledge → firm reinforces the confidence, not the truth. Its leverage is real only where there's structured documentation and tooling it can reach. What it <i>does</i> do is make the missing ground <b style="color:var(--ink)">visible</b> — often the first reason a team fills it in.</p>
 </section>
 
 <!-- 13 THE BET (coral) -->
 <section class="slide coral center" data-notes="The earned conclusion. Two sentences. firm makes the session disciplined while it runs, and smarter than the last one when it ends. That's the whole bet: not a faster session — a session that holds the line and compounds.">
-  <div class="big">Disciplined while it runs.<br><span style="text-decoration:underline">Smarter than the last one</span><br>when it ends.</div>
+  <h2 class="big">Disciplined while it runs.<br><span style="text-decoration:underline">Smarter than the last one</span><br>when it ends.</h2>
 </section>
 
 <!-- 14 CLOSE -->
