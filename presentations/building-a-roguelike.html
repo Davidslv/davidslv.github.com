@@ -135,13 +135,97 @@ p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:va
   .titleslide .wm{font-size:13vw}.chip{font-size:3vw}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "David Silva",
+          "item": "https://davidslv.uk"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Presentations",
+          "item": "https://davidslv.uk/presentations/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Building a Roguelike from Scratch"
+        }
+      ]
+    },
+    {
+      "@type": "PresentationDigitalDocument",
+      "name": "Building a Roguelike from Scratch",
+      "headline": "Building a Roguelike from Scratch",
+      "description": "Five years, one game: building a roguelike from scratch in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture.",
+      "url": "https://davidslv.uk/presentations/building-a-roguelike.html",
+      "image": "https://davidslv.uk/presentations/og/building-a-roguelike.png",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "about": {
+        "@type": "Book",
+        "name": "Building Your Own Roguelike: A Practical Guide",
+        "url": "https://davidslv.uk/books/vanilla-roguelike/",
+        "sameAs": [
+          "https://www.amazon.co.uk/dp/B0G1SGN181",
+          "https://github.com/Davidslv/vanilla-roguelike"
+        ],
+        "author": {
+          "@type": "Person",
+          "name": "David Silva"
+        }
+      },
+      "mainEntity": {
+        "@type": "Book",
+        "name": "Building Your Own Roguelike: A Practical Guide",
+        "url": "https://davidslv.uk/books/vanilla-roguelike/",
+        "sameAs": [
+          "https://www.amazon.co.uk/dp/B0G1SGN181",
+          "https://github.com/Davidslv/vanilla-roguelike"
+        ],
+        "author": {
+          "@type": "Person",
+          "name": "David Silva"
+        }
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="deck" id="deck">
 
 <!-- 1 TITLE -->
 <section class="slide center titleslide" data-notes="Open on the scope. Five years on one game, in pure Ruby, no engine — and the real subject isn't the game, it's what building it from scratch taught me about architecture. 15+ years Ruby. Read the meta line, then move.">
-  <div class="wm">Building a <span class="you">Roguelike</span></div>
+  <h1 class="wm">Building a <span class="you">Roguelike</span></h1>
   <div class="meta">from scratch, in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture</div>
   <div class="meta" style="margin-top:2vh">David Silva · 15+ yrs Ruby · author of “Building Your Own Roguelike: A Practical Guide” · @davidslv</div>
 </section>
@@ -149,7 +233,7 @@ p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:va
 <!-- 2 THE JOURNEY -->
 <section class="slide" data-notes="Set the arc with the timeline. It started as an exploration of maze algorithms, not a game. Player and monsters came in 2022 — the naive approach, and it worked. Features multiplied through 2023 and the cracks showed. Then 2025: the breaking point — a nine-hour debugging night that forced a complete ECS rewrite. Land hard on 2025.">
   <div class="kicker">The journey · five years, one game</div>
-  <p class="big" style="margin-bottom:1.4vh">Five years. One game.<br>A thousand <span class="sig">lessons.</span></p>
+  <h2 class="big" style="margin-bottom:1.4vh">Five years. One game.<br>A thousand <span class="sig">lessons.</span></h2>
   <div class="rows wide">
     <div class="r"><span class="k">2020</span><span class="v">First commit. Maze-generation algorithms. Not a game yet — an exploration.</span></div>
     <div class="r"><span class="k">2021</span><span class="v">Grid system, cell linking, multiple algorithms. Still no player.</span></div>
@@ -172,7 +256,7 @@ p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:va
 <!-- 4 THE APPROACH -->
 <section class="slide" data-notes="Why build from scratch at all. No Unity, no Godot, no framework — Ruby and ASCII in a terminal. A game engine teaches you the engine; building from scratch teaches you the fundamentals. And crucially: the architecture patterns are visible because no engine abstraction is hiding them. That's the whole reason this makes a good architecture talk.">
   <div class="kicker">The approach</div>
-  <p class="big" style="margin-bottom:.6vh">Pure Ruby. No game engine.<br>Just a <span class="sig">terminal.</span></p>
+  <h2 class="big" style="margin-bottom:.6vh">Pure Ruby. No game engine.<br>Just a <span class="sig">terminal.</span></h2>
   <ul class="real">
     <li>No Unity, no Godot, no framework — Ruby + ASCII in a terminal</li>
     <li>A game engine teaches you <b>the engine</b></li>
@@ -184,7 +268,7 @@ p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:va
 <!-- 5 MAZE GENERATION -->
 <section class="slide" data-notes="Start where the project started — procedural generation. Binary Tree is the simplest maze algorithm: for each cell, randomly carve north or east. Every run is a unique maze. There are four algorithms in the game, and each one is really a lesson in graph theory and spanning trees wearing a game costume.">
   <div class="kicker">Procedural generation</div>
-  <p class="big" style="margin-bottom:1.4vh">Maze generation in pure Ruby.</p>
+  <h2 class="big" style="margin-bottom:1.4vh">Maze generation in pure Ruby.</h2>
   <pre><span class="key">class</span> <span class="const">BinaryTree</span>
   <span class="key">def</span> <span class="const">self.on</span>(grid)
     grid.each_cell <span class="key">do</span> |cell|
@@ -202,13 +286,13 @@ p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:va
 
 <!-- 6 ACT BREAK (coral) -->
 <section class="slide coral center" data-notes="The act break that turns the talk. The naive version worked for years. Then it didn't — and the way it stopped working is the whole lesson. Say it and pause.">
-  <div class="big">It worked.<br>For three years.<br><span style="text-decoration:underline">Then it didn’t.</span></div>
+  <h2 class="big">It worked.<br>For three years.<br><span style="text-decoration:underline">Then it didn’t.</span></h2>
 </section>
 
 <!-- 7 THE NAIVE CLASS -->
 <section class="slide" data-notes="Show the trap everyone falls into. One Game class holding everything — input, movement, combat, rendering. This check_combat reads fine. But it breaks the moment you want flying monsters, damage-over-time, combat events, items that fight back — anything new. Every feature reaches into this method, and every change risks the others.">
   <div class="kicker">It worked… until it didn’t</div>
-  <p class="big" style="margin-bottom:1.4vh">The naive <span class="sig">Game</span> class.</p>
+  <h2 class="big" style="margin-bottom:1.4vh">The naive <span class="sig">Game</span> class.</h2>
   <pre><span class="cmt"># everything in one place: input, movement, combat, rendering</span>
 <span class="key">def</span> <span class="const">check_combat</span>
   @monsters.each <span class="key">do</span> |monster|
@@ -237,7 +321,7 @@ p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:va
 
 <!-- 9 ACT BREAK (teal) — the thesis -->
 <section class="slide teal center" data-notes="The thesis of the whole talk, earned by the previous slide. The moment you can't add a feature without breaking three others — that's not a bug. That's your architecture telling you it's time. Say it slowly.">
-  <div class="big">The moment you can’t add a feature<br>without breaking three others<br><span style="text-decoration:underline">is the moment architecture matters.</span></div>
+  <h2 class="big">The moment you can’t add a feature<br>without breaking three others<br><span style="text-decoration:underline">is the moment architecture matters.</span></h2>
 </section>
 
 <!-- 10 WHY INHERITANCE FAILS -->
@@ -308,7 +392,7 @@ p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:va
 
 <!-- 15 ACT BREAK (coral) -->
 <section class="slide coral center" data-notes="The architectural reward, framed as a promise. Once the seams are right, growth stops being scary. A new feature is a new file that nothing else has to know about. That's the feeling you're chasing in any codebase, game or not.">
-  <div class="big">A new feature is a new file<br>that <span style="text-decoration:underline">nothing else has to know about.</span></div>
+  <h2 class="big">A new feature is a new file<br>that <span style="text-decoration:underline">nothing else has to know about.</span></h2>
 </section>
 
 <!-- 16 LESSONS -->
@@ -325,7 +409,7 @@ p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:va
 <!-- 17 CTA -->
 <section class="slide center" data-notes="Land it. The book is the full tutorial — five parts, twenty-two chapters, from first prototype to a complete game with procedural generation, combat, inventory, AI and the event-driven architecture you just saw. The source is on GitHub — vanilla-roguelike — read it end to end. Don't read the URLs; let them photograph it. Thank you.">
   <div class="kicker">Building Your Own Roguelike: A Practical Guide</div>
-  <p class="big" style="margin-bottom:.6vh">First prototype →<br>a <span class="sig">complete game.</span></p>
+  <h2 class="big" style="margin-bottom:.6vh">First prototype →<br>a <span class="sig">complete game.</span></h2>
   <p class="sub" style="max-width:56ch">Five parts. Twenty-two chapters — procedural generation, combat, inventory, AI, and event-driven architecture, built from scratch.</p>
   <div class="doors">
     <div class="door"><div class="t">Read</div><div class="d">the book</div><div class="s">Building Your Own Roguelike — Amazon UK &amp; US</div></div>

@@ -152,13 +152,91 @@ p.body code,.sub code,.lede code,.cite code{font-family:var(--mono);background:v
   .titleslide .wm{font-size:14vw}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "David Silva",
+          "item": "https://davidslv.uk"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Presentations",
+          "item": "https://davidslv.uk/presentations/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How Rails Engines Solve the Modular Monolith Problem"
+        }
+      ]
+    },
+    {
+      "@type": "PresentationDigitalDocument",
+      "name": "How Rails Engines Solve the Modular Monolith Problem",
+      "headline": "How Rails Engines Solve the Modular Monolith Problem",
+      "description": "Rails apps that start beautifully drift into a big ball of mud. How Rails engines create real boundaries — so the cost of change stops growing and collateral damage drops to zero.",
+      "url": "https://davidslv.uk/presentations/modular-rails-engines.html",
+      "image": "https://davidslv.uk/presentations/og/modular-rails-engines.png",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "David Silva",
+        "url": "https://davidslv.uk",
+        "sameAs": [
+          "https://github.com/Davidslv",
+          "https://www.linkedin.com/in/davidslv",
+          "https://twitter.com/davidslv"
+        ]
+      },
+      "about": {
+        "@type": "Book",
+        "name": "Modular Rails: Architecture for the Long Game",
+        "url": "https://davidslv.uk/modular-rails/",
+        "sameAs": "https://www.amazon.co.uk/dp/B0GZL7D53M",
+        "author": {
+          "@type": "Person",
+          "name": "David Silva"
+        }
+      },
+      "mainEntity": {
+        "@type": "Book",
+        "name": "Modular Rails: Architecture for the Long Game",
+        "url": "https://davidslv.uk/modular-rails/",
+        "sameAs": "https://www.amazon.co.uk/dp/B0GZL7D53M",
+        "author": {
+          "@type": "Person",
+          "name": "David Silva"
+        }
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="deck" id="deck">
 
 <!-- 1 TITLE -->
 <section class="slide center titleslide" data-notes="Open by naming the arc. This is the talk version of the book — how Rails engines turn a monolith that's drifting into a big ball of mud back into something with real boundaries. 15+ years Ruby. Read the one line under the wordmark slowly, then move.">
-  <div class="wm">Modular <span class="you">Rails</span></div>
+  <h1 class="wm">Modular <span class="you">Rails</span></h1>
   <div class="meta">how Rails engines solve the modular monolith problem — real boundaries, so the cost of change stops growing and collateral damage drops to zero</div>
   <div class="meta" style="margin-top:2vh">David Silva · 15+ yrs Ruby · author of “Modular Rails: Architecture for the Long Game” · @davidslv</div>
 </section>
@@ -166,7 +244,7 @@ p.body code,.sub code,.lede code,.cite code{font-family:var(--mono);background:v
 <!-- 2 THE PROBLEM -->
 <section class="slide" data-notes="Name the lived experience first. Everyone in the room has shipped a Rails app that started clean and got terrifying. app/models with 200 files. A User model wired to everything. Don't blame anyone — this is the default trajectory, not a skill failure.">
   <div class="kicker">The problem</div>
-  <p class="big">Rails apps that start beautifully<br>become <span class="sig">terrifying at scale.</span></p>
+  <h2 class="big">Rails apps that start beautifully<br>become <span class="sig">terrifying at scale.</span></h2>
   <p class="sub" style="max-width:56ch"><code>app/models/</code> with 200 files. A <b style="color:var(--ink)">User</b> model with associations to everything. Every feature touches the same handful of god-objects.</p>
 </section>
 
@@ -184,13 +262,13 @@ app/models/        <span class="cmt">→ 200 files, all reachable from all</span
 
 <!-- 4 ACT BREAK (coral) -->
 <section class="slide coral center" data-notes="The act break. Say it plainly and stop. A directory is a label. A boundary is a wall the compiler — or the namespace — enforces. The rest of the talk is about getting real walls.">
-  <div class="big">A folder is a label.<br>A <span style="text-decoration:underline">boundary</span> is a wall<br>something enforces.</div>
+  <h2 class="big">A folder is a label.<br>A <span style="text-decoration:underline">boundary</span> is a wall<br>something enforces.</h2>
 </section>
 
 <!-- 5 THE COST + cast -->
 <section class="slide" data-notes="This is the cost, made concrete — say 'recorded'. Without boundaries, your change is clean but the whole suite has to agree, and four unrelated tests fail because everything is reachable from everything. The cost of a change becomes proportional to the size of the ENTIRE app. With engine boundaries, the engine suite passes, the host suite passes, zero collateral damage. Let the cast auto-play and narrate lightly.">
   <div class="kicker">The cost · recorded</div>
-  <p class="big" style="margin-bottom:1.4vh">The cost of change becomes proportional<br>to the size of the <span class="sig">entire application.</span></p>
+  <h2 class="big" style="margin-bottom:1.4vh">The cost of change becomes proportional<br>to the size of the <span class="sig">entire application.</span></h2>
   <div class="term" style="width:82vw">
     <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="ttl">orbit — blast radius: without boundaries vs with (recorded)</span></div>
     <div class="body cast" data-cast="#cast-blast" style="white-space:pre;text-align:left;height:46vh;overflow:hidden;font-size:1.12vw;line-height:1.5"></div>
@@ -201,7 +279,7 @@ app/models/        <span class="cmt">→ 200 files, all reachable from all</span
 <!-- 6 CONWAY -->
 <section class="slide" data-notes="Reframe boundaries as a team problem, not just a code problem. Conway's Law: your code structure mirrors your communication structure. One team, one monolith, everyone in everything — coordination tax on every change. Teams aligned to engines own their domain and stop colliding. The quote is 1968 — this is not new.">
   <div class="kicker">Conway’s law</div>
-  <p class="big" style="margin-bottom:1vh">Your code structure mirrors<br>your <span class="sig">team structure.</span></p>
+  <h2 class="big" style="margin-bottom:1vh">Your code structure mirrors<br>your <span class="sig">team structure.</span></h2>
   <div class="split">
     <div class="a"><div class="lab">single team · no boundaries</div><div class="t">One team → one monolith. Everyone works on everything. A coordination tax on every change.</div></div>
     <div class="b"><div class="lab">teams aligned to engines</div><div class="t">Team Billing owns <b>engines/billing/</b>. Team Notifications owns <b>engines/notifications/</b>. Changes stop needing cross-team coordination.</div></div>
@@ -212,7 +290,7 @@ app/models/        <span class="cmt">→ 200 files, all reachable from all</span
 <!-- 7 WHAT IS AN ENGINE -->
 <section class="slide" data-notes="Now the mechanism — and lead with the credibility beat. Engines aren't a gem from a startup; they're a core Rails feature since 3.1, the same one that powers Devise, Spree, ActiveAdmin. isolate_namespace enforces the boundary at every layer — models, routes, views, tables. And each engine carries its own test suite via a tiny dummy app.">
   <div class="kicker">The mechanism</div>
-  <p class="big" style="margin-bottom:.6vh">Rails Engines: built in since <span class="sig">3.1.</span></p>
+  <h2 class="big" style="margin-bottom:.6vh">Rails Engines: built in since <span class="sig">3.1.</span></h2>
   <p class="sub" style="max-width:60ch">Mountable, namespace-isolated, independently testable modules that plug into a host application.</p>
   <ul class="real">
     <li>The same mechanism that powers <b>Devise</b>, <b>Spree</b> and <b>ActiveAdmin</b></li>
@@ -225,7 +303,7 @@ app/models/        <span class="cmt">→ 200 files, all reachable from all</span
 <!-- 8 ARCHITECTURE -->
 <section class="slide" data-notes="Show the shape. The host app is thin — orchestration only. Each engine owns its domain end to end. Core is the shared kernel for genuinely cross-cutting concerns. Crucially: engines talk through events and concerns, never by reaching into each other's internals.">
   <div class="kicker">Architecture</div>
-  <p class="big" style="margin-bottom:1.6vh">A modular Rails application.</p>
+  <h2 class="big" style="margin-bottom:1.6vh">A modular Rails application.</h2>
   <pre><span class="const">orbit/</span>
 ├── app/                  <span class="cmt"># host app — thin orchestration layer</span>
 ├── engines/
@@ -238,13 +316,13 @@ app/models/        <span class="cmt">→ 200 files, all reachable from all</span
 
 <!-- 9 ACT BREAK (teal) -->
 <section class="slide teal center" data-notes="Tee up the composition idea. The reason this works is that the boundaries aren't documentation you hope people read — they're visible, line by line, in the code itself. Next slide makes that literal.">
-  <div class="big">The boundaries aren’t in a wiki.<br><span style="text-decoration:underline">They’re visible in the code.</span></div>
+  <h2 class="big">The boundaries aren’t in a wiki.<br><span style="text-decoration:underline">They’re visible in the code.</span></h2>
 </section>
 
 <!-- 10 USER AS COMPOSITION POINT -->
 <section class="slide" data-notes="The single most persuasive slide for a Rails audience. The User model becomes a composition point: each include is an explicit declaration that 'User participates in this domain'. Remove a line and the user loses that capability — cleanly. No spooky action at a distance. The boundary is right there, readable.">
   <div class="kicker">Bounded contexts</div>
-  <p class="big" style="margin-bottom:1.6vh">The User model as a <span class="sig">composition point.</span></p>
+  <h2 class="big" style="margin-bottom:1.6vh">The User model as a <span class="sig">composition point.</span></h2>
   <pre><span class="key">class</span> <span class="const">User</span> &lt; ApplicationRecord
   <span class="key">include</span> <span class="const">Auth::Authenticatable</span>      <span class="cmt"># password, sessions, tokens</span>
   <span class="key">include</span> <span class="const">Billing::Billable</span>          <span class="cmt"># subscriptions, invoices</span>
@@ -257,7 +335,7 @@ app/models/        <span class="cmt">→ 200 files, all reachable from all</span
 <!-- 11 FINDING BOUNDARIES + cast -->
 <section class="slide" data-notes="Pre-empt the obvious objection: 'where do the boundaries even go?' Answer: your git history already knows — say 'recorded'. Files that change together belong together. Run a co-change analysis and the dense clusters are your candidate engines; the sparse edges are your integration points. You don't guess the boundaries; the repo drew the map. Let the cast play.">
   <div class="kicker">Finding boundaries · recorded</div>
-  <p class="big" style="margin-bottom:1.4vh">Your git history already knows<br>where the <span class="sig">boundaries</span> are.</p>
+  <h2 class="big" style="margin-bottom:1.4vh">Your git history already knows<br>where the <span class="sig">boundaries</span> are.</h2>
   <div class="term" style="width:82vw">
     <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="ttl">orbit — co-change analysis: files that change together (recorded)</span></div>
     <div class="body cast" data-cast="#cast-cochange" style="white-space:pre;text-align:left;height:46vh;overflow:hidden;font-size:1.12vw;line-height:1.5"></div>
@@ -309,7 +387,7 @@ app/models/        <span class="cmt">→ 200 files, all reachable from all</span
 
 <!-- 16 ACT BREAK (coral) -->
 <section class="slide coral center" data-notes="The honesty pivot, set up as an act break. I've just spent fifteen minutes selling engines. Now I'm going to tell you when NOT to use them — because a tool you can't say no to isn't engineering, it's ideology.">
-  <div class="big">I’ve sold you the tool.<br>Now — <span style="text-decoration:underline">when not to reach for it.</span></div>
+  <h2 class="big">I’ve sold you the tool.<br>Now — <span style="text-decoration:underline">when not to reach for it.</span></h2>
 </section>
 
 <!-- 17 WHEN ENGINES ARE WRONG -->
@@ -339,7 +417,7 @@ app/models/        <span class="cmt">→ 200 files, all reachable from all</span
 <!-- 19 CTA / THE BOOK -->
 <section class="slide center" data-notes="Land it. The book goes deep on all of this — four parts, eighteen chapters, principles to practice to the hard questions most architecture books skip. Orbit is the companion app you can read end to end. Don't read the URLs out — let them photograph it. Thank you.">
   <div class="kicker">Modular Rails: Architecture for the Long Game</div>
-  <p class="big" style="margin-bottom:.6vh">Principles → practice →<br>the <span class="sig">hard questions.</span></p>
+  <h2 class="big" style="margin-bottom:.6vh">Principles → practice →<br>the <span class="sig">hard questions.</span></h2>
   <p class="sub" style="max-width:54ch">Four parts. Eighteen chapters. 378 pages — from first principles to the trade-offs most architecture books skip.</p>
   <div class="doors">
     <div class="door"><div class="t">Read</div><div class="d">the book</div><div class="s">Modular Rails — Amazon UK &amp; US</div></div>
