@@ -19,7 +19,7 @@ Almost always, the answer is no. What you need is a **modular monolith**: a sing
 
 This page is the honest, current (Rails 8, Zeitwerk-era) guide to doing that. It covers what a modular monolith actually is, the three real mechanisms for building one in Rails — **Rails Engines**, **Packwerk**, and plain namespaced modules — and a fair, side-by-side comparison so you can pick. It walks through namespace isolation, inter-module boundaries, data ownership, and testing. And — because nobody else seems to write this part down — it tells you when you should *not* do any of this.
 
-At [Tembo](https://www.tembomoney.com/), I lead the work to decompose a large Rails monolith into modular engines, and I've written a whole book about it. Where a topic deserves a chapter rather than a section, I'll link to the relevant free chapter so you can go deeper.
+I lead the decomposition of a large production Rails monolith into modular engines, and I've written a whole book about it. Where a topic deserves a chapter rather than a section, I'll link to the relevant free chapter so you can go deeper.
 
 ## What is a modular monolith in Rails?
 
