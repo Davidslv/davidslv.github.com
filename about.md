@@ -28,6 +28,6 @@ I write regularly about all of this in **[the Engineer's Notebook](/writing/)**.
 
 ## Elsewhere
 
-**[Books](/books/)** · **[Writing](/writing/)** · **[Amazon](https://www.amazon.co.uk/stores/author/B0DWX7G5YK)** · **[CV](/cv-resume.html)** · **[GitHub](https://github.com/davidslv)** · **[@davidslv](https://twitter.com/davidslv)**
+**[Books](/books/)** · **[Writing](/writing/)** · **[Amazon](https://www.amazon.co.uk/stores/author/B0DWX7G5YK)** · **[CV](/cv)** · **[GitHub](https://github.com/davidslv)** · **[@davidslv](https://twitter.com/davidslv)**
 
 Building something on Rails — or untangling a monolith? Find me on **[@davidslv](https://twitter.com/davidslv)** or **[GitHub](https://github.com/davidslv)**.

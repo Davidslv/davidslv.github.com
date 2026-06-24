@@ -1,3 +1,6 @@
+---
+permalink: /cv/
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,13 +11,13 @@
 <meta name="keywords" content="David Silva, Senior Software Engineer, Ruby on Rails, Distributed Systems, Event-Driven Architecture, Modular Monolith, AI Integration, AWS Bedrock, PostgreSQL, Kafka, London">
 <meta name="author" content="David Silva">
 
-<link rel="canonical" href="https://davidslv.uk/cv-resume.html">
+<link rel="canonical" href="https://davidslv.uk/cv">
 
 <!-- Open Graph -->
 <meta property="og:type" content="profile">
 <meta property="og:title" content="David Silva — Senior Software Engineer">
 <meta property="og:description" content="15+ years building scalable, distributed systems serving millions of users across government, fintech, and high-growth startups. Ruby on Rails, event-driven architecture, AI integration, and platform reliability at scale.">
-<meta property="og:url" content="https://davidslv.uk/cv-resume.html">
+<meta property="og:url" content="https://davidslv.uk/cv">
 <meta property="og:image" content="https://davidslv.uk/img/og-default.png">
 <meta property="profile:first_name" content="David">
 <meta property="profile:last_name" content="Silva">
@@ -108,6 +111,20 @@ section{margin-top:34px}
 .proj .t a{color:var(--ink)}
 .proj .t a:hover{color:var(--link)}
 
+/* Connect / vCard block (screen only) */
+.connect-row{display:flex;gap:24px;align-items:center;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:14px;padding:22px 24px;background:#fff}
+.connect-row .qr{width:124px;height:124px;flex:none}
+.connect-txt{flex:1;min-width:240px}
+.connect-txt p{font-size:14.5px;color:var(--ink2);line-height:1.55;margin:0 0 14px}
+.connect-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;font-size:13.5px;font-weight:600;letter-spacing:.01em;
+  padding:9px 17px;border-radius:9px;text-decoration:none;
+  border:1.5px solid var(--coral);background:var(--coral);color:#fff}
+.btn:hover{background:#cf502f;border-color:#cf502f;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--link);border-color:var(--line)}
+.btn.ghost:hover{background:#f4ece2;border-color:var(--coral)}
+
 .foot{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted);
   display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
@@ -159,6 +176,7 @@ section{margin-top:34px}
   .bullets li::before{top:6px}
   .sec-title{break-after:avoid;page-break-after:avoid}
   .job-head{break-after:avoid;page-break-after:avoid}
+  .connect{display:none}
   a{color:#000}
 }
 </style>
@@ -176,7 +194,7 @@ section{margin-top:34px}
     },
     {
       "@type": "ProfilePage",
-      "url": "https://davidslv.uk/cv-resume.html",
+      "url": "https://davidslv.uk/cv",
       "name": "David Silva — Senior Software Engineer",
       "inLanguage": "en",
       "mainEntity": { "@id": "https://davidslv.uk/#person" }
@@ -341,6 +359,20 @@ section{margin-top:34px}
       <h2 class="sec-title" id="s-projects">Projects &amp; Publications</h2>
       <p class="proj"><span class="t"><a href="https://davidslv.uk/modular-rails/">Modular Rails: Architecture for the Long Game</a></span> — technical book on building modular monolith applications with Rails engines as a principled alternative to microservices; well received in the Ruby on Rails community.</p>
       <p class="proj"><span class="t"><a href="https://www.amazon.com/Building-Your-Own-Roguelike-Hands-ebook/dp/B0G1RBWF6V">Building Your Own Roguelike: A Practical Guide</a></span> — technical book on game development and event-driven architecture in Ruby, with an accompanying <a href="https://github.com/Davidslv/vanilla-roguelike">open-source game</a>.</p>
+    </section>
+
+    <section class="connect" aria-labelledby="s-connect">
+      <h2 class="sec-title" id="s-connect">Save my details</h2>
+      <div class="connect-row">
+        <img class="qr" src="/img/cv-vcard-qr.svg" width="124" height="124" alt="QR code — scan with a phone camera to save David Silva's contact card">
+        <div class="connect-txt">
+          <p>Scan the code with your phone camera to save my contact card — name, role, photo, phone, email, and links go straight into your address book. On a phone? Tap <b>Save my contact</b> instead.</p>
+          <p class="connect-actions">
+            <a class="btn" href="/david-silva.vcf">Save my contact</a>
+            <a class="btn ghost" href="/david-silva-cv.pdf">Download CV (PDF)</a>
+          </p>
+        </div>
+      </div>
     </section>
 
   </main>
