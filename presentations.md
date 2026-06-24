@@ -6,6 +6,22 @@ description: "Talks and runnable decks by David Silva — modular Rails and Rail
 image: /img/og-default.png
 ---
 
+## firm
+
+An engineering operating system — a Claude Code plugin that handles the work *around* the code: the roles, skills, gates and contracts that turn a feature idea into shipped, defensible software without skipping a discipline. One engineer wearing every hat, with a producer keeping them coherent — proven by deterministic gates and per-skill evals, and a loop that compounds each cycle's learning into the next.
+
+[View presentation](/presentations/firm/)
+
+---
+
+## firm in a session
+
+How a single Claude Code session benefits from firm. A session is fast, capable — and amnesiac: it rushes to code, skips the disciplines a senior wouldn't, and forgets the lesson when the context window closes. A walk through one session showing where firm injects discipline at the moment it matters, catches what a diff hides, and writes the lesson back so the next session starts ahead. Companion to [firm](/presentations/firm/).
+
+[View presentation](/presentations/firm-in-a-session/)
+
+---
+
 ## The Gap I Signed
 
 Shipping a game (and a novel) as a studio of one — and the part that couldn't be synthesised. What it is to be a solo indie developer in 2026 directing a coached AI team across every discipline, told through [Filed Under No One](https://filedundernoone.uk) and the studio behind it, [DS Laboratory](https://dslaboratory.uk).

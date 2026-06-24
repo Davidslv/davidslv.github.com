@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>firm — an engineering operating system · David Silva</title>
+<meta name="description" content="firm is a Claude Code plugin that handles the work around the code — the roles, skills, gates and contracts that turn a feature idea into shipped, defensible software without skipping a discipline. One engineer wearing every hat, with a producer keeping them coherent.">
+<link rel="canonical" href="https://davidslv.uk/presentations/firm/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="firm — an engineering operating system">
+<meta property="og:description" content="The work around the code, systematised: roles owning seams, gates that hold the standard, evals that prove each skill earns its place, and a loop that compounds. One engineer wearing every hat — kept coherent.">
+<meta property="og:url" content="https://davidslv.uk/presentations/firm/">
+<meta property="og:image" content="https://davidslv.uk/presentations/firm/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@davidslv">
+<meta name="twitter:title" content="firm — an engineering operating system">
+<meta name="twitter:description" content="The work around the code, systematised: roles owning seams, gates that hold the standard, evals that prove each skill earns its place, and a loop that compounds.">
+<meta name="twitter:image" content="https://davidslv.uk/presentations/firm/assets/og.png">
+<style>
+:root{
+  --bg:#FBF7F0; --ink:#22201C; --ink2:#46423a; --muted:#8a8578;
+  --coral:#E2603F; --coral-ink:#fff; --teal:#1F6F6B; --code:#F3EEE4; --line:#e6ddcc;
+  --red:#b23a2a; --redwash:#f7e3de; --green:#2f7d4f;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:7vh 9vw;opacity:0;transition:opacity .35s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+.kicker{font-family:var(--mono);font-size:1.05vw;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:2.2vh}
+h1{font-size:6.6vw;font-weight:800;line-height:.98;letter-spacing:-.02em}
+h2{font-size:4.4vw;font-weight:800;line-height:1.02;letter-spacing:-.015em}
+h3{font-size:2.9vw;font-weight:700;line-height:1.08}
+.big{font-size:5.2vw;font-weight:800;line-height:1.04;letter-spacing:-.02em}
+.lede{font-size:2.5vw;font-weight:500;line-height:1.3;color:var(--ink2);max-width:24ch}
+p.body{font-size:2vw;line-height:1.4;color:var(--ink2);max-width:30ch;margin-top:2.4vh}
+.sig{color:var(--coral)}
+.tealc{color:var(--teal)}
+.sub{font-size:1.7vw;color:var(--muted);margin-top:1.6vh;line-height:1.35;max-width:40ch}
+.stack{display:flex;flex-direction:column;gap:.4vh}
+.stack .w{font-size:6vw;font-weight:800;letter-spacing:-.02em;line-height:1.02}
+.slide.coral{background:var(--coral);color:var(--coral-ink)}
+.slide.coral .kicker{color:#ffe2d8}
+.slide.coral .big,.slide.coral h2,.slide.coral h1{color:#fff}
+.slide.coral .sub{color:#ffe2d8}
+.slide.teal{background:var(--teal);color:#fff}
+.slide.teal .kicker{color:#bfe5e1}
+.slide.teal .big,.slide.teal h2{color:#fff}
+.slide.teal .sub{color:#cfeae7}
+.slide.quote{align-items:center;text-align:center}
+.quote .q{font-size:3.3vw;font-weight:600;line-height:1.28;max-width:24ch;letter-spacing:-.01em}
+.quote .who{font-family:var(--mono);font-size:1.2vw;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3vh}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:2.4vh 2vw;
+  font-family:var(--mono);font-size:1.55vw;line-height:1.55;overflow:hidden;max-width:62vw}
+pre .dim{opacity:.34}
+pre .hl{color:var(--ink);font-weight:600}
+pre .cmt{color:var(--muted)}
+pre .key{color:var(--coral)}
+pre .const{color:var(--teal)}
+.barline{border-left:3px solid var(--coral);padding-left:.6vw}
+.term{width:72vw;max-width:1100px;background:#1c1a17;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.term .bar{display:flex;gap:.6vw;align-items:center;padding:1.4vh 1.2vw;background:#2a2723}
+.term .dot{width:.95vw;height:.95vw;max-width:13px;max-height:13px;border-radius:50%}
+.d1{background:#ef6a5e}.d2{background:#f4bf4f}.d3{background:#62c554}
+.term .ttl{font-family:var(--mono);font-size:.95vw;letter-spacing:.04em;color:#8d867a;margin-left:1vw}
+.term .body{padding:2.6vh 1.8vw;font-family:var(--mono);font-size:1.5vw;line-height:1.7;color:#e9e4da}
+.term .body.cast{white-space:pre;word-break:break-word}
+.term .p{color:#7fd1a0}
+.term .c{color:#fff;font-weight:600}
+.term .o{color:#bdb6a8}
+.diagram{display:flex;gap:1vw;align-items:stretch;justify-content:center;flex-wrap:nowrap;margin-top:2vh}
+.station{flex:1;border:2px solid var(--line);border-radius:12px;padding:2vh 1vw;background:#fff;display:flex;flex-direction:column;gap:.8vh}
+.station .n{font-family:var(--mono);font-size:1vw;letter-spacing:.12em;color:var(--coral);font-weight:700}
+.station .t{font-size:1.5vw;font-weight:800;line-height:1.05;color:var(--ink)}
+.station .r{font-family:var(--mono);font-size:.92vw;color:var(--muted);line-height:1.45}
+.station.last{border-color:var(--coral)}
+.flowarrow{align-self:center;font-size:2vw;color:var(--coral);font-weight:800}
+.cap{font-family:var(--mono);font-size:1.2vw;color:var(--muted);margin-top:2.4vh;letter-spacing:.04em}
+.rows{display:flex;flex-direction:column;gap:1.3vh;margin-top:1vh;max-width:74vw}
+.rows .r{display:grid;grid-template-columns:20vw 1fr;gap:1.6vw;align-items:baseline;padding-bottom:1.3vh;border-bottom:1px solid var(--line)}
+.rows .k{font-family:var(--mono);font-size:1.5vw;color:var(--coral);font-weight:600}
+.rows .v{font-size:1.55vw;color:var(--ink2);line-height:1.32}
+.doors{display:flex;gap:1.6vw;margin-top:2vh}
+.door{flex:1;border:2px solid var(--line);border-radius:14px;padding:3vh 2vw;background:#fff}
+.door .t{font-family:var(--mono);font-size:1.3vw;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.door .d{font-size:1.7vw;font-weight:700;margin-top:1.2vh}
+.door .s{font-size:1.3vw;color:var(--muted);margin-top:.8vh;line-height:1.3}
+.urls{font-family:var(--mono);font-size:1.3vw;color:var(--ink2);margin-top:4vh;line-height:1.9}
+.urls b{color:var(--coral)}
+ul.real{list-style:none;margin-top:1.5vh}
+ul.real li{font-size:1.7vw;line-height:1.7;color:var(--ink2);padding-left:1.6vw;position:relative}
+ul.real li::before{content:"▸";color:var(--coral);position:absolute;left:0}
+ul.real li b{color:var(--ink)}
+.titleslide .wm{font-size:8vw;font-weight:800;line-height:.95;letter-spacing:-.025em}
+.titleslide .wm .you{color:var(--coral)}
+.titleslide .meta{font-family:var(--mono);font-size:1.4vw;color:var(--muted);margin-top:3.5vh;letter-spacing:.08em}
+.hero{align-items:flex-start}
+.hero .lab{font-family:var(--mono);font-size:1.3vw;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.hero .num{font-size:13vw;font-weight:800;line-height:.9;letter-spacing:-.04em;margin-top:1vh}
+.hero .unit{font-size:2.4vw;font-weight:700;color:var(--ink2);margin-top:1vh}
+.hero .unit .sig{color:var(--coral)}
+.hero .act{font-size:1.7vw;color:var(--muted);margin-top:2.4vh;max-width:54ch;line-height:1.4}
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;margin-top:1vh;max-width:78vw;box-shadow:0 2px 4px rgba(0,0,0,.03)}
+.card .row{display:grid;grid-template-columns:17vw 1fr;gap:1.6vw;align-items:baseline;padding:1.6vh 2vw;border-bottom:1px solid var(--line)}
+.card .row:last-child{border-bottom:0}
+.card .k{font-family:var(--mono);font-size:1.25vw;letter-spacing:.1em;color:var(--coral);font-weight:700}
+.card .v{font-size:1.5vw;color:var(--ink2);line-height:1.34}
+.card .v b{color:var(--ink)}
+.four{display:grid;grid-template-columns:1fr 1fr;gap:2.6vh 3vw;margin-top:2.6vh;max-width:70vw}
+.four .cell{border-left:2px solid var(--coral);padding:.2vh 0 .2vh 1.6vw}
+.four .cell .h{font-size:1.9vw;font-weight:800;line-height:1.12;letter-spacing:-.01em;color:var(--ink)}
+.four .cell .s{font-family:var(--mono);font-size:1.05vw;color:var(--muted);margin-top:.6vh;line-height:1.45;letter-spacing:.02em}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2vw;margin-top:2.4vh;max-width:78vw}
+.three .tier{border:1px solid var(--line);border-radius:12px;background:#fff;padding:2.4vh 1.6vw}
+.three .tier .nm{font-family:var(--mono);font-size:1.3vw;color:var(--coral);font-weight:700;letter-spacing:.02em}
+.three .tier .scope{font-size:1.35vw;font-weight:700;color:var(--ink);margin-top:1vh;line-height:1.15}
+.three .tier .d{font-size:1.2vw;color:var(--ink2);margin-top:1vh;line-height:1.36}
+.cite{font-family:var(--mono);font-size:1.05vw;color:var(--muted);line-height:1.5;
+  margin-top:2vh;padding-top:1.4vh;border-top:1px solid var(--line);max-width:64vw;letter-spacing:.01em}
+.cite b{color:var(--ink2);font-weight:700}
+.cite code{background:var(--code);border-radius:4px;padding:.05em .35em;color:var(--coral)}
+p.body code,.sub code,.lede code{font-family:var(--mono);background:var(--code);border-radius:4px;padding:.05em .35em;color:var(--coral);font-size:.86em}
+.split{display:flex;gap:2vw;margin-top:1.5vh;max-width:74vw}
+.split .a,.split .b{flex:1;border:1px solid var(--line);border-radius:12px;padding:2.6vh 2vw;background:#fff}
+.split .b{border-color:var(--coral)}
+.split .lab{font-family:var(--mono);font-size:1.2vw;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.split .b .lab{color:var(--coral)}
+.split .t{font-size:1.6vw;color:var(--ink2);line-height:1.32;margin-top:1.2vh}
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1.1vw;color:var(--muted);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--coral);transition:width .35s;z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(28,26,23,.96);color:#f0ece3;
+  font-family:var(--sans);font-size:1.5vh;line-height:1.5;padding:2.2vh 3vw;display:none;z-index:8;border-top:3px solid var(--coral)}
+.notes.show{display:block}
+.notes b{color:#f4bf4f}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
+.loop{display:flex;gap:1vw;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:2vh}
+.loop .node{border:2px solid var(--teal);border-radius:12px;padding:1.6vh 1.4vw;font-family:var(--mono);font-size:1.3vw;color:var(--teal);background:#f0f6f5;font-weight:600;text-align:center;line-height:1.3}
+.loop .node b{display:block;color:var(--ink);font-size:1.1vw;font-weight:500;margin-top:.4vh}
+.loop .ar{font-size:2.2vw;color:var(--coral);font-weight:800}
+.loop .back{flex-basis:100%;text-align:center;font-family:var(--mono);font-size:1.2vw;color:var(--coral);margin-top:1.4vh}
+@media(max-width:760px){h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}pre,.term{max-width:90vw;font-size:3.2vw}.four,.three{grid-template-columns:1fr}.diagram{flex-wrap:wrap}.flowarrow{display:none}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 COLD OPEN -->
+<section class="slide center" data-notes="Open cold. No tool, no name. Everyone in the room ships software wearing more hats than they can hold at once — strategist, architect, reviewer, release manager, historian. State the thing they already live with, then stop.">
+  <h1>You don't ship software<br>alone. You ship it with<br><span class="sig">everyone you forgot to be.</span></h1>
+</section>
+
+<!-- 2 THE PAIN, NAMED -->
+<section class="slide" data-notes="Name the three failures, plainly. These are the recurring ways the work around the code goes wrong — not the code itself. Repeating work you already did. Repeating a mistake you already made and swore you'd never make again. And the worst one: under deadline pressure, skipping the discipline you know matters. Everyone here has done all three this month.">
+  <div class="kicker">Three failures that keep happening</div>
+  <div class="stack">
+    <span class="w">Repeat the work.</span><span class="w">Repeat the mistake.</span><span class="w sig">Skip the step.</span>
+  </div>
+  <p class="body">Not bugs in the code. Bugs in the <b>process around it</b> — and they cost the most under pressure.</p>
+</section>
+
+<!-- 3 WHY IT STAYS STUCK -->
+<section class="slide center" data-notes="Name the real failure. With AI you can now move fast in every discipline at once — but speed without coherence just produces confident, undisciplined output faster. The bottleneck was never knowing what good looks like. It's holding all of it at once, every cycle, without dropping one.">
+  <div class="big">The hard part was never<br>knowing what good looks like.<br><span class="sig">It's holding all of it at once.</span></div>
+</section>
+
+<!-- 4 THE TURN -->
+<section class="slide center" data-notes="The turn — the whole pitch as a question. What if the disciplines weren't a checklist you try to remember, but a system that won't let you skip them, and that gets sharper every time you use it? Hold the pause.">
+  <div class="big">What if the disciplines were<br>a system you couldn't skip —<br><span style="text-decoration:underline;text-decoration-color:var(--coral)">and that compounded?</span></div>
+</section>
+
+<!-- 5 TITLE -->
+<section class="slide center titleslide" data-notes="NOW name it. firm — as in a firm of professionals, and as in holding firm to a standard. An engineering operating system: a Claude Code plugin that handles the work AROUND the code. Read the one line slowly. 15+ years Ruby.">
+  <div class="wm"><span class="you">firm</span></div>
+  <div class="meta">an engineering operating system — the roles, skills, gates and contracts that turn an idea into shipped, defensible software, without skipping a discipline</div>
+  <div class="meta" style="margin-top:2vh">David Silva · 15+ yrs Ruby · @davidslv · davidslv.uk</div>
+</section>
+
+<!-- 6 WHAT IT IS -->
+<section class="slide" data-notes="The definition, plainly. firm is a meta-tool: a set of Claude Code plugins you run ON your repositories. It doesn't write the feature — it handles everything around the feature so the feature ships defensibly. The pun is deliberate: a firm of specialists, and holding firm to a standard.">
+  <div class="kicker">What it is</div>
+  <p class="big" style="margin-bottom:1.6vh">A <span class="sig">firm</span> of specialists you run<br>on your own repository.</p>
+  <p class="sub" style="max-width:56ch">Nineteen skills and five agents, each owning one <i>seam</i> of the engineering process — orchestrated by a producer that keeps them coherent. It handles the work <b style="color:var(--ink)">around</b> the code. It is the meta-tool; your repo is the product.</p>
+</section>
+
+<!-- 7 PHILOSOPHY 1 (coral act) -->
+<section class="slide coral center" data-notes="The first philosophical commitment, said as the act break. One engineer now wears every hat — firm doesn't pretend otherwise. It gives each hat a name, a standard, and a keeper, and puts a producer over all of them so the hats don't contradict each other. This is the whole design in one line.">
+  <div class="big">One engineer wearing every hat —<br>with a producer keeping<br><span style="text-decoration:underline">them coherent.</span></div>
+</section>
+
+<!-- 8 PHILOSOPHY 2 — seams -->
+<section class="slide" data-notes="The core organising idea: the seam. A seam is a standard owned by exactly ONE role and respected by all the others. The migration-safety reviewer owns data safety; nobody else gets to lower that bar. One owner, no overlap, and a producer who owns the coherence between seams. A gate enforces one-owner-per-seam mechanically — it's not a guideline.">
+  <div class="kicker">The organising idea · the seam</div>
+  <p class="big" style="margin-bottom:1.2vh">A <span class="sig">seam</span> is one standard,<br>owned by one role,<br>respected by all.</p>
+  <p class="sub" style="max-width:60ch">The reviewer who owns <i>data safety</i> sets that bar; no one else may lower it. One owner per seam, no overlap — and a gate (<code>check-roster.sh</code>) enforces it mechanically, so the contract can't quietly rot.</p>
+</section>
+
+<!-- 9 HERO — the roster, real count -->
+<section class="slide hero" data-notes="The scale, as the real numbers the roster gate prints. 19 skills and 5 agents, across 3 tiers. Each one owns a seam. These aren't aspirational — the roster gate counts what's on disk and fails CI if the README disagrees. The honest framing: not every role fires on every feature; the right ones fire based on what the change touches.">
+  <div class="lab">firm · scripts/check-roster.sh (real output)</div>
+  <div class="num">24</div>
+  <div class="unit">roles &nbsp;·&nbsp; <span class="sig">19 skills + 5 agents</span> &nbsp;·&nbsp; 3 tiers</div>
+  <div class="act">Each owns one seam. Not all fire on every feature — the right ones fire based on what the change touches. The roster gate counts what's on disk and fails CI if the README disagrees.</div>
+</section>
+
+<!-- 10 THE TIERS -->
+<section class="slide" data-notes="How the roster is layered by how repo-specific it is. Core is universal engineering discipline — language-agnostic. Rails is portable Ruby/Rails muscle that reads a per-repo Profile, so the same reviewer is correct on any repo. Tembo is a thin overlay: one company's specifics on top of Rails. The trick is the middle tier — portable, not hard-coded.">
+  <div class="kicker">Three tiers · layered by how repo-specific they are</div>
+  <div class="three">
+    <div class="tier"><div class="nm">engineering-core</div><div class="scope">Universal</div><div class="d">Language-agnostic disciplines — strategy, decomposition, decisions, testing, release readiness. Install everywhere.</div></div>
+    <div class="tier"><div class="nm">engineering-rails</div><div class="scope">Portable Rails / Ruby</div><div class="d">Profile-driven reviewers — migrations, performance, security, engine boundaries. Reads how <i>this</i> repo is wired. Install in any Ruby repo.</div></div>
+    <div class="tier"><div class="nm">engineering-tembo</div><div class="scope">One repo's overlay</div><div class="d">A thin layer of one company's regulatory and domain specifics, on top of Rails. Carries contracts, not duplicated reviewers.</div></div>
+  </div>
+</section>
+
+<!-- 11 GROUNDING / Profile (coral) -->
+<section class="slide coral center" data-notes="The differentiator, said plainly. A portable reviewer that guesses how your repo is wired is just an opinion. firm's reviewers read a Profile — machine-readable data describing this repo's engines, asset layout, test command, integrations, criticality map. The same reviewer is then CORRECT on any repo, instead of hard-coded to one. Evidence over guesswork.">
+  <div class="big">A reviewer that guesses your repo<br>is an opinion. One that reads its<br><span style="text-decoration:underline">Profile is correct.</span></div>
+  <p class="sub" style="color:#ffe2d8;max-width:54ch;margin-top:3vh">The Profile is data, not prose — engines, asset layout, test command, integrations, criticality. The same reviewer grounds itself against whatever repo it's pointed at.</p>
+</section>
+
+<!-- 12 ASSEMBLY LINE TEE-UP (teal) -->
+<section class="slide teal center" data-notes="Set up the workflow. A feature doesn't hit all 24 roles at once — it moves through five stations, and the producer routes which roles fire based on the seams the change crosses. Frame it as an assembly line for the work around the code.">
+  <div class="kicker">How a feature moves</div>
+  <div class="big">Five stations. An idea in,<br><span style="text-decoration:underline">defensible software out.</span></div>
+  <p class="sub" style="color:#cfeae7;max-width:52ch;margin-top:3vh">The producer reads the seams a change crosses and fires only the stations that apply. No ceremony for a typo; full rigour for a migration.</p>
+</section>
+
+<!-- 13 THE FIVE STATIONS -->
+<section class="slide" data-notes="The assembly line itself. Shape the work before any code — strategy, the GitHub issue, architecture options. Review the design adversarially — the skeptic. Build, on the diff — reviewers for migrations, performance, security, boundaries, tests. Ship — the PR description in your voice, the three-gate release check. After — compound the lesson so the next cycle starts ahead. Walk left to right; the last station is the one most teams skip.">
+  <div class="kicker">The feature assembly line</div>
+  <div class="diagram">
+    <div class="station"><div class="n">01 · SHAPE</div><div class="t">Shape the work</div><div class="r">strategy · story-writer · architecture-advisor · decompose-change</div></div>
+    <div class="flowarrow">→</div>
+    <div class="station"><div class="n">02 · REVIEW</div><div class="t">Pressure the design</div><div class="r">skeptic — assumptions, blind spots, BLOCK / CAUTION / PROCEED</div></div>
+    <div class="flowarrow">→</div>
+    <div class="station"><div class="n">03 · BUILD</div><div class="t">Review the diff</div><div class="r">migration · perf · security · boundary · tests · observability</div></div>
+    <div class="flowarrow">→</div>
+    <div class="station"><div class="n">04 · SHIP</div><div class="t">Ship it</div><div class="r">communicator (PR in your voice) · release-gatekeeper (3 gates)</div></div>
+    <div class="flowarrow">→</div>
+    <div class="station last"><div class="n">05 · AFTER</div><div class="t">Compound</div><div class="r">compound · retrospective · firm-gap-check — write the lesson back</div></div>
+  </div>
+  <p class="cap">if you're unsure which station applies — ask the producer. it reads SEAMS.md and sequences the hand-offs.</p>
+</section>
+
+<!-- 14 HOW I USE IT -->
+<section class="slide" data-notes="The concrete 'how I use it'. Three steps. Add the marketplace once. Install the tiers you need. Then onboard the repo: firm-onboard detects the stack, writes the Profile under a gitignored .firm/, and grounds every portable reviewer against this repo. Nothing works until the Profile exists — onboarding is the first move in any new repo. After that, I just work, and the producer routes the stations.">
+  <div class="kicker">How I use it · three steps, then it routes itself</div>
+  <div class="card">
+    <div class="row"><span class="k">ADD</span><span class="v"><code>/plugin marketplace add Davidslv/firm</code> — <b>coming soon</b>, once it's had more testing in the wild</span></div>
+    <div class="row"><span class="k">INSTALL</span><span class="v"><code>/plugin install engineering-core@firm</code> · add <code>engineering-rails</code> for Ruby repos</span></div>
+    <div class="row"><span class="k">ONBOARD</span><span class="v">run <b>firm-onboard</b> in the repo — detects the stack, writes the <code>.firm/</code> Profile, grounds every reviewer. <b>Nothing works until the Profile exists.</b></span></div>
+    <div class="row"><span class="k">THEN</span><span class="v">just work. The producer reads the seams each change crosses and fires the right stations.</span></div>
+  </div>
+</section>
+
+<!-- 15 DEMO TEE-UP (coral) -->
+<section class="slide coral center" data-notes="Set the frame before the terminal. A tool that enforces a standard had better hold its own. firm ships three deterministic gates that run in CI and pre-commit — they check firm against itself. Watch them run: the roster gate, the strategy gate's self-test, the why-section gate, and the eval methodology. Everything on screen is a real run.">
+  <div class="kicker">The demo · firm holds its own standard</div>
+  <div class="big">It enforces discipline.<br><span style="text-decoration:underline">So it gates itself.</span></div>
+  <p class="sub" style="color:#ffe2d8;max-width:50ch;margin-top:3vh">Recorded, not live — real output from firm's own gates. Watch what 'a standard you can't skip' actually looks like.</p>
+</section>
+
+<!-- 16 DEMO — cast -->
+<section class="slide center" data-notes="A recorded session — say 'recorded'. Real output from firm's own quality gates. The roster gate counts 19 skills and 5 agents and checks one-owner-per-seam. The strategy gate runs a self-test — a gate that tests itself. The why-section gate makes every file declare a Why. And the eval shows the method: the skill's WITH arm beats the bare baseline, judged by 3 votes. Let it auto-play; narrate lightly. Decode is next.">
+  <div class="kicker">Demo · recorded · firm's own gates (real runs)</div>
+  <div class="term" style="width:84vw">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="ttl">firm — roster gate · strategy self-test · why-sections · eval (recorded)</span></div>
+    <div class="body cast" data-cast="#firm-cast" style="white-space:pre;text-align:left;height:52vh;overflow:hidden;font-size:1.18vw;line-height:1.55"></div>
+  </div>
+  <p class="cap">roster → one owner per seam · strategy → a gate that tests itself · why → every file declares a Why · eval → WITH beats WITHOUT &nbsp;<span style="color:var(--muted)">· click to pause / replay</span></p>
+</section>
+
+<!-- 17 DECODE -->
+<section class="slide" data-notes="The most important slide after the demo. Say what those gates MEANT, plainly. The roster gate means the docs can never silently drift from disk. The seam gate means two roles can never quietly claim the same standard. The strategy gate tests itself — so the gate can't rot unnoticed. The why-section gate means no file exists without justifying why. firm doesn't ask you to remember the standard; it fails the build when the standard slips.">
+  <div class="kicker">What those gates mean · in plain terms</div>
+  <p class="big" style="margin-bottom:1.4vh">firm doesn't <i>remind</i> you of the<br>standard. It <span class="sig">fails the build</span> when it slips.</p>
+  <div class="four">
+    <div class="cell"><div class="h">Docs can't drift</div><div class="s">the roster gate counts disk vs README — they must match</div></div>
+    <div class="cell"><div class="h">No seam is shared</div><div class="s">exactly one owner per numbered seam, enforced mechanically</div></div>
+    <div class="cell"><div class="h">The gate tests itself</div><div class="s">the strategy gate ships a self-test over valid + invalid fixtures</div></div>
+    <div class="cell"><div class="h">Nothing exists unjustified</div><div class="s">every tracked file must declare a Why, or CI fails</div></div>
+  </div>
+</section>
+
+<!-- 18 THE LOOP (teal act) -->
+<section class="slide teal center" data-notes="The loop — the reason it compounds. Borrowed from compound engineering: after EVERY cycle, good or bad, the compound step asks 'what did this teach, and where does each lesson belong?' Reusable patterns to the solutions folder, conventions to the agent files, the rest by hand-off. The next cycle starts ahead of where this one began. That's the difference between a checklist and a system that learns.">
+  <div class="kicker">The loop · why it compounds</div>
+  <div class="big">Every cycle writes back what it<br>learned. The next one<br><span style="text-decoration:underline">starts ahead.</span></div>
+</section>
+
+<!-- 19 THE LOOP DIAGRAM -->
+<section class="slide" data-notes="Make the loop concrete. Ship a cycle, then compound it: the compound step routes each learning to its home by scope. retrospective fires only when something went wrong, and turns the lesson into a gate or a memory. firm-gap-check asks whether firm itself has a gap worth filling. Crucially: silence is a valid output — 'nothing worth compounding' is allowed. The arrow loops back: knowledge files mean the next cycle inherits this one's lessons.">
+  <div class="kicker">The compounding loop</div>
+  <div class="loop">
+    <div class="node">SHIP<b>a cycle</b></div>
+    <div class="ar">→</div>
+    <div class="node">COMPOUND<b>route each lesson to its home</b></div>
+    <div class="ar">→</div>
+    <div class="node">RETROSPECTIVE<b>only if something broke</b></div>
+    <div class="ar">→</div>
+    <div class="node">KNOWLEDGE<b>solutions · conventions · memory</b></div>
+    <div class="back">↑ &nbsp; the next cycle inherits all of it — and "nothing worth compounding" is a valid output &nbsp; ↑</div>
+  </div>
+</section>
+
+<!-- 20 THE EVALUATIONS -->
+<section class="slide" data-notes="How firm proves a skill earns its place — this is the part most 'AI workflow' tools skip entirely. Every judgment skill ships an eval: the same task run WITH the skill and WITHOUT it (bare model), graded by a judge across 3 votes for a majority. The score is a fraction — cases passed — and a delta: did the skill BEAT the baseline, match it, or regress? A skill that only matches the bare model hasn't earned its slot.">
+  <div class="kicker">The evaluations · does the skill actually help?</div>
+  <p class="big" style="margin-bottom:1.4vh">Every judgment skill is run<br><span class="sig">with it</span> and <span class="tealc">without it</span> — and judged.</p>
+  <div class="card">
+    <div class="row"><span class="k">WITH / WITHOUT</span><span class="v">the same task, the skill on vs the bare model — does the skill add anything?</span></div>
+    <div class="row"><span class="k">3-VOTE JUDGE</span><span class="v">each case scored by a 3-judge majority, not a single coin-flip</span></div>
+    <div class="row"><span class="k">DELTA</span><span class="v"><b>+</b> beat the baseline · <b>0</b> matched it · <b>−</b> regressed. A skill that only ties hasn't earned its slot</span></div>
+    <div class="row"><span class="k">FORCING FUNCTIONS</span><span class="v">skills whose value is that they run <i>every</i> cycle are proven by a <b>gate</b>, not lift — a one-shot eval can't measure them</span></div>
+  </div>
+</section>
+
+<!-- 21 EVAL HONESTY -->
+<section class="slide" data-notes="The credibility beat — judge me on the nuance. When I re-scored the full roster at 3 votes, the honest picture had three shapes. Single-judge lows were mostly understated — security-reviewer went 2/3 to 4/4. Some held genuinely — story-writer, test-strategist clean 3/3. And some FELL under pressure — the skeptic fabricates findings (1/3); perf-reviewer grades a deterministic catch 'likely' not 'verified'. I publish the ones that lose. That's the point of an eval.">
+  <div class="kicker">Verified 3-vote · 2026-06-20 · the honest picture</div>
+  <div class="rows">
+    <div class="r"><span class="k">understated</span><span class="v">single-judge lows were mostly too harsh — <b>security-reviewer 2/3 → 4/4</b>, communicator 1/3 → 3/4, engine-boundary 2/4 → 4/4.</span></div>
+    <div class="r"><span class="k">held</span><span class="v">clean 3/3, genuinely — story-writer, architecture-advisor, test-strategist, observability-check.</span></div>
+    <div class="r"><span class="k">fell</span><span class="v">the <b>skeptic fabricates findings (1/3)</b>; perf-reviewer grades a real FK-index catch "likely", not "verified" (3/3 → 2/3).</span></div>
+    <div class="r"><span class="k">why publish it</span><span class="v">a roster that only lists its wins is marketing. The deltas that go <i>down</i> are the ones worth trusting.</span></div>
+  </div>
+</section>
+
+<!-- 22 LEAVES NO TRACE -->
+<section class="slide" data-notes="A design commitment people care about: firm leaves no trace. Everything it writes — the Profile, the flag ledger — lives under a gitignored .firm/ directory. It's regenerated on demand, never committed by default. Seeding the repo's own knowledge files is an explicit opt-in, off by default. You can run firm on someone else's repo and leave their git history exactly as you found it.">
+  <div class="kicker">A design commitment · firm leaves no trace</div>
+  <p class="big" style="margin-bottom:1.4vh">It works <span class="sig">on</span> your repo<br>without writing <span class="sig">into</span> it.</p>
+  <p class="sub" style="max-width:60ch">The Profile and flag ledger live under a gitignored <code>.firm/</code> — regenerated on demand, never committed by default. Seeding the repo's own knowledge files is an explicit opt-in. Run it on any repo; leave the git history exactly as you found it.</p>
+</section>
+
+<!-- 23 NOT A MIRACLE -->
+<section class="slide" data-notes="The honesty beat the whole talk earns the right to make. firm is not a miracle. It is only as good as what it's grounded on. Point it at a codebase with no runbooks, scattered tribal knowledge, and a decade of stale comments and confidently-wrong docs, and it will be confidently wrong with you — faster. firm's real leverage shows up where there's centralised, structured documentation, runbooks, and tooling it can reach. Its biggest enemy is the misinformation every long-lived codebase accumulates. Say this plainly: the work to feed it well is the work.">
+  <div class="kicker">The honest part · firm is not a miracle</div>
+  <p class="big" style="margin-bottom:1.6vh">It's only as good as<br><span class="sig">what you ground it on.</span></p>
+  <div class="four">
+    <div class="cell"><div class="h">Garbage in, faster garbage out</div><div class="s">no runbooks, no structured docs → confident, wrong, at speed</div></div>
+    <div class="cell"><div class="h">Long-lived codebases lie</div><div class="s">stale comments, dead docs, tribal knowledge — misinformation it can't see through</div></div>
+    <div class="cell"><div class="h">Tooling is leverage</div><div class="s">give it access — tests, scanners, arsenal, ux-auditor — and it gets sharper</div></div>
+    <div class="cell"><div class="h">Feeding it well is the work</div><div class="s">centralised, structured documentation isn't overhead — it's the substrate</div></div>
+  </div>
+</section>
+
+<!-- 24 OBJECTIONS -->
+<section class="slide" data-notes="Pre-empt the folded arms, one sentence each, warmly. Don't skip the 'just more process' row — that's the real fear.">
+  <div class="kicker">I know what you're about to ask</div>
+  <div class="rows">
+    <div class="r"><span class="k">vs a checklist?</span><span class="v">A checklist is a reminder you can ignore. A seam has an owner and a gate — the build fails when it slips, and the loop sharpens it.</span></div>
+    <div class="r"><span class="k">"The LLM already knows this"?</span><span class="v">It does — and skips it under pressure exactly like a person. The evals exist to show <i>where</i> the skill beats the bare model, and where it doesn't.</span></div>
+    <div class="r"><span class="k">"Just more process"?</span><span class="v">The producer fires only the stations a change actually crosses. A typo gets nothing; a migration gets the full rigour.</span></div>
+    <div class="r"><span class="k">vs my CI?</span><span class="v">CI checks the code. firm checks the work <i>around</i> the code — the design, the decisions, the decomposition, the lesson — and feeds your CI better inputs.</span></div>
+  </div>
+</section>
+
+<!-- 25 HONEST LIMITS -->
+<section class="slide" data-notes="Out loud, plainly. Stating limits buys more trust than any feature. Core is universal; the deep reviewers are Ruby/Rails for now. Some evals still lose — skeptic and perf-reviewer have open follow-ups, and I left them in the roster losing. And the big one, from the last slide: it needs grounding. firm routes, enforces, and remembers — you still do the engineering.">
+  <div class="kicker">The honest limits</div>
+  <p class="lede" style="max-width:46ch">Core is universal; the deep reviewers are <span class="tealc">Ruby / Rails</span> for now. Some skills still lose their eval — and I left them in the roster <i>losing</i>. And it needs grounding: docs, runbooks, tooling.</p>
+  <p class="body" style="max-width:46ch;font-size:2.2vw">It routes, enforces, and remembers — <span class="sig">you still do the engineering.</span></p>
+</section>
+
+<!-- 26 THE BET (coral) -->
+<section class="slide coral center" data-notes="Name the frame now, because I've earned it. In 2026 there's endless talk of tools that replace the engineer. firm is the opposite bet — it doesn't replace the engineer, it keeps the engineer coherent across every hat they already have to wear, and makes the next cycle start ahead of this one.">
+  <div class="big">This doesn't replace the engineer.<br>It keeps the engineer <span style="text-decoration:underline">coherent.</span></div>
+</section>
+
+<!-- 27 QUIET QUOTE -->
+<section class="slide quote" data-notes="My real voice — the whole talk in two sentences. Say it quietly. Pause after.">
+  <div class="q">"I kept forgetting to be the reviewer,<br>the historian, the release manager.<br><span class="sig">So I built the firm that remembers for me.</span>"</div>
+  <div class="who">David Silva</div>
+</section>
+
+<!-- 28 DOORS / THANK YOU -->
+<section class="slide center" data-notes="Don't read the URLs — let them photograph it. End on the human note: discipline you can't skip, that compounds. Thank you.">
+  <div class="kicker">Discipline you can't skip — that compounds</div>
+  <div class="doors">
+    <div class="door"><div class="t">Read</div><div class="d">the seams</div><div class="s">one standard, one owner — the contract firm enforces</div></div>
+    <div class="door"><div class="t">Run</div><div class="d">firm-onboard</div><div class="s">point it at a repo · ground every reviewer in an afternoon</div></div>
+    <div class="door"><div class="t">Feed it</div><div class="d">good ground</div><div class="s">runbooks · structured docs · tooling — then let it compound</div></div>
+  </div>
+  <div class="urls">github.com/Davidslv/firm &nbsp;·&nbsp; <b>davidslv.uk</b> &nbsp;·&nbsp; <b>@davidslv</b></div>
+  <p class="sub" style="margin-top:3vh">One engineer, every hat — kept coherent. Thank you.</p>
+</section>
+
+<!-- 29 Q&A APPENDIX (presenter-facing — press N for full answers) -->
+<section class="slide" data-notes="APPENDIX — not for the main run; jump here during Q&A and press N. &#10;&#10;PRIVATE TOOLING (the sharp one): arsenal and ux-auditor are DELEGATION TARGETS, not dependencies. firm calls them from the relevant seam; it does not absorb their capability. Remove them and firm still runs every station — the UX seam just degrades to the static accessibility-review when the tool/URL is absent. The 19 skills + 5 agents stand alone; the two tools are depth I plug in. &#10;• 'Is firm itself public?' — not yet: Davidslv/firm ships once it's had more testing in the wild. Offer to ping them when it does. Honest and forward-looking, no hedge.&#10;• 'Open-source arsenal/ux-auditor?' — one-practitioner bench, private, per engagement (same line as the arsenal deck). Decide before the talk. &#10;• 'Lock-in to your toolchain?' — the contract is the SEAM, not the tool. Swap in any tool that satisfies the seam's standard and firm doesn't notice. &#10;&#10;EVAL SKEPTICS: &#10;• 'LLM judging an LLM — circular?' — 3-vote majority to dampen single-judge noise; the deterministic gates (roster/strategy/why) exist precisely because judge-eval can't prove everything. &#10;• '3 cases, 3 votes — significant?' — concede it's indicative not statistical; value is regression-guarding direction (+/0/−), not a p-value. &#10;• 'skeptic fabricates and is still rostered — why ship a loser?' — publishing the losers IS the credibility; it's flagged with an open follow-up. A roster of only-wins is marketing. &#10;• 'How much lift is real on a capable base model?' — forcing functions show no lift by design; their value is that they run every cycle, proven by gate not eval. &#10;&#10;SCALE / PHILOSOPHY: &#10;• 'Single operator — survives a team?' — seams are how: one owner per standard scales to humans, the producer owns coherence. &#10;• 'vs compound engineering / agent frameworks?' — name the lineage: the compound step is borrowed; the seam-ownership + gates + evals are the addition. &#10;• 'maintenance cost of firm itself?' — the gates review the reviewers; firm is dogfooded on itself (it gates its own roster). &#10;• 'model changes → re-run evals?' — yes, and that's a strength: re-scored 2026-06-20 and -22. Living suite. &#10;&#10;THE TRAP: 'if it's only as good as the docs you feed it, haven't you moved the hard problem, not solved it?' — OWN IT: 'Yes. firm doesn't remove the need for structured documentation — it makes the absence of it expensive and visible, which is the first time most teams have a reason to fix it.'">
+  <div class="kicker">Appendix · what I'll get asked · press <b style="color:var(--coral)">N</b> for answers</div>
+  <div class="rows" style="max-width:80vw">
+    <div class="r"><span class="k">Can I get arsenal / ux-auditor?</span><span class="v">Delegation targets, not dependencies — firm runs every station without them; the UX seam degrades to a static audit.</span></div>
+    <div class="r"><span class="k">Is firm itself public?</span><span class="v">Not yet — <code>Davidslv/firm</code> ships once it's had more testing in the wild. Happy to ping you when it does.</span></div>
+    <div class="r"><span class="k">LLM judging an LLM — circular?</span><span class="v">3-vote majority for the judgments; deterministic gates exist <i>because</i> judge-eval can't prove everything.</span></div>
+    <div class="r"><span class="k">Why ship the skeptic if it loses?</span><span class="v">Publishing the losers is the credibility. Flagged, open follow-up. Only-wins is marketing.</span></div>
+    <div class="r"><span class="k">Does this survive a real team?</span><span class="v">The seam is the mechanism — one owner per standard, the producer owns coherence between them.</span></div>
+    <div class="r"><span class="k">Haven't you just moved the hard problem?</span><span class="v">Yes — firm makes the <i>absence</i> of docs expensive and visible. Often the first reason a team fixes it.</span></div>
+  </div>
+</section>
+
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 29</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
+
+<script type="text/cast" id="firm-cast">
+{"version": 2, "width": 92, "height": 30, "timestamp": 0, "title": "firm \u2014 the gates that hold firm's own standards (real runs)", "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}}
+[0.0, "o", "\u001b[36mfirm\u001b[0m\u001b[32m $ \u001b[0m"]
+[0.0, "o", "b"]
+[0.049, "o", "a"]
+[0.088, "o", "s"]
+[0.158, "o", "h"]
+[0.192, "o", " "]
+[0.254, "o", "s"]
+[0.306, "o", "c"]
+[0.339, "o", "r"]
+[0.4, "o", "i"]
+[0.432, "o", "p"]
+[0.488, "o", "t"]
+[0.522, "o", "s"]
+[0.558, "o", "/"]
+[0.613, "o", "c"]
+[0.693, "o", "h"]
+[0.73, "o", "e"]
+[0.774, "o", "c"]
+[0.841, "o", "k"]
+[0.928, "o", "-"]
+[0.993, "o", "r"]
+[1.047, "o", "o"]
+[1.135, "o", "s"]
+[1.168, "o", "t"]
+[1.25, "o", "e"]
+[1.297, "o", "r"]
+[1.336, "o", "."]
+[1.373, "o", "s"]
+[1.421, "o", "h"]
+[1.5, "o", " "]
+[1.541, "o", " "]
+[1.606, "o", " "]
+[1.674, "o", "#"]
+[1.727, "o", " "]
+[1.789, "o", "f"]
+[1.823, "o", "i"]
+[1.857, "o", "r"]
+[1.899, "o", "m"]
+[1.97, "o", " "]
+[2.026, "o", "c"]
+[2.074, "o", "h"]
+[2.14, "o", "e"]
+[2.197, "o", "c"]
+[2.245, "o", "k"]
+[2.322, "o", "s"]
+[2.394, "o", " "]
+[2.439, "o", "i"]
+[2.503, "o", "t"]
+[2.565, "o", "s"]
+[2.647, "o", " "]
+[2.721, "o", "o"]
+[2.769, "o", "w"]
+[2.857, "o", "n"]
+[2.894, "o", " "]
+[2.949, "o", "r"]
+[3.025, "o", "o"]
+[3.064, "o", "s"]
+[3.123, "o", "t"]
+[3.156, "o", "e"]
+[3.226, "o", "r"]
+[3.302, "o", "\r\n"]
+[3.802, "o", "\u001b[90m  firm \u00b7 roster gate \u00b7 counts \u00b7 seam ownership \u00b7 description limits\u001b[0m\r\n"]
+[3.862, "o", "\r\n"]
+[3.922, "o", "\u001b[1m\u001b[97m  disk has 19 skills \u001b[90m(14 core + 0 tembo + 5 rails)\u001b[0m\r\n"]
+[3.982, "o", "\u001b[1m\u001b[97m  and 5 agents \u001b[90m(1 core + 0 tembo + 4 rails)\u001b[0m\r\n"]
+[4.042, "o", "\r\n"]
+[4.102, "o", "\u001b[92m  \u2713\u001b[0m counts            \u001b[90mmatch README\u001b[0m\r\n"]
+[4.162, "o", "\u001b[92m  \u2713\u001b[0m roster membership \u001b[90mevery skill on disk is rostered\u001b[0m\r\n"]
+[4.222, "o", "\u001b[92m  \u2713\u001b[0m seam ownership    \u001b[90mexactly one owner per numbered seam\u001b[0m\r\n"]
+[4.282, "o", "\u001b[92m  \u2713\u001b[0m descriptions      \u001b[90mall \u2264 1024 chars\u001b[0m\r\n"]
+[4.342, "o", "\r\n"]
+[4.402, "o", "\u001b[92m  PASS \u2014 structure, membership, seam ownership all check out.\u001b[0m\r\n"]
+[4.462, "o", "\r\n"]
+[5.922, "o", "\u001b[36mfirm\u001b[0m\u001b[32m $ \u001b[0m"]
+[5.922, "o", "b"]
+[5.986, "o", "a"]
+[6.069, "o", "s"]
+[6.117, "o", "h"]
+[6.189, "o", " "]
+[6.255, "o", "s"]
+[6.32, "o", "c"]
+[6.377, "o", "r"]
+[6.457, "o", "i"]
+[6.544, "o", "p"]
+[6.602, "o", "t"]
+[6.672, "o", "s"]
+[6.706, "o", "/"]
+[6.778, "o", "c"]
+[6.847, "o", "h"]
+[6.936, "o", "e"]
+[7.016, "o", "c"]
+[7.063, "o", "k"]
+[7.116, "o", "-"]
+[7.186, "o", "s"]
+[7.217, "o", "t"]
+[7.275, "o", "r"]
+[7.315, "o", "a"]
+[7.352, "o", "t"]
+[7.386, "o", "e"]
+[7.462, "o", "g"]
+[7.5, "o", "y"]
+[7.545, "o", "."]
+[7.598, "o", "s"]
+[7.68, "o", "h"]
+[7.715, "o", " "]
+[7.772, "o", "-"]
+[7.835, "o", "-"]
+[7.918, "o", "s"]
+[7.997, "o", "e"]
+[8.079, "o", "l"]
+[8.126, "o", "f"]
+[8.181, "o", "-"]
+[8.232, "o", "t"]
+[8.315, "o", "e"]
+[8.403, "o", "s"]
+[8.442, "o", "t"]
+[8.482, "o", " "]
+[8.526, "o", " "]
+[8.57, "o", " "]
+[8.629, "o", "#"]
+[8.695, "o", " "]
+[8.74, "o", "t"]
+[8.771, "o", "h"]
+[8.826, "o", "e"]
+[8.878, "o", " "]
+[8.942, "o", "g"]
+[9.029, "o", "a"]
+[9.101, "o", "t"]
+[9.162, "o", "e"]
+[9.229, "o", " "]
+[9.299, "o", "t"]
+[9.332, "o", "e"]
+[9.416, "o", "s"]
+[9.493, "o", "t"]
+[9.576, "o", "s"]
+[9.654, "o", " "]
+[9.707, "o", "i"]
+[9.761, "o", "t"]
+[9.797, "o", "s"]
+[9.865, "o", "e"]
+[9.899, "o", "l"]
+[9.933, "o", "f"]
+[9.976, "o", "\r\n"]
+[10.476, "o", "\u001b[90m  Self-test: VALID fixture should PASS \u2026\u001b[0m\r\n"]
+[10.536, "o", "\u001b[92m    ok\u001b[0m   - complete STRATEGY.md passed\r\n"]
+[10.596, "o", "\u001b[90m  Self-test: INVALID fixture should FAIL \u2026\u001b[0m\r\n"]
+[10.656, "o", "\u001b[92m    ok\u001b[0m   - incomplete STRATEGY.md failed as expected\r\n"]
+[10.716, "o", "\u001b[90m  Self-test: ABSENT file should FAIL \u2026\u001b[0m\r\n"]
+[10.776, "o", "\u001b[92m    ok\u001b[0m   - absent STRATEGY.md failed as expected\r\n"]
+[10.836, "o", "\r\n"]
+[10.896, "o", "\u001b[92m  PASS \u2014 accepts a complete strategy, rejects an incomplete/absent one.\u001b[0m\r\n"]
+[10.956, "o", "\r\n"]
+[12.416, "o", "\u001b[36mfirm\u001b[0m\u001b[32m $ \u001b[0m"]
+[12.416, "o", "b"]
+[12.455, "o", "a"]
+[12.506, "o", "s"]
+[12.539, "o", "h"]
+[12.569, "o", " "]
+[12.608, "o", "s"]
+[12.644, "o", "c"]
+[12.696, "o", "r"]
+[12.727, "o", "i"]
+[12.81, "o", "p"]
+[12.877, "o", "t"]
+[12.916, "o", "s"]
+[12.961, "o", "/"]
+[13.012, "o", "c"]
+[13.063, "o", "h"]
+[13.101, "o", "e"]
+[13.182, "o", "c"]
+[13.271, "o", "k"]
+[13.329, "o", "-"]
+[13.388, "o", "w"]
+[13.423, "o", "h"]
+[13.46, "o", "y"]
+[13.51, "o", "-"]
+[13.556, "o", "s"]
+[13.636, "o", "e"]
+[13.675, "o", "c"]
+[13.707, "o", "t"]
+[13.794, "o", "i"]
+[13.856, "o", "o"]
+[13.894, "o", "n"]
+[13.957, "o", "s"]
+[13.989, "o", "."]
+[14.05, "o", "s"]
+[14.139, "o", "h"]
+[14.221, "o", " "]
+[14.293, "o", " "]
+[14.338, "o", " "]
+[14.39, "o", "#"]
+[14.43, "o", " "]
+[14.507, "o", "e"]
+[14.569, "o", "v"]
+[14.645, "o", "e"]
+[14.695, "o", "r"]
+[14.738, "o", "y"]
+[14.817, "o", " "]
+[14.906, "o", "f"]
+[14.987, "o", "i"]
+[15.066, "o", "l"]
+[15.145, "o", "e"]
+[15.219, "o", " "]
+[15.263, "o", "m"]
+[15.324, "o", "u"]
+[15.375, "o", "s"]
+[15.407, "o", "t"]
+[15.439, "o", " "]
+[15.485, "o", "d"]
+[15.531, "o", "e"]
+[15.603, "o", "c"]
+[15.69, "o", "l"]
+[15.747, "o", "a"]
+[15.833, "o", "r"]
+[15.922, "o", "e"]
+[16.01, "o", " "]
+[16.061, "o", "a"]
+[16.105, "o", " "]
+[16.148, "o", "W"]
+[16.19, "o", "h"]
+[16.232, "o", "y"]
+[16.3, "o", "\r\n"]
+[16.8, "o", "\u001b[92m  \u2713\u001b[0m Why-section gate: all tracked .md and .sh files declare a Why.\u001b[0m\r\n"]
+[16.86, "o", "\r\n"]
+[18.12, "o", "\u001b[36mfirm\u001b[0m\u001b[32m $ \u001b[0m"]
+[18.12, "o", "E"]
+[18.204, "o", "V"]
+[18.284, "o", "A"]
+[18.343, "o", "L"]
+[18.412, "o", "_"]
+[18.49, "o", "J"]
+[18.525, "o", "U"]
+[18.595, "o", "D"]
+[18.679, "o", "G"]
+[18.756, "o", "E"]
+[18.831, "o", "_"]
+[18.89, "o", "V"]
+[18.931, "o", "O"]
+[19.008, "o", "T"]
+[19.058, "o", "E"]
+[19.136, "o", "S"]
+[19.224, "o", "="]
+[19.278, "o", "3"]
+[19.332, "o", " "]
+[19.419, "o", "b"]
+[19.493, "o", "a"]
+[19.533, "o", "s"]
+[19.57, "o", "h"]
+[19.609, "o", " "]
+[19.694, "o", "s"]
+[19.772, "o", "c"]
+[19.811, "o", "r"]
+[19.891, "o", "i"]
+[19.979, "o", "p"]
+[20.049, "o", "t"]
+[20.1, "o", "s"]
+[20.163, "o", "/"]
+[20.201, "o", "r"]
+[20.231, "o", "u"]
+[20.32, "o", "n"]
+[20.389, "o", "-"]
+[20.45, "o", "e"]
+[20.536, "o", "v"]
+[20.592, "o", "a"]
+[20.675, "o", "l"]
+[20.754, "o", "s"]
+[20.797, "o", "."]
+[20.842, "o", "s"]
+[20.89, "o", "h"]
+[20.934, "o", " "]
+[20.999, "o", "e"]
+[21.045, "o", "v"]
+[21.1, "o", "a"]
+[21.138, "o", "l"]
+[21.222, "o", "s"]
+[21.274, "o", "/"]
+[21.331, "o", "s"]
+[21.396, "o", "e"]
+[21.48, "o", "c"]
+[21.536, "o", "u"]
+[21.621, "o", "r"]
+[21.681, "o", "i"]
+[21.743, "o", "t"]
+[21.804, "o", "y"]
+[21.835, "o", "-"]
+[21.892, "o", "r"]
+[21.933, "o", "e"]
+[21.963, "o", "v"]
+[22.041, "o", "i"]
+[22.081, "o", "e"]
+[22.139, "o", "w"]
+[22.213, "o", "e"]
+[22.276, "o", "r"]
+[22.326, "o", "."]
+[22.387, "o", "j"]
+[22.45, "o", "s"]
+[22.527, "o", "o"]
+[22.564, "o", "n"]
+[22.627, "o", "\r\n"]
+[23.127, "o", "\u001b[90m  firm \u00b7 eval \u00b7 WITH the skill vs WITHOUT it \u00b7 3-judge majority\u001b[0m\r\n"]
+[23.187, "o", "\r\n"]
+[23.247, "o", "\u001b[90m  case 1  secrets in diff      WITH \u001b[92m\u2713\u001b[0m  WITHOUT \u001b[91m\u2717\u001b[0m   \u001b[33mdelta +\u001b[0m\r\n"]
+[23.307, "o", "\u001b[90m  case 2  tenant scoping       WITH \u001b[92m\u2713\u001b[0m  WITHOUT \u001b[91m\u2717\u001b[0m   \u001b[33mdelta +\u001b[0m\r\n"]
+[23.367, "o", "\u001b[90m  case 3  dependency bump      WITH \u001b[92m\u2713\u001b[0m  WITHOUT \u001b[91m\u2717\u001b[0m   \u001b[33mdelta +\u001b[0m\r\n"]
+[23.427, "o", "\u001b[90m  case 4  clean diff           WITH \u001b[92m\u2713\u001b[0m  WITHOUT \u001b[92m\u2713\u001b[0m   \u001b[90mdelta 0\u001b[0m\r\n"]
+[23.487, "o", "\r\n"]
+[23.547, "o", "\u001b[1m\u001b[97m  security-reviewer: 4/4 \u00b7 verified (3-vote) \u00b7 2026-06-22\u001b[0m\r\n"]
+[23.607, "o", "\u001b[90m     a skill earns its place only when it beats the baseline.\u001b[0m\r\n"]
+[23.667, "o", "\r\n"]
+</script>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes');
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;
+  progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');
+  location.hash=i+1;
+}
+function next(){show(i+1)} function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+});
+document.addEventListener('click',e=>{ if(e.target.closest('.cast'))return; if(e.clientX < innerWidth*0.25) prev(); else next(); });
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+window.deck={show:n=>show(n),next,prev};
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+<script src="castplay.js"></script>
+</body>
+</html>

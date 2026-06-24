@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>firm in a session — how a Claude session benefits from firm · David Silva</title>
+<meta name="description" content="A Claude Code session is fast, capable, and amnesiac. firm injects the disciplines a fast session skips at the moment they matter — and makes the session's learning outlive the context window. A walk through one session, with and without firm.">
+<link rel="canonical" href="https://davidslv.uk/presentations/firm-in-a-session/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="firm in a session — how a Claude session benefits from firm">
+<meta property="og:description" content="A session is fast, capable, and amnesiac. firm injects the skipped disciplines at the moment they matter, and makes the session's learning outlive the context window.">
+<meta property="og:url" content="https://davidslv.uk/presentations/firm-in-a-session/">
+<meta property="og:image" content="https://davidslv.uk/presentations/firm-in-a-session/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@davidslv">
+<meta name="twitter:title" content="firm in a session — how a Claude session benefits from firm">
+<meta name="twitter:description" content="A session is fast, capable, and amnesiac. firm injects the skipped disciplines at the moment they matter, and makes the session's learning outlive the context window.">
+<meta name="twitter:image" content="https://davidslv.uk/presentations/firm-in-a-session/assets/og.png">
+<style>
+:root{
+  --bg:#FBF7F0; --ink:#22201C; --ink2:#46423a; --muted:#8a8578;
+  --coral:#E2603F; --coral-ink:#fff; --teal:#1F6F6B; --code:#F3EEE4; --line:#e6ddcc;
+  --red:#b23a2a; --redwash:#f7e3de; --green:#2f7d4f;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:7vh 9vw;opacity:0;transition:opacity .35s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+.kicker{font-family:var(--mono);font-size:1.05vw;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:2.2vh}
+h1{font-size:6.6vw;font-weight:800;line-height:.98;letter-spacing:-.02em}
+.big{font-size:5.2vw;font-weight:800;line-height:1.04;letter-spacing:-.02em}
+.lede{font-size:2.5vw;font-weight:500;line-height:1.3;color:var(--ink2);max-width:24ch}
+p.body{font-size:2vw;line-height:1.4;color:var(--ink2);max-width:30ch;margin-top:2.4vh}
+.sig{color:var(--coral)}
+.tealc{color:var(--teal)}
+.sub{font-size:1.7vw;color:var(--muted);margin-top:1.6vh;line-height:1.35;max-width:40ch}
+.stack{display:flex;flex-direction:column;gap:.4vh}
+.stack .w{font-size:6vw;font-weight:800;letter-spacing:-.02em;line-height:1.02}
+.slide.coral{background:var(--coral);color:var(--coral-ink)}
+.slide.coral .kicker{color:#ffe2d8}
+.slide.coral .big,.slide.coral h1{color:#fff}
+.slide.coral .sub{color:#ffe2d8}
+.slide.teal{background:var(--teal);color:#fff}
+.slide.teal .kicker{color:#bfe5e1}
+.slide.teal .big{color:#fff}
+.slide.teal .sub{color:#cfeae7}
+.slide.quote{align-items:center;text-align:center}
+.quote .q{font-size:3.3vw;font-weight:600;line-height:1.28;max-width:26ch;letter-spacing:-.01em}
+.quote .who{font-family:var(--mono);font-size:1.2vw;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3vh}
+.titleslide .wm{font-size:7vw;font-weight:800;line-height:.95;letter-spacing:-.025em}
+.titleslide .wm .you{color:var(--coral)}
+.titleslide .meta{font-family:var(--mono);font-size:1.4vw;color:var(--muted);margin-top:3.5vh;letter-spacing:.08em}
+/* session timeline */
+.timeline{max-width:80vw;margin-top:1.4vh}
+.tl{display:grid;grid-template-columns:7vw 1.4vw 1fr;gap:0 1.4vw;align-items:start;padding:.55vh 0}
+.tl .when{font-family:var(--mono);font-size:1.05vw;color:var(--muted);text-align:right;padding-top:.2vh}
+.tl .rail{position:relative;display:flex;justify-content:center}
+.tl .rail::before{content:"";position:absolute;top:-1.6vh;bottom:-1.6vh;width:2px;background:var(--line)}
+.tl .dot{width:1.1vw;height:1.1vw;border-radius:50%;margin-top:.3vh;z-index:1;background:var(--ink);border:2px solid var(--bg)}
+.tl.firm .dot{background:var(--coral)}
+.tl .ev{font-size:1.35vw;line-height:1.3;color:var(--ink2)}
+.tl .ev .who{font-family:var(--mono);font-size:.95vw;letter-spacing:.04em;text-transform:uppercase;font-weight:700}
+.tl.user .ev .who{color:var(--muted)}
+.tl.firm .ev .who{color:var(--coral)}
+.tl .ev b{color:var(--ink)}
+.tl .ev .skill{font-family:var(--mono);color:var(--teal);font-size:.95em}
+.cap{font-family:var(--mono);font-size:1.15vw;color:var(--muted);margin-top:2vh;letter-spacing:.04em}
+/* split */
+.split{display:flex;gap:2vw;margin-top:1.5vh;max-width:74vw}
+.split .a,.split .b{flex:1;border:1px solid var(--line);border-radius:12px;padding:2.6vh 2vw;background:#fff}
+.split .b{border-color:var(--coral)}
+.split .lab{font-family:var(--mono);font-size:1.2vw;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.split .b .lab{color:var(--coral)}
+.split .t{font-size:1.55vw;color:var(--ink2);line-height:1.36;margin-top:1.2vh}
+.split .t b{color:var(--ink)}
+/* four grid */
+.four{display:grid;grid-template-columns:1fr 1fr;gap:2.6vh 3vw;margin-top:2.6vh;max-width:70vw}
+.four .cell{border-left:2px solid var(--coral);padding:.2vh 0 .2vh 1.6vw}
+.four .cell .h{font-size:1.9vw;font-weight:800;line-height:1.12;letter-spacing:-.01em;color:var(--ink)}
+.four .cell .s{font-family:var(--mono);font-size:1.05vw;color:var(--muted);margin-top:.6vh;line-height:1.45;letter-spacing:.02em}
+/* card */
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;margin-top:1vh;max-width:74vw;box-shadow:0 2px 4px rgba(0,0,0,.03)}
+.card .row{display:grid;grid-template-columns:15vw 1fr;gap:1.6vw;align-items:baseline;padding:1.7vh 2vw;border-bottom:1px solid var(--line)}
+.card .row:last-child{border-bottom:0}
+.card .k{font-family:var(--mono);font-size:1.25vw;letter-spacing:.1em;color:var(--coral);font-weight:700}
+.card .v{font-size:1.55vw;color:var(--ink2);line-height:1.34}
+.card .v b{color:var(--ink)}
+p.body code,.sub code,.lede code,.split .t code,.card .v code{font-family:var(--mono);background:var(--code);border-radius:4px;padding:.05em .35em;color:var(--coral);font-size:.86em}
+/* across-sessions chain */
+.chain{display:flex;gap:1vw;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:2.4vh}
+.chain .s{border:2px solid var(--line);border-radius:12px;padding:2vh 1.4vw;background:#fff;text-align:center;min-width:13vw}
+.chain .s .n{font-family:var(--mono);font-size:1.05vw;color:var(--muted);letter-spacing:.06em}
+.chain .s .b{font-size:1.4vw;font-weight:800;color:var(--ink);margin-top:.6vh;line-height:1.1}
+.chain .s .d{font-size:1.05vw;color:var(--ink2);margin-top:.8vh;line-height:1.3}
+.chain .s.last{border-color:var(--coral)}
+.chain .ar{font-size:2vw;color:var(--coral);font-weight:800}
+.chain .note{flex-basis:100%;text-align:center;font-family:var(--mono);font-size:1.15vw;color:var(--coral);margin-top:1.6vh}
+.urls{font-family:var(--mono);font-size:1.3vw;color:var(--ink2);margin-top:4vh;line-height:1.9}
+.urls b{color:var(--coral)}
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1.1vw;color:var(--muted);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--coral);transition:width .35s;z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(28,26,23,.96);color:#f0ece3;
+  font-family:var(--sans);font-size:1.5vh;line-height:1.5;padding:2.2vh 3vw;display:none;z-index:8;border-top:3px solid var(--coral)}
+.notes.show{display:block}
+.notes b{color:#f4bf4f}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
+@media(max-width:760px){h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}.four{grid-template-columns:1fr}.timeline{max-width:92vw}.tl .ev{font-size:3vw}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 COLD OPEN -->
+<section class="slide center" data-notes="Open cold, on the thing every Claude Code user already feels. A session is astonishing in the moment — fast, capable, tireless. And then the window closes, and everything it figured out about your codebase is gone. Tomorrow it starts from zero again. State it, then stop.">
+  <h1>A Claude session is brilliant,<br>fast — and <span class="sig">amnesiac.</span></h1>
+</section>
+
+<!-- 2 THE PATTERN -->
+<section class="slide" data-notes="Name the pattern honestly. A session is biased toward motion: you ask for a feature, it writes the feature. That's the strength. But left alone it does two things that cost you later — it skips the disciplines a senior engineer wouldn't (shaping, design pressure, the kinds of review a diff hides), and when it ends, the lesson it learned evaporates. Fast, and forgetful.">
+  <div class="kicker">What a raw session does</div>
+  <div class="stack">
+    <span class="w">It rushes to code.</span><span class="w">It skips the discipline.</span><span class="w sig">It forgets the lesson.</span>
+  </div>
+  <p class="body">All three are invisible <b>in the session</b>. They only cost you <b>after</b> it.</p>
+</section>
+
+<!-- 3 WHAT IT SKIPS / LOSES -->
+<section class="slide" data-notes="Make 'discipline' concrete — four things a fast session quietly skips or loses, that a senior engineer in the room wouldn't. It rarely shapes the work into a real spec before coding. It rarely pressures its own design. It reviews the diff for what's there — not for the tenant-scoping, the lock risk, the boundary it can't see. And it never writes down what it learned. firm is the senior in the room who insists on all four.">
+  <div class="kicker">Four things a fast session skips — or loses</div>
+  <div class="four">
+    <div class="cell"><div class="h">Shaping the work</div><div class="s">"build X" → code, with no spec, acceptance criteria, or non-goals</div></div>
+    <div class="cell"><div class="h">Pressuring the design</div><div class="s">no adversarial pass — the first plausible plan becomes the plan</div></div>
+    <div class="cell"><div class="h">Reviewing what a diff hides</div><div class="s">tenant scoping, lock risk, a crossed boundary — invisible in the patch</div></div>
+    <div class="cell"><div class="h">Writing down the lesson</div><div class="s">the context window closes — and the learning goes with it</div></div>
+  </div>
+</section>
+
+<!-- 4 TITLE -->
+<section class="slide center titleslide" data-notes="Name it. firm in a session. firm is the engineering operating system — but forget the roster for a moment; this talk is about what it feels like inside one working session. It's the producer who sits in the room, fires the right discipline at the right moment, and makes sure the session's learning outlives it.">
+  <div class="wm"><span class="you">firm</span> in a session</div>
+  <div class="meta">the discipline a fast session skips — injected when it matters · and the memory a context window loses — written back</div>
+  <div class="meta" style="margin-top:2vh">David Silva · 15+ yrs Ruby · @davidslv · davidslv.uk</div>
+</section>
+
+<!-- 5 THE FRAME (coral) -->
+<section class="slide coral center" data-notes="The frame, before the timeline. firm isn't a wrapper that slows every prompt down. It's a producer that watches what the change touches and fires only the disciplines that seam demands. A typo crosses no seam — firm stays silent. A CSV export of invoices crosses PII and tenancy — firm wakes up. Discipline proportional to blast radius.">
+  <div class="big">firm is the producer in the room.<br>It fires only when the change<br><span style="text-decoration:underline">crosses a seam.</span></div>
+  <p class="sub" style="color:#ffe2d8;max-width:52ch;margin-top:3vh">Discipline proportional to blast radius — silent on a typo, fully awake on a PII export.</p>
+</section>
+
+<!-- 6 THE TIMELINE (centerpiece) -->
+<section class="slide" data-notes="The centerpiece — one illustrative session, start to finish, with firm's interventions in coral and your work in ink. Walk it top to bottom. You ask for a CSV export of invoices. Before any code, story-writer turns it into a real issue; the skeptic pressures it and asks the question you didn't — what about tenant scoping on a bulk export? You build. blast-radius scores it: PII plus a bulk read — warrants a flag. security-reviewer reads the diff and catches that the query isn't tenant-scoped. communicator writes the PR in your voice; release-gatekeeper says CONDITIONAL — add observability. And at the end, compound writes the tenant-scoping pattern into the repo's knowledge so the next session starts knowing it. Note: this is illustrative — every role named is a real firm skill or agent.">
+  <div class="kicker">One session · illustrative · firm in coral, you in ink</div>
+  <div class="timeline">
+    <div class="tl user"><div class="when">prompt</div><div class="rail"><div class="dot"></div></div><div class="ev"><span class="who">you</span> · "add a CSV export of invoices to the billing page"</div></div>
+    <div class="tl firm"><div class="when">before code</div><div class="rail"><div class="dot"></div></div><div class="ev"><span class="who">firm · story-writer</span> · turns it into a real issue — one goal, <b>Given/When/Then</b> criteria, non-goals</div></div>
+    <div class="tl firm"><div class="when">before code</div><div class="rail"><div class="dot"></div></div><div class="ev"><span class="who">firm · skeptic</span> · "a <b>bulk</b> export — is the query tenant-scoped? what's the row ceiling?" <span class="skill">CAUTION</span></div></div>
+    <div class="tl user"><div class="when">build</div><div class="rail"><div class="dot"></div></div><div class="ev"><span class="who">you + claude</span> · write the exporter and the controller action</div></div>
+    <div class="tl firm"><div class="when">change-time</div><div class="rail"><div class="dot"></div></div><div class="ev"><span class="who">firm · blast-radius</span> · PII + bulk read → <b>warrants a feature flag</b>, logged in the ledger with an expiry</div></div>
+    <div class="tl firm"><div class="when">on the diff</div><div class="rail"><div class="dot"></div></div><div class="ev"><span class="who">firm · security-reviewer</span> · the export query <b>isn't tenant-scoped</b> — one tenant can read another's invoices <span class="skill">BLOCK</span></div></div>
+    <div class="tl firm"><div class="when">ship</div><div class="rail"><div class="dot"></div></div><div class="ev"><span class="who">firm · communicator</span> · drafts the PR in your house format and voice · <span class="who" style="color:var(--coral)">release-gatekeeper</span> → <span class="skill">CONDITIONAL</span> (add observability)</div></div>
+    <div class="tl firm"><div class="when">after</div><div class="rail"><div class="dot"></div></div><div class="ev"><span class="who">firm · compound</span> · writes the <b>tenant-scoping-on-bulk-export</b> pattern to the repo's knowledge files</div></div>
+  </div>
+</section>
+
+<!-- 7 THE MOMENT IT EARNS ITS KEEP -->
+<section class="slide" data-notes="Pull out the single most important moment and dwell on it. The fast session would have shipped that export — it compiles, it passes the happy-path test, the demo works. The bug is a cross-tenant data leak that only shows up when a second tenant exports. firm's security-reviewer reads the diff against the repo's Profile, sees the un-scoped query, and blocks it. That one catch is the whole value proposition in one frame: the discipline fired exactly where a fast session is blind.">
+  <div class="kicker">The moment it earns its keep</div>
+  <p class="big" style="margin-bottom:1.4vh">The fast session would have<br><span class="sig">shipped the leak.</span></p>
+  <p class="sub" style="max-width:62ch">It compiles. The happy-path test passes. The demo works. The bug — one tenant reads another's invoices — only appears in production, with a second tenant. firm's reviewer read the diff against the repo's Profile and <b style="color:var(--ink)">blocked it before the PR</b>.</p>
+</section>
+
+<!-- 8 IT DOESN'T SLOW YOU DOWN -->
+<section class="slide" data-notes="Pre-empt the fear that this is friction on every prompt. It isn't. The producer fires stations in proportion to the seams a change crosses. Most prompts get nothing. The few that touch data, money, auth, or a boundary get the full treatment. You feel firm exactly when you'd want a senior looking over your shoulder — and never when you wouldn't.">
+  <div class="kicker">The fear · "won't this slow every prompt down?"</div>
+  <div class="split">
+    <div class="a"><div class="lab">A typo fix · a copy change</div><div class="t">Crosses no seam. firm stays <b>silent</b>. The session moves at full speed.</div></div>
+    <div class="b"><div class="lab">A PII export · a migration · an auth change</div><div class="t">Crosses real seams. firm fires the <b>exact</b> reviewers that matter — and nothing else.</div></div>
+  </div>
+  <p class="cap">you feel it exactly when you'd want a senior looking over your shoulder — and never when you wouldn't.</p>
+</section>
+
+<!-- 9 THE AMNESIA FIX (teal act) -->
+<section class="slide teal center" data-notes="The act break — the benefit most specific to a Claude session, and the one nothing else gives you. A session's intelligence is trapped in its context window. When the window closes, the lesson is gone; tomorrow's session re-learns it, or doesn't. firm's compound step writes that lesson into the repo's knowledge files — durable, outside the window. The session's learning stops dying with the context.">
+  <div class="kicker">The benefit only a session has</div>
+  <div class="big">The context window closes.<br>The lesson <span style="text-decoration:underline">doesn't.</span></div>
+  <p class="sub" style="color:#cfeae7;max-width:54ch;margin-top:3vh">compound writes what the session learned into the repo's knowledge files — durable, outside the window. The next session inherits it instead of re-deriving it.</p>
+</section>
+
+<!-- 10 BEFORE / AFTER -->
+<section class="slide" data-notes="Same session, two endings, side by side. Without firm: a working feature, a confident PR, a latent cross-tenant leak, and a lesson that vanishes when the window closes. With firm: the leak caught before the PR, a flag governing the rollout, a PR in your voice, and the pattern written down so it never has to be re-learned. Same prompt. Same model. Different discipline.">
+  <div class="kicker">Same prompt · same model · two endings</div>
+  <div class="split">
+    <div class="a"><div class="lab">The session alone</div><div class="t">Working feature · confident PR · <b>a latent cross-tenant leak</b> · the lesson gone when the window closes.</div></div>
+    <div class="b"><div class="lab">The session with firm</div><div class="t">Leak caught pre-PR · a governed flag · PR in your voice · <b>the pattern written to knowledge</b> for next time.</div></div>
+  </div>
+</section>
+
+<!-- 11 ACROSS SESSIONS -->
+<section class="slide" data-notes="Zoom out from one session to many. This is the compounding curve. Session one learns the tenant-scoping rule the hard way and writes it down. Session two opens already knowing it — the skeptic doesn't have to discover it again. Session three builds on two. Each session starts ahead of the last instead of starting over. A normal session's value is a flat line; firm's bends upward.">
+  <div class="kicker">Across sessions · the curve that compounds</div>
+  <div class="chain">
+    <div class="s"><div class="n">SESSION 1</div><div class="b">learns it the hard way</div><div class="d">catches the leak · writes the pattern down</div></div>
+    <div class="ar">→</div>
+    <div class="s"><div class="n">SESSION 2</div><div class="b">starts knowing it</div><div class="d">opens with session 1's lesson already loaded</div></div>
+    <div class="ar">→</div>
+    <div class="s last"><div class="n">SESSION 3</div><div class="b">builds on both</div><div class="d">each one starts ahead, not over</div></div>
+    <div class="note">a raw session's value is a flat line · firm's bends upward</div>
+  </div>
+</section>
+
+<!-- 12 NOT A MIRACLE -->
+<section class="slide" data-notes="The honesty beat — the same one from the main deck, and it matters even more at the session level. firm makes a session disciplined, but it can't invent ground truth. Point a session at a codebase with no runbooks and a decade of stale, confidently-wrong comments, and firm will reinforce the confidence, not the truth. Its leverage is real only where there's structured documentation and tooling it can reach. The honest line: firm makes the missing ground visible — which is often the first reason a team fills it in.">
+  <div class="kicker">The honest part · firm is not a miracle</div>
+  <p class="big" style="margin-bottom:1.4vh">A disciplined session still can't<br><span class="sig">invent ground truth.</span></p>
+  <p class="sub" style="max-width:62ch">No runbooks, stale comments, tribal knowledge → firm reinforces the confidence, not the truth. Its leverage is real only where there's structured documentation and tooling it can reach. What it <i>does</i> do is make the missing ground <b style="color:var(--ink)">visible</b> — often the first reason a team fills it in.</p>
+</section>
+
+<!-- 13 THE BET (coral) -->
+<section class="slide coral center" data-notes="The earned conclusion. Two sentences. firm makes the session disciplined while it runs, and smarter than the last one when it ends. That's the whole bet: not a faster session — a session that holds the line and compounds.">
+  <div class="big">Disciplined while it runs.<br><span style="text-decoration:underline">Smarter than the last one</span><br>when it ends.</div>
+</section>
+
+<!-- 14 CLOSE -->
+<section class="slide center" data-notes="Close on the single concrete action. Run firm-onboard once to ground it in this repo — then just work, and let the producer fire the discipline and compound the lesson. Don't read the URLs; let them photograph it. Thank you.">
+  <div class="kicker">How to get this in your sessions</div>
+  <div class="card" style="max-width:64vw">
+    <div class="row"><span class="k">ONCE</span><span class="v">run <b>firm-onboard</b> in the repo — it grounds every reviewer in how <i>this</i> codebase is wired</span></div>
+    <div class="row"><span class="k">THEN</span><span class="v">just work. The producer fires the discipline; compound writes the lesson back</span></div>
+  </div>
+  <div class="urls">github.com/Davidslv/firm &nbsp;·&nbsp; <b>davidslv.uk</b> &nbsp;·&nbsp; <b>@davidslv</b></div>
+  <p class="sub" style="margin-top:2.6vh">A session that holds the line — and compounds. Thank you.</p>
+</section>
+
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 14</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes');
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;
+  progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');
+  location.hash=i+1;
+}
+function next(){show(i+1)} function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+});
+document.addEventListener('click',e=>{ if(e.clientX < innerWidth*0.25) prev(); else next(); });
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+window.deck={show:n=>show(n),next,prev};
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+</body>
+</html>
