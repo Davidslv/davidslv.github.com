@@ -1,726 +1,657 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Building a Roguelike from Scratch — David Silva</title>
-  <meta name="description" content="Five years, one game: building a roguelike from scratch in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture.">
-  <link rel="canonical" href="https://davidslv.uk/presentations/building-a-roguelike.html">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Building a Roguelike from Scratch">
-  <meta property="og:description" content="Five years, one game: building a roguelike from scratch in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture.">
-  <meta property="og:url" content="https://davidslv.uk/presentations/building-a-roguelike.html">
-  <meta property="og:image" content="https://davidslv.uk/presentations/og/building-a-roguelike.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@davidslv">
-  <meta name="twitter:title" content="Building a Roguelike from Scratch">
-  <meta name="twitter:description" content="Five years, one game: building a roguelike from scratch in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture.">
-  <meta name="twitter:image" content="https://davidslv.uk/presentations/og/building-a-roguelike.png">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --color-bg: #0d1117;
-      --color-bg-light: #161b22;
-      --color-accent: #58a6ff;
-      --color-accent-dark: #1f6feb;
-      --color-green: #3fb950;
-      --color-red: #f85149;
-      --color-yellow: #d29922;
-      --color-purple: #bc8cff;
-      --color-text: #e6edf3;
-      --color-text-muted: #8b949e;
-      --color-code-bg: #0d1117;
-      --color-border: #30363d;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--color-bg);
-      color: var(--color-text);
-      overflow: hidden;
-      height: 100vh;
-    }
-
-    .presentation { width: 100vw; height: 100vh; position: relative; }
-
-    .slide {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem 6rem;
-      text-align: center;
-    }
-
-    .slide.active { display: flex; }
-
-    h1 { font-size: 3rem; font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
-    h2 { font-size: 2.25rem; font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem; }
-    h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--color-accent); }
-
-    .slide-label {
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: var(--color-green);
-      margin-bottom: 1.5rem;
-    }
-
-    .tagline {
-      font-size: 1.25rem;
-      color: var(--color-text-muted);
-      margin-top: 1rem;
-      line-height: 1.6;
-    }
-
-    .slide-hint {
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      margin-top: 3rem;
-    }
-
-    .slide-hint kbd {
-      background: var(--color-bg-light);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-family: monospace;
-      border: 1px solid var(--color-border);
-    }
-
-    p { font-size: 1.125rem; line-height: 1.7; color: var(--color-text-muted); max-width: 800px; }
-    p + p { margin-top: 1rem; }
-
-    .highlight { color: var(--color-text); font-weight: 600; }
-    .accent { color: var(--color-accent); font-weight: 600; }
-    .green { color: var(--color-green); font-weight: 600; }
-    .red { color: var(--color-red); font-weight: 600; }
-
-    pre {
-      background: var(--color-bg-light);
-      padding: 1.5rem 2rem;
-      border-radius: 8px;
-      border: 1px solid var(--color-border);
-      text-align: left;
-      font-size: 0.85rem;
-      line-height: 1.6;
-      overflow-x: auto;
-      max-width: 800px;
-      width: 100%;
-      margin: 1.5rem auto 0;
-    }
-
-    code { font-family: 'Menlo', 'Monaco', 'Courier New', monospace; }
-    pre code { color: #e0e0e0; }
-
-    .keyword { color: var(--color-purple); font-weight: 600; }
-    .string { color: #a5d6ff; }
-    .comment { color: var(--color-text-muted); font-style: italic; }
-    .method { color: var(--color-accent); }
-    .symbol { color: var(--color-green); }
-    .number { color: var(--color-yellow); }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      text-align: left;
-      max-width: 900px;
-      width: 100%;
-      margin-top: 1.5rem;
-    }
-
-    .col {
-      padding: 1.5rem;
-      background: var(--color-bg-light);
-      border-radius: 8px;
-      border: 1px solid var(--color-border);
-    }
-
-    .col h3 { font-size: 1.125rem; margin-bottom: 0.75rem; }
-    .col pre { margin-top: 0.75rem; font-size: 0.75rem; border: none; }
-    .col p { font-size: 0.95rem; }
-
-    .col-green { border-left: 4px solid var(--color-green); }
-    .col-red { border-left: 4px solid var(--color-red); }
-
-    ul {
-      list-style: none;
-      text-align: left;
-      max-width: 700px;
-      margin: 1.5rem auto 0;
-    }
-
-    ul li {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: var(--color-text-muted);
-      padding: 0.4rem 0;
-      padding-left: 1.5rem;
-      position: relative;
-    }
-
-    ul li::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: var(--color-green);
-    }
-
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      max-width: 700px;
-      margin: 1.5rem auto 0;
-      text-align: left;
-    }
-
-    .timeline-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.75rem 1.25rem;
-      background: var(--color-bg-light);
-      border-radius: 8px;
-      border: 1px solid var(--color-border);
-    }
-
-    .timeline-year {
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--color-accent);
-      flex-shrink: 0;
-      width: 60px;
-    }
-
-    .timeline-text { font-size: 0.95rem; color: var(--color-text-muted); }
-
-    .ascii-art {
-      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-      font-size: 1.1rem;
-      line-height: 1.4;
-      color: var(--color-green);
-      background: var(--color-bg-light);
-      padding: 2rem;
-      border-radius: 8px;
-      border: 1px solid var(--color-border);
-      margin: 1.5rem auto 0;
-      max-width: 500px;
-      letter-spacing: 0.1em;
-    }
-
-    .ecs-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      max-width: 800px;
-      margin: 2rem auto 0;
-    }
-
-    .ecs-item {
-      background: var(--color-bg-light);
-      padding: 1.5rem;
-      border-radius: 8px;
-      border: 1px solid var(--color-border);
-      text-align: center;
-    }
-
-    .ecs-icon { font-size: 2rem; margin-bottom: 0.75rem; }
-    .ecs-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
-    .ecs-desc { font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; }
-
-    .ecs-entity .ecs-title { color: var(--color-accent); }
-    .ecs-component .ecs-title { color: var(--color-green); }
-    .ecs-system .ecs-title { color: var(--color-purple); }
-
-    .commit-log {
-      text-align: left;
-      max-width: 700px;
-      margin: 1.5rem auto 0;
-      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-      font-size: 0.8rem;
-      line-height: 1.8;
-      color: var(--color-text-muted);
-      background: var(--color-bg-light);
-      padding: 1.5rem 2rem;
-      border-radius: 8px;
-      border: 1px solid var(--color-border);
-    }
-
-    .commit-time { color: var(--color-yellow); }
-    .commit-msg { color: var(--color-text); }
-    .commit-success { color: var(--color-green); font-weight: 600; }
-
-    .systems-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-      max-width: 700px;
-      margin: 1.5rem auto 0;
-    }
-
-    .system-chip {
-      padding: 0.6rem 0.75rem;
-      background: var(--color-bg-light);
-      border-radius: 6px;
-      border: 1px solid var(--color-border);
-      font-size: 0.8rem;
-      text-align: center;
-    }
-
-    .system-chip.core { border-color: var(--color-accent); color: var(--color-accent); }
-    .system-chip.game { border-color: var(--color-green); color: var(--color-green); }
-    .system-chip.ui { border-color: var(--color-purple); color: var(--color-purple); }
-    .system-chip.item { border-color: var(--color-yellow); color: var(--color-yellow); }
-
-    .lesson-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      max-width: 700px;
-      margin: 1.5rem auto 0;
-      text-align: left;
-    }
-
-    .lesson-item {
-      padding: 1.25rem;
-      background: var(--color-bg-light);
-      border-radius: 8px;
-      border: 1px solid var(--color-border);
-    }
-
-    .lesson-num { font-weight: 700; color: var(--color-green); font-size: 0.85rem; margin-bottom: 0.5rem; }
-    .lesson-text { font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.5; }
-
-    .cta-links {
-      display: flex;
-      gap: 1.5rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .cta-link {
-      display: inline-block;
-      padding: 0.75rem 2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .cta-link:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-    .cta-primary { background: var(--color-green); color: var(--color-bg); }
-    .cta-secondary { background: var(--color-bg-light); color: var(--color-text); border: 1px solid var(--color-border); }
-
-    .author-info { font-size: 0.9rem; color: var(--color-text-muted); margin-top: 2rem; }
-    .author-info a { color: var(--color-accent); text-decoration: none; }
-
-    /* Navigation */
-    .slide-nav {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      z-index: 100;
-    }
-
-    .nav-btn {
-      width: 44px;
-      height: 44px;
-      border: none;
-      background: var(--color-bg-light);
-      color: var(--color-text);
-      border-radius: 50%;
-      font-size: 1.25rem;
-      cursor: pointer;
-      border: 1px solid var(--color-border);
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .nav-btn:hover { background: var(--color-border); transform: scale(1.1); }
-    .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
-
-    .slide-dots { display: flex; gap: 0.5rem; }
-
-    .slide-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--color-border);
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-      border: none;
-    }
-
-    .slide-dot:hover { transform: scale(1.3); }
-    .slide-dot.active { background: var(--color-green); }
-
-    .slide-counter {
-      position: fixed;
-      top: 2rem;
-      right: 2rem;
-      font-size: 0.875rem;
-      color: var(--color-text-muted);
-      z-index: 100;
-    }
-
-    @media (max-width: 768px) {
-      .slide { padding: 2rem 1.5rem; }
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.5rem; }
-      pre { font-size: 0.7rem; padding: 1rem; }
-      .two-col, .ecs-grid, .lesson-grid { grid-template-columns: 1fr; }
-      .systems-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building a Roguelike from Scratch · David Silva</title>
+<meta name="description" content="Five years, one game: building a roguelike from scratch in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture.">
+<link rel="canonical" href="https://davidslv.uk/presentations/building-a-roguelike.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Building a Roguelike from Scratch">
+<meta property="og:description" content="Five years, one game: building a roguelike from scratch in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture.">
+<meta property="og:url" content="https://davidslv.uk/presentations/building-a-roguelike.html">
+<meta property="og:image" content="https://davidslv.uk/presentations/og/building-a-roguelike.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@davidslv">
+<meta name="twitter:title" content="Building a Roguelike from Scratch">
+<meta name="twitter:description" content="Five years, one game: building a roguelike from scratch in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture.">
+<meta name="twitter:image" content="https://davidslv.uk/presentations/og/building-a-roguelike.png">
+<style>
+:root{
+  --bg:#FBF7F0; --ink:#22201C; --ink2:#46423a; --muted:#8a8578;
+  --coral:#E2603F; --coral-ink:#fff; --teal:#1F6F6B; --code:#F3EEE4; --line:#e6ddcc;
+  --red:#b23a2a; --redwash:#f7e3de; --green:#2f7d4f; --amber:#c98a1e;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:7vh 9vw;opacity:0;transition:opacity .35s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+.kicker{font-family:var(--mono);font-size:1.05vw;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:2.2vh}
+.kicker.red{color:var(--red)}
+h1{font-size:6.6vw;font-weight:800;line-height:.98;letter-spacing:-.02em}
+h2{font-size:4.4vw;font-weight:800;line-height:1.02;letter-spacing:-.015em}
+.big{font-size:5.2vw;font-weight:800;line-height:1.04;letter-spacing:-.02em}
+.lede{font-size:2.5vw;font-weight:500;line-height:1.3;color:var(--ink2);max-width:24ch}
+p.body{font-size:2vw;line-height:1.4;color:var(--ink2);max-width:34ch;margin-top:2.4vh}
+.sig{color:var(--coral)}
+.tealc{color:var(--teal)}
+.sub{font-size:1.7vw;color:var(--muted);margin-top:1.6vh;line-height:1.35;max-width:46ch}
+.slide.coral{background:var(--coral);color:var(--coral-ink)}
+.slide.coral .kicker{color:#ffe2d8}
+.slide.coral .big,.slide.coral h2,.slide.coral h1{color:#fff}
+.slide.coral .sub{color:#ffe2d8}
+.slide.teal{background:var(--teal);color:#fff}
+.slide.teal .kicker{color:#bfe5e1}
+.slide.teal .big,.slide.teal h2{color:#fff}
+.slide.teal .sub{color:#cfeae7}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:2.4vh 2vw;
+  font-family:var(--mono);font-size:1.5vw;line-height:1.6;overflow:hidden;max-width:64vw}
+pre .cmt{color:var(--muted)}
+pre .key{color:var(--coral)}
+pre .const{color:var(--teal);font-weight:600}
+pre .num{color:var(--amber);font-weight:700}
+.term{width:72vw;max-width:1180px;background:#1c1a17;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.term .bar{display:flex;gap:.6vw;align-items:center;padding:1.4vh 1.2vw;background:#2a2723}
+.term .dot{width:.95vw;height:.95vw;max-width:13px;max-height:13px;border-radius:50%}
+.d1{background:#ef6a5e}.d2{background:#f4bf4f}.d3{background:#62c554}
+.term .ttl{font-family:var(--mono);font-size:.95vw;letter-spacing:.04em;color:#8d867a;margin-left:1vw}
+.term .body{padding:2.4vh 1.8vw;font-family:var(--mono);font-size:1.5vw;line-height:1.6;color:#e9e4da}
+.term .body.cast{white-space:pre;word-break:break-word}
+.cap{font-family:var(--mono);font-size:1.2vw;color:var(--muted);margin-top:2.2vh;letter-spacing:.04em}
+.cap b{color:var(--ink2)}
+.rows{display:flex;flex-direction:column;gap:1.2vh;margin-top:1vh;max-width:76vw}
+.rows .r{display:grid;grid-template-columns:14vw 1fr;gap:1.6vw;align-items:baseline;padding-bottom:1.2vh;border-bottom:1px solid var(--line)}
+.rows .k{font-family:var(--mono);font-size:1.6vw;color:var(--coral);font-weight:700}
+.rows .r.last .k{color:var(--red)}
+.rows .v{font-size:1.55vw;color:var(--ink2);line-height:1.3}
+.rows .v b{color:var(--ink)}
+.rows.wide .r{grid-template-columns:22vw 1fr}
+ul.real{list-style:none;margin-top:1.5vh}
+ul.real li{font-size:1.7vw;line-height:1.7;color:var(--ink2);padding-left:1.6vw;position:relative}
+ul.real li::before{content:"▸";color:var(--coral);position:absolute;left:0}
+ul.real li b{color:var(--ink)}
+.titleslide .wm{font-size:8vw;font-weight:800;line-height:.95;letter-spacing:-.025em}
+.titleslide .wm .you{color:var(--coral)}
+.titleslide .meta{font-family:var(--mono);font-size:1.4vw;color:var(--muted);margin-top:3.5vh;letter-spacing:.06em;max-width:74ch}
+.hero{align-items:flex-start}
+.hero .lab{font-family:var(--mono);font-size:1.3vw;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.hero .num{font-size:11vw;font-weight:800;line-height:.9;letter-spacing:-.04em;margin-top:1vh}
+.hero .num .sig{color:var(--coral)}
+.hero .unit{font-size:2.2vw;font-weight:700;color:var(--ink2);margin-top:1vh}
+.hero .act{font-size:1.7vw;color:var(--muted);margin-top:2.4vh;max-width:60ch;line-height:1.4}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2vw;margin-top:2.4vh;max-width:80vw}
+.three .tier{border:1px solid var(--line);border-radius:12px;background:#fff;padding:2.6vh 1.8vw}
+.three .tier .ic{font-size:2.6vw;line-height:1}
+.three .tier .nm{font-family:var(--mono);font-size:1.4vw;font-weight:700;letter-spacing:.02em;margin-top:1.2vh}
+.three .tier.t1 .nm{color:var(--teal)}.three .tier.t2 .nm{color:var(--amber)}.three .tier.t3 .nm{color:var(--coral)}
+.three .tier .d{font-size:1.3vw;color:var(--ink2);margin-top:1vh;line-height:1.4}
+.three .tier .d code{font-family:var(--mono);background:var(--code);border-radius:4px;padding:.04em .3em;color:var(--ink2);font-size:.92em}
+.split{display:flex;gap:2vw;margin-top:1.5vh;max-width:78vw}
+.split .a,.split .b{flex:1;border:1px solid var(--line);border-radius:12px;padding:2.6vh 2vw;background:#fff}
+.split .a{border-color:var(--red)}.split .b{border-color:var(--green)}
+.split .lab{font-family:var(--mono);font-size:1.2vw;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.split .a .lab{color:var(--red)}.split .b .lab{color:var(--green)}
+.split .t{font-size:1.5vw;color:var(--ink2);line-height:1.4;margin-top:1.2vh}
+.split .t b{color:var(--ink)}
+.split .t .mono{font-family:var(--mono);font-size:.92em}
+.chips{display:flex;flex-wrap:wrap;gap:1.1vh 1vw;margin-top:2.4vh;max-width:80vw}
+.chip{font-family:var(--mono);font-size:1.15vw;padding:.7vh 1vw;border-radius:8px;border:1.5px solid var(--line);background:#fff;color:var(--ink2)}
+.chip.core{border-color:var(--teal);color:var(--teal)}
+.chip.game{border-color:var(--coral);color:var(--coral)}
+.chip.item{border-color:var(--amber);color:var(--amber)}
+.chip.ui{border-color:var(--green);color:var(--green)}
+.four{display:grid;grid-template-columns:1fr 1fr;gap:2.6vh 3vw;margin-top:2.6vh;max-width:74vw}
+.four .cell{border-left:2px solid var(--coral);padding:.2vh 0 .2vh 1.6vw}
+.four .cell .h{font-size:1.85vw;font-weight:800;line-height:1.14;letter-spacing:-.01em;color:var(--ink)}
+.four .cell .s{font-size:1.35vw;color:var(--ink2);margin-top:.7vh;line-height:1.4}
+.doors{display:flex;gap:1.6vw;margin-top:2vh}
+.door{flex:1;border:2px solid var(--line);border-radius:14px;padding:3vh 2vw;background:#fff}
+.door .t{font-family:var(--mono);font-size:1.3vw;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.door .d{font-size:1.7vw;font-weight:700;margin-top:1.2vh}
+.door .s{font-size:1.3vw;color:var(--muted);margin-top:.8vh;line-height:1.3}
+.urls{font-family:var(--mono);font-size:1.3vw;color:var(--ink2);margin-top:4vh;line-height:1.9}
+.urls b{color:var(--coral)}
+.urls a{color:inherit;text-decoration:none}
+.glyph{font-family:var(--mono);font-weight:700}
+.glyph.p{color:var(--green)}.glyph.m{color:var(--red)}.glyph.s{color:var(--teal)}.glyph.w{color:var(--muted)}
+p.body code,.sub code,.lede code,.cap code{font-family:var(--mono);background:var(--code);border-radius:4px;padding:.05em .35em;color:var(--coral);font-size:.86em}
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1.1vw;color:var(--muted);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--coral);transition:width .35s;z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(28,26,23,.96);color:#f0ece3;
+  font-family:var(--sans);font-size:1.5vh;line-height:1.5;padding:2.2vh 3vw;display:none;z-index:8;border-top:3px solid var(--coral)}
+.notes.show{display:block}
+.notes b{color:#f4bf4f}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
+@media(max-width:760px){
+  h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}
+  pre,.term{max-width:92vw;font-size:3.2vw}.four,.three{grid-template-columns:1fr}
+  .split,.doors{flex-wrap:wrap}.rows .r{grid-template-columns:1fr}
+  .titleslide .wm{font-size:13vw}.chip{font-size:3vw}
+}
+</style>
 </head>
 <body>
-  <div class="presentation" id="presentation">
+<div class="deck" id="deck">
 
-    <!-- Slide 1: Title -->
-    <section class="slide" data-slide="1">
-      <p class="slide-label">Pure Ruby &middot; No Game Engine &middot; Terminal</p>
-      <h1>Building a Roguelike<br>from Scratch</h1>
-      <p class="tagline">What game development taught me<br>about software architecture</p>
-      <p style="margin-top: 1.5rem; color: var(--color-text-muted); font-size: 1rem;">David Silva &middot; Author of "Building Your Own Roguelike: A Practical Guide"</p>
-      <p class="slide-hint">Press <kbd>&rarr;</kbd> or <kbd>Space</kbd> to navigate</p>
-    </section>
+<!-- 1 TITLE -->
+<section class="slide center titleslide" data-notes="Open on the scope. Five years on one game, in pure Ruby, no engine — and the real subject isn't the game, it's what building it from scratch taught me about architecture. 15+ years Ruby. Read the meta line, then move.">
+  <div class="wm">Building a <span class="you">Roguelike</span></div>
+  <div class="meta">from scratch, in pure Ruby — no game engine, just a terminal — and what game development taught me about software architecture</div>
+  <div class="meta" style="margin-top:2vh">David Silva · 15+ yrs Ruby · author of “Building Your Own Roguelike: A Practical Guide” · @davidslv</div>
+</section>
 
-    <!-- Slide 2: The Journey -->
-    <section class="slide" data-slide="2">
-      <p class="slide-label">The Journey</p>
-      <h2>Five years. One game.<br>A thousand lessons.</h2>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-year">2020</div>
-          <div class="timeline-text">First commit. Maze generation algorithms. Not a game yet — an exploration.</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2021</div>
-          <div class="timeline-text">Grid system, cell linking, multiple algorithms. Still no player.</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2022</div>
-          <div class="timeline-text">Player, movement, monsters. The naive approach. It works.</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2023</div>
-          <div class="timeline-text">Combat, inventory, items. Features multiply. Cracks appear.</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year" style="color: var(--color-red);">2025</div>
-          <div class="timeline-text"><span class="red">The breaking point.</span> 9+ hours of debugging. Complete ECS rewrite.</div>
-        </div>
-      </div>
-    </section>
+<!-- 2 THE JOURNEY -->
+<section class="slide" data-notes="Set the arc with the timeline. It started as an exploration of maze algorithms, not a game. Player and monsters came in 2022 — the naive approach, and it worked. Features multiplied through 2023 and the cracks showed. Then 2025: the breaking point — a nine-hour debugging night that forced a complete ECS rewrite. Land hard on 2025.">
+  <div class="kicker">The journey · five years, one game</div>
+  <p class="big" style="margin-bottom:1.4vh">Five years. One game.<br>A thousand <span class="sig">lessons.</span></p>
+  <div class="rows wide">
+    <div class="r"><span class="k">2020</span><span class="v">First commit. Maze-generation algorithms. Not a game yet — an exploration.</span></div>
+    <div class="r"><span class="k">2021</span><span class="v">Grid system, cell linking, multiple algorithms. Still no player.</span></div>
+    <div class="r"><span class="k">2022</span><span class="v">Player, movement, monsters. The naive approach. <b>It works.</b></span></div>
+    <div class="r"><span class="k">2023</span><span class="v">Combat, inventory, items. Features multiply. Cracks appear.</span></div>
+    <div class="r last"><span class="k">2025</span><span class="v"><b>The breaking point.</b> 9+ hours of debugging. A complete ECS rewrite.</span></div>
+  </div>
+</section>
 
-    <!-- Slide 3: What is a Roguelike? -->
-    <section class="slide" data-slide="3">
-      <p class="slide-label">Context</p>
-      <h2>What is a Roguelike?</h2>
-      <div class="ascii-art">
-<pre style="background: none; border: none; padding: 0; margin: 0; color: var(--color-green); font-size: 1rem;">
-################
-#..............#
-#...M..........#
-#..............#
-#......@.......#
-#..............#
-#.........%....#
-#..............#
-################</pre>
-      </div>
-      <p style="margin-top: 1.5rem;">
-        <span class="green">@</span> Player &middot;
-        <span class="red">M</span> Monster &middot;
-        <span class="accent">%</span> Stairs &middot;
-        <span class="highlight">#</span> Wall &middot;
-        <span class="highlight">.</span> Floor
-      </p>
-      <p>Procedural generation. Permadeath. Turn-based. Since <em>Rogue</em> (1980).</p>
-    </section>
+<!-- 3 THE GAME (showpiece cast) -->
+<section class="slide" data-notes="Hook them with the game itself — say 'recorded'. This is the real thing: pure Ruby, no engine, rendered in a terminal. Navigate the @ to the stairs %; a Goblin M is in the way. Watch the event names scroll — entity_moved, entities_collided, combat_attack, combat_damage, combat_death, loot_dropped, level_transitioned. Those aren't decoration; every one is a real event the engine emits and logs. Let it play; the architecture payoff comes later.">
+  <div class="kicker">The game · pure Ruby · recorded</div>
+  <div class="term" style="width:78vw">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="ttl">vanilla — ./bin/play.rb · a roguelike in a terminal (recorded)</span></div>
+    <div class="body cast" data-cast="#cast-game" style="white-space:pre;text-align:left;height:56vh;overflow:hidden;font-size:1.12vw;line-height:1.46"></div>
+  </div>
+  <p class="cap"><span class="glyph p">@</span> player &nbsp; <span class="glyph m">M</span> monster &nbsp; <span class="glyph s">%</span> stairs &nbsp; <span class="glyph w">#</span> wall &nbsp;·&nbsp; procedural · permadeath · turn-based · since <b>Rogue</b> (1980) &nbsp;<span style="color:var(--muted)">· click to replay</span></p>
+</section>
 
-    <!-- Slide 4: The First Prototype -->
-    <section class="slide" data-slide="4">
-      <p class="slide-label">The Approach</p>
-      <h2>Pure Ruby. No game engine.<br>Just a terminal.</h2>
-      <ul>
-        <li>No Unity, no Godot, no custom framework</li>
-        <li>Ruby + terminal rendering with ASCII characters</li>
-        <li>Using a game engine teaches you the engine</li>
-        <li><span class="green">Building from scratch teaches you the fundamentals</span></li>
-        <li>Architecture patterns are clearer without engine abstractions hiding them</li>
-      </ul>
-    </section>
+<!-- 4 THE APPROACH -->
+<section class="slide" data-notes="Why build from scratch at all. No Unity, no Godot, no framework — Ruby and ASCII in a terminal. A game engine teaches you the engine; building from scratch teaches you the fundamentals. And crucially: the architecture patterns are visible because no engine abstraction is hiding them. That's the whole reason this makes a good architecture talk.">
+  <div class="kicker">The approach</div>
+  <p class="big" style="margin-bottom:.6vh">Pure Ruby. No game engine.<br>Just a <span class="sig">terminal.</span></p>
+  <ul class="real">
+    <li>No Unity, no Godot, no framework — Ruby + ASCII in a terminal</li>
+    <li>A game engine teaches you <b>the engine</b></li>
+    <li><b>Building from scratch teaches you the fundamentals</b></li>
+    <li>The architecture patterns are <span class="sig">visible</span> — no engine abstraction hiding them</li>
+  </ul>
+</section>
 
-    <!-- Slide 5: Maze Generation -->
-    <section class="slide" data-slide="5">
-      <p class="slide-label">Procedural Generation</p>
-      <h2>Maze generation in pure Ruby</h2>
-      <pre><code><span class="keyword">class</span> <span class="method">BinaryTree</span>
-  <span class="keyword">def</span> <span class="method">self.on</span>(grid)
-    grid.each_cell <span class="keyword">do</span> |cell|
+<!-- 5 MAZE GENERATION -->
+<section class="slide" data-notes="Start where the project started — procedural generation. Binary Tree is the simplest maze algorithm: for each cell, randomly carve north or east. Every run is a unique maze. There are four algorithms in the game, and each one is really a lesson in graph theory and spanning trees wearing a game costume.">
+  <div class="kicker">Procedural generation</div>
+  <p class="big" style="margin-bottom:1.4vh">Maze generation in pure Ruby.</p>
+  <pre><span class="key">class</span> <span class="const">BinaryTree</span>
+  <span class="key">def</span> <span class="const">self.on</span>(grid)
+    grid.each_cell <span class="key">do</span> |cell|
       neighbors = []
-      neighbors &lt;&lt; cell.north <span class="keyword">if</span> cell.north
-      neighbors &lt;&lt; cell.east  <span class="keyword">if</span> cell.east
+      neighbors &lt;&lt; cell.north <span class="key">if</span> cell.north
+      neighbors &lt;&lt; cell.east  <span class="key">if</span> cell.east
+
       neighbor = neighbors.sample
+      cell.link(<span class="const">cell:</span> neighbor) <span class="key">if</span> neighbor
+    <span class="key">end</span>
+  <span class="key">end</span>
+<span class="key">end</span></pre>
+  <p class="sub" style="max-width:60ch">For each cell, randomly link north or east — every run a unique maze. Four algorithms in all, each a lesson in <b style="color:var(--ink)">graph theory</b> and <b style="color:var(--ink)">spanning trees</b>.</p>
+</section>
 
-      cell.link(<span class="symbol">cell:</span> neighbor) <span class="keyword">if</span> neighbor
-    <span class="keyword">end</span>
-  <span class="keyword">end</span>
-<span class="keyword">end</span></code></pre>
-      <p style="margin-top: 1.5rem;">For each cell, randomly link north or east. Every run produces a unique maze.<br>Four algorithms in total — each teaches different principles about <span class="accent">graph theory</span> and <span class="accent">spanning trees</span>.</p>
-    </section>
+<!-- 6 ACT BREAK (coral) -->
+<section class="slide coral center" data-notes="The act break that turns the talk. The naive version worked for years. Then it didn't — and the way it stopped working is the whole lesson. Say it and pause.">
+  <div class="big">It worked.<br>For three years.<br><span style="text-decoration:underline">Then it didn’t.</span></div>
+</section>
 
-    <!-- Slide 6: The Naive Approach -->
-    <section class="slide" data-slide="6">
-      <p class="slide-label">It Worked... Until It Didn't</p>
-      <h2>The naive Game class</h2>
-      <pre><code><span class="comment"># Everything in one place. Input, movement, combat, rendering.</span>
-<span class="keyword">def</span> <span class="method">check_combat</span>
-  @monsters.each <span class="keyword">do</span> |monster|
-    <span class="keyword">if</span> monster.x == @player.x && monster.y == @player.y
+<!-- 7 THE NAIVE CLASS -->
+<section class="slide" data-notes="Show the trap everyone falls into. One Game class holding everything — input, movement, combat, rendering. This check_combat reads fine. But it breaks the moment you want flying monsters, damage-over-time, combat events, items that fight back — anything new. Every feature reaches into this method, and every change risks the others.">
+  <div class="kicker">It worked… until it didn’t</div>
+  <p class="big" style="margin-bottom:1.4vh">The naive <span class="sig">Game</span> class.</p>
+  <pre><span class="cmt"># everything in one place: input, movement, combat, rendering</span>
+<span class="key">def</span> <span class="const">check_combat</span>
+  @monsters.each <span class="key">do</span> |monster|
+    <span class="key">if</span> monster.x == @player.x &amp;&amp; monster.y == @player.y
       damage = @player.attack_power - monster.defense
       monster.health -= damage
-      <span class="keyword">if</span> monster.health &lt;= <span class="number">0</span>
+      <span class="key">if</span> monster.health &lt;= <span class="num">0</span>
         @monsters.delete(monster)
         @player.gold += monster.gold_drop
-      <span class="keyword">end</span>
-    <span class="keyword">end</span>
-  <span class="keyword">end</span>
-<span class="keyword">end</span></code></pre>
-      <p style="margin-top: 1.5rem;">This code breaks the moment you want: flying monsters, damage effects,<br>combat events, items that fight back, or <em>any</em> new feature.</p>
-    </section>
+      <span class="key">end</span>
+    <span class="key">end</span>
+  <span class="key">end</span>
+<span class="key">end</span></pre>
+  <p class="sub" style="max-width:62ch">This breaks the moment you want flying monsters, damage effects, combat events, or items that fight back. <b style="color:var(--ink)">Every new feature touches it.</b></p>
+</section>
 
-    <!-- Slide 7: The Breaking Point -->
-    <section class="slide" data-slide="7">
-      <p class="slide-label" style="color: var(--color-red);">23 March 2025</p>
-      <h2>The Breaking Point</h2>
-      <div class="commit-log">
-        <span class="commit-time">14:13</span> <span class="commit-msg">BREAKINGPOINT: working game</span><br>
-        <span class="commit-time">14:43</span> <span class="commit-msg">BREAKINGPOINT: Game renders but stays in a loop, prevents input</span><br>
-        <span class="commit-time">17:41</span> <span class="commit-msg">WIP: render</span><br>
-        <span class="commit-time">17:55</span> <span class="commit-msg">WIP: second attempt</span><br>
-        <span class="commit-time">18:12</span> <span class="commit-msg">WIP: 3rd attempt</span><br>
-        <span class="commit-time">21:04</span> <span class="commit-msg">WIP: no misalignment but no walkable map</span><br>
-        <span class="commit-time">21:37</span> <span class="commit-msg">WIP: better rendering of the map, still no movement</span><br>
-        <span class="commit-time">22:21</span> <span class="commit-msg">WIP: We have movement! But no Level transition</span><br>
-        <span class="commit-time">22:40</span> <span class="commit-msg commit-success">SUCCESS: Movement + Level Transition</span><br>
-        <span class="commit-time">22:49</span> <span class="commit-msg">fix: spawn monsters on newer levels</span><br>
-        <span class="commit-time">23:13</span> <span class="commit-msg">fix: logging and stair positioning</span>
-      </div>
-      <p style="margin-top: 1.5rem;"><span class="red">9+ hours. 21 commits.</span> The moment you can't add a feature<br>without breaking three others is the moment architecture matters.</p>
-    </section>
+<!-- 8 THE BREAKING POINT (cast) -->
+<section class="slide" data-notes="The emotional centre — say 'recorded', and that these are the real commits. 23 March 2025. The game stopped working and I spent nine hours getting one feature — movement plus level transition — to work without breaking three others. Twenty-three commits, real hashes, straight from BREAKPOINT.md. Watch it climb from BREAKINGPOINT through attempt after attempt to the green SUCCESS at 22:40. That night is when I stopped arguing with the architecture and rewrote it.">
+  <div class="kicker red">23 March 2025 · the breaking point · recorded</div>
+  <div class="term" style="width:82vw">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="ttl">vanilla — git log · the BREAKINGPOINT night (real commits)</span></div>
+    <div class="body cast" data-cast="#cast-break" style="white-space:pre;text-align:left;height:50vh;overflow:hidden;font-size:1.14vw;line-height:1.5"></div>
+  </div>
+  <p class="cap">9+ hours · 23 commits · one feature working without breaking three others &nbsp;<span style="color:var(--muted)">· click to replay</span></p>
+</section>
 
-    <!-- Slide 8: Why OOP Fails -->
-    <section class="slide" data-slide="8">
-      <p class="slide-label">The Problem</p>
-      <h2>Why inheritance doesn't work</h2>
-      <div class="two-col">
-        <div class="col col-red">
-          <h3 style="color: var(--color-red);">OOP inheritance</h3>
-          <p>Player: Combat + Movement + Inventory<br>Monster: Combat + Movement + AI<br><br><span class="red">Flying monster?</span> Flying item? Item that fights back?<br><br>Exponential class explosion.</p>
-        </div>
-        <div class="col col-green">
-          <h3 style="color: var(--color-green);">Composition (ECS)</h3>
-          <p>Entity + PositionComponent + CombatComponent = fighter<br><br>Add FlyingComponent = flying fighter<br>Remove CombatComponent = peaceful<br><br><span class="green">Any combination. No inheritance.</span></p>
-        </div>
-      </div>
-    </section>
+<!-- 9 ACT BREAK (teal) — the thesis -->
+<section class="slide teal center" data-notes="The thesis of the whole talk, earned by the previous slide. The moment you can't add a feature without breaking three others — that's not a bug. That's your architecture telling you it's time. Say it slowly.">
+  <div class="big">The moment you can’t add a feature<br>without breaking three others<br><span style="text-decoration:underline">is the moment architecture matters.</span></div>
+</section>
 
-    <!-- Slide 9: ECS Explained -->
-    <section class="slide" data-slide="9">
-      <p class="slide-label">The Solution</p>
-      <h2>Entity-Component-System</h2>
-      <div class="ecs-grid">
-        <div class="ecs-item ecs-entity">
-          <div class="ecs-icon">🆔</div>
-          <div class="ecs-title">Entities</div>
-          <div class="ecs-desc">Just IDs. Containers for components. No behaviour, no data of their own.</div>
-        </div>
-        <div class="ecs-item ecs-component">
-          <div class="ecs-icon">📦</div>
-          <div class="ecs-title">Components</div>
-          <div class="ecs-desc">Pure data. PositionComponent, HealthComponent, InventoryComponent. No logic.</div>
-        </div>
-        <div class="ecs-item ecs-system">
-          <div class="ecs-icon">⚙️</div>
-          <div class="ecs-title">Systems</div>
-          <div class="ecs-desc">Logic that operates on entities with specific component combinations.</div>
-        </div>
-      </div>
-      <p style="margin-top: 2rem;"><em>"What components does this entity have?"</em> replaces <em>"What class is this?"</em></p>
-    </section>
+<!-- 10 WHY INHERITANCE FAILS -->
+<section class="slide" data-notes="Name why OOP inheritance was the wrong tool here. Player is Combat plus Movement plus Inventory; Monster is Combat plus Movement plus AI. Now ask for a flying monster, a flying item, an item that fights back — the class tree explodes combinatorially. Composition flips it: an entity is just a bag of components. Add FlyingComponent, you fly. Remove CombatComponent, you're peaceful. Any combination, no inheritance.">
+  <div class="kicker">The problem · why inheritance doesn’t scale</div>
+  <div class="split">
+    <div class="a"><div class="lab">OOP inheritance</div><div class="t"><b>Player:</b> Combat + Movement + Inventory<br><b>Monster:</b> Combat + Movement + AI<br><br>A flying monster? A flying item? An item that fights back?<br><br><b>Exponential class explosion.</b></div></div>
+    <div class="b"><div class="lab">Composition · ECS</div><div class="t"><span class="mono">Entity + Position + Combat</span> = a fighter<br><br>Add <span class="mono">Flying</span> → a flying fighter<br>Remove <span class="mono">Combat</span> → peaceful<br><br><b>Any combination. No inheritance.</b></div></div>
+  </div>
+</section>
 
-    <!-- Slide 10: ECS in Action -->
-    <section class="slide" data-slide="10">
-      <p class="slide-label">In Practice</p>
-      <h2>Systems query for what they need</h2>
-      <pre><code><span class="keyword">class</span> <span class="method">MovementSystem</span> &lt; System
-  <span class="keyword">def</span> <span class="method">process</span>
-    world.query(<span class="symbol">:position</span>, <span class="symbol">:movement</span>, <span class="symbol">:input</span>).each <span class="keyword">do</span> |entity|
-      pos   = entity.get(<span class="symbol">:position</span>)
-      move  = entity.get(<span class="symbol">:movement</span>)
-      input = entity.get(<span class="symbol">:input</span>)
+<!-- 11 ECS EXPLAINED -->
+<section class="slide" data-notes="Define ECS in three boxes. Entities are just IDs — containers, no behaviour. Components are pure data, no logic: PositionComponent, HealthComponent, InventoryComponent. Systems are all the logic, operating on whichever entities have the components they care about. The mental shift is the one line at the bottom: you stop asking 'what class is this?' and start asking 'what components does it have?'">
+  <div class="kicker">The solution · Entity–Component–System</div>
+  <div class="three">
+    <div class="tier t1"><div class="ic">🆔</div><div class="nm">Entities</div><div class="d">Just IDs — containers for components. No behaviour, no data of their own.</div></div>
+    <div class="tier t2"><div class="ic">📦</div><div class="nm">Components</div><div class="d">Pure data, no logic — <code>Position</code>, <code>Health</code>, <code>Inventory</code>, <code>Combat</code>.</div></div>
+    <div class="tier t3"><div class="ic">⚙️</div><div class="nm">Systems</div><div class="d">All the logic — each operates only on entities with the components it needs.</div></div>
+  </div>
+  <p class="sub" style="max-width:64ch;margin-top:3vh"><i>“What components does this entity have?”</i> replaces <i>“What class is this?”</i></p>
+</section>
 
+<!-- 12 ECS IN ACTION -->
+<section class="slide" data-notes="Make it concrete with the real MovementSystem. It queries the world for entities that have position, movement and input — and only those. It moves them, and emits entity_moved — the exact event you watched scroll past in the demo. What it does NOT do: know anything about combat, or rendering. It moves things. That's the entire point — each system has one job.">
+  <div class="kicker">In practice · systems query for what they need</div>
+  <pre><span class="key">class</span> <span class="const">MovementSystem</span> &lt; <span class="const">System</span>
+  <span class="key">def</span> <span class="const">process</span>
+    world.query(<span class="const">:position</span>, <span class="const">:movement</span>, <span class="const">:input</span>).each <span class="key">do</span> |entity|
+      pos   = entity.get(<span class="const">:position</span>)
+      input = entity.get(<span class="const">:input</span>)
       target = pos.cell.neighbors[input.direction]
 
-      <span class="keyword">if</span> target && pos.cell.linked?(target)
+      <span class="key">if</span> target &amp;&amp; pos.cell.linked?(target)
         pos.cell = target
-        emit(<span class="symbol">:entity_moved</span>, <span class="symbol">entity:</span> entity, <span class="symbol">from:</span> pos, <span class="symbol">to:</span> target)
-      <span class="keyword">end</span>
-    <span class="keyword">end</span>
-  <span class="keyword">end</span>
-<span class="keyword">end</span></code></pre>
-      <p style="margin-top: 1.5rem;">MovementSystem doesn't know about combat. Doesn't know about rendering.<br>It moves things. <span class="green">That's it.</span></p>
-    </section>
+        emit(<span class="const">:entity_moved</span>, <span class="const">entity:</span> entity, <span class="const">to:</span> target)
+      <span class="key">end</span>
+    <span class="key">end</span>
+  <span class="key">end</span>
+<span class="key">end</span></pre>
+  <p class="sub" style="max-width:62ch">It doesn’t know about combat. Doesn’t know about rendering. It moves things — and emits <code>:entity_moved</code>. <b style="color:var(--ink)">That’s it.</b></p>
+</section>
 
-    <!-- Slide 11: Event-Driven -->
-    <section class="slide" data-slide="11">
-      <p class="slide-label">Communication</p>
-      <h2>Event-driven architecture</h2>
-      <ul>
-        <li><span class="highlight">Without events:</span> System A directly calls System B → tight coupling</li>
-        <li><span class="green">With events:</span> System A emits <code>:combat_damage</code>, whoever cares subscribes</li>
-        <li>Every action generates events logged to <code>event_logs/*.jsonl</code></li>
-        <li>Complete audit trail of every game state change</li>
-        <li>Debugging = reading the event log, not stepping through code</li>
-      </ul>
-      <p style="margin-top: 1.5rem;">Logging, debugging, replay, analytics — all come <span class="accent">free</span><br>when your architecture is event-driven.</p>
-    </section>
-
-    <!-- Slide 12: The Game Systems -->
-    <section class="slide" data-slide="12">
-      <p class="slide-label">The Result</p>
-      <h2>19 systems. 20+ components.<br>All decoupled.</h2>
-      <div class="systems-grid">
-        <div class="system-chip core">MazeSystem</div>
-        <div class="system-chip core">InputSystem</div>
-        <div class="system-chip core">MovementSystem</div>
-        <div class="system-chip core">CollisionSystem</div>
-        <div class="system-chip game">CombatSystem</div>
-        <div class="system-chip game">MonsterSystem</div>
-        <div class="system-chip game">FOVSystem</div>
-        <div class="system-chip game">LootSystem</div>
-        <div class="system-chip item">InventorySystem</div>
-        <div class="system-chip item">EquipmentSystem</div>
-        <div class="system-chip item">ItemPickupSystem</div>
-        <div class="system-chip item">ItemDropSystem</div>
-        <div class="system-chip item">ItemUseSystem</div>
-        <div class="system-chip item">DurabilitySystem</div>
-        <div class="system-chip ui">RenderSystem</div>
-        <div class="system-chip ui">MessageSystem</div>
-      </div>
-      <p style="margin-top: 1.5rem;">Each system has a <span class="highlight">priority</span>. Each processes <span class="accent">only the entities it cares about</span>.<br>Adding a new feature = adding a new system. Nothing else changes.</p>
-    </section>
-
-    <!-- Slide 13: Lessons -->
-    <section class="slide" data-slide="13">
-      <p class="slide-label">Takeaways</p>
-      <h2>Lessons for any software project</h2>
-      <div class="lesson-grid">
-        <div class="lesson-item">
-          <div class="lesson-num">01</div>
-          <div class="lesson-text"><span class="highlight">Architecture matters more when you build from scratch.</span> No framework hides your mistakes.</div>
-        </div>
-        <div class="lesson-item">
-          <div class="lesson-num">02</div>
-          <div class="lesson-text"><span class="highlight">Breaking points are learning opportunities.</span> The 9-hour debug session taught more than any book.</div>
-        </div>
-        <div class="lesson-item">
-          <div class="lesson-num">03</div>
-          <div class="lesson-text"><span class="highlight">Composition beats inheritance.</span> ECS is just the game-dev name for a universal principle.</div>
-        </div>
-        <div class="lesson-item">
-          <div class="lesson-num">04</div>
-          <div class="lesson-text"><span class="highlight">Events decouple everything.</span> The same pattern works in Rails, in games, in distributed systems.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Slide 14: CTA -->
-    <section class="slide" data-slide="14">
-      <p class="slide-label">The Book</p>
-      <h1>Building Your Own Roguelike:<br>A Practical Guide</h1>
-      <p>Five parts. Twenty-two chapters. From your first prototype to a complete game<br>with procedural generation, combat, inventory, AI, and event-driven architecture.</p>
-      <div class="cta-links">
-        <a href="https://www.amazon.co.uk/dp/B0G1SGN181" class="cta-link cta-primary" target="_blank">Amazon UK</a>
-        <a href="https://www.amazon.com/dp/B0G1RBWF6V" class="cta-link cta-primary" target="_blank">Amazon US</a>
-        <a href="https://github.com/Davidslv/vanilla-roguelike" class="cta-link cta-secondary" target="_blank">Game Source Code</a>
-      </div>
-      <div class="author-info">
-        David Silva &middot; <a href="https://davidslv.uk">davidslv.uk</a> &middot; <a href="https://linkedin.com/in/davidslv">LinkedIn</a>
-      </div>
-    </section>
-
+<!-- 13 EVENT-DRIVEN -->
+<section class="slide" data-notes="Tie the demo's scrolling log back to architecture. Without events, System A calls System B directly — tight coupling. With events, System A emits combat_damage and whoever cares subscribes. Every action you saw — move, collide, attack, damage, death, loot, transition — is emitted and appended to event_logs as JSONL. That gives you a complete audit trail, which means debugging becomes reading the log instead of stepping through code. Logging, replay, analytics — all fall out for free.">
+  <div class="kicker">Communication · event-driven architecture</div>
+  <div class="rows">
+    <div class="r"><span class="k">without</span><span class="v">System A calls System B directly → <b>tight coupling</b></span></div>
+    <div class="r"><span class="k">with</span><span class="v">System A emits <code>:combat_damage</code> — whoever cares subscribes</span></div>
+    <div class="r"><span class="k">logged</span><span class="v">every action appended to <code>event_logs/*.jsonl</code> — a complete audit trail</span></div>
+    <div class="r"><span class="k">debugging</span><span class="v">reading the event log, not stepping through code</span></div>
   </div>
+  <p class="sub" style="max-width:62ch;margin-top:2.4vh">Logging, debugging, replay, analytics — all come <span class="sig">free</span> when the architecture is event-driven. <b style="color:var(--ink)">You saw every one of those events scroll past in the demo.</b></p>
+</section>
 
-  <!-- Navigation -->
-  <div class="slide-nav">
-    <button class="nav-btn" id="prevBtn">&larr;</button>
-    <div class="slide-dots" id="slideDots"></div>
-    <button class="nav-btn" id="nextBtn">&rarr;</button>
+<!-- 14 THE RESULT (hero + chips) -->
+<section class="slide hero" data-notes="The payoff, in numbers and names. Nineteen systems, twenty-plus components, all decoupled. Every system has a priority and processes only the entities it cares about. The headline benefit: adding a feature means adding a system — and nothing else changes. Point at the chips; these are the real systems in the repo, grouped core, game, item, UI.">
+  <div class="lab">vanilla · the rebuilt architecture</div>
+  <div class="num"><span class="sig">19</span> systems</div>
+  <div class="unit" style="font-size:2vw;font-weight:700;color:var(--ink2);margin-top:1.8vh">20+ components &nbsp;·&nbsp; all decoupled</div>
+  <div class="chips">
+    <span class="chip core">MazeSystem</span><span class="chip core">InputSystem</span><span class="chip core">MovementSystem</span><span class="chip core">CollisionSystem</span>
+    <span class="chip game">CombatSystem</span><span class="chip game">MonsterSystem</span><span class="chip game">FOVSystem</span><span class="chip game">LootSystem</span>
+    <span class="chip item">InventorySystem</span><span class="chip item">EquipmentSystem</span><span class="chip item">ItemPickupSystem</span><span class="chip item">ItemDropSystem</span><span class="chip item">ItemUseSystem</span><span class="chip item">ItemInteractionSystem</span>
+    <span class="chip ui">RenderSystem</span><span class="chip ui">MessageSystem</span><span class="chip ui">InventoryRenderSystem</span>
   </div>
-  <div class="slide-counter" id="slideCounter"></div>
+  <div class="act">Each has a priority; each processes only the entities it cares about. Adding a feature = adding a system. <b style="color:var(--ink2)">Nothing else changes.</b></div>
+</section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const slides = document.querySelectorAll('.slide');
-      const dots = document.getElementById('slideDots');
-      const counter = document.getElementById('slideCounter');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      let currentSlide = 0;
-      const totalSlides = slides.length;
+<!-- 15 ACT BREAK (coral) -->
+<section class="slide coral center" data-notes="The architectural reward, framed as a promise. Once the seams are right, growth stops being scary. A new feature is a new file that nothing else has to know about. That's the feeling you're chasing in any codebase, game or not.">
+  <div class="big">A new feature is a new file<br>that <span style="text-decoration:underline">nothing else has to know about.</span></div>
+</section>
 
-      for (let i = 0; i < totalSlides; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => goToSlide(i));
-        dots.appendChild(dot);
-      }
+<!-- 16 LESSONS -->
+<section class="slide" data-notes="Pull it up to universal lessons — this is why a game talk belongs at a software conference. One: architecture matters more from scratch, because no framework hides your mistakes. Two: breaking points are the best teachers — that nine-hour night taught more than any book. Three: composition beats inheritance, and ECS is just the game-dev name for it. Four: events decouple everything — the same pattern runs Rails apps and distributed systems, not just roguelikes.">
+  <div class="kicker">Takeaways · lessons for any software project</div>
+  <div class="four">
+    <div class="cell"><div class="h">Architecture matters more from scratch</div><div class="s">no framework hides your mistakes</div></div>
+    <div class="cell"><div class="h">Breaking points are learning opportunities</div><div class="s">the 9-hour debug night taught more than any book</div></div>
+    <div class="cell"><div class="h">Composition beats inheritance</div><div class="s">ECS is just the game-dev name for a universal principle</div></div>
+    <div class="cell"><div class="h">Events decouple everything</div><div class="s">the same pattern works in Rails, in games, in distributed systems</div></div>
+  </div>
+</section>
 
-      function updateSlide() {
-        slides.forEach((slide, index) => slide.classList.toggle('active', index === currentSlide));
-        document.querySelectorAll('.slide-dot').forEach((dot, index) => dot.classList.toggle('active', index === currentSlide));
-        counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
-        prevBtn.disabled = currentSlide === 0;
-        nextBtn.disabled = currentSlide === totalSlides - 1;
-      }
+<!-- 17 CTA -->
+<section class="slide center" data-notes="Land it. The book is the full tutorial — five parts, twenty-two chapters, from first prototype to a complete game with procedural generation, combat, inventory, AI and the event-driven architecture you just saw. The source is on GitHub — vanilla-roguelike — read it end to end. Don't read the URLs; let them photograph it. Thank you.">
+  <div class="kicker">Building Your Own Roguelike: A Practical Guide</div>
+  <p class="big" style="margin-bottom:.6vh">First prototype →<br>a <span class="sig">complete game.</span></p>
+  <p class="sub" style="max-width:56ch">Five parts. Twenty-two chapters — procedural generation, combat, inventory, AI, and event-driven architecture, built from scratch.</p>
+  <div class="doors">
+    <div class="door"><div class="t">Read</div><div class="d">the book</div><div class="s">Building Your Own Roguelike — Amazon UK &amp; US</div></div>
+    <div class="door"><div class="t">Run</div><div class="d">vanilla</div><div class="s">the full game source — <code>./bin/play.rb</code></div></div>
+    <div class="door"><div class="t">Read</div><div class="d">the event log</div><div class="s">every action, replayable, in <code>event_logs/</code></div></div>
+  </div>
+  <div class="urls">
+    <a href="https://www.amazon.co.uk/dp/B0G1SGN181" target="_blank"><b>amazon.co.uk</b></a> &nbsp;·&nbsp;
+    <a href="https://github.com/Davidslv/vanilla-roguelike" target="_blank">github.com/Davidslv/vanilla-roguelike</a> &nbsp;·&nbsp;
+    <a href="https://davidslv.uk" target="_blank"><b>davidslv.uk</b></a> &nbsp;·&nbsp; <b>@davidslv</b>
+  </div>
+</section>
 
-      function goToSlide(index) { currentSlide = Math.max(0, Math.min(index, totalSlides - 1)); updateSlide(); }
-      function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
-      function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+</div>
 
-      nextBtn.addEventListener('click', nextSlide);
-      prevBtn.addEventListener('click', prevSlide);
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 17</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); nextSlide(); }
-        else if (e.key === 'ArrowLeft' || e.key === 'Backspace') { e.preventDefault(); prevSlide(); }
-        else if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
-        else if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); }
-      });
+<script type="text/cast" id="cast-game">
+{"version":2,"width":92,"height":34,"timestamp":0,"title":"vanilla — a roguelike in pure Ruby (recorded)","env":{"SHELL":"/bin/zsh","TERM":"xterm-256color"}}
+[0,"o","\u001b[36mvanilla\u001b[0m\u001b[32m $ \u001b[0m"]
+[0,"o","."]
+[0.03,"o","/"]
+[0.072,"o","b"]
+[0.126,"o","i"]
+[0.156,"o","n"]
+[0.198,"o","/"]
+[0.252,"o","p"]
+[0.282,"o","l"]
+[0.324,"o","a"]
+[0.378,"o","y"]
+[0.408,"o","."]
+[0.45,"o","r"]
+[0.504,"o","b"]
+[0.534,"o"," "]
+[0.596,"o"," "]
+[0.67,"o"," "]
+[0.72,"o","#"]
+[0.762,"o"," "]
+[0.836,"o","p"]
+[0.866,"o","u"]
+[0.908,"o","r"]
+[0.962,"o","e"]
+[0.992,"o"," "]
+[1.054,"o","R"]
+[1.108,"o","u"]
+[1.138,"o","b"]
+[1.18,"o","y"]
+[1.234,"o",","]
+[1.264,"o"," "]
+[1.326,"o","n"]
+[1.38,"o","o"]
+[1.41,"o"," "]
+[1.472,"o","e"]
+[1.526,"o","n"]
+[1.556,"o","g"]
+[1.598,"o","i"]
+[1.652,"o","n"]
+[1.682,"o","e"]
+[1.724,"o"," "]
+[1.798,"o","—"]
+[1.828,"o"," "]
+[1.89,"o","j"]
+[1.944,"o","u"]
+[1.974,"o","s"]
+[2.016,"o","t"]
+[2.07,"o"," "]
+[2.12,"o","a"]
+[2.162,"o"," "]
+[2.236,"o","t"]
+[2.266,"o","e"]
+[2.308,"o","r"]
+[2.362,"o","m"]
+[2.392,"o","i"]
+[2.434,"o","n"]
+[2.488,"o","a"]
+[2.518,"o","l"]
+[2.56,"o","\r\n"]
+[3.36,"o","\u001b[90m  navigate @ to the stairs \u001b[0m\u001b[36m%\u001b[0m\u001b[90m — a Goblin \u001b[0m\u001b[91mM\u001b[0m\u001b[90m stands between\u001b[0m\r\n"]
+[3.86,"o","\r\n"]
+[4.26,"o","\u001b[90m  turn 31\u001b[0m\r\n"]
+[4.56,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[4.61,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[4.66,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[92m@\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[91mM\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[36m%\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[4.71,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[4.76,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[4.81,"o","  \u001b[90m·\u001b[0m \u001b[36mentity_moved\u001b[0m\u001b[90m  @ (2,3) → (2,4)  east\u001b[0m\r\n"]
+[5.26,"o","\r\n"]
+[5.71,"o","\u001b[90m  turn 32\u001b[0m\r\n"]
+[6.01,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[6.06,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[6.11,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[92m@\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[91mM\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[36m%\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[6.16,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[6.21,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[6.26,"o","  \u001b[90m·\u001b[0m \u001b[36mentity_moved\u001b[0m\u001b[90m  @ (2,5) → (2,8)  east\u001b[0m\r\n"]
+[6.71,"o","\r\n"]
+[7.16,"o","\u001b[90m  turn 33 \u001b[0m\u001b[91m— the Goblin blocks the corridor\u001b[0m\r\n"]
+[7.46,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[7.51,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[7.56,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[92m@\u001b[0m\u001b[91mM\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[36m%\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[7.61,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[7.66,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[7.71,"o","  \u001b[90m·\u001b[0m \u001b[36mentities_collided\u001b[0m\u001b[90m  @ ✕ Goblin\u001b[0m\r\n"]
+[8.01,"o","  \u001b[90m·\u001b[0m \u001b[91mcombat_attack\u001b[0m\u001b[90m  you → Goblin\u001b[0m\r\n"]
+[8.31,"o","  \u001b[90m·\u001b[0m \u001b[91mcombat_damage\u001b[0m\u001b[90m  Goblin −\u001b[0m\u001b[1m\u001b[97m6\u001b[0m\u001b[90m hp  ·  you −\u001b[0m\u001b[1m\u001b[97m2\u001b[0m\u001b[90m hp\u001b[0m\r\n"]
+[8.81,"o","\r\n"]
+[9.26,"o","\u001b[90m  turn 34\u001b[0m\r\n"]
+[9.56,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[9.61,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[9.66,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[92m@\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[36m%\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[9.71,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[9.76,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[9.81,"o","  \u001b[90m·\u001b[0m \u001b[91mcombat_death\u001b[0m\u001b[90m  Goblin\u001b[0m\r\n"]
+[10.09,"o","  \u001b[90m·\u001b[0m \u001b[36mmonster_despawned\u001b[0m\u001b[90m  Goblin removed from world\u001b[0m\r\n"]
+[10.37,"o","  \u001b[90m·\u001b[0m \u001b[33mloot_dropped\u001b[0m\u001b[90m  ✦ Minor Potion  ·  +12 gold\u001b[0m\r\n"]
+[10.87,"o","\r\n"]
+[11.32,"o","\u001b[90m  turn 35 \u001b[0m\u001b[36m— reach the stairs\u001b[0m\r\n"]
+[11.62,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[11.67,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[11.72,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[92m@\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[11.77,"o","  \u001b[90m#\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m.\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[11.82,"o","  \u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\u001b[90m#\u001b[0m\r\n"]
+[11.87,"o","  \u001b[90m·\u001b[0m \u001b[92mlevel_transitioned\u001b[0m\u001b[90m  depth 1 → 2\u001b[0m\r\n"]
+[12.37,"o","\r\n"]
+[12.87,"o","  \u001b[36m[event log]\u001b[0m\u001b[90m every line above was appended to\u001b[0m\r\n"]
+[13.17,"o","              \u001b[92mevent_logs/events_20250323_2240.jsonl\u001b[0m\r\n"]
+[13.47,"o","\u001b[90m              move · collide · attack · damage · death · loot · transition\u001b[0m\r\n"]
+[13.87,"o","\u001b[90m              — a complete, replayable audit trail, for free.\u001b[0m\r\n"]
+</script>
 
-      let touchStartX = 0;
-      document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
-      document.addEventListener('touchend', (e) => {
-        const diff = touchStartX - e.changedTouches[0].screenX;
-        if (Math.abs(diff) > 50) { if (diff > 0) nextSlide(); else prevSlide(); }
-      });
+<script type="text/cast" id="cast-break">
+{"version":2,"width":96,"height":30,"timestamp":0,"title":"vanilla — the breaking point, 23 Mar 2025 (recorded)","env":{"SHELL":"/bin/zsh","TERM":"xterm-256color"}}
+[0,"o","\u001b[36mvanilla\u001b[0m\u001b[32m $ \u001b[0m"]
+[0,"o","g"]
+[0.03,"o","i"]
+[0.072,"o","t"]
+[0.126,"o"," "]
+[0.176,"o","l"]
+[0.218,"o","o"]
+[0.272,"o","g"]
+[0.302,"o"," "]
+[0.364,"o","-"]
+[0.418,"o","-"]
+[0.448,"o","f"]
+[0.49,"o","o"]
+[0.544,"o","r"]
+[0.574,"o","m"]
+[0.616,"o","a"]
+[0.67,"o","t"]
+[0.7,"o","="]
+[0.742,"o","\""]
+[0.796,"o","["]
+[0.826,"o","%"]
+[0.868,"o","a"]
+[0.922,"o","d"]
+[0.952,"o","]"]
+[0.994,"o"," "]
+[1.068,"o","%"]
+[1.098,"o","h"]
+[1.14,"o"," "]
+[1.214,"o","%"]
+[1.244,"o","s"]
+[1.286,"o","\""]
+[1.34,"o"," "]
+[1.39,"o","-"]
+[1.432,"o","-"]
+[1.486,"o","d"]
+[1.516,"o","a"]
+[1.558,"o","t"]
+[1.612,"o","e"]
+[1.642,"o","="]
+[1.684,"o","f"]
+[1.738,"o","o"]
+[1.768,"o","r"]
+[1.81,"o","m"]
+[1.864,"o","a"]
+[1.894,"o","t"]
+[1.936,"o",":"]
+[1.99,"o","\""]
+[2.02,"o","%"]
+[2.062,"o","H"]
+[2.116,"o",":"]
+[2.146,"o","%"]
+[2.188,"o","M"]
+[2.242,"o","\""]
+[2.272,"o"," "]
+[2.334,"o"," "]
+[2.408,"o"," "]
+[2.458,"o","#"]
+[2.5,"o"," "]
+[2.574,"o","2"]
+[2.604,"o","3"]
+[2.646,"o"," "]
+[2.72,"o","M"]
+[2.75,"o","a"]
+[2.792,"o","r"]
+[2.846,"o"," "]
+[2.896,"o","2"]
+[2.938,"o","0"]
+[2.992,"o","2"]
+[3.022,"o","5"]
+[3.064,"o","\r\n"]
+[3.864,"o","  \u001b[90m[14:13]\u001b[0m \u001b[33mfd929a7\u001b[0m  \u001b[91mBREAKINGPOINT: working game\u001b[0m\r\n"]
+[4.024,"o","  \u001b[90m[14:43]\u001b[0m \u001b[33m6d08051\u001b[0m  \u001b[91mBREAKINGPOINT: renders but loops, blocks input\u001b[0m\r\n"]
+[4.184,"o","  \u001b[90m[15:30]\u001b[0m \u001b[33m1096d51\u001b[0m  \u001b[1m\u001b[97mrefactor: move keyboard away from World class\u001b[0m\r\n"]
+[4.344,"o","  \u001b[90m[17:04]\u001b[0m \u001b[33me45a205\u001b[0m  \u001b[1m\u001b[97mrefactor game loop, restore turn-based mechanics\u001b[0m\r\n"]
+[4.504,"o","  \u001b[90m[17:41]\u001b[0m \u001b[33mcdf17e2\u001b[0m  \u001b[37mWIP: render\u001b[0m\r\n"]
+[4.664,"o","  \u001b[90m[17:55]\u001b[0m \u001b[33mf9883c0\u001b[0m  \u001b[37mWIP: second attempt\u001b[0m\r\n"]
+[4.824,"o","  \u001b[90m[18:12]\u001b[0m \u001b[33ma33929b\u001b[0m  \u001b[37mWIP: 3rd attempt\u001b[0m\r\n"]
+[4.984,"o","  \u001b[90m[21:04]\u001b[0m \u001b[33mb817506\u001b[0m  \u001b[37mWIP: no misalignment but no walkable map\u001b[0m\r\n"]
+[5.144,"o","  \u001b[90m[21:37]\u001b[0m \u001b[33mf9b9100\u001b[0m  \u001b[37mWIP: map renders, still no movement\u001b[0m\r\n"]
+[5.304,"o","  \u001b[90m[22:21]\u001b[0m \u001b[33m1fe22c7\u001b[0m  \u001b[37mWIP: movement works! but no level transition\u001b[0m\r\n"]
+[5.464,"o","  \u001b[90m[22:40]\u001b[0m \u001b[33mf455e33\u001b[0m  \u001b[92mSUCCESS: Movement + Level Transition\u001b[0m\r\n"]
+[5.624,"o","  \u001b[90m[22:49]\u001b[0m \u001b[33md3d66ab\u001b[0m  \u001b[90mfix: spawn monsters on newer levels\u001b[0m\r\n"]
+[5.784,"o","  \u001b[90m[23:13]\u001b[0m \u001b[33med385f1\u001b[0m  \u001b[90mfix: logging and stair positioning\u001b[0m\r\n"]
+[5.944,"o","\r\n"]
+[6.544,"o","  \u001b[91m9+ hours · 23 commits\u001b[0m\u001b[90m to make one feature work without breaking three others.\u001b[0m\r\n"]
+[6.944,"o","  \u001b[1m\u001b[97mfrom here, the non-ECS code came out for good.\u001b[0m\u001b[90m  — BREAKPOINT.md\u001b[0m\r\n"]
+</script>
 
-      updateSlide();
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes');
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;
+  progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');
+  location.hash=i+1;
+}
+function next(){show(i+1)} function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+});
+document.addEventListener('click',e=>{ if(e.target.closest('.cast'))return; if(e.clientX < innerWidth*0.25) prev(); else next(); });
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+window.deck={show:n=>show(n),next,prev};
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+<script>
+/* castplay.js — inlined: a tiny self-contained asciinema-cast player (no deps, no CDN).
+   Parses an asciinema v2 .cast from an inline <script type="text/cast"> block, types it
+   into a styled terminal with ANSI-SGR colour, autoplays when its slide scrolls into view,
+   click to pause/resume, click when finished to replay. */
+(function () {
+  var COL = { 32:'#7fd1a0', 90:'#8b857a', 37:'#cfc7b6', 92:'#8fe3a8',
+              91:'#ff8a76', 33:'#f4bf4f', 36:'#79c7d6', 97:'#ffffff' };
+  function esc(s){ return s.replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function ansiToHtml(raw){
+    var out='', open=false, color=null, bold=false;
+    var re=/\x1b\[([0-9;]*)m/g, last=0, m;
+    function span(){ var css=''; if(color)css+='color:'+color+';'; if(bold)css+='font-weight:700;'; return css?'<span style="'+css+'">':'<span>'; }
+    function chunk(text){ if(!text)return; if(!open){out+=span();open=true;} out+=esc(text); }
+    while((m=re.exec(raw))){
+      chunk(raw.slice(last,m.index)); last=re.lastIndex;
+      if(open){out+='</span>';open=false;}
+      m[1].split(';').forEach(function(code){ code=parseInt(code||'0',10);
+        if(code===0){color=null;bold=false;} else if(code===1){bold=true;} else if(COL[code]){color=COL[code];} });
+    }
+    chunk(raw.slice(last)); if(open)out+='</span>';
+    return out.replace(/\r\n/g,'\n');
+  }
+  function Player(el){
+    this.el=el; this.src=el.getAttribute('data-cast'); this.events=null;
+    this.timer=null; this.i=0; this.raw=''; this.playing=false; this.paused=false; this.finished=false;
+    var self=this;
+    el.style.cursor='pointer';
+    el.addEventListener('click', function(){
+      if(self.finished) self.replay();
+      else if(self.playing) self.pause();
+      else if(self.paused) self.resume();
+      else self.play();
     });
-  </script>
+  }
+  Player.prototype.parse=function(txt, cb){
+    try { this.events=txt.split('\n').filter(Boolean).slice(1).map(function(l){return JSON.parse(l);}); cb(); }
+    catch(e){ this.el.textContent='(cast failed to parse)'; }
+  };
+  Player.prototype.load=function(cb){
+    if(this.events) return cb();
+    var self=this, src=this.src||'';
+    if(src.charAt(0)==='#'){
+      var node=document.querySelector(src);
+      if(node){ self.parse(node.textContent, cb); } else { self.el.textContent='(cast not found: '+src+')'; }
+      return;
+    }
+    fetch(src).then(function(r){return r.text();}).then(function(txt){ self.parse(txt, cb); })
+      .catch(function(){ self.el.textContent='(cast failed to load — serve over http, or inline it)'; });
+  };
+  Player.prototype.render=function(raw){ this.el.innerHTML=ansiToHtml(raw); this.el.scrollTop=this.el.scrollHeight; };
+  Player.prototype._tick=function(){
+    var self=this, ev=this.events;
+    if(this.i>=ev.length){ this.playing=false; this.finished=true; return; }
+    this.raw+=ev[this.i][2]; this.render(this.raw);
+    var cur=ev[this.i][0], nxt=(this.i+1<ev.length)?ev[this.i+1][0]:cur; this.i++;
+    this.timer=setTimeout(function(){ self._tick(); }, Math.max(0,(nxt-cur)*1000));
+  };
+  Player.prototype.play=function(){ var self=this; if(this.playing)return; this.load(function(){ self.playing=true; self.paused=false; self.finished=false; self._tick(); }); };
+  Player.prototype.pause=function(){ clearTimeout(this.timer); this.playing=false; this.paused=true; };
+  Player.prototype.resume=function(){ if(this.playing)return; this.playing=true; this.paused=false; this._tick(); };
+  Player.prototype.reset=function(){ clearTimeout(this.timer); this.i=0; this.raw=''; this.playing=false; this.paused=false; this.finished=false; this.render(''); };
+  Player.prototype.replay=function(){ this.reset(); this.play(); };
+
+  function init(){
+    var players=[].slice.call(document.querySelectorAll('[data-cast]')).map(function(n){ return new Player(n); });
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){ var p=e.target.__cp; if(!p)return;
+          if(e.isIntersecting){ if(!p.armed){ p.armed=true; p.replay(); } }
+          else { p.armed=false; p.reset(); }
+        });
+      },{threshold:.55});
+      players.forEach(function(p){ p.el.__cp=p; io.observe(p.el); });
+    } else { players.forEach(function(p){ p.play(); }); }
+    window.__castPlayers=players;
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
 </body>
 </html>
