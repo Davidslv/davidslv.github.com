@@ -33,7 +33,7 @@ A modular monolith gives you most of what people actually want from microservice
 
 Reach for a modular monolith when:
 
-- The codebase has grown past the point where one person holds it all in their head (very roughly, six figures of lines, or more than one team committing daily).
+- The codebase has grown past the point where one person holds it all in their head, or more than one team commits to it daily.
 - You can already *name* the domains — billing, onboarding, notifications, reporting — even if the code doesn't reflect them yet.
 - Changes in one area keep breaking another, and you can't tell why without reading half the app.
 - You want the *option* of extracting a service later, but you don't want to pay for distribution today.
@@ -151,7 +151,7 @@ Searchers literally type *"packwerk vs engines"*, and every page that ranks pick
 | **Refactor cost to adopt** | Higher (move files into engines) | Low (annotate in place) | Low | Very high |
 | **Best when** | You want hard, structural boundaries and a clean extraction path | You have a huge existing app you can't restructure now | Small app, early days | A module has genuinely independent scaling, language or failure needs |
 
-The right way to read this table: **Packwerk meets you where your monolith already is** — it's the lowest-friction way to add boundaries to a large existing codebase without a big move. **Engines give you the strongest boundary** because enforcement lives in the application's structure — separate app directories, isolated routes and helpers, prefixed tables — rather than in a CI check you can forget to wire up, and they give you the cleanest path to a future extraction. They are not enemies; plenty of teams use Packwerk to discover where the seams are, then promote the highest-traffic seams into engines.
+The right way to read this table: **Packwerk meets you where your monolith already is** — it's the lowest-friction way to add boundaries to a large existing codebase without a big move. **Engines give you the strongest boundary** because enforcement lives in the application's structure — separate app directories, isolated routes and helpers, prefixed tables — rather than in a CI check you can forget to wire up, and they give you the cleanest path to a future extraction. They are not enemies; plenty of teams use Packwerk to discover where the seams are, then promote the seams that matter most into engines.
 
 And microservices? They belong in this table because they're the same decision taken to its extreme — total isolation at the cost of total operational overhead. You choose them when a module has a genuinely different scaling profile, failure domain, or runtime, *not* because your codebase is messy. A messy monolith becomes several messy services with a network in between. I give Shopify's Packwerk path and the microservices question a full treatment in [Engines vs the Alternatives](/books/modular-rails/chapter-16-engines-vs-alternatives/) and [The Microservices Question](/books/modular-rails/chapter-17-the-microservices-question/), and Dan Manges' canonical engine-based approach is in [Further Reading](/books/modular-rails/appendix-c-further-reading/).
 
@@ -159,7 +159,7 @@ And microservices? They belong in this table because they're the same decision t
 
 This is the part that trips up real teams and that *no* ranking page currently covers: how modular boundaries interact with **Zeitwerk**, the autoloader Rails has used since Rails 6 and the only one in Rails 8.
 
-Zeitwerk maps constant names to file paths. The rule it enforces is unforgiving and useful: a file at `billing/ledger.rb` *must* define `Billing::Ledger` (it may also hold inner constants like `Billing::Ledger::MAX_RETRIES`, but it cannot define some unrelated top-level constant). When an engine calls `isolate_namespace Billing`, Rails arranges the engine's autoload paths so its `app/models/billing/ledger.rb` resolves to `Billing::Ledger`, and keeps that engine's routing and helpers scoped to the `Billing` namespace.
+Zeitwerk maps constant names to file paths. The rule it enforces is unforgiving and useful: a file at `billing/ledger.rb` *must* define `Billing::Ledger` (it may also hold inner constants like `Billing::Ledger::MAX_RETRIES`, but it cannot define an unrelated top-level constant). When an engine calls `isolate_namespace Billing`, Rails arranges the engine's autoload paths so its `app/models/billing/ledger.rb` resolves to `Billing::Ledger`, and keeps that engine's routing and helpers scoped to the `Billing` namespace.
 
 Two practical consequences:
 
