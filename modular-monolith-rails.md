@@ -105,6 +105,8 @@ Engines are the strongest of the three mechanisms because the boundary is *struc
 ```yaml
 # components/billing/package.yml
 enforce_dependencies: true
+# enforce_privacy needs the packwerk-extensions gem — the privacy checker was
+# split out of Packwerk core in v3.0. Drop this line if you're not using it.
 enforce_privacy: true
 dependencies:
   - components/platform
@@ -151,17 +153,17 @@ Searchers literally type *"packwerk vs engines"*, and every page that ranks pick
 
 The right way to read this table: **Packwerk meets you where your monolith already is** — it's the lowest-friction way to add boundaries to a large existing codebase without a big move. **Engines give you the strongest boundary** because enforcement lives in the application's structure — separate app directories, isolated routes and helpers, prefixed tables — rather than in a CI check you can forget to wire up, and they give you the cleanest path to a future extraction. They are not enemies; plenty of teams use Packwerk to discover where the seams are, then promote the highest-traffic seams into engines.
 
-And microservices? They belong in this table because they're the same decision taken to its extreme — total isolation at the cost of total operational overhead. You choose them when a module has a genuinely different scaling profile, failure domain, or runtime, *not* because your codebase is messy. A messy monolith becomes several messy services with a network in between. I give Dan Manges' canonical engine-based approach, Shopify's Packwerk path and the microservices question a full treatment in [Engines vs the Alternatives](/books/modular-rails/chapter-16-engines-vs-alternatives/) and [The Microservices Question](/books/modular-rails/chapter-17-the-microservices-question/).
+And microservices? They belong in this table because they're the same decision taken to its extreme — total isolation at the cost of total operational overhead. You choose them when a module has a genuinely different scaling profile, failure domain, or runtime, *not* because your codebase is messy. A messy monolith becomes several messy services with a network in between. I give Shopify's Packwerk path and the microservices question a full treatment in [Engines vs the Alternatives](/books/modular-rails/chapter-16-engines-vs-alternatives/) and [The Microservices Question](/books/modular-rails/chapter-17-the-microservices-question/), and Dan Manges' canonical engine-based approach is in [Further Reading](/books/modular-rails/appendix-c-further-reading/).
 
 ## Namespace isolation and Zeitwerk
 
 This is the part that trips up real teams and that *no* ranking page currently covers: how modular boundaries interact with **Zeitwerk**, the autoloader Rails has used since Rails 6 and the only one in Rails 8.
 
-Zeitwerk maps constant names to file paths. The rule it enforces is unforgiving and useful: a file at `billing/ledger.rb` *must* define `Billing::Ledger`, and nothing else. When an engine calls `isolate_namespace Billing`, Rails arranges the engine's autoload paths so its `app/models/billing/ledger.rb` resolves to `Billing::Ledger`, and keeps that engine's routing and helpers scoped to the `Billing` namespace.
+Zeitwerk maps constant names to file paths. The rule it enforces is unforgiving and useful: a file at `billing/ledger.rb` *must* define `Billing::Ledger` (it may also hold inner constants like `Billing::Ledger::MAX_RETRIES`, but it cannot define some unrelated top-level constant). When an engine calls `isolate_namespace Billing`, Rails arranges the engine's autoload paths so its `app/models/billing/ledger.rb` resolves to `Billing::Ledger`, and keeps that engine's routing and helpers scoped to the `Billing` namespace.
 
 Two practical consequences:
 
-- **Eager loading is per-engine.** In production, Rails eager-loads each engine. If you put a file in the wrong namespace directory, you'll find out at boot, not in production — which is exactly what you want.
+- **Eager loading happens at boot, application-wide.** In production (`config.eager_load = true`) the application's main Zeitwerk loader eager-loads every `eager_load_path` in one pass — including the ones each engine contributes. (`Rails::Engine#eager_load!` is itself a no-op now; Zeitwerk does the work.) If you put a file in the wrong namespace directory, you find out at boot — not from a 2am `NameError` in production — which is exactly what you want.
 - **Don't fight the namespace.** The single most common Zeitwerk error in a modular app is a constant defined in the wrong namespace — `class Ledger` at `billing/ledger.rb` instead of `class Billing::Ledger`. The loader will raise `Zeitwerk::NameError` and tell you precisely what it expected. Treat that error as the boundary doing its job.
 
 One honest caveat, because it matters: engines contribute their `app/` paths to the *same* Zeitwerk loader, and the host eager-loads every engine. So `Billing::Ledger` is technically a resolvable constant from inside onboarding at runtime — Rails does not hard-block cross-engine constant access on its own. The guarantee an engine gives you is namespacing, prefixed tables, and isolated routes and helpers — a *structural* boundary, not constant-level privacy. If you want privacy enforced, you layer Packwerk (or a visibility gem) on top. I spend a whole chapter on the autoloader's behaviour under modular layouts — autoload paths, eager-load ordering, and the namespacing edge cases — in [Namespace Isolation](/books/modular-rails/chapter-06-namespace-isolation/).
@@ -259,7 +261,7 @@ Clone one, run it, and break a boundary on purpose to watch the enforcement fire
 
 This is the section the incumbents don't write, and it's the most useful one. A modular monolith is a cost, not a free win. Don't pay it when:
 
-- **Your app is young or small.** Below roughly 50–75k lines, or with one small team, boundaries cost more than they save. You don't yet *know* where the real seams are, and premature boundaries drawn in the wrong place are worse than no boundaries — you'll spend your time fighting walls you put up by guessing. Build the ball of mud first; let the domains reveal themselves.
+- **Your app is young or small.** With one small team, or before the codebase is big enough that changes routinely collide across implicit boundaries, enforcing boundaries costs more than it saves. (Any line-count figure here is a rough personal heuristic, not an industry threshold — the real trigger is the pain of crossing boundaries, not a fixed number.) You don't yet *know* where the real seams are, and premature boundaries drawn in the wrong place are worse than no boundaries — you'll spend your time fighting walls you put up by guessing. Build the ball of mud first; let the domains reveal themselves.
 - **You can't name your domains.** If the team can't agree on what the modules *are*, you're not ready to draw lines. Modularisation encodes a domain model you understand; it can't discover one you don't.
 - **It's a thin CRUD app.** Some applications are genuinely a database with a web form on top. Adding engines to a small admin tool is architecture for its own sake.
 - **You're reaching for it to fix a people problem.** If the real issue is no ownership, no review, or no tests, boundaries won't fix it — and may give you false confidence that you've solved something you haven't.
@@ -292,7 +294,7 @@ Zeitwerk maps constants to file paths, so a modular layout works best when every
 
 ### When should I NOT use a modular monolith?
 
-Skip it when your app is young or small (roughly under 50–75k lines or a single small team), when you can't yet name your domains, when it's a thin CRUD app, or when you're using it to paper over a people or process problem. Premature boundaries drawn in the wrong place cost more than no boundaries at all.
+Skip it when your app is young or small (a single small team, or before changes routinely collide across implicit boundaries), when you can't yet name your domains, when it's a thin CRUD app, or when you're using it to paper over a people or process problem. Premature boundaries drawn in the wrong place cost more than no boundaries at all.
 
 ### Do I still need microservices in Rails 8?
 
@@ -365,7 +367,7 @@ Far less often than the hype suggests. Rails 8 ships Solid Queue, Solid Cache an
           "name": "When should I NOT use a modular monolith?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Skip it when your app is young or small (roughly under 50–75k lines or a single small team), when you can't yet name your domains, when it's a thin CRUD app, or when you're using it to paper over a people or process problem. Premature boundaries drawn in the wrong place cost more than no boundaries at all."
+            "text": "Skip it when your app is young or small (a single small team, or before changes routinely collide across implicit boundaries), when you can't yet name your domains, when it's a thin CRUD app, or when you're using it to paper over a people or process problem. Premature boundaries drawn in the wrong place cost more than no boundaries at all."
           }
         },
         {
