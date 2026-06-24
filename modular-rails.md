@@ -4,6 +4,8 @@ title: "Modular Rails: Architecture for the Long Game"
 permalink: /modular-rails/
 description: "Build maintainable Ruby on Rails apps with mountable engines — clean architecture, namespace isolation, and the modular monolith. Working code, honest trade-offs."
 image: /img/modular-rails-cover.png
+seo:
+  type: Book
 ---
 
 <div style="text-align: center; margin-bottom: 2em;">

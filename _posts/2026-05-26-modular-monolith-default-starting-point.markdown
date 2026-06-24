@@ -180,4 +180,6 @@ Start with a modular monolith. Structure it well. Extract when -- and only when 
 
 *This was adapted from Chapter 17 of [Modular Rails: Architecture for the Long Game](/modular-rails/). The book covers the full microservices question including network latency, debugging, data consistency, and the complete decision framework.*
 
+*For the bigger picture — engines, Packwerk, data ownership and the full set of trade-offs in one place — see [The Modular Monolith in Rails](/modular-monolith-rails/).*
+
 *Read the [**entire book free on the web**](/books/modular-rails/) — every chapter, no paywall. Prefer print or Kindle? [Amazon US](https://www.amazon.com/dp/1066649405) · [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [all editions &amp; prices](/modular-rails/).*
