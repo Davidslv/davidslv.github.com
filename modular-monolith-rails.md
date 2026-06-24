@@ -9,7 +9,7 @@ seo:
 ---
 
 <p class="post-meta">
-  By <a href="/books/modular-rails/about-the-author/">David Silva</a> — Senior Software Engineer, 15+ years in Ruby.
+  By <a href="/books/modular-rails/about-the-author/">David Silva</a>.
   <em>Last updated: June 2026 (Rails 8, Zeitwerk-era).</em>
 </p>
 
