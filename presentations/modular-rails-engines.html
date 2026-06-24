@@ -1,653 +1,741 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How Rails Engines Solve the Modular Monolith Problem — David Silva</title>
-  <meta name="description" content="Rails apps that start beautifully drift into a big ball of mud. How Rails engines create real boundaries — so the cost of change stops growing and collateral damage drops to zero.">
-  <link rel="canonical" href="https://davidslv.uk/presentations/modular-rails-engines.html">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="How Rails Engines Solve the Modular Monolith Problem">
-  <meta property="og:description" content="Rails apps that start beautifully drift into a big ball of mud. How Rails engines create real boundaries — so the cost of change stops growing and collateral damage drops to zero.">
-  <meta property="og:url" content="https://davidslv.uk/presentations/modular-rails-engines.html">
-  <meta property="og:image" content="https://davidslv.uk/presentations/og/modular-rails-engines.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@davidslv">
-  <meta name="twitter:title" content="How Rails Engines Solve the Modular Monolith Problem">
-  <meta name="twitter:description" content="Rails apps that start beautifully drift into a big ball of mud. How Rails engines create real boundaries — so the cost of change stops growing and collateral damage drops to zero.">
-  <meta name="twitter:image" content="https://davidslv.uk/presentations/og/modular-rails-engines.png">
-  <script src="/js/mermaid.min.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --color-bg: #1a1a2e;
-      --color-bg-light: #16213e;
-      --color-accent: #c0392b;
-      --color-accent-light: #e74c3c;
-      --color-text: #f0f0f0;
-      --color-text-muted: #a0a0b0;
-      --color-code-bg: #0f3460;
-      --color-green: #27ae60;
-      --color-red: #c0392b;
-      --color-yellow: #f39c12;
-      --color-blue: #2874a6;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--color-bg);
-      color: var(--color-text);
-      overflow: hidden;
-      height: 100vh;
-    }
-
-    .presentation { width: 100vw; height: 100vh; position: relative; }
-
-    .slide {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 4rem 6rem;
-      text-align: center;
-    }
-
-    .slide.active { display: flex; }
-
-    h1 { font-size: 3rem; font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
-    h2 { font-size: 2.25rem; font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem; }
-    h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--color-accent-light); }
-
-    .slide-label {
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: var(--color-accent-light);
-      margin-bottom: 1.5rem;
-    }
-
-    .tagline {
-      font-size: 1.25rem;
-      color: var(--color-text-muted);
-      margin-top: 1rem;
-      line-height: 1.6;
-    }
-
-    .slide-hint {
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      margin-top: 3rem;
-    }
-
-    .slide-hint kbd {
-      background: rgba(255,255,255,0.1);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-family: monospace;
-    }
-
-    p { font-size: 1.125rem; line-height: 1.7; color: var(--color-text-muted); max-width: 800px; }
-    p + p { margin-top: 1rem; }
-
-    .highlight { color: var(--color-text); font-weight: 600; }
-    .accent { color: var(--color-accent-light); font-weight: 600; }
-
-    pre {
-      background: var(--color-code-bg);
-      padding: 1.5rem 2rem;
-      border-radius: 8px;
-      text-align: left;
-      font-size: 0.85rem;
-      line-height: 1.6;
-      overflow-x: auto;
-      max-width: 800px;
-      width: 100%;
-      margin: 1.5rem auto 0;
-    }
-
-    code { font-family: 'Menlo', 'Monaco', 'Courier New', monospace; }
-    pre code { color: #e0e0e0; }
-
-    .keyword { color: #c678dd; font-weight: 600; }
-    .string { color: #98c379; }
-    .comment { color: #5c6370; font-style: italic; }
-    .method { color: #61afef; }
-    .number { color: #d19a66; }
-    .symbol { color: #e06c75; }
-
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      text-align: left;
-      max-width: 900px;
-      width: 100%;
-      margin-top: 1.5rem;
-    }
-
-    .col { padding: 1.5rem; background: var(--color-bg-light); border-radius: 8px; }
-    .col h3 { font-size: 1.125rem; margin-bottom: 0.75rem; }
-    .col pre { margin-top: 0.75rem; font-size: 0.75rem; }
-
-    .col-green { border-left: 4px solid var(--color-green); }
-    .col-red { border-left: 4px solid var(--color-red); }
-
-    ul {
-      list-style: none;
-      text-align: left;
-      max-width: 700px;
-      margin: 1.5rem auto 0;
-    }
-
-    ul li {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: var(--color-text-muted);
-      padding: 0.4rem 0;
-      padding-left: 1.5rem;
-      position: relative;
-    }
-
-    ul li::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: var(--color-accent-light);
-    }
-
-    .stat-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      max-width: 700px;
-      margin: 2rem auto 0;
-    }
-
-    .stat-item {
-      background: var(--color-bg-light);
-      padding: 1.5rem;
-      border-radius: 8px;
-      text-align: center;
-    }
-
-    .stat-number { font-size: 2rem; font-weight: 700; color: var(--color-accent-light); }
-    .stat-label { font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.5rem; }
-
-    .company-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      max-width: 700px;
-      margin: 1.5rem auto 0;
-      text-align: left;
-    }
-
-    .company-item {
-      background: var(--color-bg-light);
-      padding: 1rem 1.25rem;
-      border-radius: 8px;
-    }
-
-    .company-name { font-weight: 600; color: var(--color-text); font-size: 1rem; }
-    .company-detail { font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.25rem; }
-
-    .mermaid-container {
-      margin: 1.5rem auto 0;
-      max-width: 800px;
-    }
-
-    .mermaid {
-      background: rgba(255,255,255,0.95);
-      padding: 1.5rem;
-      border-radius: 8px;
-    }
-
-    .question-flow {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      max-width: 600px;
-      margin: 1.5rem auto 0;
-      text-align: left;
-    }
-
-    .question-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      background: var(--color-bg-light);
-      border-radius: 8px;
-    }
-
-    .question-num {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.875rem;
-      flex-shrink: 0;
-    }
-
-    .q-green { background: var(--color-green); color: white; }
-    .q-blue { background: var(--color-blue); color: white; }
-    .q-yellow { background: var(--color-yellow); color: white; }
-    .q-red { background: var(--color-red); color: white; }
-
-    .question-text { font-size: 0.95rem; color: var(--color-text-muted); }
-    .question-answer { font-weight: 600; color: var(--color-text); }
-
-    .cta-links {
-      display: flex;
-      gap: 1.5rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .cta-link {
-      display: inline-block;
-      padding: 0.75rem 2rem;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .cta-link:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-
-    .cta-primary { background: var(--color-accent); color: white; }
-    .cta-secondary { background: var(--color-bg-light); color: var(--color-text); border: 1px solid rgba(255,255,255,0.2); }
-
-    .author-info {
-      font-size: 0.9rem;
-      color: var(--color-text-muted);
-      margin-top: 2rem;
-    }
-
-    .author-info a { color: var(--color-accent-light); text-decoration: none; }
-
-    /* Navigation */
-    .slide-nav {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      z-index: 100;
-    }
-
-    .nav-btn {
-      width: 44px;
-      height: 44px;
-      border: none;
-      background: rgba(255,255,255,0.1);
-      color: white;
-      border-radius: 50%;
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .nav-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
-    .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
-
-    .slide-dots { display: flex; gap: 0.5rem; }
-
-    .slide-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-      border: none;
-    }
-
-    .slide-dot:hover { transform: scale(1.3); }
-    .slide-dot.active { background: var(--color-accent-light); }
-
-    .slide-counter {
-      position: fixed;
-      top: 2rem;
-      right: 2rem;
-      font-size: 0.875rem;
-      color: var(--color-text-muted);
-      z-index: 100;
-    }
-
-    @media (max-width: 768px) {
-      .slide { padding: 2rem 1.5rem; }
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.5rem; }
-      pre { font-size: 0.7rem; padding: 1rem; }
-      .two-col { grid-template-columns: 1fr; }
-      .stat-grid { grid-template-columns: repeat(2, 1fr); }
-      .company-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Rails Engines Solve the Modular Monolith Problem · David Silva</title>
+<meta name="description" content="Rails apps that start beautifully drift into a big ball of mud. How Rails engines create real boundaries — so the cost of change stops growing and collateral damage drops to zero.">
+<link rel="canonical" href="https://davidslv.uk/presentations/modular-rails-engines.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How Rails Engines Solve the Modular Monolith Problem">
+<meta property="og:description" content="Rails apps that start beautifully drift into a big ball of mud. How Rails engines create real boundaries — so the cost of change stops growing and collateral damage drops to zero.">
+<meta property="og:url" content="https://davidslv.uk/presentations/modular-rails-engines.html">
+<meta property="og:image" content="https://davidslv.uk/presentations/og/modular-rails-engines.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@davidslv">
+<meta name="twitter:title" content="How Rails Engines Solve the Modular Monolith Problem">
+<meta name="twitter:description" content="Rails apps that start beautifully drift into a big ball of mud. How Rails engines create real boundaries — so the cost of change stops growing and collateral damage drops to zero.">
+<meta name="twitter:image" content="https://davidslv.uk/presentations/og/modular-rails-engines.png">
+<style>
+:root{
+  --bg:#FBF7F0; --ink:#22201C; --ink2:#46423a; --muted:#8a8578;
+  --coral:#E2603F; --coral-ink:#fff; --teal:#1F6F6B; --code:#F3EEE4; --line:#e6ddcc;
+  --red:#b23a2a; --redwash:#f7e3de; --green:#2f7d4f;
+  --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:7vh 9vw;opacity:0;transition:opacity .35s ease}
+.slide.active{display:flex;opacity:1}
+.slide.center{align-items:center;text-align:center}
+.kicker{font-family:var(--mono);font-size:1.05vw;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:2.2vh}
+h1{font-size:6.6vw;font-weight:800;line-height:.98;letter-spacing:-.02em}
+h2{font-size:4.4vw;font-weight:800;line-height:1.02;letter-spacing:-.015em}
+h3{font-size:2.9vw;font-weight:700;line-height:1.08}
+.big{font-size:5.2vw;font-weight:800;line-height:1.04;letter-spacing:-.02em}
+.lede{font-size:2.5vw;font-weight:500;line-height:1.3;color:var(--ink2);max-width:24ch}
+p.body{font-size:2vw;line-height:1.4;color:var(--ink2);max-width:34ch;margin-top:2.4vh}
+.sig{color:var(--coral)}
+.tealc{color:var(--teal)}
+.sub{font-size:1.7vw;color:var(--muted);margin-top:1.6vh;line-height:1.35;max-width:44ch}
+.stack{display:flex;flex-direction:column;gap:.4vh}
+.stack .w{font-size:6vw;font-weight:800;letter-spacing:-.02em;line-height:1.02}
+.slide.coral{background:var(--coral);color:var(--coral-ink)}
+.slide.coral .kicker{color:#ffe2d8}
+.slide.coral .big,.slide.coral h2,.slide.coral h1{color:#fff}
+.slide.coral .sub{color:#ffe2d8}
+.slide.teal{background:var(--teal);color:#fff}
+.slide.teal .kicker{color:#bfe5e1}
+.slide.teal .big,.slide.teal h2{color:#fff}
+.slide.teal .sub{color:#cfeae7}
+.slide.quote{align-items:center;text-align:center}
+.quote .q{font-size:3.3vw;font-weight:600;line-height:1.28;max-width:26ch;letter-spacing:-.01em}
+.quote .who{font-family:var(--mono);font-size:1.2vw;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3vh}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:2.4vh 2vw;
+  font-family:var(--mono);font-size:1.55vw;line-height:1.6;overflow:hidden;max-width:64vw}
+pre .dim{opacity:.34}
+pre .hl{color:var(--ink);font-weight:600}
+pre .cmt{color:var(--muted)}
+pre .key{color:var(--coral)}
+pre .const{color:var(--teal);font-weight:600}
+pre .num{color:var(--ink);font-weight:700}
+.barline{border-left:3px solid var(--coral);padding-left:.6vw}
+.term{width:72vw;max-width:1100px;background:#1c1a17;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.22)}
+.term .bar{display:flex;gap:.6vw;align-items:center;padding:1.4vh 1.2vw;background:#2a2723}
+.term .dot{width:.95vw;height:.95vw;max-width:13px;max-height:13px;border-radius:50%}
+.d1{background:#ef6a5e}.d2{background:#f4bf4f}.d3{background:#62c554}
+.term .ttl{font-family:var(--mono);font-size:.95vw;letter-spacing:.04em;color:#8d867a;margin-left:1vw}
+.term .body{padding:2.6vh 1.8vw;font-family:var(--mono);font-size:1.5vw;line-height:1.7;color:#e9e4da}
+.term .body.cast{white-space:pre;word-break:break-word}
+.diagram{display:flex;gap:1vw;align-items:stretch;justify-content:center;flex-wrap:nowrap;margin-top:2vh}
+.station{flex:1;border:2px solid var(--line);border-radius:12px;padding:2vh 1vw;background:#fff;display:flex;flex-direction:column;gap:.8vh}
+.station .n{font-family:var(--mono);font-size:1vw;letter-spacing:.12em;color:var(--coral);font-weight:700}
+.station .t{font-size:1.5vw;font-weight:800;line-height:1.05;color:var(--ink)}
+.station .r{font-family:var(--mono);font-size:.92vw;color:var(--muted);line-height:1.45}
+.station.last{border-color:var(--coral)}
+.flowarrow{align-self:center;font-size:2vw;color:var(--coral);font-weight:800}
+.cap{font-family:var(--mono);font-size:1.2vw;color:var(--muted);margin-top:2.4vh;letter-spacing:.04em}
+.rows{display:flex;flex-direction:column;gap:1.3vh;margin-top:1vh;max-width:76vw}
+.rows .r{display:grid;grid-template-columns:22vw 1fr;gap:1.6vw;align-items:baseline;padding-bottom:1.3vh;border-bottom:1px solid var(--line)}
+.rows .k{font-family:var(--mono);font-size:1.5vw;color:var(--coral);font-weight:600}
+.rows .v{font-size:1.55vw;color:var(--ink2);line-height:1.32}
+.rows .v b{color:var(--ink)}
+.numrows{display:flex;flex-direction:column;gap:1.6vh;margin-top:1vh;max-width:74vw}
+.numrows .r{display:flex;align-items:center;gap:1.6vw}
+.numrows .badge{width:3.4vw;height:3.4vw;max-width:48px;max-height:48px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:800;font-size:1.5vw;color:#fff}
+.numrows .b1{background:var(--green)}.numrows .b2{background:var(--teal)}
+.numrows .b3{background:#c98a1e}.numrows .b4{background:var(--red)}
+.numrows .q{font-size:1.7vw;color:var(--ink2);line-height:1.25}
+.numrows .a{font-weight:700;color:var(--ink)}
+.doors{display:flex;gap:1.6vw;margin-top:2vh}
+.door{flex:1;border:2px solid var(--line);border-radius:14px;padding:3vh 2vw;background:#fff}
+.door .t{font-family:var(--mono);font-size:1.3vw;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.door .d{font-size:1.7vw;font-weight:700;margin-top:1.2vh}
+.door .s{font-size:1.3vw;color:var(--muted);margin-top:.8vh;line-height:1.3}
+.urls{font-family:var(--mono);font-size:1.3vw;color:var(--ink2);margin-top:4vh;line-height:1.9}
+.urls b{color:var(--coral)}
+.urls a{color:inherit;text-decoration:none}
+ul.real{list-style:none;margin-top:1.5vh}
+ul.real li{font-size:1.7vw;line-height:1.7;color:var(--ink2);padding-left:1.6vw;position:relative}
+ul.real li::before{content:"▸";color:var(--coral);position:absolute;left:0}
+ul.real li b{color:var(--ink)}
+.titleslide .wm{font-size:8vw;font-weight:800;line-height:.95;letter-spacing:-.025em}
+.titleslide .wm .you{color:var(--coral)}
+.titleslide .meta{font-family:var(--mono);font-size:1.4vw;color:var(--muted);margin-top:3.5vh;letter-spacing:.06em;max-width:70ch}
+.hero{align-items:flex-start}
+.hero .lab{font-family:var(--mono);font-size:1.3vw;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.hero .num{font-size:13vw;font-weight:800;line-height:.9;letter-spacing:-.04em;margin-top:1vh}
+.hero .num .sig{color:var(--coral)}
+.hero .unit{font-size:2.4vw;font-weight:700;color:var(--ink2);margin-top:1vh}
+.hero .unit .sig{color:var(--coral)}
+.hero .act{font-size:1.7vw;color:var(--muted);margin-top:2.4vh;max-width:60ch;line-height:1.4}
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;margin-top:1vh;max-width:78vw;box-shadow:0 2px 4px rgba(0,0,0,.03)}
+.card .row{display:grid;grid-template-columns:19vw 1fr;gap:1.6vw;align-items:baseline;padding:1.6vh 2vw;border-bottom:1px solid var(--line)}
+.card .row:last-child{border-bottom:0}
+.card .k{font-family:var(--mono);font-size:1.25vw;letter-spacing:.06em;color:var(--coral);font-weight:700}
+.card .v{font-size:1.5vw;color:var(--ink2);line-height:1.34}
+.card .v b{color:var(--ink)}
+.four{display:grid;grid-template-columns:1fr 1fr;gap:2.6vh 3vw;margin-top:2.6vh;max-width:74vw}
+.four .cell{border-left:2px solid var(--coral);padding:.2vh 0 .2vh 1.6vw}
+.four .cell .h{font-size:1.9vw;font-weight:800;line-height:1.12;letter-spacing:-.01em;color:var(--ink)}
+.four .cell .s{font-family:var(--mono);font-size:1.05vw;color:var(--muted);margin-top:.6vh;line-height:1.45;letter-spacing:.02em}
+.cite{font-family:var(--mono);font-size:1.05vw;color:var(--muted);line-height:1.5;
+  margin-top:2vh;padding-top:1.4vh;border-top:1px solid var(--line);max-width:64vw;letter-spacing:.01em}
+.cite b{color:var(--ink2);font-weight:700}
+p.body code,.sub code,.lede code,.cite code{font-family:var(--mono);background:var(--code);border-radius:4px;padding:.05em .35em;color:var(--coral);font-size:.86em}
+.split{display:flex;gap:2vw;margin-top:1.5vh;max-width:76vw}
+.split .a,.split .b{flex:1;border:1px solid var(--line);border-radius:12px;padding:2.6vh 2vw;background:#fff}
+.split .a{border-color:var(--red)}
+.split .b{border-color:var(--green)}
+.split .lab{font-family:var(--mono);font-size:1.2vw;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.split .a .lab{color:var(--red)}
+.split .b .lab{color:var(--green)}
+.split .t{font-size:1.55vw;color:var(--ink2);line-height:1.34;margin-top:1.2vh}
+.split .t b{color:var(--ink)}
+.counter{position:fixed;bottom:2.4vh;right:2.6vw;font-family:var(--mono);font-size:1.1vw;color:var(--muted);z-index:5}
+.progress{position:fixed;left:0;bottom:0;height:4px;background:var(--coral);transition:width .35s;z-index:5}
+.notes{position:fixed;left:0;right:0;bottom:0;max-height:34vh;overflow:auto;background:rgba(28,26,23,.96);color:#f0ece3;
+  font-family:var(--sans);font-size:1.5vh;line-height:1.5;padding:2.2vh 3vw;display:none;z-index:8;border-top:3px solid var(--coral)}
+.notes.show{display:block}
+.notes b{color:#f4bf4f}
+.hint{position:fixed;bottom:2.4vh;left:2.6vw;font-family:var(--mono);font-size:1vw;color:var(--muted);z-index:5}
+@media(max-width:760px){
+  h1{font-size:11vw}.big{font-size:9vw}.lede{font-size:5vw;max-width:none}
+  pre,.term{max-width:92vw;font-size:3.2vw}.four{grid-template-columns:1fr}
+  .diagram,.split,.doors{flex-wrap:wrap}.flowarrow{display:none}
+  .rows .r,.card .row{grid-template-columns:1fr}
+  .titleslide .wm{font-size:14vw}
+}
+</style>
 </head>
 <body>
-  <div class="presentation" id="presentation">
+<div class="deck" id="deck">
 
-    <!-- Slide 1: Title -->
-    <section class="slide" data-slide="1">
-      <p class="slide-label">Modular Rails</p>
-      <h1>How Rails Engines Solve<br>the Modular Monolith Problem</h1>
-      <p class="tagline">David Silva &middot; Author of "Modular Rails: Architecture for the Long Game"</p>
-      <p class="slide-hint">Press <kbd>&rarr;</kbd> or <kbd>Space</kbd> to navigate</p>
-    </section>
+<!-- 1 TITLE -->
+<section class="slide center titleslide" data-notes="Open by naming the arc. This is the talk version of the book — how Rails engines turn a monolith that's drifting into a big ball of mud back into something with real boundaries. 15+ years Ruby. Read the one line under the wordmark slowly, then move.">
+  <div class="wm">Modular <span class="you">Rails</span></div>
+  <div class="meta">how Rails engines solve the modular monolith problem — real boundaries, so the cost of change stops growing and collateral damage drops to zero</div>
+  <div class="meta" style="margin-top:2vh">David Silva · 15+ yrs Ruby · author of “Modular Rails: Architecture for the Long Game” · @davidslv</div>
+</section>
 
-    <!-- Slide 2: The Problem -->
-    <section class="slide" data-slide="2">
-      <p class="slide-label">The Problem</p>
-      <h2>Rails apps that start beautifully<br>become terrifying at scale</h2>
-      <p><code>app/models/</code> with 200 files. A <span class="highlight">User</span> model with associations to everything. Service objects in <code>app/services/</code>, <code>app/interactors/</code>, <code>app/queries/</code>, <code>app/decorators/</code>.</p>
-      <p>Each new directory is a well-intentioned attempt to manage complexity.<br><span class="accent">None of them create actual boundaries.</span></p>
-    </section>
+<!-- 2 THE PROBLEM -->
+<section class="slide" data-notes="Name the lived experience first. Everyone in the room has shipped a Rails app that started clean and got terrifying. app/models with 200 files. A User model wired to everything. Don't blame anyone — this is the default trajectory, not a skill failure.">
+  <div class="kicker">The problem</div>
+  <p class="big">Rails apps that start beautifully<br>become <span class="sig">terrifying at scale.</span></p>
+  <p class="sub" style="max-width:56ch"><code>app/models/</code> with 200 files. A <b style="color:var(--ink)">User</b> model with associations to everything. Every feature touches the same handful of god-objects.</p>
+</section>
 
-    <!-- Slide 3: Cost of Change -->
-    <section class="slide" data-slide="3">
-      <p class="slide-label">The Cost</p>
-      <h2>The cost of change becomes proportional<br>to the size of the entire application</h2>
-      <div class="two-col">
-        <div class="col col-red">
-          <h3 style="color: var(--color-red);">Without boundaries</h3>
-          <pre><code>$ bin/rails test test/models/billing/invoice_test.rb
-<span class="comment"># 3 tests, 3 assertions, 0 failures ✓</span>
+<!-- 3 THE WELL-MEANT FOLDERS -->
+<section class="slide" data-notes="Show the coping mechanisms. Each new top-level directory — services, interactors, queries, decorators — is a well-intentioned attempt to manage complexity. They organise the code. But not one of them stops code in folder A from reaching straight into folder B. Convention is not a boundary.">
+  <div class="kicker">Folders are not boundaries</div>
+  <pre><span class="cmt"># every team's well-meant attempt to manage the sprawl</span>
+app/services/      <span class="cmt">→ still imports anything</span>
+app/interactors/   <span class="cmt">→ still imports anything</span>
+app/queries/       <span class="cmt">→ still imports anything</span>
+app/decorators/    <span class="cmt">→ still imports anything</span>
+app/models/        <span class="cmt">→ 200 files, all reachable from all</span></pre>
+  <p class="sub" style="max-width:58ch">They organise the code. <b style="color:var(--ink)">None of them create an actual boundary.</b> A class in one folder can still reach straight into another.</p>
+</section>
 
-$ bin/rails test
-<span class="comment"># 847 tests, 1203 assertions, 4 failures ✗</span>
-<span class="comment"># Failures in: notification_mailer_test.rb,</span>
-<span class="comment"># report_generator_test.rb, admin_dashboard_test.rb,</span>
-<span class="comment"># webhook_handler_test.rb</span></code></pre>
-        </div>
-        <div class="col col-green">
-          <h3 style="color: var(--color-green);">With engine boundaries</h3>
-          <pre><code>$ cd engines/billing && bundle exec rspec
-<span class="comment"># 94 examples, 0 failures ✓</span>
+<!-- 4 ACT BREAK (coral) -->
+<section class="slide coral center" data-notes="The act break. Say it plainly and stop. A directory is a label. A boundary is a wall the compiler — or the namespace — enforces. The rest of the talk is about getting real walls.">
+  <div class="big">A folder is a label.<br>A <span style="text-decoration:underline">boundary</span> is a wall<br>something enforces.</div>
+</section>
 
-$ cd ../.. && bundle exec rspec
-<span class="comment"># 312 examples, 0 failures ✓</span>
+<!-- 5 THE COST + cast -->
+<section class="slide" data-notes="This is the cost, made concrete — say 'recorded'. Without boundaries, your change is clean but the whole suite has to agree, and four unrelated tests fail because everything is reachable from everything. The cost of a change becomes proportional to the size of the ENTIRE app. With engine boundaries, the engine suite passes, the host suite passes, zero collateral damage. Let the cast auto-play and narrate lightly.">
+  <div class="kicker">The cost · recorded</div>
+  <p class="big" style="margin-bottom:1.4vh">The cost of change becomes proportional<br>to the size of the <span class="sig">entire application.</span></p>
+  <div class="term" style="width:82vw">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="ttl">orbit — blast radius: without boundaries vs with (recorded)</span></div>
+    <div class="body cast" data-cast="#cast-blast" style="white-space:pre;text-align:left;height:46vh;overflow:hidden;font-size:1.12vw;line-height:1.5"></div>
+  </div>
+  <p class="cap">a clean change · a suite that must all agree · four unrelated failures &nbsp;→&nbsp; the boundary holds the blast &nbsp;<span style="color:var(--muted)">· click to pause / replay</span></p>
+</section>
 
-<span class="comment"># Zero collateral damage.</span></code></pre>
-        </div>
-      </div>
-    </section>
+<!-- 6 CONWAY -->
+<section class="slide" data-notes="Reframe boundaries as a team problem, not just a code problem. Conway's Law: your code structure mirrors your communication structure. One team, one monolith, everyone in everything — coordination tax on every change. Teams aligned to engines own their domain and stop colliding. The quote is 1968 — this is not new.">
+  <div class="kicker">Conway’s law</div>
+  <p class="big" style="margin-bottom:1vh">Your code structure mirrors<br>your <span class="sig">team structure.</span></p>
+  <div class="split">
+    <div class="a"><div class="lab">single team · no boundaries</div><div class="t">One team → one monolith. Everyone works on everything. A coordination tax on every change.</div></div>
+    <div class="b"><div class="lab">teams aligned to engines</div><div class="t">Team Billing owns <b>engines/billing/</b>. Team Notifications owns <b>engines/notifications/</b>. Changes stop needing cross-team coordination.</div></div>
+  </div>
+  <p class="cite"><b>“Any organisation that designs a system will produce a design whose structure is a copy of the organisation’s communication structure.”</b> — Melvin Conway, 1968</p>
+</section>
 
-    <!-- Slide 4: Conway's Law -->
-    <section class="slide" data-slide="4">
-      <p class="slide-label">Conway's Law</p>
-      <h2>Your code structure mirrors<br>your team structure</h2>
-      <div class="two-col">
-        <div class="col col-red">
-          <h3 style="color: var(--color-red);">Single team, no boundaries</h3>
-          <p style="font-size: 0.95rem;">One team &rarr; one monolith. Everyone works on everything. Good luck coordinating.</p>
-        </div>
-        <div class="col col-green">
-          <h3 style="color: var(--color-green);">Teams aligned to engines</h3>
-          <p style="font-size: 0.95rem;">Team Billing owns <code>engines/billing/</code>. Team Notifications owns <code>engines/notifications/</code>. Changes don't require cross-team coordination.</p>
-        </div>
-      </div>
-      <p style="margin-top: 1.5rem; font-size: 1rem;"><em>"Any organisation that designs a system will produce a design whose structure is a copy of the organisation's communication structure."</em> — Melvin Conway, 1968</p>
-    </section>
+<!-- 7 WHAT IS AN ENGINE -->
+<section class="slide" data-notes="Now the mechanism — and lead with the credibility beat. Engines aren't a gem from a startup; they're a core Rails feature since 3.1, the same one that powers Devise, Spree, ActiveAdmin. isolate_namespace enforces the boundary at every layer — models, routes, views, tables. And each engine carries its own test suite via a tiny dummy app.">
+  <div class="kicker">The mechanism</div>
+  <p class="big" style="margin-bottom:.6vh">Rails Engines: built in since <span class="sig">3.1.</span></p>
+  <p class="sub" style="max-width:60ch">Mountable, namespace-isolated, independently testable modules that plug into a host application.</p>
+  <ul class="real">
+    <li>The same mechanism that powers <b>Devise</b>, <b>Spree</b> and <b>ActiveAdmin</b></li>
+    <li>Not a gem from a startup — a <span class="sig">core framework feature</span></li>
+    <li><code>isolate_namespace</code> enforces boundaries at every layer: models, routes, views, tables</li>
+    <li>Each engine carries its own test suite via a tiny <b>dummy app</b></li>
+  </ul>
+</section>
 
-    <!-- Slide 5: What is a Rails Engine? -->
-    <section class="slide" data-slide="5">
-      <p class="slide-label">The Mechanism</p>
-      <h2>Rails Engines: built-in since 3.1</h2>
-      <p>Mountable, namespace-isolated, independently testable modules<br>that plug into a host application.</p>
-      <ul>
-        <li>The same mechanism that powers <span class="highlight">Devise</span>, <span class="highlight">Spree</span>, and <span class="highlight">ActiveAdmin</span></li>
-        <li>Not a gem from a startup. A <span class="accent">core framework feature</span></li>
-        <li><code>isolate_namespace</code> enforces boundaries at every layer: models, routes, views, tables</li>
-        <li>Each engine has its own test suite via a <span class="highlight">dummy app</span></li>
-      </ul>
-    </section>
-
-    <!-- Slide 6: Architecture -->
-    <section class="slide" data-slide="6">
-      <p class="slide-label">Architecture</p>
-      <h2>A modular Rails application</h2>
-      <pre><code>orbit/
-├── app/                  <span class="comment"># Host application (thin orchestration layer)</span>
+<!-- 8 ARCHITECTURE -->
+<section class="slide" data-notes="Show the shape. The host app is thin — orchestration only. Each engine owns its domain end to end. Core is the shared kernel for genuinely cross-cutting concerns. Crucially: engines talk through events and concerns, never by reaching into each other's internals.">
+  <div class="kicker">Architecture</div>
+  <p class="big" style="margin-bottom:1.6vh">A modular Rails application.</p>
+  <pre><span class="const">orbit/</span>
+├── app/                  <span class="cmt"># host app — thin orchestration layer</span>
 ├── engines/
-│   ├── core/             <span class="comment"># Shared kernel — cross-cutting concerns</span>
-│   ├── billing/          <span class="comment"># Invoices, subscriptions, plans</span>
-│   └── notifications/    <span class="comment"># In-app notifications</span>
-└── config/               <span class="comment"># Host configuration wires engines together</span></code></pre>
-      <p style="margin-top: 1.5rem;">The host app is thin. Each engine owns its domain.<br>Engines communicate through <span class="highlight">events</span> and <span class="highlight">concerns</span>, not direct references.</p>
-    </section>
+│   ├── <span class="key">core/</span>             <span class="cmt"># shared kernel — cross-cutting concerns</span>
+│   ├── <span class="key">billing/</span>          <span class="cmt"># invoices, subscriptions, plans</span>
+│   └── <span class="key">notifications/</span>    <span class="cmt"># in-app notifications</span>
+└── config/               <span class="cmt"># host wires the engines together</span></pre>
+  <p class="sub" style="max-width:60ch">The host is thin; each engine owns its domain. Engines communicate through <b style="color:var(--ink)">events</b> and <b style="color:var(--ink)">concerns</b> — never direct references.</p>
+</section>
 
-    <!-- Slide 7: Bounded Contexts -->
-    <section class="slide" data-slide="7">
-      <p class="slide-label">Bounded Contexts</p>
-      <h2>The User model as a composition point</h2>
-      <pre><code><span class="keyword">class</span> <span class="method">User</span> &lt; ApplicationRecord
-  <span class="keyword">include</span> Auth::Authenticatable      <span class="comment"># password, sessions, tokens</span>
-  <span class="keyword">include</span> Billing::Billable          <span class="comment"># subscriptions, invoices</span>
-  <span class="keyword">include</span> Notifications::Notifiable  <span class="comment"># preferences, device tokens</span>
-  <span class="keyword">include</span> Teams::Membership          <span class="comment"># memberships, roles</span>
-<span class="keyword">end</span></code></pre>
-      <p style="margin-top: 1.5rem;">Each line is an explicit declaration: <em>"User participates in this domain."</em><br>Remove a line, and the user loses that capability. <span class="accent">The boundaries are visible in the code.</span></p>
-    </section>
+<!-- 9 ACT BREAK (teal) -->
+<section class="slide teal center" data-notes="Tee up the composition idea. The reason this works is that the boundaries aren't documentation you hope people read — they're visible, line by line, in the code itself. Next slide makes that literal.">
+  <div class="big">The boundaries aren’t in a wiki.<br><span style="text-decoration:underline">They’re visible in the code.</span></div>
+</section>
 
-    <!-- Slide 8: Identifying Boundaries -->
-    <section class="slide" data-slide="8">
-      <p class="slide-label">Finding Boundaries</p>
-      <h2>Your git history already knows<br>where the boundaries are</h2>
-      <pre><code><span class="comment"># Files that frequently change together = same domain</span>
-  <span class="number">47</span> times: app/models/invoice.rb
-           app/services/invoice_generator.rb
+<!-- 10 USER AS COMPOSITION POINT -->
+<section class="slide" data-notes="The single most persuasive slide for a Rails audience. The User model becomes a composition point: each include is an explicit declaration that 'User participates in this domain'. Remove a line and the user loses that capability — cleanly. No spooky action at a distance. The boundary is right there, readable.">
+  <div class="kicker">Bounded contexts</div>
+  <p class="big" style="margin-bottom:1.6vh">The User model as a <span class="sig">composition point.</span></p>
+  <pre><span class="key">class</span> <span class="const">User</span> &lt; ApplicationRecord
+  <span class="key">include</span> <span class="const">Auth::Authenticatable</span>      <span class="cmt"># password, sessions, tokens</span>
+  <span class="key">include</span> <span class="const">Billing::Billable</span>          <span class="cmt"># subscriptions, invoices</span>
+  <span class="key">include</span> <span class="const">Notifications::Notifiable</span>  <span class="cmt"># preferences, device tokens</span>
+  <span class="key">include</span> <span class="const">Teams::Membership</span>          <span class="cmt"># memberships, roles</span>
+<span class="key">end</span></pre>
+  <p class="sub" style="max-width:62ch">Each line declares: <i>“User participates in this domain.”</i> Remove a line and the user loses that capability — cleanly. <b style="color:var(--ink)">The boundaries are visible.</b></p>
+</section>
 
-  <span class="number">38</span> times: app/models/invoice.rb
-           app/models/subscription.rb
-
-   <span class="number">3</span> times: app/models/invoice.rb
-           app/models/notification.rb
-           <span class="comment"># ← Weak coupling. Boundary signal.</span></code></pre>
-      <p style="margin-top: 1.5rem;">Run a co-change analysis. The clusters are your candidate engines.<br>The sparse connections are your integration points.</p>
-    </section>
-
-    <!-- Slide 9: Integration Patterns -->
-    <section class="slide" data-slide="9">
-      <p class="slide-label">Integration</p>
-      <h2>How engines communicate</h2>
-      <ul>
-        <li><span class="highlight">Concerns</span> — engines expose, hosts include (<code>Billable</code>, <code>Notifiable</code>)</li>
-        <li><span class="highlight">Events</span> — <code>ActiveSupport::Notifications</code> for cross-engine communication</li>
-        <li><span class="highlight">Configuration</span> — dependency inversion via <code>mattr_accessor</code></li>
-        <li><span class="highlight">Shared kernel</span> — <code>engines/core/</code> for cross-cutting concerns (<code>Auditable</code>)</li>
-        <li><span class="highlight">Background jobs</span> — event subscribers enqueue jobs, never process inline</li>
-      </ul>
-      <p style="margin-top: 1.5rem;"><span class="accent">No engine reaches into another engine's internals.</span><br>The integration points are explicit and testable.</p>
-    </section>
-
-    <!-- Slide 10: Testing -->
-    <section class="slide" data-slide="10">
-      <p class="slide-label">Testing</p>
-      <h2>Your test suite takes 40 minutes.<br>Mine takes 4.</h2>
-      <div class="stat-grid">
-        <div class="stat-item">
-          <div class="stat-number">2s</div>
-          <div class="stat-label">Engine boot time</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">20-40s</div>
-          <div class="stat-label">Engine test suite</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">60s</div>
-          <div class="stat-label">Integration tests</div>
-        </div>
-      </div>
-      <p style="margin-top: 1.5rem;">Each engine tests against a <span class="highlight">minimal dummy app</span>.<br>No notification system to load. No admin panel to configure.<br>CI runs engine tests <span class="accent">in parallel</span>.</p>
-    </section>
-
-    <!-- Slide 11: Not Microservices -->
-    <section class="slide" data-slide="11">
-      <p class="slide-label">Not Microservices</p>
-      <h2>The same operation.<br>Different complexity.</h2>
-      <div class="two-col">
-        <div class="col col-green">
-          <h3 style="color: var(--color-green);">Modular monolith</h3>
-          <p style="font-size: 0.85rem; color: var(--color-text-muted);">15 lines. One transaction. If anything fails, everything rolls back.</p>
-        </div>
-        <div class="col col-red">
-          <h3 style="color: var(--color-red);">Microservices</h3>
-          <p style="font-size: 0.85rem; color: var(--color-text-muted);">40+ lines. Two HTTP calls. Two failure modes requiring compensating transactions. A third with no clean recovery.</p>
-        </div>
-      </div>
-      <p style="margin-top: 1.5rem;">The code complexity difference is not 2&times; — it's an <span class="accent">order of magnitude</span>,<br>and the failure modes multiply.</p>
-    </section>
-
-    <!-- Slide 12: Companies That Came Back -->
-    <section class="slide" data-slide="12">
-      <p class="slide-label">Evidence</p>
-      <h2>Companies that went to microservices<br>and came back</h2>
-      <div class="company-grid">
-        <div class="company-item">
-          <div class="company-name">Amazon Prime Video</div>
-          <div class="company-detail">Moved VQA tool to monolith. Reduced infrastructure costs by 90%.</div>
-        </div>
-        <div class="company-item">
-          <div class="company-name">Segment</div>
-          <div class="company-detail">~140 microservices consolidated back into a single service.</div>
-        </div>
-        <div class="company-item">
-          <div class="company-name">Istio</div>
-          <div class="company-detail">Service mesh tool merged all microservices into a single binary.</div>
-        </div>
-        <div class="company-item">
-          <div class="company-name">Shopify</div>
-          <div class="company-detail">Largest Rails monolith. Millions of requests/minute. Chose modular monolith deliberately.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Slide 13: When Engines Are Wrong -->
-    <section class="slide" data-slide="13">
-      <p class="slide-label">Honest Trade-offs</p>
-      <h2>When engines are the wrong tool</h2>
-      <ul>
-        <li><span class="highlight">&lt; 20 models</span> — namespaces and plain Rails are enough</li>
-        <li><span class="highlight">&lt; 6 developers</span> — you don't have a coordination problem</li>
-        <li><span class="highlight">Zero cross-domain test failures</span> last quarter — the coupling cost is low</li>
-        <li><span class="highlight">Test suite under 5 minutes</span> — the testing benefit is marginal</li>
-        <li><span class="highlight">Boundaries aren't clear yet</span> — use Packwerk to analyse first</li>
-      </ul>
-      <p style="margin-top: 1.5rem;"><em>Being honest about when your tool isn't the right one<br>is a sign of maturity, not weakness.</em></p>
-    </section>
-
-    <!-- Slide 14: Decision Framework -->
-    <section class="slide" data-slide="14">
-      <p class="slide-label">The Framework</p>
-      <h2>Four questions, in order</h2>
-      <div class="question-flow">
-        <div class="question-item">
-          <div class="question-num q-green">1</div>
-          <div><span class="question-text">Is a single Rails app sufficient?</span><br><span class="question-answer">Yes → stop. Use namespaces.</span></div>
-        </div>
-        <div class="question-item">
-          <div class="question-num q-blue">2</div>
-          <div><span class="question-text">Do domains need structural isolation?</span><br><span class="question-answer">Yes → use engines. Modular monolith.</span></div>
-        </div>
-        <div class="question-item">
-          <div class="question-num q-yellow">3</div>
-          <div><span class="question-text">Do domains need process-level isolation?</span><br><span class="question-answer">Yes → promote specific engines to services.</span></div>
-        </div>
-        <div class="question-item">
-          <div class="question-num q-red">4</div>
-          <div><span class="question-text">Do domains need different technology?</span><br><span class="question-answer">Yes → build separate services.</span></div>
-        </div>
-      </div>
-      <p style="margin-top: 1.5rem;"><span class="accent">Most applications never get past step 2.</span> And that's fine.</p>
-    </section>
-
-    <!-- Slide 15: CTA -->
-    <section class="slide" data-slide="15">
-      <p class="slide-label">The Book</p>
-      <h1>Modular Rails:<br>Architecture for the Long Game</h1>
-      <p>Four parts. Eighteen chapters. 378 pages.<br>From principles to practice to the hard questions most architecture books skip.</p>
-      <div class="cta-links">
-        <a href="https://www.amazon.co.uk/dp/B0GZL7D53M" class="cta-link cta-primary" target="_blank">Amazon UK</a>
-        <a href="https://www.amazon.com/dp/B0GZL7D53M" class="cta-link cta-primary" target="_blank">Amazon US</a>
-        <a href="https://github.com/Davidslv/orbit" class="cta-link cta-secondary" target="_blank">Companion App (Orbit)</a>
-      </div>
-      <div class="author-info">
-        David Silva &middot; <a href="https://davidslv.uk">davidslv.uk</a> &middot; <a href="https://linkedin.com/in/davidslv">LinkedIn</a>
-      </div>
-    </section>
-
+<!-- 11 FINDING BOUNDARIES + cast -->
+<section class="slide" data-notes="Pre-empt the obvious objection: 'where do the boundaries even go?' Answer: your git history already knows — say 'recorded'. Files that change together belong together. Run a co-change analysis and the dense clusters are your candidate engines; the sparse edges are your integration points. You don't guess the boundaries; the repo drew the map. Let the cast play.">
+  <div class="kicker">Finding boundaries · recorded</div>
+  <p class="big" style="margin-bottom:1.4vh">Your git history already knows<br>where the <span class="sig">boundaries</span> are.</p>
+  <div class="term" style="width:82vw">
+    <div class="bar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="ttl">orbit — co-change analysis: files that change together (recorded)</span></div>
+    <div class="body cast" data-cast="#cast-cochange" style="white-space:pre;text-align:left;height:46vh;overflow:hidden;font-size:1.12vw;line-height:1.5"></div>
   </div>
+  <p class="cap">dense clusters → candidate engines · sparse edges → integration points &nbsp;<span style="color:var(--muted)">· click to pause / replay</span></p>
+</section>
 
-  <!-- Navigation -->
-  <div class="slide-nav">
-    <button class="nav-btn" id="prevBtn">&larr;</button>
-    <div class="slide-dots" id="slideDots"></div>
-    <button class="nav-btn" id="nextBtn">&rarr;</button>
+<!-- 12 INTEGRATION -->
+<section class="slide" data-notes="How engines actually talk without re-coupling. Concerns are the public surface engines expose and hosts include. Events carry cross-engine facts via ActiveSupport::Notifications. Configuration inverts dependencies. The shared kernel holds genuinely cross-cutting concerns. Background jobs subscribe to events — never process inline. The rule under all of it: no engine reaches into another engine's internals.">
+  <div class="kicker">Integration · how engines communicate</div>
+  <div class="rows">
+    <div class="r"><span class="k">concerns</span><span class="v">engines expose, hosts include — <b>Billable</b>, <b>Notifiable</b></span></div>
+    <div class="r"><span class="k">events</span><span class="v"><code>ActiveSupport::Notifications</code> for cross-engine communication</span></div>
+    <div class="r"><span class="k">configuration</span><span class="v">dependency inversion via <code>mattr_accessor</code></span></div>
+    <div class="r"><span class="k">shared kernel</span><span class="v"><code>engines/core/</code> for cross-cutting concerns — <b>Auditable</b></span></div>
+    <div class="r"><span class="k">background jobs</span><span class="v">event subscribers enqueue jobs, never process inline</span></div>
   </div>
-  <div class="slide-counter" id="slideCounter"></div>
+  <p class="sub" style="max-width:62ch;margin-top:2.4vh"><b style="color:var(--ink)">No engine reaches into another engine’s internals.</b> The integration points are explicit and testable.</p>
+</section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const slides = document.querySelectorAll('.slide');
-      const dots = document.getElementById('slideDots');
-      const counter = document.getElementById('slideCounter');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      let currentSlide = 0;
-      const totalSlides = slides.length;
+<!-- 13 TESTING (hero) -->
+<section class="slide hero" data-notes="The benefit developers feel every single day: the test loop. Each engine tests against a minimal dummy app — no notification system to load, no admin panel to configure. Boot is ~2 seconds. The engine suite runs in tens of seconds. CI runs the engine suites in parallel. The lived difference: a 40-minute monolith suite becomes a 4-minute feedback loop.">
+  <div class="lab">orbit · engine test feedback loop</div>
+  <div class="num"><span class="sig">4</span> min</div>
+  <div class="unit">full feedback loop &nbsp;·&nbsp; <span class="sig">vs ~40</span> for the equivalent monolith</div>
+  <div class="act">Each engine tests against a minimal dummy app — no notification system to load, no admin panel to configure. ~2s boot, tens of seconds per engine suite, and CI runs them <b style="color:var(--ink2)">in parallel</b>.</div>
+</section>
 
-      for (let i = 0; i < totalSlides; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => goToSlide(i));
-        dots.appendChild(dot);
-      }
+<!-- 14 NOT MICROSERVICES -->
+<section class="slide" data-notes="Cut off the 'why not just go microservices' reflex. Same operation — create an invoice and notify the user. In a modular monolith: ~15 lines, one transaction, one rollback if anything fails. In microservices: 40+ lines, two HTTP calls, two failure modes needing compensating transactions, and a third with no clean recovery. The complexity gap isn't 2× — it's an order of magnitude, and the failure modes multiply.">
+  <div class="kicker">Not microservices · the same operation</div>
+  <div class="split">
+    <div class="b"><div class="lab">modular monolith</div><div class="t"><b>~15 lines.</b> One transaction. If anything fails, everything rolls back. One failure mode.</div></div>
+    <div class="a"><div class="lab">microservices</div><div class="t"><b>40+ lines.</b> Two HTTP calls. Two failure modes needing compensating transactions — and a third with no clean recovery.</div></div>
+  </div>
+  <p class="sub" style="max-width:60ch;margin-top:2.4vh">The complexity difference isn’t 2× — it’s an <b style="color:var(--ink)">order of magnitude</b>, and the failure modes multiply.</p>
+</section>
 
-      function updateSlide() {
-        slides.forEach((slide, index) => slide.classList.toggle('active', index === currentSlide));
-        document.querySelectorAll('.slide-dot').forEach((dot, index) => dot.classList.toggle('active', index === currentSlide));
-        counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
-        prevBtn.disabled = currentSlide === 0;
-        nextBtn.disabled = currentSlide === totalSlides - 1;
-      }
+<!-- 15 COMPANIES THAT CAME BACK -->
+<section class="slide" data-notes="The evidence beat — these aren't my opinions, they're public post-mortems. Amazon Prime Video moved a tool off microservices and cut infra cost 90%. Segment collapsed ~140 services back into one. Istio merged its mesh into a single binary. And Shopify — the largest Rails monolith on earth, millions of requests a minute — chose the modular monolith deliberately. The pendulum swung back.">
+  <div class="kicker">Evidence · went to microservices, came back</div>
+  <div class="card">
+    <div class="row"><span class="k">Amazon Prime Video</span><span class="v">Moved its VQA tool back to a monolith — <b>reduced infrastructure cost by 90%</b>.</span></div>
+    <div class="row"><span class="k">Segment</span><span class="v">~140 microservices <b>consolidated back into a single service</b>.</span></div>
+    <div class="row"><span class="k">Istio</span><span class="v">Service-mesh control plane <b>merged into a single binary</b>.</span></div>
+    <div class="row"><span class="k">Shopify</span><span class="v">Largest Rails monolith — millions of requests/minute — <b>chose the modular monolith deliberately</b>.</span></div>
+  </div>
+</section>
 
-      function goToSlide(index) { currentSlide = Math.max(0, Math.min(index, totalSlides - 1)); updateSlide(); }
-      function nextSlide() { if (currentSlide < totalSlides - 1) { currentSlide++; updateSlide(); } }
-      function prevSlide() { if (currentSlide > 0) { currentSlide--; updateSlide(); } }
+<!-- 16 ACT BREAK (coral) -->
+<section class="slide coral center" data-notes="The honesty pivot, set up as an act break. I've just spent fifteen minutes selling engines. Now I'm going to tell you when NOT to use them — because a tool you can't say no to isn't engineering, it's ideology.">
+  <div class="big">I’ve sold you the tool.<br>Now — <span style="text-decoration:underline">when not to reach for it.</span></div>
+</section>
 
-      nextBtn.addEventListener('click', nextSlide);
-      prevBtn.addEventListener('click', prevSlide);
+<!-- 17 WHEN ENGINES ARE WRONG -->
+<section class="slide" data-notes="Be specific about the off-switch, it buys you everything. Under 20 models — namespaces are enough. Under 6 developers — you don't have a coordination problem to solve. Zero cross-domain failures last quarter — your coupling cost is already low. Suite under 5 minutes — the testing win is marginal. Boundaries not clear yet — analyse with Packwerk before you commit. Being honest about when your tool is wrong is maturity, not weakness.">
+  <div class="kicker">Honest trade-offs · when engines are the wrong tool</div>
+  <div class="four">
+    <div class="cell"><div class="h">&lt; 20 models</div><div class="s">namespaces and plain Rails are enough</div></div>
+    <div class="cell"><div class="h">&lt; 6 developers</div><div class="s">you don’t have a coordination problem</div></div>
+    <div class="cell"><div class="h">No cross-domain failures last quarter</div><div class="s">the coupling cost is already low</div></div>
+    <div class="cell"><div class="h">Suite under 5 minutes</div><div class="s">the testing benefit is marginal</div></div>
+  </div>
+  <p class="sub" style="max-width:62ch;margin-top:2.4vh">Boundaries not clear yet? <b style="color:var(--ink)">Analyse with Packwerk first.</b> Being honest about when your tool is wrong is maturity, not weakness.</p>
+</section>
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') { e.preventDefault(); nextSlide(); }
-        else if (e.key === 'ArrowLeft' || e.key === 'Backspace') { e.preventDefault(); prevSlide(); }
-        else if (e.key === 'Home') { e.preventDefault(); goToSlide(0); }
-        else if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); }
-      });
+<!-- 18 DECISION FRAMEWORK -->
+<section class="slide" data-notes="The whole talk as a four-question ladder, in order. One: is a single Rails app enough? If yes, stop — use namespaces. Two: do domains need structural isolation? Yes → engines, modular monolith. Three: do they need process-level isolation? Yes → promote specific engines to services. Four: do they need different technology? Yes → separate services. The punchline: most applications never get past step two — and that's completely fine.">
+  <div class="kicker">The framework · four questions, in order</div>
+  <div class="numrows">
+    <div class="r"><span class="badge b1">1</span><span class="q">Is a single Rails app sufficient? <span class="a">Yes → stop. Use namespaces.</span></span></div>
+    <div class="r"><span class="badge b2">2</span><span class="q">Do domains need structural isolation? <span class="a">Yes → engines. Modular monolith.</span></span></div>
+    <div class="r"><span class="badge b3">3</span><span class="q">Do domains need process-level isolation? <span class="a">Yes → promote specific engines to services.</span></span></div>
+    <div class="r"><span class="badge b4">4</span><span class="q">Do domains need different technology? <span class="a">Yes → build separate services.</span></span></div>
+  </div>
+  <p class="sub" style="max-width:60ch;margin-top:2.6vh"><b style="color:var(--ink)">Most applications never get past step 2.</b> And that’s fine.</p>
+</section>
 
-      let touchStartX = 0;
-      document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
-      document.addEventListener('touchend', (e) => {
-        const diff = touchStartX - e.changedTouches[0].screenX;
-        if (Math.abs(diff) > 50) { if (diff > 0) nextSlide(); else prevSlide(); }
-      });
+<!-- 19 CTA / THE BOOK -->
+<section class="slide center" data-notes="Land it. The book goes deep on all of this — four parts, eighteen chapters, principles to practice to the hard questions most architecture books skip. Orbit is the companion app you can read end to end. Don't read the URLs out — let them photograph it. Thank you.">
+  <div class="kicker">Modular Rails: Architecture for the Long Game</div>
+  <p class="big" style="margin-bottom:.6vh">Principles → practice →<br>the <span class="sig">hard questions.</span></p>
+  <p class="sub" style="max-width:54ch">Four parts. Eighteen chapters. 378 pages — from first principles to the trade-offs most architecture books skip.</p>
+  <div class="doors">
+    <div class="door"><div class="t">Read</div><div class="d">the book</div><div class="s">Modular Rails — Amazon UK &amp; US</div></div>
+    <div class="door"><div class="t">Run</div><div class="d">Orbit</div><div class="s">the companion app — read it end to end</div></div>
+    <div class="door"><div class="t">Generate</div><div class="d">Seams</div><div class="s">a CLI that wires real engines into your repo</div></div>
+  </div>
+  <div class="urls">
+    <a href="https://www.amazon.co.uk/dp/B0GZL7D53M" target="_blank"><b>amazon.co.uk</b></a> &nbsp;·&nbsp;
+    <a href="https://github.com/Davidslv/orbit" target="_blank">github.com/Davidslv/orbit</a> &nbsp;·&nbsp;
+    <a href="https://davidslv.uk" target="_blank"><b>davidslv.uk</b></a> &nbsp;·&nbsp; <b>@davidslv</b>
+  </div>
+</section>
 
-      updateSlide();
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter">1 / 19</div>
+<div class="hint">← → move · <b>N</b> notes · <b>F</b> fullscreen</div>
+<div class="notes" id="notes"></div>
+
+<script type="text/cast" id="cast-blast">
+{"version":2,"width":92,"height":30,"timestamp":0,"title":"modular rails — the blast radius (recorded)","env":{"SHELL":"/bin/zsh","TERM":"xterm-256color"}}
+[0,"o","\u001b[36morbit\u001b[0m\u001b[32m $ \u001b[0m"]
+[0,"o","b"]
+[0.03,"o","i"]
+[0.072,"o","n"]
+[0.126,"o","/"]
+[0.156,"o","r"]
+[0.198,"o","a"]
+[0.252,"o","i"]
+[0.282,"o","l"]
+[0.324,"o","s"]
+[0.378,"o"," "]
+[0.428,"o","t"]
+[0.47,"o","e"]
+[0.524,"o","s"]
+[0.554,"o","t"]
+[0.596,"o"," "]
+[0.67,"o","t"]
+[0.7,"o","e"]
+[0.742,"o","s"]
+[0.796,"o","t"]
+[0.826,"o","/"]
+[0.868,"o","m"]
+[0.922,"o","o"]
+[0.952,"o","d"]
+[0.994,"o","e"]
+[1.048,"o","l"]
+[1.078,"o","s"]
+[1.12,"o","/"]
+[1.174,"o","b"]
+[1.204,"o","i"]
+[1.246,"o","l"]
+[1.3,"o","l"]
+[1.33,"o","i"]
+[1.372,"o","n"]
+[1.426,"o","g"]
+[1.456,"o","/"]
+[1.498,"o","i"]
+[1.552,"o","n"]
+[1.582,"o","v"]
+[1.624,"o","o"]
+[1.678,"o","i"]
+[1.708,"o","c"]
+[1.75,"o","e"]
+[1.804,"o","_"]
+[1.834,"o","t"]
+[1.876,"o","e"]
+[1.93,"o","s"]
+[1.96,"o","t"]
+[2.002,"o","."]
+[2.056,"o","r"]
+[2.086,"o","b"]
+[2.128,"o","\r\n"]
+[2.628,"o","\u001b[90m  # the change itself is clean —\u001b[0m\r\n"]
+[2.688,"o","\u001b[92m  3 runs, 3 assertions, 0 failures\u001b[0m\u001b[90m  ✓\u001b[0m\r\n"]
+[3.648,"o","\r\n"]
+[3.648,"o","\u001b[36morbit\u001b[0m\u001b[32m $ \u001b[0m"]
+[3.648,"o","b"]
+[3.678,"o","i"]
+[3.72,"o","n"]
+[3.774,"o","/"]
+[3.804,"o","r"]
+[3.846,"o","a"]
+[3.9,"o","i"]
+[3.93,"o","l"]
+[3.972,"o","s"]
+[4.026,"o"," "]
+[4.076,"o","t"]
+[4.118,"o","e"]
+[4.172,"o","s"]
+[4.202,"o","t"]
+[4.244,"o"," "]
+[4.318,"o"," "]
+[4.368,"o"," "]
+[4.43,"o","#"]
+[4.484,"o"," "]
+[4.534,"o","b"]
+[4.576,"o","u"]
+[4.63,"o","t"]
+[4.66,"o"," "]
+[4.722,"o","t"]
+[4.776,"o","h"]
+[4.806,"o","e"]
+[4.848,"o"," "]
+[4.922,"o","w"]
+[4.952,"o","h"]
+[4.994,"o","o"]
+[5.048,"o","l"]
+[5.078,"o","e"]
+[5.12,"o"," "]
+[5.194,"o","s"]
+[5.224,"o","u"]
+[5.266,"o","i"]
+[5.32,"o","t"]
+[5.35,"o","e"]
+[5.392,"o"," "]
+[5.466,"o","m"]
+[5.496,"o","u"]
+[5.538,"o","s"]
+[5.592,"o","t"]
+[5.622,"o"," "]
+[5.684,"o","a"]
+[5.738,"o","g"]
+[5.768,"o","r"]
+[5.81,"o","e"]
+[5.864,"o","e"]
+[5.894,"o","\r\n"]
+[6.494,"o","\u001b[1m\u001b[97m  847 runs, 1203 assertions, 4 failures\u001b[0m\r\n"]
+[6.554,"o","\u001b[91m  FAIL\u001b[0m\u001b[90m  notification_mailer_test.rb\u001b[0m\r\n"]
+[6.614,"o","\u001b[91m  FAIL\u001b[0m\u001b[90m  report_generator_test.rb\u001b[0m\r\n"]
+[6.674,"o","\u001b[91m  FAIL\u001b[0m\u001b[90m  admin_dashboard_test.rb\u001b[0m\r\n"]
+[6.734,"o","\u001b[91m  FAIL\u001b[0m\u001b[90m  webhook_handler_test.rb\u001b[0m\r\n"]
+[6.794,"o","\u001b[90m  # none of these import billing. no boundary stopped the blast.\u001b[0m\r\n"]
+[8.254,"o","\r\n"]
+[8.254,"o","\u001b[36morbit\u001b[0m\u001b[32m $ \u001b[0m"]
+[8.254,"o","c"]
+[8.284,"o","d"]
+[8.326,"o"," "]
+[8.4,"o","e"]
+[8.43,"o","n"]
+[8.472,"o","g"]
+[8.526,"o","i"]
+[8.556,"o","n"]
+[8.598,"o","e"]
+[8.652,"o","s"]
+[8.682,"o","/"]
+[8.724,"o","b"]
+[8.778,"o","i"]
+[8.808,"o","l"]
+[8.85,"o","l"]
+[8.904,"o","i"]
+[8.934,"o","n"]
+[8.976,"o","g"]
+[9.03,"o"," "]
+[9.08,"o","&"]
+[9.122,"o","&"]
+[9.176,"o"," "]
+[9.226,"o","b"]
+[9.268,"o","u"]
+[9.322,"o","n"]
+[9.352,"o","d"]
+[9.394,"o","l"]
+[9.448,"o","e"]
+[9.478,"o"," "]
+[9.54,"o","e"]
+[9.594,"o","x"]
+[9.624,"o","e"]
+[9.666,"o","c"]
+[9.72,"o"," "]
+[9.77,"o","r"]
+[9.812,"o","s"]
+[9.866,"o","p"]
+[9.896,"o","e"]
+[9.938,"o","c"]
+[9.992,"o","\r\n"]
+[10.492,"o","\u001b[92m  94 examples, 0 failures\u001b[0m\u001b[90m  ✓  (booted a 2s dummy app)\u001b[0m\r\n"]
+[11.452,"o","\r\n"]
+[11.452,"o","\u001b[36morbit\u001b[0m\u001b[32m $ \u001b[0m"]
+[11.452,"o","c"]
+[11.482,"o","d"]
+[11.524,"o"," "]
+[11.598,"o","."]
+[11.628,"o","."]
+[11.67,"o","/"]
+[11.724,"o","."]
+[11.754,"o","."]
+[11.796,"o"," "]
+[11.87,"o","&"]
+[11.9,"o","&"]
+[11.942,"o"," "]
+[12.016,"o","b"]
+[12.046,"o","u"]
+[12.088,"o","n"]
+[12.142,"o","d"]
+[12.172,"o","l"]
+[12.214,"o","e"]
+[12.268,"o"," "]
+[12.318,"o","e"]
+[12.36,"o","x"]
+[12.414,"o","e"]
+[12.444,"o","c"]
+[12.486,"o"," "]
+[12.56,"o","r"]
+[12.59,"o","s"]
+[12.632,"o","p"]
+[12.686,"o","e"]
+[12.716,"o","c"]
+[12.758,"o","\r\n"]
+[13.258,"o","\u001b[92m  312 examples, 0 failures\u001b[0m\u001b[90m  ✓\u001b[0m\r\n"]
+[13.318,"o","\r\n"]
+[13.378,"o","\u001b[33m  zero collateral damage.\u001b[0m\u001b[90m  the boundary held.\u001b[0m\r\n"]
+</script>
+
+<script type="text/cast" id="cast-cochange">
+{"version":2,"width":92,"height":30,"timestamp":0,"title":"modular rails — git history knows the boundaries (recorded)","env":{"SHELL":"/bin/zsh","TERM":"xterm-256color"}}
+[0,"o","\u001b[36morbit\u001b[0m\u001b[32m $ \u001b[0m"]
+[0,"o","g"]
+[0.03,"o","i"]
+[0.072,"o","t"]
+[0.126,"o"," "]
+[0.176,"o","l"]
+[0.218,"o","o"]
+[0.272,"o","g"]
+[0.302,"o"," "]
+[0.364,"o","-"]
+[0.418,"o","-"]
+[0.448,"o","n"]
+[0.49,"o","a"]
+[0.544,"o","m"]
+[0.574,"o","e"]
+[0.616,"o","-"]
+[0.67,"o","o"]
+[0.7,"o","n"]
+[0.742,"o","l"]
+[0.796,"o","y"]
+[0.826,"o"," "]
+[0.888,"o","-"]
+[0.942,"o","-"]
+[0.972,"o","p"]
+[1.014,"o","r"]
+[1.068,"o","e"]
+[1.098,"o","t"]
+[1.14,"o","t"]
+[1.194,"o","y"]
+[1.224,"o","="]
+[1.266,"o","f"]
+[1.32,"o","o"]
+[1.35,"o","r"]
+[1.392,"o","m"]
+[1.446,"o","a"]
+[1.476,"o","t"]
+[1.518,"o",":"]
+[1.572,"o"," "]
+[1.622,"o","|"]
+[1.664,"o"," "]
+[1.738,"o","s"]
+[1.768,"o","o"]
+[1.81,"o","r"]
+[1.864,"o","t"]
+[1.894,"o"," "]
+[1.956,"o","|"]
+[2.01,"o"," "]
+[2.06,"o","c"]
+[2.102,"o","o"]
+[2.156,"o","-"]
+[2.186,"o","c"]
+[2.228,"o","h"]
+[2.282,"o","a"]
+[2.312,"o","n"]
+[2.354,"o","g"]
+[2.408,"o","e"]
+[2.438,"o","\r\n"]
+[3.038,"o","\u001b[90m  files that change together belong together — ranked by co-commit count\u001b[0m\r\n"]
+[3.098,"o","\r\n"]
+[3.158,"o","\u001b[1m\u001b[97m  47×\u001b[0m  app/models/invoice.rb\r\n"]
+[3.218,"o","\u001b[90m        app/services/invoice_generator.rb\u001b[0m\r\n"]
+[3.278,"o","\r\n"]
+[3.338,"o","\u001b[1m\u001b[97m  38×\u001b[0m  app/models/invoice.rb\r\n"]
+[3.398,"o","\u001b[90m        app/models/subscription.rb\u001b[0m\r\n"]
+[3.458,"o","\r\n"]
+[3.518,"o","\u001b[1m\u001b[97m   3×\u001b[0m  app/models/invoice.rb\r\n"]
+[3.578,"o","\u001b[90m        app/models/notification.rb\u001b[0m\r\n"]
+[3.638,"o","\u001b[33m        ← weak coupling. this is a boundary, not a domain.\u001b[0m\r\n"]
+[5.098,"o","\r\n"]
+[5.098,"o","\u001b[92m  cluster A\u001b[0m\u001b[90m  invoice + generator + subscription   →  engines/billing\u001b[0m\r\n"]
+[5.158,"o","\u001b[92m  cluster B\u001b[0m\u001b[90m  notification + mailer + preference   →  engines/notifications\u001b[0m\r\n"]
+[5.218,"o","\r\n"]
+[5.278,"o","\u001b[90m  the dense clusters are your engines. the sparse edges are your\u001b[0m\r\n"]
+[5.338,"o","\u001b[90m  integration points. the repo drew the map for you.\u001b[0m\r\n"]
+</script>
+
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const counter=document.getElementById('counter'),progress=document.getElementById('progress'),notes=document.getElementById('notes');
+function show(n){
+  i=Math.max(0,Math.min(slides.length-1,n));
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  counter.textContent=(i+1)+' / '+slides.length;
+  progress.style.width=((i+1)/slides.length*100)+'%';
+  notes.innerHTML='<b>Slide '+(i+1)+'</b> — '+(slides[i].dataset.notes||'');
+  location.hash=i+1;
+}
+function next(){show(i+1)} function prev(){show(i-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' ')(next(),e.preventDefault());
+  else if(e.key==='ArrowLeft'||e.key==='PageUp')prev();
+  else if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+  else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+});
+document.addEventListener('click',e=>{ if(e.target.closest('.cast'))return; if(e.clientX < innerWidth*0.25) prev(); else next(); });
+window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace('#',''));if(n>0&&n-1!==i)show(n-1);});
+window.deck={show:n=>show(n),next,prev};
+const h=parseInt(location.hash.replace('#',''));show(h>0?h-1:0);
+</script>
+<script>
+/* castplay.js — inlined: a tiny self-contained asciinema-cast player (no deps, no CDN).
+   Parses an asciinema v2 .cast (header + [t,"o",text] events) from an inline
+   <script type="text/cast"> block, types it into a styled terminal with ANSI-SGR colour,
+   autoplays when its slide scrolls into view, click to pause/resume, click when done to replay. */
+(function () {
+  var COL = { 32:'#7fd1a0', 90:'#8b857a', 37:'#cfc7b6', 92:'#8fe3a8',
+              91:'#ff8a76', 33:'#f4bf4f', 36:'#79c7d6', 97:'#ffffff' };
+  function esc(s){ return s.replace(/[&<>]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+  function ansiToHtml(raw){
+    var out='', open=false, color=null, bold=false;
+    var re=/\x1b\[([0-9;]*)m/g, last=0, m;
+    function span(){ var css=''; if(color)css+='color:'+color+';'; if(bold)css+='font-weight:700;'; return css?'<span style="'+css+'">':'<span>'; }
+    function chunk(text){ if(!text)return; if(!open){out+=span();open=true;} out+=esc(text); }
+    while((m=re.exec(raw))){
+      chunk(raw.slice(last,m.index)); last=re.lastIndex;
+      if(open){out+='</span>';open=false;}
+      m[1].split(';').forEach(function(code){ code=parseInt(code||'0',10);
+        if(code===0){color=null;bold=false;} else if(code===1){bold=true;} else if(COL[code]){color=COL[code];} });
+    }
+    chunk(raw.slice(last)); if(open)out+='</span>';
+    return out.replace(/\r\n/g,'\n');
+  }
+  function Player(el){
+    this.el=el; this.src=el.getAttribute('data-cast'); this.events=null;
+    this.timer=null; this.i=0; this.raw=''; this.playing=false; this.paused=false; this.finished=false;
+    var self=this;
+    el.style.cursor='pointer';
+    el.addEventListener('click', function(){
+      if(self.finished) self.replay();
+      else if(self.playing) self.pause();
+      else if(self.paused) self.resume();
+      else self.play();
     });
-  </script>
+  }
+  Player.prototype.parse=function(txt, cb){
+    try { this.events=txt.split('\n').filter(Boolean).slice(1).map(function(l){return JSON.parse(l);}); cb(); }
+    catch(e){ this.el.textContent='(cast failed to parse)'; }
+  };
+  Player.prototype.load=function(cb){
+    if(this.events) return cb();
+    var self=this, src=this.src||'';
+    if(src.charAt(0)==='#'){
+      var node=document.querySelector(src);
+      if(node){ self.parse(node.textContent, cb); } else { self.el.textContent='(cast not found: '+src+')'; }
+      return;
+    }
+    fetch(src).then(function(r){return r.text();}).then(function(txt){ self.parse(txt, cb); })
+      .catch(function(){ self.el.textContent='(cast failed to load — serve over http, or inline it)'; });
+  };
+  Player.prototype.render=function(raw){ this.el.innerHTML=ansiToHtml(raw); this.el.scrollTop=this.el.scrollHeight; };
+  Player.prototype._tick=function(){
+    var self=this, ev=this.events;
+    if(this.i>=ev.length){ this.playing=false; this.finished=true; return; }
+    this.raw+=ev[this.i][2]; this.render(this.raw);
+    var cur=ev[this.i][0], nxt=(this.i+1<ev.length)?ev[this.i+1][0]:cur; this.i++;
+    this.timer=setTimeout(function(){ self._tick(); }, Math.max(0,(nxt-cur)*1000));
+  };
+  Player.prototype.play=function(){ var self=this; if(this.playing)return; this.load(function(){ self.playing=true; self.paused=false; self.finished=false; self._tick(); }); };
+  Player.prototype.pause=function(){ clearTimeout(this.timer); this.playing=false; this.paused=true; };
+  Player.prototype.resume=function(){ if(this.playing)return; this.playing=true; this.paused=false; this._tick(); };
+  Player.prototype.reset=function(){ clearTimeout(this.timer); this.i=0; this.raw=''; this.playing=false; this.paused=false; this.finished=false; this.render(''); };
+  Player.prototype.replay=function(){ this.reset(); this.play(); };
+
+  function init(){
+    var players=[].slice.call(document.querySelectorAll('[data-cast]')).map(function(n){ return new Player(n); });
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){
+        es.forEach(function(e){ var p=e.target.__cp; if(!p)return;
+          if(e.isIntersecting){ if(!p.armed){ p.armed=true; p.replay(); } }
+          else { p.armed=false; p.reset(); }
+        });
+      },{threshold:.55});
+      players.forEach(function(p){ p.el.__cp=p; io.observe(p.el); });
+    } else { players.forEach(function(p){ p.play(); }); }
+    window.__castPlayers=players;
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
 </body>
 </html>
