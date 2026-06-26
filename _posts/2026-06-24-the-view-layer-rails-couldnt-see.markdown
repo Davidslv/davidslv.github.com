@@ -4,39 +4,32 @@ title:  "The View Layer Rails Couldn't See"
 date:   2026-06-24
 series: engineers-notebook
 series_order: 9
-description: "Every layer of a Rails app has had static analysis for years — RuboCop on Ruby, Brakeman on security — except the one that ships HTML to users. Herb closes that blind spot by making ERB HTML-aware. Here is what that bought us in a real engine: ~190 templates pulled into the reach of tooling, a class of bugs caught as you type, and the honest reason Arbre had to go."
-image: /img/modular-rails-cover.png
+description: "Every layer of a Rails app has had a parser-based linter for years — except the one that ships HTML. Marco Roth's Herb makes ERB HTML-aware. What that bought us in a real engine, what's still rough, and the honest reason Arbre had to go."
+image: /img/og-the-view-layer.png
 ---
 
-The Rails view-layer question has consolidated. After years of churn — Arbre, Erector, the Slim and Haml DSLs, then the components debate — the community has settled, and at the same time ERB itself is being rebuilt as a first-class, HTML-aware foundation. The interesting part is not which template engine won the argument. It is *why* it won, and what changed underneath it to make the win durable. The community is moving **toward** ERB, not away from it, and the reason is a tool called Herb.
+For most of Rails' history, almost every layer of the stack has had a tool that *parses* it. RuboCop reads your Ruby as a syntax tree; Brakeman traces tainted data through it; ESLint reads your JavaScript. The view layer was the exception. The ERB linters we had worked on the *text* of the template, not on the HTML that text produces.
 
-I want to be specific about this, because I have been living it. We run [Marco Roth's Herb toolchain](https://herb-tools.dev) in production in a Rails engine, and the benefits were not the ones I expected when I wired it in. The headline feature — "an HTML-aware ERB parser" — sounds like a linter upgrade. It is actually the closing of a blind spot that Rails has had for its entire existence.
+[Marco Roth's Herb](https://herb-tools.dev) closes that gap: written in C, it parses HTML-with-embedded-ERB into a real syntax tree. We have run it in production in a Rails engine for a few months. Here is what we wired in, what it caught, and what is still rough.
 
 ## The blind spot
 
-Think about where static analysis already reaches in a mature Rails app. Your Ruby is read by RuboCop, line by line, with an AST that understands the language. Your security surface is read by Brakeman, which traces taint from request to query. Your migrations get checked for lock risk. Your JavaScript has ESLint and a type checker. Every layer of the stack has a tool that *understands* it — that parses it into a structure and reasons about that structure.
+For about twenty years, ERB tooling was string-based. `erb_lint` and `better-html` did useful work, but they pattern-matched over text — they had no parse tree of *the HTML you were producing*, so they could not reliably catch a `<div>` opened inside a `<p>`, or a value interpolated into an attribute where the escaping rules differ from body text.
 
-Except one. The layer that actually emits HTML to the user.
+The harder case in our codebase was not ERB at all. Parts of our admin surface were written in **Arbre** — the object-oriented "DOM in Ruby" that ActiveAdmin uses to build markup with `div do … end` blocks instead of templates. Arbre first appeared in 2011 and solved a real problem of its era. I never warmed to the abstraction myself, but taste is beside the point here. The real issue is that Arbre is invisible to static analysis: there is no HTML in the file, only Ruby that emits HTML at runtime. No HTML linter sees it, no language server checks the Stimulus targets inside it, no formatter touches it. Every `.html.arb` file is a file outside the ecosystem.
 
-For twenty years, ERB tooling was string-based. The linters of the previous generation — `erb_lint`, `better-html` — did real and useful work, but they were fundamentally pattern-matching over text with some clever heuristics bolted on. They did not have a parse tree of *the HTML you were producing*. They could not reliably tell you that you had opened a `<div>` inside a `<p>`, or that you had interpolated user data into an attribute position where escaping rules differ from body text, because they were not parsing HTML — they were parsing ERB and squinting at the strings between the tags.
+## What a parse tree makes possible
 
-And that is the *good* case. The worse case is the one we actually had: large parts of our admin surface were written in **Arbre**, the Ruby DSL that ActiveAdmin uses to build markup with `div do … end` blocks instead of templates. Arbre is elegant to write. It is also completely invisible to every modern static-analysis tool. No HTML linter sees it, because there is no HTML in the file — only Ruby that happens to produce HTML at runtime. No language server can tell you a Stimulus target is misspelled inside it. No formatter touches it. Every `.html.arb` file we wrote was, in a real and measurable sense, a file outside the ecosystem.
+Once you have a tree, checks become expressible that a string linter cannot do reliably. In our engine, `herb analyze` gates on two:
 
-## What "HTML-aware" actually buys you
+- **Nesting** — invalid element nesting, the kind browsers silently repair and then render differently than you meant.
+- **Accessibility** — structural checks (missing labels and the like) that only make sense with the element tree in front of you.
 
-Herb is written in C and parses HTML-with-embedded-ERB into a genuine syntax tree. That single architectural decision is the whole story, because it moves an entire class of checks from "impossible with regexes" to "trivial with a tree."
+Herb can also check security — for instance, output in an attribute position, where a naive `<%= %>` can break out of the attribute. We leave those rules off, though: `better_html` (under `erb_lint`) already owns ERB safety, and running both would just double-report. Either way the point holds: the tree is what makes the check possible at all.
 
-In our engine, `herb analyze` runs a set of parser-level validators that the old string linters simply could not express:
+## The view layer has been consolidating on ERB
 
-- **Security** — ERB output in attribute position, where the escaping context is different from body text and where a naive `<%= %>` can let an attacker break out of an attribute. You cannot find this reliably without knowing you are *in* an attribute, which means you need to have parsed the HTML.
-- **Nesting** — malformed or invalid element nesting, the kind that browsers paper over silently and then render differently than you intended.
-- **Accessibility** — missing labels, the structural a11y checks that only make sense once you have the element tree in front of you.
-
-None of those are exotic. They are the bread-and-butter mistakes that ship to production because nothing in the pipeline was looking. The shift from a string linter to a tree-based one is the same shift Ruby made when it got a real parser: you stop catching *some* of a problem with heuristics and start catching *the actual problem* structurally.
-
-## Read the room: where the view layer has actually been heading
-
-This is not one tool appearing in a vacuum. It is the latest move in a decade-long consolidation, and the direction matters more than any single release. Here is the throughline:
+Herb did not appear in a vacuum. For a decade the view layer has been moving in one direction:
 
 <style>
 .vl-timeline{margin:2rem 0;padding-left:1.6rem;border-left:2px solid var(--border-color)}
@@ -75,48 +68,60 @@ This is not one tool appearing in a vacuum. It is the latest move in a decade-lo
   </div>
 </div>
 
-Read that as a single sentence and it says: the ecosystem keeps investing in ERB, and the investment is accelerating, not winding down. ViewComponent — built and run by GitHub, the most prolific ERB renderer on the planet — renders *ERB templates*. Rails 7.1's strict locals gave plain partials typed, required parameters, closing much of the safety gap that made people reach for alternatives. And the proposed "ReActionView" direction floated at Rails World 2025 is explicitly about making Herb the foundation Rails parses views with — roughly *what HEEx is to Phoenix, Herb could be to Rails*.
-
-The one option that runs against this grain is Phlex, and it is instructive *why*. Phlex is genuinely good — pure-Ruby views, fast, composable. But its founding premise is to replace ERB with Ruby. Which means it lands you back in exactly the position Arbre put us in: no HTML for an HTML-aware tool to see. You trade the tooling reach for ergonomics. For some teams that is the right trade. But it is a trade *against* the direction every other piece of the ecosystem is reinforcing, and that is worth naming out loud before you make it.
+Two things get conflated here — a commenter rightly called me on it. The *substrate* has settled: ERB is where the ecosystem's weight sits, and that is a safe bet. The *tooling* on top is young — Herb is at 0.10. That is not a contradiction; it is the reason this is worth writing down. (The one popular bet the other way is Phlex — pure-Ruby views, genuinely good for composition. It is a different trade: write views as Ruby, and you are back to having no HTML for an HTML-aware tool to read.)
 
 ## The lived test: porting Arbre out of an engine
 
-Here is where it stopped being a philosophy and started being a diff. Our engine had a handful of Arbre admin templates left over from earlier days. The decision we took — and wrote into the engine's style guide as a hard rule — was: **new view partials are `.html.erb`, full stop, and the moment you touch an existing `.html.arb` file for any reason, you port it to ERB in the same pull request.**
+Here is where it became a diff. We wrote a hard rule into the engine's style guide: **new view partials are `.html.erb`, and the moment you touch an existing `.html.arb` file for any reason, you port it to ERB in the same pull request.**
 
-That is the boy-scout rule with teeth. Existing Arbre files keep working, untouched, until something forces you to edit one — a bug fix, a copy change, a new field. At that point you do not patch the Arbre; you port the whole file to ERB and *then* make your change. Both pre-commit and CI fail on any added or modified `.html.arb` in the diff. There is no "just this hotfix" bypass, because the gate is only credible if it survives pressure.
+Existing Arbre files keep working untouched until something forces an edit — a bug fix, a copy change, a new field. Then you port the whole file first and make your change in ERB. Pre-commit and CI both fail on any added or modified `.html.arb` in the diff (`git diff --diff-filter=AM | grep '\.html\.arb$'`). No hotfix bypass — the gate is only credible if it survives pressure.
 
-The result, today, is roughly **190 ERB templates and three remaining Arbre files** in the engine — and those three are simply ones nobody has had a reason to touch yet. Every one of those 190 templates is now inside the reach of `herb analyze`, the editor language server, and `erb_lint`. They went from invisible to fully instrumented, one boy-scout port at a time, with no big-bang migration project.
+That has the engine at **193 ERB partials and three remaining Arbre files** — the three are just ones nobody has needed to touch. There was no big-bang migration; the legacy set shrinks as you work.
 
-The justification for being this strict is specific, and I think it generalises: the Arbre-to-ERB conversion is *per-file mechanical* — you port the whole file once and you are done — rather than per-call behavioural. That is what makes per-touch enforcement feasible here in a way it would not be for, say, a syntax cop on existing method calls. When the cost of compliance is "convert this one file you were editing anyway," the rule can be absolute. Match the strictness of a rule to how cheap compliance actually is.
+What makes the rule fair is that porting Arbre is mechanical. You convert the whole file once, and it is done. That is cheap enough to demand on every touch — which it would not be for, say, a cop that rewrote existing method calls.
 
-## The cheapest place to catch a bug is as you type it
+Here is one of those three files, trimmed. In Arbre the markup is Ruby — there is no `<div>`, no class, no attribute for a tool to read:
 
-The CI gate is the floor, not the ceiling. The part that changed daily work most was the editor.
+```ruby
+div class: 'bg-white rounded-xl border px-6 py-5' do
+  para t("#{i18n}.heading"), class: 'text-xs uppercase'
+  text_node button_to t("#{i18n}.button"),
+            sync_record_path(record),
+            method: :post,
+            class: 'px-4 py-2 rounded-lg bg-blue-600 text-white'
+end
+```
 
-Herb ships a language server (`herb-lsp`), and it pairs with the Stimulus language server (`stimulus-lsp`, also Marco Roth's) because the Stimulus tooling is built *on top of* Herb's HTML+ERB parser. Install both — we list them as recommended extensions in the repo so a fresh clone gets prompted — and you get real-time diagnostics for a class of bug we had previously been catching only in code review: missing or undeclared Stimulus targets, action-method mismatches, undefined controllers, value-type errors, data-attribute format mistakes.
+Ported, the same output is real HTML that `herb analyze` and `herb-lsp` can parse:
 
-These are the bugs that are maddening precisely because they are *not* Ruby errors. A typo in `data-controller="affordabilty"` does not raise. It just silently does nothing, and you find out when a button stops working in a feature spec, or worse, in production. Moving that detection from "a reviewer notices on PR #86" to "you see it underlined as you type" is the cheapest feedback loop there is. The error and the fix happen in the same five seconds, with full context, before the code has even been committed.
+```erb
+<div class="bg-white rounded-xl border px-6 py-5">
+  <p class="text-xs uppercase"><%= t("#{i18n}.heading") %></p>
+  <%= button_to t("#{i18n}.button"),
+        sync_record_path(record),
+        method: :post,
+        class: "px-4 py-2 rounded-lg bg-blue-600 text-white" %>
+</div>
+```
 
-## Be honest about the rough edges
+`div do … end` becomes `<div>…</div>`, `para` becomes `<p>`, and the `text_node` wrappers fall away. One file, one pass.
 
-This is a young toolchain — we are running version 0.10 — and pretending otherwise would be the kind of folklore I try to write *against*. Two honest caveats from our setup:
+## Honest about the rough edges
 
-The first is that we run `stimulus-lint` manually but do **not** gate CI on it yet. The reason is a real interaction bug, not laziness: we bootstrap Stimulus inline in an ERB partial rather than in a standard `application.js`, and the current Stimulus parser cannot follow controller registrations embedded in ERB. So it flags every one of our real, registered controllers as "unknown." Worse, in the version we are on, neither the config-file disable nor inline `herb:disable` comments suppress those particular plugin rules — an upstream packaging issue. So the tool stays installed for manual use, and it goes behind the CI gate the day either our bootstrap moves to a `.js` file or upstream fixes the disable mechanism. Naming the exact condition for promotion is how a "held back" tool avoids quietly becoming "abandoned."
+In the editor, `herb-lsp` (we list `marcoroth.herb-lsp` as a recommended extension) gives live HTML diagnostics as you type. But this is a young toolchain — 0.10.1 — and two things are still rough:
 
-The second is that we deliberately run *two* ERB linters side by side — `herb analyze` for the parser-level validators and Shopify's `erb_lint` for whitespace and the `better_html` safety checks — and baseline the overlapping rules in one so they do not double-report. The new tool did not replace the old one overnight; it earned its place next to it and will subsume more of it over time. That is the normal, unglamorous shape of adopting infrastructure that is still maturing.
+**Stimulus checks are off, on purpose.** We bootstrap Stimulus inline in an ERB partial rather than in `application.js`, and the Stimulus parser cannot follow controller registrations embedded in ERB — so it flags every real, registered controller as unknown. The four `stimulus-data-*` rules are disabled in `.herb.yml` until our bootstrap moves to a `.js` file. So the diagnostic I most wanted — catching a typo'd `data-controller` as I type it — is not live for us yet.
 
-## The generalisable lesson
+**Two ERB linters, side by side.** `herb analyze` for the parser-level validators, Shopify's `erb_lint` for whitespace and `better_html` safety. Where they overlap, we keep the rule in one so they do not double-report. The new tool has not replaced the old one; it sits next to it and will subsume more over time.
 
-Strip away the specifics and there is one idea worth keeping.
+## The lesson
 
-**The reach of your tooling is an architectural property, and you get to choose it.** When we chose Arbre years ago, we were not only choosing a pleasant way to write markup — we were, without realising it, choosing to put that markup beyond the reach of every analyser we would later wish we had. When we chose to consolidate on ERB, we were choosing a substrate that the entire ecosystem's tooling can see into: the linters, the language servers, the security validators, the formatter, and whatever Rails core builds next on the Herb foundation. The template engine debate is usually argued on ergonomics and performance. The more durable axis is *legibility to tools*, and on that axis HTML-aware ERB is now in a different class from the DSLs it is replacing.
+One idea is worth keeping: **the reach of your tooling is an architectural property, and you choose it.** Picking Arbre years ago did not just pick a way to write markup — it put that markup beyond every analyser we would later wish we had. Picking ERB put the view layer back inside reach of the linters, the language servers, the safety checks, and whatever Rails builds next on Herb. The template-engine debate usually turns on ergonomics; the more durable axis is legibility to tools, and on that axis HTML-aware ERB is in a different class from the DSLs it replaces.
 
-So the recommendation is narrow and confident. Write ERB. Lint it with something that actually parses the HTML. Keep your view layer inside the reach of the tools, the way every other layer of your app already is — and when you find a corner of it that the tools cannot see, treat that as a bug in your architecture, not a quirk you live with.
-
-The view layer was the last place Rails couldn't see. It can see now. Point it at your templates.
+So: write ERB, lint it with something that actually parses the HTML, and when you find a corner the tools cannot see, treat it as a bug in your architecture — not a quirk you live with.
 
 ---
 
-*The setup in this post is from a production Rails engine running the [Herb](https://herb-tools.dev) toolchain at version 0.10.1: `herb analyze` wired into pre-push via lefthook and CI, `herb-lsp` and `stimulus-lsp` as recommended editor extensions, and an enforced Arbre-to-ERB porting rule that has the engine at ~190 ERB templates to 3 remaining Arbre files. The ecosystem timeline draws on ViewComponent, Rails 7.1 strict locals, Phlex 2, and the "ReActionView" direction discussed at Rails World 2025.*
+*The setup here is a production Rails engine running [Herb](https://herb-tools.dev) 0.10.1 (`herb analyze` in pre-push and CI), `erb_lint` 0.9.0 with `better_html` for safety, `marcoroth.herb-lsp` as a recommended extension, and an enforced Arbre-to-ERB porting rule that has the engine at 193 ERB partials to 3 remaining Arbre files.*
 
 *If you want the longer story on building Rails applications that stay maintainable as they grow — boundaries, engines, testing, and honest trade-offs — that is what [Modular Rails: Architecture for the Long Game](/modular-rails/) covers in depth. [Read it free on the web](/books/modular-rails/), or get the [paperback](https://www.amazon.com/dp/1066649405) ([UK](https://www.amazon.co.uk/dp/1066649405)).*
