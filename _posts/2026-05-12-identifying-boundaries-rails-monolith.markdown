@@ -5,7 +5,7 @@ date:   2026-05-12
 series: engineers-notebook
 series_order: 2
 description: "Your git history already knows where your Rails boundaries belong. Use co-change analysis to find domain clusters, tame the God-Object User model, and draw your first engine interfaces."
-image: /img/modular-rails-cover.png
+image: /img/og-identifying-boundaries.png
 ---
 
 *This is an adapted excerpt from Chapter 9 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

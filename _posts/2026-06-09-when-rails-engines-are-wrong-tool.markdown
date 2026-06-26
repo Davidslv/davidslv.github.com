@@ -5,7 +5,7 @@ date:   2026-06-09
 series: engineers-notebook
 series_order: 5
 description: "Rails engines aren't free. When adding engine boundaries is over-engineering — the performance, boot-time and memory costs — and how to tell when a boundary actually earns its keep."
-image: /img/modular-rails-cover.png
+image: /img/og-when-engines-wrong.png
 ---
 
 I have spent an entire book making the case for Rails engines. Now I am going to tell you when *not* to use them.

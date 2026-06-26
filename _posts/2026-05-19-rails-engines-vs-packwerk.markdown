@@ -5,7 +5,7 @@ date:   2026-05-19
 series: engineers-notebook
 series_order: 4
 description: "Rails engines enforce hard runtime boundaries; Packwerk catches violations with static analysis. A side-by-side comparison — plus gems, namespaces and Hanami slices — to pick the right tool."
-image: /img/modular-rails-cover.png
+image: /img/og-engines-vs-packwerk.png
 ---
 
 *This is an adapted excerpt from Chapter 16 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

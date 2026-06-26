@@ -5,7 +5,7 @@ date:   2026-06-02
 series: engineers-notebook
 series_order: 6
 description: "How a modular Rails test suite runs in 4 minutes instead of 40: per-engine unit tests, dummy apps, contract tests for boundaries, selective execution, and a CI flow that scales as you grow."
-image: /img/modular-rails-cover.png
+image: /img/og-testing-strategy.png
 ---
 
 *This is an adapted excerpt from Chapter 13 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

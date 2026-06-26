@@ -5,7 +5,7 @@ date:   2026-05-05
 series: engineers-notebook
 series_order: 1
 description: "Why the cost of change in a Rails monolith climbs exponentially — and how engine boundaries, Conway's Law and deferred decisions keep large applications maintainable over the long game."
-image: /img/modular-rails-cover.png
+image: /img/og-why-architecture-matters.png
 ---
 
 *This is an adapted excerpt from Chapter 1 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

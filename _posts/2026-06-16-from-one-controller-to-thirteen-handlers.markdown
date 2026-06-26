@@ -5,7 +5,7 @@ date:   2026-06-16
 series: engineers-notebook
 series_order: 7
 description: "Refactoring a 200-line Stripe webhook god-object into thirteen single-purpose handlers, using Template Method, Strategy and Registry to make adding an event type a one-class job."
-image: /img/modular-rails-cover.png
+image: /img/og-thirteen-handlers.png
 ---
 
 A webhook controller is the natural place to put webhook code. You name it `WebhooksController`, you put a `def stripe` action in it, and you start writing. Six months later it is 200 lines long and you cannot remember what half of it does. This post is about the moment I noticed mine had become a god object, and the small architectural shift that fixed it.

@@ -5,7 +5,7 @@ date:   2026-05-26
 series: engineers-notebook
 series_order: 3
 description: "Why a modular monolith built with Rails engines beats microservices as your default. The operational cost of distribution, the companies that came back, and a framework for when to extract."
-image: /img/modular-rails-cover.png
+image: /img/og-modular-monolith-default.png
 ---
 
 *This is an adapted excerpt from Chapter 17 of [Modular Rails: Architecture for the Long Game](/modular-rails/), my book on building maintainable Ruby on Rails applications using Rails Engines.*

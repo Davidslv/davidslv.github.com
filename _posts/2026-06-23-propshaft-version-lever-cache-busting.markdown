@@ -5,7 +5,7 @@ date:   2026-06-23
 series: engineers-notebook
 series_order: 8
 description: "Community feedback claimed Rails 8's Propshaft removed config.assets.version. I read the source and ran the experiment on a clean Rails 8.1.3 app: it's still there, still wired into the digest, and bumping it forces every fingerprint to change. Plus the cache-busting problem it doesn't solve."
-image: /img/modular-rails-cover.png
+image: /img/og-propshaft-version-lever.png
 ---
 
 A piece of feedback to the Rails community crossed my feed this week. A team had migrated an application to Rails 8.1.3, adopted Propshaft — the asset pipeline that replaced Sprockets as the Rails 8 default — and concluded that it had removed the ability to set a version string to force new fingerprints on precompile. Their words were that this introduced "a weakness to the platform." The reasoning was sound: they used that lever to be certain a client was running the latest deployed assets, and now it appeared to be gone.
