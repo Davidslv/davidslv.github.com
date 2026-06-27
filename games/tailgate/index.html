@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tailgate — an animal kart racer</title>
+    <meta
+      name="description"
+      content="Tailgate: a Mode-7 animal kart racer built from scratch — drift the bends, grab an acorn dash, race seven rivals or split-screen a friend. Plays in the browser, no download."
+    />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <meta name="theme-color" content="#1b271a" />
+    <!-- Open Graph + Twitter card. Absolute URLs (crawlers don't resolve relative); og.png ships beside index.html. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tailgate — an animal kart racer" />
+    <meta
+      property="og:description"
+      content="A Mode-7 animal kart racer built from scratch. Drift the bends, race seven rivals or split-screen a friend. Plays in the browser."
+    />
+    <meta property="og:url" content="https://davidslv.uk/games/tailgate/" />
+    <meta property="og:image" content="https://davidslv.uk/games/tailgate/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Tailgate — an animal kart racer" />
+    <meta
+      name="twitter:description"
+      content="A Mode-7 animal kart racer built from scratch. Drift the bends, race seven rivals or split-screen a friend."
+    />
+    <meta name="twitter:image" content="https://davidslv.uk/games/tailgate/og.png" />
+    <!-- Structured data (schema.org / JSON-LD) — the modern machine-readable card. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "Tailgate",
+        "alternateName": "Tailgate — an animal kart racer",
+        "description": "A Mode-7 animal kart racer built from scratch. Drift the bends, grab an acorn dash, race seven rivals or split-screen a friend. Plays in the browser, no download.",
+        "url": "https://davidslv.uk/games/tailgate/",
+        "image": "https://davidslv.uk/games/tailgate/og.png",
+        "genre": ["Racing", "Arcade"],
+        "gamePlatform": "Web Browser",
+        "applicationCategory": "Game",
+        "operatingSystem": "Any modern web browser",
+        "playMode": ["SinglePlayer", "MultiPlayer"],
+        "inLanguage": "en",
+        "author": { "@type": "Person", "name": "David Silva", "url": "https://davidslv.uk" },
+        "publisher": { "@type": "Organization", "name": "DS Laboratory" },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    </script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #101014;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      canvas {
+        image-rendering: pixelated;
+      }
+    </style>
+    <script type="module" crossorigin src="/games/tailgate/assets/main-Cej4nsRI.js"></script>
+  </head>
+  <body>
+    <!--
+      The crisp, scaled play surface is built by @lockstep/canvas createCanvas()
+      at runtime; src/shell/main.ts mounts it here and gives it id="game" so the
+      headless smoke (scripts/smoke.mjs) can locate and screenshot it.
+    -->
+    <canvas id="game"></canvas>
+  </body>
+</html>

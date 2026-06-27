@@ -36,7 +36,7 @@ permalink: /games/
   .gs-sub2{ color:var(--meta-color); font-size:.83rem; line-height:1.36; margin-top:.22rem; }
   .gs-go{ margin-left:auto; align-self:flex-start; color:var(--meta-color); font-size:1.1rem; transition:transform .14s ease, color .14s ease; }
   .gs-plate:hover .gs-go{ color:var(--accent); transform:translateX(3px); }
-  .p-stealth{ --accent:#5a57e0; } .p-rally{ --accent:#15a892; } .p-tetris{ --accent:#df4632; }
+  .p-stealth{ --accent:#5a57e0; } .p-rally{ --accent:#15a892; } .p-tetris{ --accent:#df4632; } .p-tailgate{ --accent:#e0a32e; }
 
   .gs-ghost{ background:transparent; border:1px dashed var(--border-color); }
   .gs-ghost .gs-thumb{ background:transparent; border-bottom:3px dashed var(--border-color); display:flex; align-items:center; justify-content:center; }
@@ -60,16 +60,21 @@ permalink: /games/
   <header class="gs-mast">
     <div class="gs-kick">davidslv &middot; game library &mdash; canvas 2D &middot; zero dependencies</div>
     <h1 class="gs-h1">Games</h1>
-    <p class="gs-sub">Small games I build from scratch, one at a time &mdash; faithful studies of how they played, the 80s through the 2000s. <b>Three up now</b>; the shelf grows as I finish more.</p>
+    <p class="gs-sub">Small games I build from scratch, one at a time &mdash; faithful studies of how they played, the 80s through the 2000s. <b>Four up now</b>; the shelf grows as I finish more.</p>
   </header>
 
   <section class="gs-shelf">
-    <div class="gs-shelf-h"><span class="t">Playable now</span><span class="r"></span><span class="c">3 games</span></div>
+    <div class="gs-shelf-h"><span class="t">Playable now</span><span class="r"></span><span class="c">4 games</span></div>
     <div class="gs-row">
 
       <a class="gs-plate p-stealth" href="{{ site.baseurl }}/games/stealth/">
         <div class="gs-thumb"><img src="{{ site.baseurl }}/games/stealth/thumb.png" alt="Stealth — top-down infiltration" width="522" height="470" loading="lazy"><span class="gs-flag">Flagship</span></div>
         <div class="gs-info"><span class="gs-sw"></span><div class="gs-tx"><span class="gs-nm">Filed Under No One</span><span class="gs-sub2">Top-down infiltration &mdash; read the cones, slip the patrols. A 20-level campaign.</span></div><span class="gs-go">&rarr;</span></div>
+      </a>
+
+      <a class="gs-plate p-tailgate" href="{{ site.baseurl }}/games/tailgate/">
+        <div class="gs-thumb"><img src="{{ site.baseurl }}/games/tailgate/thumb.png" alt="Tailgate — a Mode-7 animal kart racer" width="960" height="600" loading="lazy"></div>
+        <div class="gs-info"><span class="gs-sw"></span><div class="gs-tx"><span class="gs-nm">Tailgate</span><span class="gs-sub2">Mode-7 animal kart racer &mdash; drift the bends, race seven rivals or split-screen a friend.</span></div><span class="gs-go">&rarr;</span></div>
       </a>
 
       <a class="gs-plate p-rally" href="{{ site.baseurl }}/games/rally/">
