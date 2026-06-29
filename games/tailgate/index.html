@@ -2,7 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Lock the viewport for a fullscreen game: no pinch-zoom, fit under notches (viewport-fit). -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Tailgate — an animal kart racer</title>
     <meta
       name="description"
@@ -60,17 +64,60 @@
         margin: 0;
         height: 100%;
         background: #101014;
+        /* No bounce/overscroll on mobile — the play surface is fixed, not a scrollable page. */
+        overflow: hidden;
+        overscroll-behavior: none;
       }
       body {
         display: flex;
         align-items: center;
         justify-content: center;
+        position: fixed;
+        inset: 0;
       }
       canvas {
         image-rendering: pixelated;
+        /* Don't let a stray touch on the canvas pan/zoom the page. */
+        touch-action: none;
+      }
+      /*
+        Portrait nudge — shown ONLY on touch devices (pointer: coarse), so a portrait DESKTOP
+        browser window is left alone. The opaque overlay covers the canvas until the player
+        rotates to landscape, where this game's fixed 4:3 surface actually fits.
+      */
+      .rotate-hint {
+        display: none;
+      }
+      @media (orientation: portrait) and (pointer: coarse) {
+        .rotate-hint {
+          display: flex;
+          position: fixed;
+          inset: 0;
+          z-index: 10;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 1.25rem;
+          padding: 2rem;
+          background: #101014;
+          color: #9bb39b;
+          font-family: system-ui, -apple-system, sans-serif;
+          text-align: center;
+        }
+        .rotate-hint .glyph {
+          font-size: 3rem;
+          line-height: 1;
+        }
+        .rotate-hint .msg {
+          font-size: 1.1rem;
+          max-width: 18rem;
+        }
+        .rotate-hint strong {
+          color: #ffd23f;
+        }
       }
     </style>
-    <script type="module" crossorigin src="/games/tailgate/assets/main-CVlwOvc8.js"></script>
+    <script type="module" crossorigin src="/games/tailgate/assets/main-CsuAe-Ri.js"></script>
   </head>
   <body>
     <!--
@@ -79,5 +126,10 @@
       headless smoke (scripts/smoke.mjs) can locate and screenshot it.
     -->
     <canvas id="game"></canvas>
+    <!-- Shown by CSS only in portrait on a touch device; invisible on desktop and in landscape. -->
+    <div class="rotate-hint" role="img" aria-label="Rotate your device to landscape to play Tailgate">
+      <div class="glyph" aria-hidden="true">↻</div>
+      <div class="msg">Rotate your device to <strong>landscape</strong> to play&nbsp;Tailgate.</div>
+    </div>
   </body>
 </html>
