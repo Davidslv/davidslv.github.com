@@ -1,0 +1,14 @@
+{
+  "name": "Tailgate — Animal Kart Racer",
+  "short_name": "Tailgate",
+  "description": "A zero-asset animal kart racer. Plays offline, no ads, no accounts.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#1b271a",
+  "theme_color": "#244524",
+  "icons": [
+    { "src": "favicon.png", "sizes": "64x64", "type": "image/png", "purpose": "any" }
+  ]
+}
