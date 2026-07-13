@@ -142,6 +142,21 @@
   .term .tbar .ttl { font-family: var(--mono); font-size: 1.5vh; letter-spacing: .08em; color: var(--ink-faint); margin-left: .8vw; }
   .term .body { padding: 2vh 1.6vw; font-family: var(--mono); font-size: 1.65vh; line-height: 1.5; color: #d8dee4; white-space: pre; overflow: hidden; height: 46vh; }
 
+  /* the receipts — real GitHub artifacts (schematic) */
+  .receipts { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); padding: 2.8vh 2.2vw; margin-top: 1vh; width: min(66vw, 1100px); }
+  .receipts .epic { display: flex; align-items: center; justify-content: space-between; gap: 2vw; padding-bottom: 1.8vh; border-bottom: 1px solid var(--line); }
+  .receipts .epic .name { font-size: 3vh; font-weight: 750; letter-spacing: -.02em; }
+  .receipts .epic .name .glyph { color: var(--accent); }
+  .receipts .epic .prog { font-family: var(--mono); font-size: 1.8vh; color: var(--ok); white-space: nowrap; letter-spacing: .08em; }
+  .receipts .issues { display: flex; flex-direction: column; gap: 1.1vh; margin: 1.8vh 0; }
+  .receipts .issue { display: grid; grid-template-columns: auto auto 1fr; gap: 1.4vw; align-items: baseline; }
+  .receipts .issue .chk { color: var(--ok); font-family: var(--mono); font-size: 2.1vh; }
+  .receipts .issue .ref { font-family: var(--mono); color: var(--ink-faint); font-size: 1.8vh; }
+  .receipts .issue .ttl { color: var(--ink-dim); font-size: 2.2vh; }
+  .receipts .pr { display: flex; align-items: center; gap: 1.2vw; padding-top: 1.8vh; border-top: 1px solid var(--line); font-size: 2.3vh; }
+  .receipts .pr .glyph { color: var(--accent); font-family: var(--mono); }
+  .receipts .pr .state { font-family: var(--mono); font-size: 1.6vh; color: var(--ok); border: 1px solid var(--ok); border-radius: 6px; padding: .3vh 1vw; letter-spacing: .08em; text-transform: uppercase; }
+
   .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); width: 0; transition: width .3s ease; z-index: 10; }
   .hint { position: fixed; bottom: 4.4vh; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 1.3vh; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint); opacity: .55; }
 </style>
@@ -184,8 +199,8 @@
     <p class="lead" style="margin-top:1.5vh">One ask — <strong>“a coffee shop that sells one subscription”</strong> — start to finish, in a single session:</p>
     <div class="runsheet">
       <div class="ck"><div class="badge">1</div><div class="cmd"><b>/grill-with-docs</b> — asks me the 6 questions that matter, before any code</div></div>
-      <div class="ck"><div class="badge">2</div><div class="cmd"><b>/break-down</b> — splits it into 5 small tasks, in order, with a safe place to stop</div></div>
-      <div class="ck"><div class="badge">3</div><div class="cmd"><b>/epic-autopilot</b> — builds it, writing the tests first</div></div>
+      <div class="ck"><div class="badge">2</div><div class="cmd"><b>/break-down</b> — opens a GitHub Epic + 5 issues, in order, with a safe place to stop</div></div>
+      <div class="ck"><div class="badge">3</div><div class="cmd"><b>/epic-autopilot</b> — works each issue and opens a Pull Request, tests first</div></div>
       <div class="ck"><div class="badge">4</div><div class="cmd">firm <b>checks its own work</b> — reviews the code it just wrote</div></div>
       <div class="ck"><div class="badge">5</div><div class="cmd">a working shop — a real, live subscription, <b>with no payment keys at all</b></div></div>
     </div>
@@ -202,6 +217,28 @@
     </div>
     <p class="lead" style="font-size:2vh; margin-top:1vh">Plays on its own when you land here · click the terminal to pause or replay.</p>
     <div class="chrome"><span>press → to carry on with the talk</span><span>04b</span></div>
+  </section>
+
+  <!-- 4c RECEIPTS (real GitHub artifacts) -->
+  <section class="slide">
+    <div class="partno"><span class="id">03 · Receipts</span><span>what it left on GitHub</span></div>
+    <h2>Real Epic. Real issues. <span class="u">Real PR.</span></h2>
+    <div class="receipts">
+      <div class="epic">
+        <div class="name"><span class="glyph">⬡</span> Epic — Coffee-shop subscription</div>
+        <div class="prog">▓▓▓▓▓ 5 / 5 done</div>
+      </div>
+      <div class="issues">
+        <div class="issue"><span class="chk">✓</span><span class="ref">#43</span><span class="ttl">the subscription plan</span></div>
+        <div class="issue"><span class="chk">✓</span><span class="ref">#44</span><span class="ttl">the checkout flow</span></div>
+        <div class="issue"><span class="chk">✓</span><span class="ref">#45</span><span class="ttl">a payment stub — no real keys</span></div>
+        <div class="issue"><span class="chk">✓</span><span class="ref">#46</span><span class="ttl">the “active subscription” state</span></div>
+        <div class="issue"><span class="chk">✓</span><span class="ref">#47</span><span class="ttl">the landing page</span></div>
+      </div>
+      <div class="pr"><span class="glyph">⇄</span> Pull request #48 — reviewed, tests green <span class="state">ready to merge</span></div>
+    </div>
+    <p class="lead" style="font-size:2vh; margin-top:1vh">One request → a tracked Epic, five issues, a reviewed PR. It's all on GitHub — click through, it's real.</p>
+    <div class="chrome"><span>switch to GitHub here → show the real Epic</span><span>04c</span></div>
   </section>
 
   <!-- 5 REFRAME -->
