@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Disciplined Agentic Engineering — David Silva</title>
+<meta name="description" content="A demo-led talk: shipping software faster with AI without shipping the mistakes faster too — via firm, an engineering operating system of small helpers, each owning one job, built into Claude Code.">
+<link rel="canonical" href="https://davidslv.uk/presentations/disciplined-agentic-engineering/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="davidslv.uk">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Disciplined Agentic Engineering">
+<meta property="og:description" content="Shipping faster with AI — without shipping the mistakes faster too. A demo-led talk on firm, an engineering operating system.">
+<meta property="og:url" content="https://davidslv.uk/presentations/disciplined-agentic-engineering/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@davidslv">
+<meta name="twitter:title" content="Disciplined Agentic Engineering">
+<meta name="twitter:description" content="Shipping faster with AI — without shipping the mistakes faster too.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"PresentationDigitalDocument","name":"Disciplined Agentic Engineering","author":{"@type":"Person","name":"David Silva","url":"https://davidslv.uk"},"url":"https://davidslv.uk/presentations/disciplined-agentic-engineering/","inLanguage":"en-GB"}
+</script>
+</head>
+<body>
+<style>
+  :root {
+    --bg:      #0b0d10;
+    --bg-2:    #101318;
+    --panel:   #151a20;
+    --ink:     #f3f5f7;
+    --ink-dim: #97a2ac;
+    --ink-faint:#5c666f;
+    --line:    #232a31;
+    --accent:  #f0b429;   /* firm amber */
+    --accent-2:#f7cd5c;
+    --ok:      #56b979;   /* the good bar */
+    --crit:    #e0574f;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--ink); font-family: var(--sans);
+    overflow: hidden; -webkit-font-smoothing: antialiased;
+  }
+
+  .stage { position: fixed; inset: 0; }
+  .slide {
+    position: absolute; inset: 0; display: none;
+    flex-direction: column; justify-content: center;
+    padding: 7vh 8vw; gap: 2.4vh;
+    background:
+      radial-gradient(120vw 80vh at 92% -10%, rgba(240,180,41,.06), transparent 55%),
+      linear-gradient(180deg, var(--bg-2), var(--bg));
+  }
+  .slide.active { display: flex; animation: sfade .34s ease; }
+  @keyframes sfade { from { opacity: 0 } to { opacity: 1 } }
+  @media (prefers-reduced-motion: reduce) { .slide.active { animation: none; } }
+
+  .partno {
+    position: absolute; top: 5vh; left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono); font-size: 1.5vh; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--ink-faint); border-bottom: 1px solid var(--line); padding-bottom: 1.4vh;
+  }
+  .partno .id { color: var(--accent); }
+  .chrome {
+    position: absolute; bottom: 4.5vh; left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 1.4vh; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .eyebrow { font-family: var(--mono); font-size: 1.9vh; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: 8.4vh; line-height: 1.02; letter-spacing: -.03em; font-weight: 800; margin: 0; max-width: 20ch; }
+  h2 { font-size: 6.6vh; line-height: 1.04; letter-spacing: -.028em; font-weight: 800; margin: 0; max-width: 20ch; }
+  .statement { font-size: 6.2vh; line-height: 1.08; letter-spacing: -.028em; font-weight: 800; margin: 0; max-width: 22ch; }
+  .lead { font-size: 2.9vh; line-height: 1.5; color: var(--ink-dim); max-width: 52ch; font-weight: 400; }
+  .amber { color: var(--accent); }
+  .u { background-image: linear-gradient(var(--accent), var(--accent)); background-repeat: no-repeat; background-size: 100% .09em; background-position: 0 100%; padding-bottom: .1em; }
+  strong { color: var(--ink); font-weight: 800; }
+  .mono { font-family: var(--mono); }
+
+  .title h1 { font-size: 9.6vh; max-width: 18ch; }
+  .title .sub { font-size: 3vh; color: var(--ink-dim); max-width: 46ch; }
+  .title .by { font-family: var(--mono); font-size: 1.8vh; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); margin-top: 2vh; }
+
+  .rows { display: flex; flex-direction: column; gap: 1.8vh; margin-top: 1vh; }
+  .row { display: grid; grid-template-columns: auto 1fr; gap: 2.4vw; align-items: baseline; }
+  .row .k { font-family: var(--mono); font-size: 2vh; letter-spacing: .1em; color: var(--accent); white-space: nowrap; }
+  .row .v { font-size: 3vh; line-height: 1.3; }
+  .row .v small { display: block; font-size: 1.9vh; color: var(--ink-dim); margin-top: .4vh; letter-spacing: 0; }
+
+  .bugs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; margin-top: 2vh; }
+  .bug { border: 1px solid var(--line); border-top: 3px solid var(--crit); border-radius: 12px; background: var(--panel); padding: 3vh 2vw; }
+  .bug .n { font-family: var(--mono); font-size: 1.5vh; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); }
+  .bug .t { font-size: 3.1vh; font-weight: 750; letter-spacing: -.02em; margin-top: 1vh; }
+
+  .runsheet { display: flex; flex-direction: column; gap: 1.5vh; margin-top: 1vh; }
+  .ck { display: grid; grid-template-columns: auto 1fr; gap: 2vw; align-items: center; }
+  .ck .badge { width: 4.6vh; height: 4.6vh; border-radius: 50%; border: 1.5px solid var(--accent); color: var(--accent); font-family: var(--mono); font-size: 2vh; display: grid; place-items: center; }
+  .ck .cmd { font-family: var(--mono); font-size: 2.5vh; color: var(--ink); }
+  .ck .cmd b { color: var(--accent); font-weight: 400; }
+  .ck .cmd small { display:block; font-family: var(--sans); font-size: 1.9vh; color: var(--ink-dim); margin-top:.3vh; }
+  .demo-tag { display:inline-flex; align-items:center; gap:1vw; font-family:var(--mono); font-size:2.2vh; letter-spacing:.2em; text-transform:uppercase; color:var(--bg); background:var(--accent); padding:.8vh 1.6vw; border-radius:8px; width:max-content; }
+
+  .pnum { font-family: var(--mono); font-size: 12vh; line-height: .9; color: var(--line); font-weight: 400; letter-spacing: -.04em; }
+  .pgrid { display: grid; grid-template-columns: auto 1fr; gap: 4vw; align-items: center; }
+  .callback { font-family: var(--mono); font-size: 2vh; color: var(--ink-dim); border-left: 3px solid var(--accent); padding-left: 1.6vw; margin-top: 1vh; max-width: 40ch; line-height: 1.5; }
+  .callback b { color: var(--accent); font-weight: 400; }
+
+  .vs { display: flex; flex-direction: column; gap: 1.6vh; margin-top: 2vh; max-width: 60ch; }
+  .vsrow { display: grid; grid-template-columns: 14ch 1fr; gap: 2vw; align-items: center; }
+  .vsrow .lab { font-family: var(--mono); font-size: 1.9vh; letter-spacing: .1em; text-transform: uppercase; }
+  .vsrow.without .lab { color: var(--ink-faint); }
+  .vsrow.with .lab { color: var(--ok); }
+  .bar { height: 4.4vh; border-radius: 7px; display: flex; align-items: center; padding: 0 1.4vw; font-family: var(--mono); font-size: 1.8vh; color: var(--bg); font-weight: 600; }
+  .bar.b0 { width: 46%; background: var(--ink-faint); }
+  .bar.b1 { width: 92%; background: var(--ok); }
+  .rule-note { font-family: var(--mono); font-size: 2vh; color: var(--accent); margin-top: 1vh; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5vw; margin-top: 2vh; }
+  .card { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); padding: 3.4vh 2.2vw; }
+  .card h3 { font-size: 3.4vh; margin: 0 0 1.4vh; letter-spacing: -.02em; }
+  .card.mine h3 { color: var(--accent); }
+  .card ul { margin: 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 1.1vh; }
+  .card li { font-size: 2.2vh; color: var(--ink-dim); line-height: 1.35; padding-left: 2.4vw; position: relative; }
+  .card li::before { content: "▸"; position: absolute; left: 0; color: var(--accent); }
+  .card code { font-family: var(--mono); font-size: 1.9vh; color: var(--ink); }
+
+  /* recorded-backup terminal (played by castplay.js) */
+  .backup-label { display: inline-flex; align-items: center; gap: .9vw; font-family: var(--mono); font-size: 1.9vh; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .backup-label .rec { width: 1.3vh; height: 1.3vh; border-radius: 50%; background: var(--crit); }
+  .term { width: 82vw; max-width: 1400px; margin-top: .5vh; background: #0e1115; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; box-shadow: 0 24px 60px -30px rgba(0,0,0,.7); }
+  .term .tbar { display: flex; align-items: center; gap: .7vw; padding: 1.3vh 1.2vw; background: #151a20; border-bottom: 1px solid var(--line); }
+  .term .tbar .dot { width: 1.1vh; height: 1.1vh; border-radius: 50%; background: #39424b; }
+  .term .tbar .ttl { font-family: var(--mono); font-size: 1.5vh; letter-spacing: .08em; color: var(--ink-faint); margin-left: .8vw; }
+  .term .body { padding: 2vh 1.6vw; font-family: var(--mono); font-size: 1.65vh; line-height: 1.5; color: #d8dee4; white-space: pre; overflow: hidden; height: 46vh; }
+
+  .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); width: 0; transition: width .3s ease; z-index: 10; }
+  .hint { position: fixed; bottom: 4.4vh; left: 50%; transform: translateX(-50%); font-family: var(--mono); font-size: 1.3vh; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint); opacity: .55; }
+</style>
+
+<div class="progress" id="progress"></div>
+<div class="stage" id="stage">
+
+  <!-- 1 TITLE -->
+  <section class="slide active title">
+    <div class="partno"><span class="id">firm-os</span><span>Disciplined Agentic Engineering</span></div>
+    <div class="eyebrow">building software with AI, without the mess</div>
+    <h1>Disciplined Agentic Engineering</h1>
+    <p class="sub lead">Shipping faster with AI — without shipping the mistakes faster too.</p>
+    <div class="by">David Silva · Engineering</div>
+    <div class="chrome"><span>firm-os</span><span>01</span></div>
+  </section>
+
+  <!-- 2 HOOK -->
+  <section class="slide">
+    <div class="partno"><span class="id">01 · The hook</span><span>Disciplined Agentic Engineering</span></div>
+    <p class="statement">I ship faster than ever.<br>That's exactly what <span class="u">scared me.</span></p>
+    <p class="lead">More speed, same me — redoing work I'd already done, repeating mistakes I'd already made, cutting corners under pressure. The AI didn't fix that. It just did it <strong>faster</strong>.</p>
+    <div class="chrome"><span>firm-os</span><span>02</span></div>
+  </section>
+
+  <!-- 3 SETUP -->
+  <section class="slide">
+    <div class="partno"><span class="id">02 · Setup</span><span>Disciplined Agentic Engineering</span></div>
+    <div class="eyebrow">so I built myself some help</div>
+    <h2><span class="amber">firm</span> — a set of small helpers, each doing one job, built into Claude&nbsp;Code.</h2>
+    <p class="lead">They look after everything <em>around</em> the code: the planning, the reviews, the safety checks, and remembering what we learned. Instead of explaining it —</p>
+    <p class="statement">let me just <span class="u">show you.</span></p>
+    <div class="chrome"><span>firm-os</span><span>03</span></div>
+  </section>
+
+  <!-- 4 DEMO -->
+  <section class="slide">
+    <div class="partno"><span class="id">03 · Live</span><span>watch it refuse to cut a corner</span></div>
+    <div class="demo-tag">● Live demo</div>
+    <p class="lead" style="margin-top:1.5vh">One ask — <strong>“a coffee shop that sells one subscription”</strong> — start to finish, in a single session:</p>
+    <div class="runsheet">
+      <div class="ck"><div class="badge">1</div><div class="cmd"><b>/grill-with-docs</b> — asks me the 6 questions that matter, before any code</div></div>
+      <div class="ck"><div class="badge">2</div><div class="cmd"><b>/break-down</b> — splits it into 5 small tasks, in order, with a safe place to stop</div></div>
+      <div class="ck"><div class="badge">3</div><div class="cmd"><b>/epic-autopilot</b> — builds it, writing the tests first</div></div>
+      <div class="ck"><div class="badge">4</div><div class="cmd">firm <b>checks its own work</b> — reviews the code it just wrote</div></div>
+      <div class="ck"><div class="badge">5</div><div class="cmd">a working shop — a real, live subscription, <b>with no payment keys at all</b></div></div>
+    </div>
+    <div class="chrome"><span>backup on the next slide →</span><span>04</span></div>
+  </section>
+
+  <!-- 4b BACKUP (recorded) -->
+  <section class="slide">
+    <div class="partno"><span class="id">03 · Backup</span><span>if the live run stalls</span></div>
+    <div class="backup-label"><span class="rec"></span> Recorded — the same run, start to finish</div>
+    <div class="term">
+      <div class="tbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="ttl">firm — full arc · coffee-shop subscription</span></div>
+      <div class="body cast" data-cast="#firm-fullarc"></div>
+    </div>
+    <p class="lead" style="font-size:2vh; margin-top:1vh">Plays on its own when you land here · click the terminal to pause or replay.</p>
+    <div class="chrome"><span>press → to carry on with the talk</span><span>04b</span></div>
+  </section>
+
+  <!-- 5 REFRAME -->
+  <section class="slide">
+    <div class="partno"><span class="id">04 · What that was</span><span>what you just watched</span></div>
+    <h2>That wasn't “AI writes code.”<br>It was AI that <span class="u">couldn't cut a corner.</span></h2>
+    <p class="lead">The problems it stopped aren't bugs in the code. They're bugs in <strong>how we work</strong>:</p>
+    <div class="bugs">
+      <div class="bug"><div class="n">problem 01</div><div class="t">Redoing work already done</div></div>
+      <div class="bug"><div class="n">problem 02</div><div class="t">Repeating mistakes already made</div></div>
+      <div class="bug"><div class="n">problem 03</div><div class="t">Cutting corners under pressure</div></div>
+    </div>
+    <p class="lead" style="margin-top:2vh">Going faster with AI doesn't fix these. It makes them <span class="amber">worse</span>.</p>
+    <div class="chrome"><span>firm-os</span><span>05</span></div>
+  </section>
+
+  <!-- 6 THE SEAM -->
+  <section class="slide">
+    <div class="partno"><span class="id">05 · The one idea</span><span>the seam</span></div>
+    <div class="eyebrow">the whole thing rests on one word</div>
+    <p class="statement">A <span class="amber">seam</span>:<br>one job, one owner.</p>
+    <p class="lead">Every job — testing, code review, safety checks — has exactly one owner. So nothing slips through the gap, and nobody ever says <em>“I thought someone else had that.”</em></p>
+    <div class="chrome"><span>firm-os</span><span>06</span></div>
+  </section>
+
+  <!-- 7 PRINCIPLES DIVIDER -->
+  <section class="slide">
+    <div class="partno"><span class="id">06 · How</span><span>four simple rules</span></div>
+    <div class="eyebrow">what makes it careful, not just fast</div>
+    <h1>Four simple rules.</h1>
+    <p class="lead">Everything you just saw was one of these four. Here they are.</p>
+    <div class="chrome"><span>firm-os</span><span>07</span></div>
+  </section>
+
+  <!-- 8 P1 -->
+  <section class="slide">
+    <div class="partno"><span class="id">Rule 01</span><span>bigger risk, more checks</span></div>
+    <div class="pgrid">
+      <div class="pnum">01</div>
+      <div>
+        <h2>The bigger the risk,<br>the more <span class="u">checks.</span></h2>
+        <p class="lead">Every check on a risky change. Nothing at all on a typo. Checks that slow you down every time just get switched off — so firm stays quiet on the small stuff and strict where it counts.</p>
+        <div class="callback"><b>you saw it:</b> the reviewers that stayed quiet, because the change was small.</div>
+      </div>
+    </div>
+    <div class="chrome"><span>answers: “won't this slow me down?”</span><span>08</span></div>
+  </section>
+
+  <!-- 9 P2 -->
+  <section class="slide">
+    <div class="partno"><span class="id">Rule 02</span><span>one job, one owner</span></div>
+    <div class="pgrid">
+      <div class="pnum">02</div>
+      <div>
+        <h2>One job.<br>One <span class="u">owner.</span></h2>
+        <p class="lead">Each job belongs to one helper — not a committee. It can work on its own because the rules are clear, and there's always one place the rule lives.</p>
+        <div class="callback"><b>you saw it:</b> the questions it forced up front, each reviewer speaking only for its own job.</div>
+      </div>
+    </div>
+    <div class="chrome"><span>firm-os</span><span>09</span></div>
+  </section>
+
+  <!-- 10 P3 -->
+  <section class="slide">
+    <div class="partno"><span class="id">Rule 03</span><span>a stop beats a reminder</span></div>
+    <div class="pgrid">
+      <div class="pnum">03</div>
+      <div>
+        <h2>A hard stop beats a <span class="u">reminder.</span></h2>
+        <p class="lead">Under pressure, “remember to check X” fails. Something that simply won't let you past does not. Automatic checks catch the obvious; a second reviewer catches the rest.</p>
+        <div class="callback"><b>you saw it:</b> firm reviewing its own code — and flagging a gap in its own rules.</div>
+      </div>
+    </div>
+    <div class="chrome"><span>firm-os</span><span>10</span></div>
+  </section>
+
+  <!-- 11 P4 -->
+  <section class="slide">
+    <div class="partno"><span class="id">Rule 04</span><span>prove it helps</span></div>
+    <div class="pgrid">
+      <div class="pnum">04</div>
+      <div>
+        <h2>Prove it helps,<br>or <span class="u">drop it.</span></h2>
+        <p class="lead">A rule you can't show helps is just an opinion. So every rule in firm has to earn its place.</p>
+        <div class="callback"><b>next slide:</b> how each rule earns its spot.</div>
+      </div>
+    </div>
+    <div class="chrome"><span>firm-os</span><span>11</span></div>
+  </section>
+
+  <!-- 12 PROOF -->
+  <section class="slide">
+    <div class="partno"><span class="id">07 · Proof</span><span>not just a good feeling</span></div>
+    <h2>firm has to pass <span class="u">its own test.</span></h2>
+    <div class="rows">
+      <div class="row"><span class="k">every check</span><span class="v">comes with a test that proves it <strong>actually works</strong></span></div>
+      <div class="row"><span class="k">every reviewer</span><span class="v">is measured against <strong>plain AI with no firm</strong> — and only ships if it does better</span></div>
+    </div>
+    <div class="vs">
+      <div class="vsrow without"><span class="lab">without firm</span><span class="bar b0">plain AI</span></div>
+      <div class="vsrow with"><span class="lab">with firm</span><span class="bar b1">has to do better</span></div>
+    </div>
+    <p class="rule-note">If it doesn't beat plain AI, it doesn't ship.</p>
+    <div class="chrome"><span>firm's own code has to pass 4 checks too</span><span>12</span></div>
+  </section>
+
+  <!-- 13 COMPOUND -->
+  <section class="slide">
+    <div class="partno"><span class="id">08 · The payoff</span><span>it gets better over time</span></div>
+    <h2>Every project teaches the <span class="u">next one.</span></h2>
+    <p class="lead">A handy trick, a new rule, a word that's specific to our team — each one gets written down where the next session will read it. So the same mistake doesn't happen twice — <strong>and neither do you.</strong></p>
+    <div class="chrome"><span>firm-os</span><span>13</span></div>
+  </section>
+
+  <!-- 14 INVITATION -->
+  <section class="slide">
+    <div class="partno"><span class="id">09 · Your turn</span><span>two ways in</span></div>
+    <h2>Build your own <span class="u">guardrails.</span></h2>
+    <div class="two">
+      <div class="card mine">
+        <h3>Try firm</h3>
+        <ul>
+          <li>It's built into Claude Code</li>
+          <li>One line to add it: <code>/plugin marketplace add davidslv/firm-os</code></li>
+          <li>Adds nothing to your project — leaves no trace</li>
+          <li>Stays quiet on small changes</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Or build your own</h3>
+        <ul>
+          <li>The idea is yours to copy</li>
+          <li>Pick your jobs · give each one an owner · add your checks</li>
+          <li>Make sure each one beats plain AI</li>
+          <li>Fit it to how <em>you</em> work</li>
+        </ul>
+      </div>
+    </div>
+    <div class="chrome"><span>firm-os</span><span>14</span></div>
+  </section>
+
+  <!-- 15 CLOSE -->
+  <section class="slide title">
+    <div class="partno"><span class="id">firm-os</span><span>thank you</span></div>
+    <div class="eyebrow">the point isn't the tool — it's the habit</div>
+    <h1>Go faster.<br>Without the <span class="amber">mess.</span></h1>
+    <p class="sub lead">firm keeps one person doing ten jobs from tripping over themselves. Take mine, or build your own.</p>
+    <div class="by">github.com/davidslv/firm-os · David Silva</div>
+    <div class="chrome"><span>questions →</span><span>15</span></div>
+  </section>
+
+</div>
+
+<div class="hint" id="hint">← → or space · F fullscreen</div>
+
+<script type="text/cast" id="firm-fullarc">
+{"version": 2, "width": 100, "height": 30, "timestamp": 0, "title": "firm \u2014 act 3: the full arc, request to proven feature (real run)", "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}}
+[0.4, "o", "\u001b[90m# act 3 \u2014 the full arc. a real request, driven end to end by Claude Code + firm.\u001b[0m\r\n"]
+[1.4, "o", "\u001b[36mcoffee_club\u001b[0m\u001b[32m \u276f \u001b[0m"]
+[1.65, "o", "\u001b[97mI\u001b[0m"]
+[1.666, "o", "\u001b[97m \u001b[0m"]
+[1.684, "o", "\u001b[97mw\u001b[0m"]
+[1.719, "o", "\u001b[97ma\u001b[0m"]
+[1.735, "o", "\u001b[97mn\u001b[0m"]
+[1.756, "o", "\u001b[97mt\u001b[0m"]
+[1.772, "o", "\u001b[97m \u001b[0m"]
+[1.795, "o", "\u001b[97ma\u001b[0m"]
+[1.824, "o", "\u001b[97m \u001b[0m"]
+[1.863, "o", "\u001b[97mc\u001b[0m"]
+[1.89, "o", "\u001b[97mo\u001b[0m"]
+[1.908, "o", "\u001b[97mf\u001b[0m"]
+[1.924, "o", "\u001b[97mf\u001b[0m"]
+[1.944, "o", "\u001b[97me\u001b[0m"]
+[1.961, "o", "\u001b[97me\u001b[0m"]
+[1.978, "o", "\u001b[97m \u001b[0m"]
+[2.007, "o", "\u001b[97ms\u001b[0m"]
+[2.028, "o", "\u001b[97mh\u001b[0m"]
+[2.05, "o", "\u001b[97mo\u001b[0m"]
+[2.087, "o", "\u001b[97mp\u001b[0m"]
+[2.117, "o", "\u001b[97m \u001b[0m"]
+[2.152, "o", "\u001b[97mw\u001b[0m"]
+[2.19, "o", "\u001b[97me\u001b[0m"]
+[2.228, "o", "\u001b[97mb\u001b[0m"]
+[2.26, "o", "\u001b[97ms\u001b[0m"]
+[2.286, "o", "\u001b[97mi\u001b[0m"]
+[2.319, "o", "\u001b[97mt\u001b[0m"]
+[2.342, "o", "\u001b[97me\u001b[0m"]
+[2.382, "o", "\u001b[97m \u001b[0m"]
+[2.419, "o", "\u001b[97ms\u001b[0m"]
+[2.441, "o", "\u001b[97me\u001b[0m"]
+[2.464, "o", "\u001b[97ml\u001b[0m"]
+[2.486, "o", "\u001b[97ml\u001b[0m"]
+[2.521, "o", "\u001b[97mi\u001b[0m"]
+[2.537, "o", "\u001b[97mn\u001b[0m"]
+[2.57, "o", "\u001b[97mg\u001b[0m"]
+[2.601, "o", "\u001b[97m \u001b[0m"]
+[2.623, "o", "\u001b[97mO\u001b[0m"]
+[2.644, "o", "\u001b[97mN\u001b[0m"]
+[2.67, "o", "\u001b[97mE\u001b[0m"]
+[2.697, "o", "\u001b[97m \u001b[0m"]
+[2.714, "o", "\u001b[97ms\u001b[0m"]
+[2.734, "o", "\u001b[97mu\u001b[0m"]
+[2.762, "o", "\u001b[97mb\u001b[0m"]
+[2.797, "o", "\u001b[97ms\u001b[0m"]
+[2.832, "o", "\u001b[97mc\u001b[0m"]
+[2.864, "o", "\u001b[97mr\u001b[0m"]
+[2.891, "o", "\u001b[97mi\u001b[0m"]
+[2.909, "o", "\u001b[97mp\u001b[0m"]
+[2.939, "o", "\u001b[97mt\u001b[0m"]
+[2.967, "o", "\u001b[97mi\u001b[0m"]
+[3.0, "o", "\u001b[97mo\u001b[0m"]
+[3.029, "o", "\u001b[97mn\u001b[0m"]
+[3.067, "o", "\u001b[97m \u001b[0m"]
+[3.094, "o", "\u001b[97m\u2014\u001b[0m"]
+[3.128, "o", "\u001b[97m \u001b[0m"]
+[3.157, "o", "\u001b[97mR\u001b[0m"]
+[3.185, "o", "\u001b[97mo\u001b[0m"]
+[3.223, "o", "\u001b[97ma\u001b[0m"]
+[3.263, "o", "\u001b[97ms\u001b[0m"]
+[3.279, "o", "\u001b[97mt\u001b[0m"]
+[3.309, "o", "\u001b[97me\u001b[0m"]
+[3.326, "o", "\u001b[97mr\u001b[0m"]
+[3.348, "o", "\u001b[97m'\u001b[0m"]
+[3.387, "o", "\u001b[97ms\u001b[0m"]
+[3.774, "o", "\r\n"]
+[3.774, "o", "\u001b[36mcoffee_club\u001b[0m\u001b[32m \u276f \u001b[0m"]
+[3.874, "o", "\u001b[97mM\u001b[0m"]
+[3.906, "o", "\u001b[97mo\u001b[0m"]
+[3.929, "o", "\u001b[97mn\u001b[0m"]
+[3.961, "o", "\u001b[97mt\u001b[0m"]
+[3.996, "o", "\u001b[97mh\u001b[0m"]
+[4.024, "o", "\u001b[97ml\u001b[0m"]
+[4.043, "o", "\u001b[97my\u001b[0m"]
+[4.079, "o", "\u001b[97m,\u001b[0m"]
+[4.111, "o", "\u001b[97m \u001b[0m"]
+[4.143, "o", "\u001b[97m\u00a3\u001b[0m"]
+[4.175, "o", "\u001b[97m1\u001b[0m"]
+[4.207, "o", "\u001b[97m8\u001b[0m"]
+[4.244, "o", "\u001b[97m/\u001b[0m"]
+[4.263, "o", "\u001b[97mm\u001b[0m"]
+[4.295, "o", "\u001b[97mo\u001b[0m"]
+[4.325, "o", "\u001b[97mn\u001b[0m"]
+[4.357, "o", "\u001b[97mt\u001b[0m"]
+[4.379, "o", "\u001b[97mh\u001b[0m"]
+[4.397, "o", "\u001b[97m.\u001b[0m"]
+[4.432, "o", "\u001b[97m \u001b[0m"]
+[4.47, "o", "\u001b[97mp\u001b[0m"]
+[4.492, "o", "\u001b[97ml\u001b[0m"]
+[4.507, "o", "\u001b[97ma\u001b[0m"]
+[4.532, "o", "\u001b[97mn\u001b[0m"]
+[4.564, "o", "\u001b[97m \u001b[0m"]
+[4.599, "o", "\u001b[97mi\u001b[0m"]
+[4.638, "o", "\u001b[97mt\u001b[0m"]
+[4.678, "o", "\u001b[97m \u001b[0m"]
+[4.712, "o", "\u001b[97mp\u001b[0m"]
+[4.748, "o", "\u001b[97mr\u001b[0m"]
+[4.779, "o", "\u001b[97mo\u001b[0m"]
+[4.806, "o", "\u001b[97mp\u001b[0m"]
+[4.845, "o", "\u001b[97me\u001b[0m"]
+[4.868, "o", "\u001b[97mr\u001b[0m"]
+[4.893, "o", "\u001b[97ml\u001b[0m"]
+[4.925, "o", "\u001b[97my\u001b[0m"]
+[4.963, "o", "\u001b[97m,\u001b[0m"]
+[4.991, "o", "\u001b[97m \u001b[0m"]
+[5.017, "o", "\u001b[97mb\u001b[0m"]
+[5.046, "o", "\u001b[97mu\u001b[0m"]
+[5.083, "o", "\u001b[97mi\u001b[0m"]
+[5.121, "o", "\u001b[97ml\u001b[0m"]
+[5.158, "o", "\u001b[97md\u001b[0m"]
+[5.175, "o", "\u001b[97m \u001b[0m"]
+[5.196, "o", "\u001b[97mi\u001b[0m"]
+[5.23, "o", "\u001b[97mt\u001b[0m"]
+[5.259, "o", "\u001b[97m \u001b[0m"]
+[5.29, "o", "\u001b[97mt\u001b[0m"]
+[5.315, "o", "\u001b[97me\u001b[0m"]
+[5.34, "o", "\u001b[97ms\u001b[0m"]
+[5.375, "o", "\u001b[97mt\u001b[0m"]
+[5.398, "o", "\u001b[97m-\u001b[0m"]
+[5.426, "o", "\u001b[97mf\u001b[0m"]
+[5.462, "o", "\u001b[97mi\u001b[0m"]
+[5.477, "o", "\u001b[97mr\u001b[0m"]
+[5.496, "o", "\u001b[97ms\u001b[0m"]
+[5.519, "o", "\u001b[97mt\u001b[0m"]
+[5.539, "o", "\u001b[97m,\u001b[0m"]
+[5.56, "o", "\u001b[97m \u001b[0m"]
+[5.586, "o", "\u001b[97mp\u001b[0m"]
+[5.614, "o", "\u001b[97mr\u001b[0m"]
+[5.653, "o", "\u001b[97mo\u001b[0m"]
+[5.67, "o", "\u001b[97mv\u001b[0m"]
+[5.689, "o", "\u001b[97me\u001b[0m"]
+[5.72, "o", "\u001b[97m \u001b[0m"]
+[5.755, "o", "\u001b[97mi\u001b[0m"]
+[5.79, "o", "\u001b[97mt\u001b[0m"]
+[5.806, "o", "\u001b[97m.\u001b[0m"]
+[6.23, "o", "\r\n"]
+[6.23, "o", "\r\n"]
+[6.83, "o", "\u001b[36m\u23fa Skill\u001b[0m(engineering-core:\u001b[97mgrill-me\u001b[0m) \u2014 6 questions, one at a time, each with a recommendation:\r\n"]
+[7.43, "o", "   payments?  \u001b[97moffline gateway\u001b[0m\u001b[90m \u2014 no Stripe keys, no network\u001b[0m    \u001b[32madopted\u001b[0m\r\n"]
+[7.98, "o", "   identity?  \u001b[97mguest checkout\u001b[0m\u001b[90m \u2014 a Customer with an email\u001b[0m      \u001b[32madopted\u001b[0m\r\n"]
+[8.53, "o", "   engines?   \u001b[97mcore + billing only\u001b[0m\u001b[90m \u2014 skip auth/design/admin\u001b[0m  \u001b[32madopted\u001b[0m\r\n"]
+[9.08, "o", "\u001b[90m   \u2026 3 more \u2192 PROPOSAL.md written\u001b[0m\r\n"]
+[10.63, "o", "\u001b[36m\u23fa Skill\u001b[0m(engineering-core:\u001b[97mbreak-down\u001b[0m) \u2192 BREAKDOWN.md:\r\n"]
+[11.13, "o", "   Epic + 5 sub-issues \u00b7 4 phases \u00b7 \u001b[97m#1\u2192#2\u2192#3\u2192#4\u2192#5\u001b[0m \u00b7 \u001b[32msafe stop after #3\u001b[0m\r\n"]
+[12.63, "o", "\u001b[90m# build \u2014 seams generates real engines; every slice lands red \u2192 green.\u001b[0m\r\n"]
+[13.33, "o", "\u001b[36m\u23fa Bash\u001b[0m(rails new coffee_club && bin/seams core && bin/seams billing)\r\n"]
+[13.93, "o", "   \u001b[91m\u2717 published seams pins ruby >= 4.0.0\u001b[0m\u001b[90m \u2014 a real bug: vendored + fixed, filed upstream (#79)\u001b[0m\r\n"]
+[14.53, "o", "   \u001b[32m\u2713 engines/core  engines/billing\u001b[0m\u001b[90m  (Stripe-shaped subscriptions, offline test gateway)\u001b[0m\r\n"]
+[15.93, "o", "   #2 subscribe service   \u001b[91mRED\u001b[0m \u2192 \u001b[32mGREEN\u001b[0m  (3 specs)\r\n"]
+[16.53, "o", "   #3 landing page \u00a318/mo \u001b[91mRED\u001b[0m \u2192 \u001b[32mGREEN\u001b[0m  \u001b[90m(safe stop reached)\u001b[0m\r\n"]
+[17.13, "o", "   #4 POST /subscribe     \u001b[91mRED\u001b[0m \u2192 \u001b[32mGREEN\u001b[0m  \u2192 active Billing::Subscription\r\n"]
+[17.73, "o", "   \u001b[32mfull suite: 6 examples, 0 failures\u001b[0m\u001b[90m \u00b7 6 small commits, honest messages\u001b[0m\r\n"]
+[19.43, "o", "\u001b[90m# then firm gates the code it just wrote.\u001b[0m\r\n"]
+[20.13, "o", "\u001b[36m\u23fa Bash\u001b[0m(.firm/hooks/firm-gate.sh --report)   \u001b[91m11 rest-shape findings\u001b[0m\r\n"]
+[20.73, "o", "   1 \u001b[97mmine\u001b[0m            \u2192 \u001b[32mFIXED\u001b[0m  (subscribe route \u2192 resourceful DSL)\r\n"]
+[21.33, "o", "   1 rails default   \u2192 \u001b[33mwaived\u001b[0m (framework boilerplate, reason recorded)\r\n"]
+[21.93, "o", "   9 vendor engine   \u2192 \u001b[33mwaived\u001b[0m (generated code, not mounted)\r\n"]
+[22.53, "o", "   \u001b[32mfirm-gate: no un-waived findings \u2014 exit 0\u001b[0m\r\n"]
+[24.23, "o", "\u001b[90m# proof \u2014 live server, fully offline.\u001b[0m\r\n"]
+[24.83, "o", "   GET /            \u001b[32m200\u001b[0m  \u2192  \"Roaster's Monthly\" \u00b7 \u00a318/month \u00b7 subscribe form\r\n"]
+[25.43, "o", "   POST /subscribe  \u001b[32m302\u001b[0m  \u2192  \u001b[97mactive subscription created\u001b[0m\u001b[90m  (gateway_ref=sub_test_\u2026)\u001b[0m\r\n"]
+[26.03, "o", "   \u001b[90mSTRIPE_SECRET_KEY set? \u001b[0m\u001b[97mfalse\u001b[0m\u001b[90m  \u2014 no keys, no network, still working\u001b[0m\r\n"]
+[27.83, "o", "\u001b[36mcoffee_club\u001b[0m\u001b[32m \u276f \u001b[0m"]
+[28.18, "o", "\u001b[92m# request \u2192 grill \u2192 break-down \u2192 red/green build \u2192 gated \u2192 proven.\u001b[0m\r\n"]
+[28.18, "o", "\u001b[36mcoffee_club\u001b[0m\u001b[32m \u276f \u001b[0m"]
+[28.38, "o", "\u001b[92m# one session. every discipline. that's firm.\u001b[0m\r\n"]
+
+</script>
+<script>
+/*!
+ * castplay.js — a tiny, self-contained asciinema-cast player.
+ *
+ * No dependencies, no CDN, no build step. Parses an asciinema v2 `.cast`
+ * (a JSON header line followed by `[time, "o", text]` output events), types it
+ * into a styled terminal element with ANSI-SGR colour, autoplays when its slide
+ * scrolls into view, and auto-scrolls like a real terminal. Click to pause /
+ * resume; click again once it has finished to replay.
+ *
+ * Drop-in usage (browser):
+ *
+ *     <pre class="term" data-cast="#demo"></pre>
+ *     <script type="text/cast" id="demo">
+ *     {"version":2,"width":80,"height":20}
+ *     [0.4,"o","$ echo \u001b[32mhello\u001b[0m\r\n"]
+ *     <\/script>
+ *     <script src="castplay.js"><\/script>
+ *
+ * `data-cast` may be EITHER:
+ *   - a `#id` pointing at an inline `<script type="text/cast" id="...">` block
+ *     holding the raw `.cast` text (preferred — the page is then fully
+ *     self-contained and animates even from `file://`, where `fetch()` is
+ *     blocked), OR
+ *   - a URL to a `.cast` file (fetched — needs to be served over http(s)).
+ *
+ * Programmatic access (browser global `Castplay`, or `require('castplay')` in
+ * Node) exposes the pure helpers `ansiToHtml` and `parseCast`, the `Player`
+ * class, the overridable `palette`, `init`, and `version`. The DOM auto-init
+ * only runs in a browser; requiring the module in Node is side-effect free,
+ * which is what makes the pure logic unit-testable.
+ *
+ * @license MIT
+ * @see https://github.com/Davidslv/castplay
+ * @see https://docs.asciinema.org/manual/asciicast/v2/  (the file format)
+ */
+(function (global, factory) {
+  'use strict';
+  var api = factory();
+  if (typeof module === 'object' && module.exports) {
+    module.exports = api; // Node / test — no DOM side effects
+  } else {
+    global.Castplay = api; // browser global
+    api.init(); // zero-config: scan the DOM for [data-cast]
+  }
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  /**
+   * Default ANSI-SGR colour map: SGR code → CSS colour.
+   *
+   * Only the eight codes the decks actually emit are mapped; any other SGR is
+   * ignored (the text still renders, just without that attribute). Override the
+   * whole map — or individual entries — before the players start to re-theme:
+   *
+   *     Castplay.palette[32] = '#3fb968';   // a greener "success" green
+   *
+   * @type {Object.<number, string>}
+   */
+  var palette = {
+    32: '#7fd1a0', // green   — success, prompts
+    90: '#8b857a', // grey    — dim / secondary
+    37: '#cfc7b6', // white-ish — default foreground
+    92: '#8fe3a8', // bright green
+    91: '#ff8a76', // red     — errors
+    33: '#f4bf4f', // yellow  — warnings
+    36: '#79c7d6', // cyan    — paths, links
+    97: '#ffffff', // bright white — emphasis
+  };
+
+  /**
+   * HTML-escape the three characters that would otherwise break out of text
+   * content. Ampersand first, so we never double-escape an entity we just made.
+   * @param {string} s
+   * @returns {string}
+   */
+  function esc(s) {
+    return s.replace(/[&<>]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
+    });
+  }
+
+  /**
+   * Convert a string containing ANSI-SGR escape sequences (`\x1b[...m`) into
+   * escaped HTML with `<span style>` colour/weight runs.
+   *
+   * Supported SGR codes: `0` (reset), `1` (bold), and any colour code present
+   * in `palette`. Everything else is skipped. All literal text is HTML-escaped,
+   * so a `.cast` cannot inject markup through its *text* — see SECURITY.md for
+   * the trust boundary (a `.cast` is executable input; only load ones you trust).
+   *
+   * @param {string} raw  text with embedded SGR sequences
+   * @returns {string}    HTML-safe string with styled spans
+   */
+  function ansiToHtml(raw) {
+    var out = '',
+      open = false,
+      color = null,
+      bold = false;
+    // eslint-disable-next-line no-control-regex -- matching the ESC control byte is the point
+    var re = /\x1b\[([0-9;]*)m/g,
+      last = 0,
+      m;
+
+    function span() {
+      var css = '';
+      if (color) css += 'color:' + color + ';';
+      if (bold) css += 'font-weight:700;';
+      return css ? '<span style="' + css + '">' : '<span>';
+    }
+    function chunk(text) {
+      if (!text) return;
+      if (!open) {
+        out += span();
+        open = true;
+      }
+      out += esc(text);
+    }
+
+    while ((m = re.exec(raw))) {
+      chunk(raw.slice(last, m.index));
+      last = re.lastIndex;
+      if (open) {
+        out += '</span>';
+        open = false;
+      }
+      // A single sequence may carry several `;`-separated codes, e.g. `\x1b[1;32m`.
+      m[1].split(';').forEach(function (code) {
+        code = parseInt(code || '0', 10); // an empty code means reset
+        if (code === 0) {
+          color = null;
+          bold = false;
+        } else if (code === 1) {
+          bold = true;
+        } else if (palette[code]) {
+          color = palette[code];
+        }
+      });
+    }
+    chunk(raw.slice(last));
+    if (open) out += '</span>';
+    return out.replace(/\r\n/g, '\n');
+  }
+
+  /**
+   * Parse raw asciinema v2 `.cast` text into its output events.
+   *
+   * The format is newline-delimited JSON: the first line is a header object
+   * (dropped here — castplay only animates output), and each subsequent line is
+   * an event array `[time, code, data]`. We keep every event as-parsed; the
+   * player reads `[0]` (timestamp, seconds) and `[2]` (text) and ignores the
+   * `"o"`/`"i"` code, which is fine for the output-only decks this targets.
+   *
+   * @param {string} text  the full `.cast` file contents
+   * @returns {Array.<Array>} parsed event tuples, header excluded
+   * @throws {SyntaxError} if any event line is not valid JSON
+   */
+  function parseCast(text) {
+    return text
+      .split('\n')
+      .filter(function (l) {
+        return l.trim() !== '';
+      }) // skip blank / whitespace-only lines
+      .slice(1) // (e.g. an indented <\/script>), drop the header
+      .map(function (line) {
+        return JSON.parse(line);
+      });
+  }
+
+  /**
+   * A single player bound to one element carrying `data-cast`.
+   *
+   * State machine: idle → playing ⇄ paused → finished → (replay) → playing.
+   * Clicking the element pauses/resumes while playing, and replays once
+   * finished. `load()` is lazy and memoised, so re-arming on scroll is cheap.
+   *
+   * @constructor
+   * @param {Element} el  the terminal element (its text content is replaced)
+   */
+  function Player(el) {
+    this.el = el;
+    this.src = el.getAttribute('data-cast');
+    this.events = null;
+    this.timer = null;
+    this.i = 0;
+    this.raw = '';
+    this.playing = false;
+    this.paused = false;
+    this.finished = false;
+
+    var self = this;
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', function () {
+      if (self.finished) self.replay();
+      else if (self.playing) self.pause();
+      else if (self.paused) self.resume();
+      else self.play();
+    });
+  }
+
+  /** Load and parse the cast (once), then invoke `cb`. Errors render inline. */
+  Player.prototype.load = function (cb) {
+    if (this.events) return cb();
+    var self = this,
+      src = this.src || '';
+
+    if (src.charAt(0) === '#') {
+      // inline <script type="text/cast">
+      var node = document.querySelector(src);
+      if (!node) {
+        this.el.textContent = '(cast not found: ' + src + ')';
+        return;
+      }
+      try {
+        this.events = parseCast(node.textContent);
+        cb();
+      } catch (e) {
+        this.el.textContent = '(cast failed to parse)';
+      }
+      return;
+    }
+
+    fetch(src) // URL: needs http(s), not file://
+      .then(function (r) {
+        return r.text();
+      })
+      .then(function (txt) {
+        try {
+          self.events = parseCast(txt);
+          cb();
+        } catch (e) {
+          self.el.textContent = '(cast failed to parse)';
+        }
+      })
+      .catch(function () {
+        self.el.textContent = '(cast failed to load — serve over http, or inline it)';
+      });
+  };
+
+  /** Paint the accumulated text and keep the viewport pinned to the bottom. */
+  Player.prototype.render = function (raw) {
+    this.el.innerHTML = ansiToHtml(raw);
+    this.el.scrollTop = this.el.scrollHeight;
+  };
+
+  /** Emit one event, then schedule the next after its real inter-event delay. */
+  Player.prototype._tick = function () {
+    var self = this,
+      ev = this.events;
+    if (this.i >= ev.length) {
+      this.playing = false;
+      this.finished = true;
+      return;
+    }
+    this.raw += ev[this.i][2];
+    this.render(this.raw);
+    var cur = ev[this.i][0];
+    var nxt = this.i + 1 < ev.length ? ev[this.i + 1][0] : cur;
+    this.i++;
+    this.timer = setTimeout(
+      function () {
+        self._tick();
+      },
+      Math.max(0, (nxt - cur) * 1000),
+    );
+  };
+
+  Player.prototype.play = function () {
+    var self = this;
+    if (this.playing) return;
+    this.load(function () {
+      self.playing = true;
+      self.paused = false;
+      self.finished = false;
+      self._tick();
+    });
+  };
+  Player.prototype.pause = function () {
+    clearTimeout(this.timer);
+    this.playing = false;
+    this.paused = true;
+  };
+  Player.prototype.resume = function () {
+    if (this.playing) return;
+    this.playing = true;
+    this.paused = false;
+    this._tick();
+  };
+  Player.prototype.reset = function () {
+    clearTimeout(this.timer);
+    this.i = 0;
+    this.raw = '';
+    this.playing = false;
+    this.paused = false;
+    this.finished = false;
+    this.render('');
+  };
+  Player.prototype.replay = function () {
+    this.reset();
+    this.play();
+  };
+
+  /**
+   * Find every `[data-cast]` element under `root`, wire up a Player, and arm
+   * autoplay. With IntersectionObserver, a player replays when ≥55% visible and
+   * resets when it scrolls away (so revisiting a slide restarts the demo);
+   * without it, every player just plays immediately. Idempotent-ish: safe to
+   * call once after the DOM is ready.
+   *
+   * @param {ParentNode} [root=document]  scope to search within
+   * @returns {Player[]}  the players created (also stored on `window.__castPlayers`)
+   */
+  function scan(root) {
+    root = root || document;
+    var players = [].slice.call(root.querySelectorAll('[data-cast]')).map(function (n) {
+      return new Player(n);
+    });
+
+    if ('IntersectionObserver' in global) {
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            var p = e.target.__cp;
+            if (!p) return;
+            if (e.isIntersecting) {
+              if (!p.armed) {
+                p.armed = true;
+                p.replay();
+              }
+            } else {
+              p.armed = false;
+              p.reset();
+            }
+          });
+        },
+        { threshold: 0.55 },
+      );
+      players.forEach(function (p) {
+        p.el.__cp = p;
+        io.observe(p.el);
+      });
+    } else {
+      players.forEach(function (p) {
+        p.play();
+      });
+    }
+
+    global.__castPlayers = players;
+    return players;
+  }
+
+  /**
+   * Public entry point. In the browser it defers to DOMContentLoaded when the
+   * document is still parsing, then scans. Called automatically by the drop-in
+   * script tag; call it yourself after injecting `[data-cast]` elements later.
+   * @param {ParentNode} [root]
+   */
+  function init(root) {
+    if (typeof document === 'undefined') return; // no-op outside a browser
+    if (document.readyState !== 'loading') return scan(root);
+    document.addEventListener('DOMContentLoaded', function () {
+      scan(root);
+    });
+  }
+
+  return {
+    version: '1.0.0',
+    palette: palette,
+    ansiToHtml: ansiToHtml,
+    parseCast: parseCast,
+    Player: Player,
+    init: init,
+  };
+});
+
+</script>
+
+<script>
+  (function () {
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+    var i = 0;
+    var progress = document.getElementById('progress');
+    var hint = document.getElementById('hint');
+    function show(n) {
+      i = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach(function (s, k) { s.classList.toggle('active', k === i); });
+      progress.style.width = ((i) / (slides.length - 1) * 100) + '%';
+      if (i > 0 && hint) { hint.style.display = 'none'; }
+    }
+    function next() { show(i + 1); }
+    function prev() { show(i - 1); }
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown' || e.key === 'ArrowDown') { e.preventDefault(); next(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+      else if (e.key === 'Home') { show(0); }
+      else if (e.key === 'End') { show(slides.length - 1); }
+      else if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) { (document.documentElement.requestFullscreen || function(){})(); }
+        else { (document.exitFullscreen || function(){})(); }
+      }
+    });
+    document.getElementById('stage').addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('.term')) { return; } // let the recording handle its own clicks
+      var x = e.clientX / window.innerWidth;
+      if (x < 0.28) { prev(); } else { next(); }
+    });
+    show(0);
+  })();
+</script>
+
+</body>
+</html>
