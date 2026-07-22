@@ -25,6 +25,7 @@
     <div class="buy-format__actions">
       {%- if f.us %}<a class="btn-buy btn-buy--sm" href="{{ f.us }}">Amazon US</a>{% endif -%}
       {%- if f.uk %}<a class="btn-buy btn-buy--sm" href="{{ f.uk }}">Amazon UK</a>{% endif -%}
+      {%- if f.ingram %}<a class="btn-buy btn-buy--sm" href="{{ f.ingram }}">IngramSpark</a>{% endif -%}
     </div>
     {%- if f.more and f.more.size > 0 %}
     <details class="buy-format__more">

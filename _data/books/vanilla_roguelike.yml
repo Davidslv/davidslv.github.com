@@ -6,13 +6,46 @@ author: David Silva
 home: "/books/vanilla-roguelike/"
 buy:
   cover: "/img/roguelike-cover.jpg"
+  cover_small: "/img/roguelike-cover-400.jpg"
+  web_edition: "/books/vanilla-roguelike/"
   asin: B0G1SGN181
   isbn: "9781066649419"
+  # No prices: each store shows its own local price.
   formats:
   - name: Paperback
+    note: Print edition
     us: https://www.amazon.com/dp/B0G1SGN181
     uk: https://www.amazon.co.uk/dp/B0G1SGN181
     ingram: https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO
+    more:
+    - { code: DE, url: 'https://www.amazon.de/dp/B0G1SGN181' }
+    - { code: ES, url: 'https://www.amazon.es/dp/B0G1SGN181' }
+    - { code: IT, url: 'https://www.amazon.it/dp/B0G1SGN181' }
+    - { code: FR, url: 'https://www.amazon.fr/dp/B0G1SGN181' }
+    - { code: CA, url: 'https://www.amazon.ca/dp/B0G1SGN181' }
+    - { code: PL, url: 'https://www.amazon.pl/dp/B0G1SGN181' }
+    - { code: AU, url: 'https://www.amazon.com.au/dp/B0G1SGN181' }
+    - { code: NL, url: 'https://www.amazon.nl/dp/B0G1SGN181' }
+    - { code: SE, url: 'https://www.amazon.se/dp/B0G1SGN181' }
+    - { code: JP, url: 'https://www.amazon.co.jp/dp/B0G1SGN181' }
+  - name: Kindle
+    note: Read on any device
+    us: https://www.amazon.com/dp/B0G1RBWF6V
+    uk: https://www.amazon.co.uk/dp/B0G1RBWF6V
+    more:
+    - { code: DE, url: 'https://www.amazon.de/dp/B0G1RBWF6V' }
+    - { code: ES, url: 'https://www.amazon.es/dp/B0G1RBWF6V' }
+    - { code: IT, url: 'https://www.amazon.it/dp/B0G1RBWF6V' }
+    - { code: FR, url: 'https://www.amazon.fr/dp/B0G1RBWF6V' }
+    - { code: CA, url: 'https://www.amazon.ca/dp/B0G1RBWF6V' }
+    - { code: PL, url: 'https://www.amazon.pl/dp/B0G1RBWF6V' }
+    - { code: AU, url: 'https://www.amazon.com.au/dp/B0G1RBWF6V' }
+    - { code: NL, url: 'https://www.amazon.nl/dp/B0G1RBWF6V' }
+    - { code: SE, url: 'https://www.amazon.se/dp/B0G1RBWF6V' }
+    - { code: JP, url: 'https://www.amazon.co.jp/dp/B0G1RBWF6V' }
+    - { code: BR, url: 'https://www.amazon.com.br/dp/B0G1RBWF6V' }
+    - { code: MX, url: 'https://www.amazon.com.mx/dp/B0G1RBWF6V' }
+    - { code: IN, url: 'https://www.amazon.in/dp/B0G1RBWF6V' }
 chapters:
 - slug: 01-what-is-a-roguelike
   url: "/books/vanilla-roguelike/01-what-is-a-roguelike/"

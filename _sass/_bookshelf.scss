@@ -60,12 +60,25 @@ $shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark
   align-items: flex-start;
   flex-wrap: wrap;
   margin: 0 0 1.5rem;
-  &__cover {
-    max-width: 200px;
+  // `.post-content img` is (0,1,1) and outranked a bare `.book-listing__cover`
+  // at (0,1,0), so max-width:100% won and the covers rendered at 900px wide.
+  img.book-listing__cover,
+  .book-listing__cover {
+    display: block;
+    width: 180px;
+    max-width: 180px;
+    height: auto;
+    margin: 0;
     border-radius: 4px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+
+    @media (max-width: 620px) { width: 130px; max-width: 130px; }
   }
   &__body { flex: 1; min-width: 18rem; }
+  &__more {
+    margin: .4rem 0 0;
+    font-size: .92rem;
+  }
 }
 
 /* buy options grid (format | price | buttons) */
