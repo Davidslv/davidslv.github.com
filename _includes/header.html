@@ -11,12 +11,12 @@
         {%- assign p = page.url -%}
         <a href="{{ site.baseurl }}/" class="nav-link{% if p == '/' or p contains '/writing' or page.layout == 'post' %} active{% endif %}"{% if p == '/' or p contains '/writing' or page.layout == 'post' %} aria-current="page"{% endif %}>Writing</a>
         <a href="{{ site.baseurl }}/books/" class="nav-link{% if p contains '/books' %} active{% endif %}"{% if p contains '/books' %} aria-current="page"{% endif %}>Books</a>
-        <a href="{{ site.baseurl }}/portfolio.html" class="nav-link{% if p contains 'portfolio' %} active{% endif %}"{% if p contains 'portfolio' %} aria-current="page"{% endif %}>Projects</a>
-        <a href="{{ site.baseurl }}/presentations/" class="nav-link{% if p contains 'presentations' %} active{% endif %}"{% if p contains 'presentations' %} aria-current="page"{% endif %}>Speaking</a>
         <a href="{{ site.baseurl }}/about/" class="nav-link{% if p contains '/about' %} active{% endif %}"{% if p contains '/about' %} aria-current="page"{% endif %}>About</a>
+        {%- if site.theme_toggle %}
         <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">
           <span id="theme-toggle-text">Dark</span>
         </button>
+        {%- endif %}
       </nav>
     </div>
   </div>

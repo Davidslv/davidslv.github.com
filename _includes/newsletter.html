@@ -1,0 +1,55 @@
+{%- comment -%}
+  Newsletter signup, posting straight to Buttondown.
+
+  Plain form POST: no JavaScript, no iframe, no third-party CSS, so it inherits
+  the page theme and works with scripting disabled. Buttondown handles the
+  double opt-in and confirmation page.
+
+  Renders nothing until `buttondown_username` is set in _config.yml, so the
+  site is safe to build and deploy without it.
+
+  Usage:
+    {% include newsletter.html %}
+    {% include newsletter.html heading="Keep reading" context="chapter" %}
+{%- endcomment -%}
+{%- if site.buttondown_username -%}
+<section class="signup" id="notebook" aria-labelledby="signup-heading">
+  <h2 class="signup__heading" id="signup-heading">
+    {{ include.heading | default: "Get the Engineer's Notebook" }}
+  </h2>
+
+  <p class="signup__pitch">
+    {%- if include.context == "chapter" -%}
+      Fortnightly notes on keeping systems legible: in code, in process, and in the
+      tools we build. New subscribers get <strong>Find the seams in your Rails app</strong>,
+      the co-change script from Chapter 9, so you can run this chapter's method against
+      your own repository.
+    {%- else -%}
+      Fortnightly notes on keeping systems legible: in code, in process, and in the
+      tools we build. New subscribers get <strong>Find the seams in your Rails app</strong>,
+      the co-change script from Chapter 9 that reads your git history and shows you
+      where your real boundaries already are.
+    {%- endif -%}
+  </p>
+
+  <form class="signup__form"
+        action="https://buttondown.com/api/emails/embed-subscribe/{{ site.buttondown_username }}"
+        method="post">
+    <label class="signup__label" for="bd-email-{{ include.context | default: 'page' }}">
+      Email address
+    </label>
+    <div class="signup__row">
+      <input class="signup__input"
+             id="bd-email-{{ include.context | default: 'page' }}"
+             type="email"
+             name="email"
+             placeholder="you@example.com"
+             autocomplete="email"
+             required>
+      <button class="signup__button" type="submit">Subscribe</button>
+    </div>
+  </form>
+
+  <p class="signup__fine">One email a fortnight. Unsubscribe in one click. No spam, ever.</p>
+</section>
+{%- endif -%}

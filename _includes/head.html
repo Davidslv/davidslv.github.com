@@ -5,14 +5,29 @@
 
   {%- seo -%}
 
+  {%- comment -%}
+    Modern favicon set. Without these the browser requests /favicon.ico and 404s.
+  {%- endcomment -%}
+  <link rel="icon" href="{{ "/favicon.svg" | prepend: site.baseurl }}" type="image/svg+xml">
+  <link rel="icon" href="{{ "/favicon-32.png" | prepend: site.baseurl }}" sizes="32x32">
+  <link rel="apple-touch-icon" href="{{ "/apple-touch-icon.png" | prepend: site.baseurl }}">
+  <link rel="manifest" href="{{ "/site.webmanifest" | prepend: site.baseurl }}">
+  <meta name="theme-color" content="#141414">
+
   <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}?v={{ site.time | date: '%s' }}">
   <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
 
   <!-- Theme toggle script -->
   <script>
     (function() {
+      // Driven by `theme_toggle` in _config.yml. While false the site is light
+      // only; the switching code below is kept intact so flipping the flag
+      // restores it, including whatever the visitor had previously chosen.
+      const THEME_TOGGLE = {% if site.theme_toggle %}true{% else %}false{% endif %};
+
       // Get theme from localStorage or default to system preference
       const getTheme = () => {
+        if (!THEME_TOGGLE) return 'light';
         const stored = localStorage.getItem('theme');
         if (stored) return stored;
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -21,7 +36,8 @@
       // Apply theme
       const applyTheme = (theme) => {
         document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
+        // do not overwrite a stored preference while the toggle is disabled
+        if (THEME_TOGGLE) localStorage.setItem('theme', theme);
 
         // Update Mermaid theme if available
         if (typeof mermaid !== 'undefined') {
@@ -81,7 +97,7 @@
       });
 
       // Listen for system theme changes
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (THEME_TOGGLE) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
         if (!localStorage.getItem('theme')) {
           applyTheme(e.matches ? 'dark' : 'light');
           updateToggleText(e.matches ? 'dark' : 'light');

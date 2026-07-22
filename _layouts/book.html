@@ -94,6 +94,8 @@ layout: default
       {%- if buy.learn_more %} &middot; <a class="book-buy-inline__link" href="{{ buy.learn_more | relative_url }}">All editions</a>{% else %} &middot; <a class="book-buy-inline__link" href="{{ book.home | relative_url }}">All editions</a>{% endif -%}
     </aside>
     {%- endif -%}
+
+    {% include newsletter.html context="chapter" %}
   </article>
 
   {%- if current -%}

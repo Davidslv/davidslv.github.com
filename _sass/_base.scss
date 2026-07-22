@@ -161,6 +161,56 @@ pre {
 
 
 /**
+ * Tables in prose
+ *
+ * .book-prose had these; .post-content had nothing at all, so multi-column
+ * comparison tables rendered with no cell borders, no row separation and
+ * centred vertical alignment, which makes a row impossible to track across.
+ */
+.post-content table,
+.page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.8rem 0;
+    font-size: 0.94rem;
+    line-height: 1.45;
+
+    th,
+    td {
+        border: 1px solid var(--border-color, $border-color);
+        padding: .55rem .7rem;
+        text-align: left;
+        vertical-align: top;   // ragged centring was the main readability problem
+    }
+
+    thead th {
+        background: var(--background-alt, $background-alt);
+        font-weight: 700;
+        line-height: 1.3;
+    }
+
+    tbody th:first-child,
+    tbody td:first-child { white-space: nowrap; }
+
+    // inline code inside a cell should not carry its own box
+    code {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        font-size: .92em;
+    }
+}
+
+// a five-column comparison cannot squash into a phone; let it scroll
+.table-scroll {
+    overflow-x: auto;
+    margin: 1.8rem 0;
+    -webkit-overflow-scrolling: touch;
+
+    table { margin: 0; min-width: 44rem; }
+}
+
+/**
  * Wrapper
  */
 .wrapper {

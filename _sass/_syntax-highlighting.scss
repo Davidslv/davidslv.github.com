@@ -1,6 +1,18 @@
 /**
  * Syntax highlighting styles - Light theme
  */
+// Rouge emits three nested elements per fenced block:
+//   div.highlighter-rouge > div.highlight > pre.highlight > code
+// `pre` carries a background, border, radius and padding from _base.scss, and
+// .highlight carries them too, so every code block rendered as a grey box
+// inside a grey box with doubled padding. .highlight owns the box; the
+// wrapper and the pre are stripped back to nothing.
+.highlighter-rouge {
+    margin: 1.5em 0;
+
+    > .highlight { margin: 0; }
+}
+
 .highlight {
     background: var(--code-bg, $code-bg);
     border: 1px solid var(--code-border, $code-border);
@@ -9,6 +21,16 @@
     overflow-x: auto;
     @extend %vertical-rhythm;
     transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    pre,
+    pre.highlight {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        overflow-x: visible;   // .highlight owns the horizontal scroll
+    }
 
     // Light theme colors (default)
     .c     { color: #6a737d; font-style: italic } // Comment

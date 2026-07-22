@@ -3,7 +3,7 @@ layout: page
 title: "The Modular Monolith in Rails: Engines, Packwerk & Boundaries"
 permalink: /modular-monolith-rails/
 description: "What a modular monolith is in Ruby on Rails, and how to build one with Rails Engines and Packwerk. Compare approaches, enforce boundaries, and decide between modular monolith and microservices — with runnable example code."
-image: /img/modular-rails-cover.png
+image: /img/og-modular-rails.png
 seo:
   type: Article
 ---
@@ -141,15 +141,19 @@ Searchers literally type *"packwerk vs engines"*, and every page that ranks pick
 
 **Short answer:** use **Packwerk** when you have a large existing app you can't restructure right now — it adds boundary checks in CI without moving a single file. Use **Rails Engines** when you want a structural boundary baked into how the app loads and the cleanest path to extracting a service later. The full comparison is below.
 
+<div class="table-scroll" markdown="1">
+
 | Dimension | Rails Engines | Packwerk | Namespaced modules | Microservices |
 |---|---|---|---|---|
-| **Boundary enforced by** | App structure + the loader (structural) | Static analysis in CI | Convention / review | The network |
-| **Setup overhead** | Medium — real directory structure, mount points | Low — add `package.yml` files | Lowest | Highest |
-| **Runtime isolation** | Partial (own app dir, routes, helpers, table prefix) | None (one app dir) | None | Total |
-| **Migrations / schema** | Per-engine migrations, table prefixes | Shared schema | Shared schema | Per-service DB |
+| **Boundary enforced by** | App structure and the loader | Static analysis in CI | Convention / review | The network |
+| **Setup overhead** | Medium: real directories, mount points | Low: add `package.yml` files | Lowest | Highest |
+| **Runtime isolation** | Partial: own routes, helpers, table prefix | None (one app dir) | None | Total |
+| **Migrations / schema** | Per-engine, table prefixes | Shared schema | Shared schema | Per-service DB |
 | **Namespacing** | Automatic via `isolate_namespace` | You declare it | You write it | N/A |
-| **Refactor cost to adopt** | Higher (move files into engines) | Low (annotate in place) | Low | Very high |
-| **Best when** | You want hard, structural boundaries and a clean extraction path | You have a huge existing app you can't restructure now | Small app, early days | A module has genuinely independent scaling, language or failure needs |
+| **Refactor cost to adopt** | Higher: move files into engines | Low: annotate in place | Low | Very high |
+| **Best when** | You want structural boundaries and a clean extraction path | A huge existing app you cannot restructure now | Small app, early days | A module needs its own scaling, language or failure domain |
+
+</div>
 
 The right way to read this table: **Packwerk meets you where your monolith already is** — it's the lowest-friction way to add boundaries to a large existing codebase without a big move. **Engines give you the strongest boundary** because enforcement lives in the application's structure — separate app directories, isolated routes and helpers, prefixed tables — rather than in a CI check you can forget to wire up, and they give you the cleanest path to a future extraction. They are not enemies; plenty of teams use Packwerk to discover where the seams are, then promote the seams that matter most into engines.
 
@@ -272,7 +276,9 @@ There's also a Rails-8-specific reason the bar for *leaving* the monolith has go
 
 This page is the map. If you want the territory — the boot process read from the Rails source, the full extraction playbook, the team-workflow chapter, and the honest trade-offs — the entire book *Modular Rails: Architecture for the Long Game* is **free to read online**, all 18 chapters, no signup.
 
-[Read Modular Rails free online →](/books/modular-rails/)
+If you would rather own it, it is in print and on Kindle. Each store shows its own local price.
+
+{% include buy-panel.html book="modular_rails" %}
 
 ## Frequently asked questions
 

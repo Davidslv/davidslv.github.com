@@ -272,15 +272,43 @@ $book-bp:      1100px;  // 3-column threshold
 /* ---- landing / cover ---- */
 .book--landing .book-reading { max-width: 50rem; margin: 0 auto; }
 .book-cover {
-  text-align: center;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2.4rem;
+  align-items: center;
+  text-align: left;
   margin: 1rem 0 2.6rem;
   padding-bottom: 2.2rem;
   border-bottom: 1px solid var(--border-color);
+
+  &__art img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .6em;
+    margin: 1.5rem 0 0 !important;
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+    &__text { order: 1; }
+    &__art  { order: 2; max-width: 170px; }
+  }
   &__kicker { font-family: $base-font-family; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; color: var(--meta-color); margin-bottom: 1rem; }
-  &__title { font-family: $base-font-family; font-weight: 800; font-size: 2.5rem; line-height: 1.14; letter-spacing: -.01em; margin: 0 0 .9rem; }
-  &__subtitle { font-family: $book-serif; font-style: italic; font-size: 1.3rem; color: var(--meta-color); max-width: 32rem; margin: 0 auto 1.3rem; }
-  &__byline { font-family: $book-serif; font-size: 1.15rem; margin: 0 0 1.4rem; }
-  &__note { font-family: $base-font-family; font-size: .9rem; color: var(--meta-color); max-width: 34rem; margin: 0 auto; line-height: 1.55; }
+  &__title { font-family: $base-font-family; font-weight: 800; font-size: 2.1rem; line-height: 1.14; letter-spacing: -.01em; margin: 0 0 .9rem; }
+  &__subtitle { font-family: $book-serif; font-style: italic; font-size: 1.22rem; color: var(--meta-color); max-width: 32rem; margin: 0 0 1rem; }
+  &__byline { font-family: $book-serif; font-size: 1.1rem; margin: 0 0 1rem; }
+  &__note { font-family: $base-font-family; font-size: .9rem; color: var(--meta-color); max-width: 34rem; margin: 0; line-height: 1.55; }
 }
 .book-contents-grid {
   font-family: $base-font-family;
@@ -307,7 +335,6 @@ $book-bp:      1100px;  // 3-column threshold
   padding: 1.4rem 1.6rem;
   background: var(--background-alt);
   border: 1px solid var(--border-color);
-  border-left: 4px solid #c2a06a;
   border-radius: 6px;
   text-align: left;
   &__label {
@@ -315,7 +342,9 @@ $book-bp:      1100px;  // 3-column threshold
     font-weight: 700;
     letter-spacing: .1em;
     text-transform: uppercase;
-    color: #9c6a16;
+    // was #9c6a16, the old gold accent: it read as foreign next to the
+    // shared buy panel and was the last of that design language here
+    color: var(--meta-color);
     margin: 0 0 .4rem;
   }
   .buy-grid { margin: .6rem 0 0; }
@@ -342,3 +371,6 @@ $book-bp:      1100px;  // 3-column threshold
     &:hover { text-decoration: underline; }
   }
 }
+
+// front matter and appendices are not numbered chapters
+.book-contents-grid__list--plain { list-style: none; padding-left: 0; }
