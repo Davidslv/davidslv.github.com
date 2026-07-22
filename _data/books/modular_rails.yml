@@ -7,25 +7,64 @@ author: David Silva
 home: "/books/modular-rails/"
 buy:
   cover: "/img/modular-rails-cover.png"
+  cover_small: "/img/modular-rails-cover-520.png"
+  cover_webp: "/img/modular-rails-cover-520.webp"
   learn_more: "/modular-rails/"
+  web_edition: "/books/modular-rails/"
   isbn: "9781066649426"
-  currency_usd: USD
+  pages: 378
+  # No prices anywhere: each regional store shows its own local price, so a
+  # KDP price change never needs a site edit. `more` holds the markets that
+  # sit behind the "Other stores" disclosure.
   formats:
   - name: Colour Paperback
-    price_usd: "49.99"
-    price_gbp: "44.99"
+    note: 378 pages, diagrams in full colour
     us: https://www.amazon.com/dp/1066649405
     uk: https://www.amazon.co.uk/dp/1066649405
-  - name: B&W Paperback
-    price_usd: "29.99"
-    price_gbp: "24.99"
+    more:
+    - { code: DE, url: 'https://www.amazon.de/dp/1066649405' }
+    - { code: ES, url: 'https://www.amazon.es/dp/1066649405' }
+    - { code: IT, url: 'https://www.amazon.it/dp/1066649405' }
+    - { code: FR, url: 'https://www.amazon.fr/dp/1066649405' }
+    - { code: CA, url: 'https://www.amazon.ca/dp/1066649405' }
+    - { code: PL, url: 'https://www.amazon.pl/dp/1066649405' }
+    - { code: AU, url: 'https://www.amazon.com.au/dp/1066649405' }
+    - { code: NL, url: 'https://www.amazon.nl/dp/1066649405' }
+    - { code: SE, url: 'https://www.amazon.se/dp/1066649405' }
+    - { code: JP, url: 'https://www.amazon.co.jp/dp/1066649405' }
+  - name: B&amp;W Paperback
+    note: The same text, lower price
     us: https://www.amazon.com/dp/1066649421
     uk: https://www.amazon.co.uk/dp/1066649421
+    more:
+    - { code: DE, url: 'https://www.amazon.de/dp/1066649421' }
+    - { code: ES, url: 'https://www.amazon.es/dp/1066649421' }
+    - { code: IT, url: 'https://www.amazon.it/dp/1066649421' }
+    - { code: FR, url: 'https://www.amazon.fr/dp/1066649421' }
+    - { code: CA, url: 'https://www.amazon.ca/dp/1066649421' }
+    - { code: PL, url: 'https://www.amazon.pl/dp/1066649421' }
+    - { code: AU, url: 'https://www.amazon.com.au/dp/1066649421' }
+    - { code: NL, url: 'https://www.amazon.nl/dp/1066649421' }
+    - { code: SE, url: 'https://www.amazon.se/dp/1066649421' }
+    - { code: JP, url: 'https://www.amazon.co.jp/dp/1066649421' }
   - name: Kindle
-    price_usd: "24.99"
-    price_gbp: "15.99"
+    note: Read on any device
     us: https://www.amazon.com/dp/B0GZL7D53M
     uk: https://www.amazon.co.uk/dp/B0GZL7D53M
+    more:
+    - { code: DE, url: 'https://www.amazon.de/dp/B0GZL7D53M' }
+    - { code: ES, url: 'https://www.amazon.es/dp/B0GZL7D53M' }
+    - { code: IT, url: 'https://www.amazon.it/dp/B0GZL7D53M' }
+    - { code: FR, url: 'https://www.amazon.fr/dp/B0GZL7D53M' }
+    - { code: CA, url: 'https://www.amazon.ca/dp/B0GZL7D53M' }
+    - { code: PL, url: 'https://www.amazon.pl/dp/B0GZL7D53M' }
+    - { code: AU, url: 'https://www.amazon.com.au/dp/B0GZL7D53M' }
+    - { code: NL, url: 'https://www.amazon.nl/dp/B0GZL7D53M' }
+    - { code: SE, url: 'https://www.amazon.se/dp/B0GZL7D53M' }
+    - { code: JP, url: 'https://www.amazon.co.jp/dp/B0GZL7D53M' }
+    - { code: BR, url: 'https://www.amazon.com.br/dp/B0GZL7D53M' }
+    - { code: MX, url: 'https://www.amazon.com.mx/dp/B0GZL7D53M' }
+    - { code: IN, url: 'https://www.amazon.in/dp/B0GZL7D53M' }
 chapters:
 - slug: also-by
   url: "/books/modular-rails/also-by/"

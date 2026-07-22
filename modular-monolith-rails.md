@@ -3,7 +3,7 @@ layout: page
 title: "The Modular Monolith in Rails: Engines, Packwerk & Boundaries"
 permalink: /modular-monolith-rails/
 description: "What a modular monolith is in Ruby on Rails, and how to build one with Rails Engines and Packwerk. Compare approaches, enforce boundaries, and decide between modular monolith and microservices — with runnable example code."
-image: /img/modular-rails-cover.png
+image: /img/og-modular-rails.png
 seo:
   type: Article
 ---
@@ -272,7 +272,9 @@ There's also a Rails-8-specific reason the bar for *leaving* the monolith has go
 
 This page is the map. If you want the territory — the boot process read from the Rails source, the full extraction playbook, the team-workflow chapter, and the honest trade-offs — the entire book *Modular Rails: Architecture for the Long Game* is **free to read online**, all 18 chapters, no signup.
 
-[Read Modular Rails free online →](/books/modular-rails/)
+If you would rather own it, it is in print and on Kindle. Each store shows its own local price.
+
+{% include buy-panel.html book="modular_rails" %}
 
 ## Frequently asked questions
 

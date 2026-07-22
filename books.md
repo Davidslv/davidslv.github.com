@@ -16,27 +16,8 @@ Two technical books — each with a **complete, free web edition** alongside the
     <p><strong>A practical guide to building maintainable Ruby on Rails applications with mountable engines — the architecture Rails has been shipping since version 3.1.</strong></p>
     <p>Bridges the gap between software architecture principles and the tools Rails already ships. Takes the thinking of Robert C. Martin, Neal Ford, Mark Richards, and Kent Beck and applies it to real Ruby on Rails applications — with working code, honest trade-offs, and a companion open-source application (<a href="https://github.com/Davidslv/orbit">Orbit</a>) you can clone and run yourself.</p>
     <p>Four parts. Eighteen chapters. 378 pages.</p>
-    <div class="buy-grid">
-      <span class="buy-label">Colour Paperback</span>
-      <span class="buy-price">$49.99 / £44.99</span>
-      <span class="buy-row">
-        <a class="btn-buy" href="https://www.amazon.com/dp/1066649405">Amazon US</a>
-        <a class="btn-buy" href="https://www.amazon.co.uk/dp/1066649405">Amazon UK</a>
-      </span>
-      <span class="buy-label">B&amp;W Paperback</span>
-      <span class="buy-price">$29.99 / £24.99</span>
-      <span class="buy-row">
-        <a class="btn-buy" href="https://www.amazon.com/dp/1066649421">Amazon US</a>
-        <a class="btn-buy" href="https://www.amazon.co.uk/dp/1066649421">Amazon UK</a>
-      </span>
-      <span class="buy-label">Kindle</span>
-      <span class="buy-price">$24.99 / £15.99</span>
-      <span class="buy-row">
-        <a class="btn-buy" href="https://www.amazon.com/dp/B0GZL7D53M">Amazon US</a>
-        <a class="btn-buy" href="https://www.amazon.co.uk/dp/B0GZL7D53M">Amazon UK</a>
-      </span>
-    </div>
-  </div>
+    {% include buy-panel.html book="modular_rails" web=false %}
+
 </div>
 
 <div class="web-cta">
