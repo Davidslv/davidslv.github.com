@@ -73,10 +73,6 @@
     @media (max-width: 620px) { width: 130px; max-width: 130px; }
   }
   &__body { flex: 1; min-width: 18rem; }
-  &__more {
-    margin: .4rem 0 0;
-    font-size: .92rem;
-  }
 }
 
 /* buy options grid (format | price | buttons) */
@@ -131,6 +127,13 @@
    markets sit behind a native <details> so the page has one visible decision
    per format instead of twelve. No prices anywhere, so KDP price changes
    never require a site edit. */
+.buy-panel__more {
+  margin: 0;
+  padding: 1rem 0 1.15rem;
+  font-size: .88rem;
+  border-top: 1px solid var(--border-color);
+}
+
 .buy-panel {
   background: var(--background-alt);
   border: 1px solid var(--border-color);

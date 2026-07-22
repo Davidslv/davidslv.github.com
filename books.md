@@ -24,8 +24,6 @@ Two technical books — each with a **complete, free web edition** alongside the
   </div>
 </div>
 
-<p class="book-listing__more"><a href="/modular-rails/">Learn more about Modular Rails</a></p>
-
 ---
 
 ## Building Your Own Roguelike: A Practical Guide
@@ -43,5 +41,3 @@ Two technical books — each with a **complete, free web edition** alongside the
     {% include buy-panel.html book="vanilla_roguelike" %}
   </div>
 </div>
-
-<p class="book-listing__more"><a href="/books/vanilla-roguelike/">Learn more about Building Your Own Roguelike</a></p>

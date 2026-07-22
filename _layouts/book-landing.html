@@ -72,7 +72,6 @@ layout: default
     <aside class="book-buy" aria-label="Buy the book">
       <p class="book-buy__label">Prefer it in print or on Kindle?</p>
       {% include buy-panel.html book=page.book web=false %}
-      {%- if buy.learn_more %}<p class="book-buy__more"><a href="{{ buy.learn_more | relative_url }}">Learn more about the book</a></p>{% endif -%}
     </aside>
     {%- endif -%}
 

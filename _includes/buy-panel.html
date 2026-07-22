@@ -50,5 +50,11 @@
     </div>
   </div>
   {%- endunless %}
+  {%- comment -%}suppress the link when it points at the page we are already on{%- endcomment -%}
+  {%- if buy.learn_more and buy.learn_more != page.url %}
+  <p class="buy-panel__more">
+    <a href="{{ buy.learn_more | relative_url }}">{{ include.more_text | default: "Learn more about the book" }}</a>
+  </p>
+  {%- endif %}
 </div>
 {%- endif -%}
