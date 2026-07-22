@@ -1,0 +1,220 @@
+// ============================================================================
+//  Theme: Namespace
+//
+//  Opt-in per page with `theme: namespace` in front matter, which puts
+//  `.theme-namespace` on <body>.
+//
+//  Thesis: the page should argue that this is a working system, in the
+//  vernacular of the people who buy it. Monospace carries the display voice
+//  because the audience reads it all day and the book's own cover sets its
+//  subtitle in a typewriter face. Section headings are prefixed with `::`,
+//  the Ruby namespace separator, which is the subject of the book itself:
+//  it encodes the content rather than decorating it. Numbered eyebrows were
+//  rejected because these sections are not a sequence.
+//
+//  Colour comes from the cover: near-black ground, signal red. Rather than
+//  invent new variables, this overrides the site's existing custom properties
+//  so every component already built (buy panel, buttons, disclosures, footer)
+//  inherits the palette with no extra rules.
+//
+//  Imported last in css/main.scss so it wins ties on specificity.
+// ============================================================================
+
+$ns-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, "Roboto Mono",
+          "DejaVu Sans Mono", monospace;
+
+@mixin ns-light {
+  --text-color:       #14171A;
+  --background-color: #FFFFFF;
+  --background-alt:   #F5F6F7;
+  --border-color:     #DDE1E4;
+  --meta-color:       #5A6169;   // 6.1:1 on white
+  --link-color:       #A82626;   // 6.5:1 on white
+  --link-hover:       #8E1F1F;
+  --ns-red:           #A82626;
+  --ns-cta-bg:        #A82626;
+  --ns-cta-fg:        #FFFFFF;   // 6.5:1 on the red
+}
+
+@mixin ns-dark {
+  --text-color:       #E6E9EC;
+  --background-color: #0E1013;
+  --background-alt:   #16191D;
+  --border-color:     #272C31;
+  --meta-color:       #98A0A8;   // 6.0:1 on the ground
+  --link-color:       #E8635A;   // 6.3:1 on the ground
+  --link-hover:       #F2857D;
+  --ns-red:           #E8635A;
+  // white on the lightened red is only ~2.8:1, so invert: ink on red.
+  --ns-cta-bg:        #E8635A;
+  --ns-cta-fg:        #14171A;
+}
+
+body.theme-namespace { @include ns-light; }
+:root[data-theme="dark"] body.theme-namespace { @include ns-dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body.theme-namespace { @include ns-dark; }
+}
+
+.theme-namespace {
+
+  // ---- display voice ------------------------------------------------------
+
+  h1,
+  .book-hero__hook,
+  .buy-format__name {
+    font-family: $ns-mono;
+  }
+
+  .post h1,
+  h1 {
+    font-size: 2.05rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 1.14;
+
+    @media (max-width: 620px) { font-size: 1.5rem; }
+  }
+
+  .post-content h2,
+  h2 {
+    font-family: $ns-mono;
+    font-size: 1.14rem;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.35;
+    margin: 3.1rem 0 1rem;
+    padding-bottom: .6rem;
+    border-bottom: 1px solid var(--border-color);
+
+    // `::` is the namespace separator, and namespaces are what the book is about
+    &::before {
+      content: "::";
+      color: var(--ns-red);
+      margin-right: .5ch;
+    }
+  }
+
+  // headings already separate the sections; the rules were noise
+  main hr { display: none; }
+
+  // ---- hero ---------------------------------------------------------------
+
+  .book-hero__hook {
+    font-size: 1.26rem;
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: -.02em;
+    border-left: 3px solid var(--ns-red);
+    padding-left: .95rem;
+
+    @media (max-width: 620px) { font-size: 1.08rem; }
+  }
+
+  .book-hero__cover img { border-radius: 6px; }
+
+  .byline-credential {
+    font-family: $ns-mono;
+    font-size: .8rem;
+    line-height: 1.62;
+    border-left: 1px solid var(--border-color);
+  }
+
+  // ---- the buy panel, as a module block -----------------------------------
+
+  .buy-panel {
+    position: relative;
+    padding-top: .4rem;
+
+    // a seam across the top edge: the boundary the book is about
+    &::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 14px;
+      right: 14px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--ns-red);
+    }
+  }
+
+  // the chapter list is the longest block on the page and sells nothing;
+  // useful to someone deciding, so collapsed rather than cut
+  .toc-details {
+    summary {
+      font-family: $ns-mono;
+      font-size: .82rem;
+      color: var(--meta-color);
+      cursor: pointer;
+      list-style: none;
+      padding: .2rem 0;
+      &::-webkit-details-marker { display: none; }
+      &::before { content: "\25B8\00a0"; }
+      &:hover { color: var(--link-color); }
+    }
+    &[open] summary::before { content: "\25BE\00a0"; }
+
+    // part labels read as structure, not prose
+    > p strong {
+      font-family: $ns-mono;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .01em;
+      color: var(--ns-red);
+    }
+    > p { margin: 1.4rem 0 .4rem; }
+    > p:first-of-type { margin-top: 1rem; }
+    ul { margin: 0 0 .2rem; padding-left: 1.1rem; }
+    li { margin: 0 0 .18rem; font-size: .95rem; }
+  }
+
+  .signup {
+    &::before {
+      content: "";
+      position: absolute;
+      top: -1px; left: 14px; right: 14px; height: 2px;
+      border-radius: 2px;
+      background: var(--ns-red);
+    }
+    &__heading {
+      font-family: $ns-mono;
+      font-size: 1.05rem !important;
+      font-weight: 700;
+      &::before { content: "::"; color: var(--ns-red); margin-right: .5ch; }
+    }
+    &__button {
+      font-family: $ns-mono;
+      font-size: .82rem;
+      background: var(--ns-cta-bg);
+      color: var(--ns-cta-fg);
+    }
+    &__fine { font-family: $ns-mono; font-size: .72rem !important; }
+  }
+
+  .buy-format__name { font-size: .94rem; font-weight: 700; }
+  .buy-format__note { font-size: .86rem; }
+  .buy-format__more summary { font-family: $ns-mono; font-size: .76rem; }
+
+  // ---- controls -----------------------------------------------------------
+
+  .btn-buy {
+    font-family: $ns-mono;
+    font-size: .78rem;
+    letter-spacing: .02em;
+    background: var(--background-color);
+  }
+
+  .btn-read {
+    font-family: $ns-mono;
+    font-size: .82rem;
+    letter-spacing: .02em;
+    background: var(--ns-cta-bg);
+    color: var(--ns-cta-fg);
+
+    // a:visited (0,1,1) outranks .btn-read (0,1,0), so pin it
+    &:visited { color: var(--ns-cta-fg); opacity: 1; }
+    &:hover,
+    &:focus { color: var(--ns-cta-fg); opacity: .88; text-decoration: none; }
+  }
+}

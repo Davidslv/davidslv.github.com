@@ -1,3 +1,51 @@
+/* Book hero: cover beside the pitch, so the fold carries both the object and
+   the argument. Previously the cover alone filled the first screen. */
+.book-hero {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2.2rem;
+  align-items: start;
+  margin: 0 0 2.2rem;
+
+  &__cover img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 3px;
+    /* a border, not just a shadow: the shadow vanishes on a dark background */
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+  }
+
+  &__hook {
+    margin: 0 0 .9rem;
+    font-size: 1.3em;
+    line-height: 1.34;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .6em;
+    margin: 1.3rem 0 0;
+  }
+
+  .byline-credential { margin-top: 1.3rem; }
+
+  @media (max-width: 620px) {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+    // The tall site header already consumes most of a phone viewport, so lead
+    // with the argument and let the cover follow it.
+    &__body  { order: 1; }
+    &__cover { order: 2; max-width: 170px; }
+    &__hook  { font-size: 1.18em; }
+  }
+}
+
 // ============================================================================
 //  Bookshelf — the /books listing page. Theme-aware: every colour comes from the
 //  site's CSS custom properties (or a fixed accent that reads on both themes), so
@@ -23,7 +71,7 @@ $shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark
 /* buy options grid (format | price | buttons) */
 .buy-grid {
   display: grid;
-  grid-template-columns: minmax(140px, auto) minmax(110px, auto) 1fr;
+  grid-template-columns: minmax(140px, auto) minmax(165px, auto) 1fr;
   gap: .7rem 1.2rem;
   align-items: center;
   margin: 1.2rem 0;
@@ -42,13 +90,17 @@ $shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark
   display: inline-block;
   background: var(--background-alt);
   color: var(--text-color);
-  border: 1.5px solid var(--border-color);
+  border: 1.5px solid var(--meta-color);
   padding: .42em .9em;
   border-radius: 5px;
   text-decoration: none;
   font-weight: 600;
   font-size: .9em;
-  &:hover { border-color: var(--link-color); color: var(--link-color); }
+  // a:visited in _base.scss is (0,1,1) and outranks this class, so a visited
+  // button would otherwise revert to link blue at 80% opacity.
+  &:visited { color: var(--text-color); opacity: 1; }
+  &:hover,
+  &:focus { border-color: var(--link-color); color: var(--link-color); text-decoration: none; }
 }
 
 /* free web-edition call-out */
@@ -77,6 +129,115 @@ $shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark
   :root:not([data-theme="light"]) .web-cta__label { color: #d6a93f; }
 }
 
+/* authority line under the hook: answers "why should I listen to you"
+   before the buy buttons. A stand-in until real reader quotes exist. */
+.byline-credential {
+  border-left: 3px solid var(--border-color);
+  padding-left: .9rem;
+  margin: 1.5rem 0 0;
+  color: var(--meta-color);
+  font-size: .92em;
+  line-height: 1.55;
+  strong { color: var(--text-color); }
+}
+
+/* Buy panel: one bordered card holding every format, so the ask reads as a
+   single unit rather than a wall of links. US and UK are shown; the other
+   markets sit behind a native <details> so the page has one visible decision
+   per format instead of twelve. No prices anywhere, so KDP price changes
+   never require a site edit. */
+.buy-panel {
+  background: var(--background-alt);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 1.5rem;
+  margin: 0 0 1rem;
+  max-width: 640px;
+}
+
+.buy-format {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .55rem 1.5rem;
+  align-items: center;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--border-color);
+  &:last-child { border-bottom: 0; }
+
+  &__name { display: block; font-weight: 600; color: var(--text-color); }
+  &__note { display: block; margin-top: .15rem; color: var(--meta-color); font-size: .88em; }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4em;
+    justify-content: flex-end;
+  }
+
+  &__more {
+    grid-column: 1 / -1;
+    summary {
+      cursor: pointer;
+      color: var(--meta-color);
+      font-size: .85em;
+      list-style: none;
+      &::-webkit-details-marker { display: none; }
+      &::before { content: "\25B8\00a0"; }
+      &:hover { color: var(--link-color); }
+    }
+    &[open] summary::before { content: "\25BE\00a0"; }
+  }
+  &__stores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4em;
+    margin-top: .65rem;
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+    gap: .7rem;
+    &__actions { justify-content: flex-start; }
+  }
+}
+
+/* legacy grid, still used by /books/ */
+.buy-formats {
+  margin: 0 0 1.4rem;
+  max-width: 640px;
+
+  &__row {
+    margin: 0 0 1.3rem;
+    &:last-child { margin: 0; }
+  }
+  &__label { font-weight: 600; color: var(--text-color); }
+  &__note  { color: var(--meta-color); font-size: .9em; }
+  &__stores {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .4em;
+    margin-top: .55rem;
+  }
+  &__prefix {
+    color: var(--meta-color);
+    font-size: .85em;
+    margin-right: .1em;
+  }
+  &__web {
+    color: var(--meta-color);
+    font-size: .9em;
+    margin-top: .55rem;
+  }
+}
+
+/* compact variant — a dozen market buttons per row needs less weight each */
+.btn-buy--sm {
+  padding: .3em .62em;
+  font-size: .82em;
+  border-radius: 4px;
+}
+
 // "Read Now" — an ink button: black on light, white on dark. Maximum legibility.
 .btn-read {
   display: inline-block;
@@ -87,5 +248,7 @@ $shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark
   text-decoration: none;
   font-weight: 700;
   letter-spacing: .02em;
-  &:hover { opacity: .85; color: var(--background-color); }
+  &:visited { color: var(--background-color); opacity: 1; }
+  &:hover,
+  &:focus { opacity: .85; color: var(--background-color); text-decoration: none; }
 }

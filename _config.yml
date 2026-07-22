@@ -6,6 +6,9 @@ description: >
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "https://davidslv.uk" # the base hostname & protocol for your site
 twitter_username: davidslv
+
+# British English site: jekyll-seo-tag defaults og:locale to en_US otherwise.
+locale: en_GB
 github_username:  davidslv
 
 # Plugins (whitelisted + bundled by the github-pages gem)
@@ -33,6 +36,14 @@ google_site_verification:
 # Manage site -> "Enable with JS Snippet installation". Once set, the beacon
 # is emitted from _layouts/default.html, which every other layout inherits.
 cloudflare_analytics_token: f1aef114cd794c589b4bb00f5f13f381
+
+# Buttondown account the newsletter form posts to. The signup block renders
+# nothing at all while this is blank, which is how it stays hidden.
+#
+# Before setting it: (1) confirm the real Buttondown username, since a wrong
+# value posts subscribers into the void, and (2) make sure the promised lead
+# magnet, "Find the seams in your Rails app", actually exists to send.
+buttondown_username:
 
 # Build settings
 markdown: kramdown

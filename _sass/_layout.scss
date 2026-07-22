@@ -8,8 +8,8 @@
     transition: border-color 0.2s ease;
 
     @include media-query($on-palm) {
-        padding: 1.5rem 0 1rem;
-        margin-bottom: 2rem;
+        padding: 1rem 0 .75rem;
+        margin-bottom: 1.5rem;
     }
 }
 
@@ -24,6 +24,8 @@
 .site-nav {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;      // without this the nav + theme toggle overflow at 390px
+    row-gap: .25rem;
     gap: 1.5rem;
 
     @include media-query($on-palm) {
@@ -82,6 +84,12 @@
     margin: 0.5rem 0 0 0;
     font-weight: 400;
     line-height: 1.5;
+
+    // Three lines of strapline before any content is too much of a phone
+    // viewport, and the same sentence is repeated in the footer.
+    @include media-query($on-palm) {
+        display: none;
+    }
 }
 
 .theme-toggle {
@@ -146,6 +154,12 @@
     a {
         color: var(--meta-color, $meta-color);
         text-decoration: none;
+        // WCAG 2.2 2.5.8 Target Size (Minimum): 24x24 CSS px
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 24px;
+        min-width: 24px;
 
         &:hover {
             color: var(--text-color, $text-color);
