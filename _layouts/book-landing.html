@@ -5,15 +5,69 @@ layout: default
 <div class="book book--landing" data-book="{{ page.book }}">
   <article class="book-reading">
 
+    {%- assign buy = book.buy -%}
+    {%- assign reading = book.chapters | where_exp: "c", "c.type != 'part-divider'" -%}
+    {%- assign intro = reading | where: "slug", "introduction" | first -%}
+    {%- assign first = intro | default: reading.first -%}
+
     <header class="book-cover">
-      <div class="book-cover__kicker">A free, complete web edition</div>
-      <h1 class="book-cover__title">{{ book.title }}</h1>
-      {%- if book.subtitle %}<p class="book-cover__subtitle">{{ book.subtitle }}</p>{% endif -%}
-      <p class="book-cover__byline">by {{ book.author }}</p>
-      <p class="book-cover__note">The entire book, free to read online &mdash; the same text as the paperback and EPUB editions.</p>
+      {%- if buy.cover_small %}
+      <div class="book-cover__art">
+        {%- if buy.cover_webp %}<picture><source srcset="{{ buy.cover_webp }}" type="image/webp">{% endif -%}
+        <img src="{{ buy.cover_small }}" width="520" height="832" fetchpriority="high" decoding="async"
+             alt="{{ book.title }} book cover">
+        {%- if buy.cover_webp %}</picture>{% endif -%}
+      </div>
+      {%- endif %}
+      <div class="book-cover__text">
+        <div class="book-cover__kicker">A free, complete web edition</div>
+        <h1 class="book-cover__title">{{ book.title }}</h1>
+        {%- if book.subtitle %}<p class="book-cover__subtitle">{{ book.subtitle }}</p>{% endif -%}
+        <p class="book-cover__byline">by {{ book.author }}</p>
+        <p class="book-cover__note">Every chapter, code sample and diagram. The same text as the paperback and Kindle editions. No paywall, no sign-up.</p>
+        {%- if first %}
+        <p class="book-cover__actions">
+          <a class="btn-read" href="{{ first.url | relative_url }}">Start reading</a>
+          <a class="btn-buy" href="#contents">Jump to contents</a>
+        </p>
+        {%- endif %}
+      </div>
     </header>
 
-    {%- assign buy = book.buy -%}
+    <nav class="book-contents-grid" id="contents" aria-label="Contents">
+      <h2 class="book-contents-grid__heading">Contents</h2>
+      {%- comment -%}
+        Chapters are numbered continuously across parts, so the numbers here
+        match the printed book. Front matter and appendices are not chapters,
+        so they are unnumbered; the appendix titles carry their own letters.
+      {%- endcomment -%}
+      {%- assign chapter_no = 0 -%}
+      {%- assign open_list = false -%}
+      {%- for c in book.chapters -%}
+        {%- if c.type == 'part-divider' -%}
+          {%- if open_list %}</{{ list_tag }}>{% endif -%}
+          {%- if c.part contains 'Appendices' -%}
+            {%- assign list_tag = 'ul' -%}
+            <h3 class="book-contents-grid__part">{{ c.part }}</h3><ul class="book-contents-grid__list book-contents-grid__list--plain">
+          {%- else -%}
+            {%- assign list_tag = 'ol' -%}
+            {%- assign next_no = chapter_no | plus: 1 -%}
+            <h3 class="book-contents-grid__part">{{ c.part }}</h3><ol class="book-contents-grid__list" start="{{ next_no }}">
+          {%- endif -%}
+          {%- assign open_list = true -%}
+        {%- else -%}
+          {%- unless open_list -%}
+            {%- assign list_tag = 'ul' -%}
+            <ul class="book-contents-grid__list book-contents-grid__list--plain">
+            {%- assign open_list = true -%}
+          {%- endunless -%}
+          {%- if list_tag == 'ol' %}{% assign chapter_no = chapter_no | plus: 1 %}{% endif -%}
+          <li><a href="{{ c.url | relative_url }}">{{ c.title }}</a></li>
+        {%- endif -%}
+        {%- if forloop.last and open_list %}</{{ list_tag }}>{% endif -%}
+      {%- endfor -%}
+    </nav>
+
     {%- if buy -%}
     <aside class="book-buy" aria-label="Buy the book">
       <p class="book-buy__label">Prefer it in print or on Kindle?</p>
@@ -23,21 +77,6 @@ layout: default
     {%- endif -%}
 
     {% include newsletter.html %}
-
-    <nav class="book-contents-grid" aria-label="Contents">
-      <h2 class="book-contents-grid__heading">Contents</h2>
-      {%- assign n = 0 -%}
-      {%- for c in book.chapters -%}
-        {%- if c.type == 'part-divider' -%}
-          {%- unless forloop.first -%}</ol>{%- endunless -%}
-          <h3 class="book-contents-grid__part">{{ c.part }}</h3><ol class="book-contents-grid__list">
-        {%- else -%}
-          {%- if forloop.first -%}<ol class="book-contents-grid__list">{%- endif -%}
-          <li><a href="{{ c.url | relative_url }}">{{ c.title }}</a></li>
-        {%- endif -%}
-        {%- if forloop.last -%}</ol>{%- endif -%}
-      {%- endfor -%}
-    </nav>
 
   </article>
 </div>

@@ -52,8 +52,6 @@
 //  it works in light AND dark. Replaces the old hardcoded inline styles.
 // ============================================================================
 
-$shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark backgrounds
-
 .book-listing {
   display: flex;
   gap: 2rem;
@@ -114,32 +112,6 @@ $shelf-gold: #c2a06a;   // warm "book" accent — legible on both light and dark
   &:visited { color: var(--text-color); opacity: 1; }
   &:hover,
   &:focus { border-color: var(--link-color); color: var(--link-color); text-decoration: none; }
-}
-
-/* free web-edition call-out */
-.web-cta {
-  background: var(--background-alt);
-  border: 1px solid var(--border-color);
-  border-left: 4px solid $shelf-gold;
-  padding: 1.25rem 1.5rem;
-  margin: 0 0 2.5rem;
-  border-radius: 6px;
-  p { margin: 0 0 1rem; }
-  p:last-child { margin: 0; }
-  &__label {
-    font-size: .8rem;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: #9c6a16;            // deep amber — legible on the light card
-    margin: 0 0 .5rem;
-  }
-  .more { margin-left: 1rem; font-size: .95em; }
-}
-// brighten the gold label on dark so it stays legible (mirrors the site's dark triggers)
-[data-theme="dark"] .web-cta__label { color: #d6a93f; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .web-cta__label { color: #d6a93f; }
 }
 
 /* authority line under the hook: answers "why should I listen to you"
