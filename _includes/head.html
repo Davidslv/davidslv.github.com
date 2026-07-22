@@ -20,8 +20,14 @@
   <!-- Theme toggle script -->
   <script>
     (function() {
+      // Driven by `theme_toggle` in _config.yml. While false the site is light
+      // only; the switching code below is kept intact so flipping the flag
+      // restores it, including whatever the visitor had previously chosen.
+      const THEME_TOGGLE = {% if site.theme_toggle %}true{% else %}false{% endif %};
+
       // Get theme from localStorage or default to system preference
       const getTheme = () => {
+        if (!THEME_TOGGLE) return 'light';
         const stored = localStorage.getItem('theme');
         if (stored) return stored;
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -30,7 +36,8 @@
       // Apply theme
       const applyTheme = (theme) => {
         document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
+        // do not overwrite a stored preference while the toggle is disabled
+        if (THEME_TOGGLE) localStorage.setItem('theme', theme);
 
         // Update Mermaid theme if available
         if (typeof mermaid !== 'undefined') {
@@ -90,7 +97,7 @@
       });
 
       // Listen for system theme changes
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      if (THEME_TOGGLE) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
         if (!localStorage.getItem('theme')) {
           applyTheme(e.matches ? 'dark' : 'light');
           updateToggleText(e.matches ? 'dark' : 'light');
