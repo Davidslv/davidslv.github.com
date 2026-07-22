@@ -28,6 +28,12 @@ social:
 # jekyll-seo-tag emits the <meta name="google-site-verification"> tag.
 google_site_verification:
 
+# Cloudflare Web Analytics site token. Public identifier, not a secret.
+# Get it from: Cloudflare dashboard -> Analytics & Logs -> Web Analytics ->
+# Manage site -> "Enable with JS Snippet installation". Once set, the beacon
+# is emitted from _layouts/default.html, which every other layout inherits.
+cloudflare_analytics_token: f1aef114cd794c589b4bb00f5f13f381
+
 # Build settings
 markdown: kramdown
 future: false
