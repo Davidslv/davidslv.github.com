@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Play the Cashflow 101 Rat Race against the deterministic simulator from a 1.26-million-game study of the original board game, with a decision-by-decision review of where each run was won and lost.">
+<meta name="color-scheme" content="light dark">
+<link rel="canonical" href="https://davidslv.uk/games/rat-race-ledger/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rat Race Ledger">
+<meta property="og:description" content="Play the Cashflow 101 Rat Race against the deterministic simulator from a 1.26-million-game study of the original board game, with a decision-by-decision review of where each run was won and lost.">
+<meta property="og:url" content="https://davidslv.uk/games/rat-race-ledger/">
+<meta property="og:image" content="https://davidslv.uk/games/rat-race-ledger/thumb.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1200">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://davidslv.uk/games/rat-race-ledger/thumb.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Ctext%20y%3D%2226%22%20font-size%3D%2226%22%3E%F0%9F%A7%BE%3C%2Ftext%3E%3C%2Fsvg%3E">
+<title>Rat Race Ledger</title>
+
+<style>
+  /* ---------------------------------------------------------------------
+     Palette: a printed accounting ledger. Pale green stock, blue-green
+     ruling, green-biased black ink, oxblood for debits, ledger green for
+     income, and one fountain-pen blue reserved for things you can act on.
+     --------------------------------------------------------------------- */
+  :root {
+    --paper: #f1f4ec;
+    --panel: #e8ede2;
+    --raised: #fbfcf8;
+    --rule: #c6d6c2;
+    --rule-soft: #dae3d5;
+    --ink: #1b221b;
+    --ink-soft: #5a6558;
+    --ink-faint: #8b9488;
+    --debit: #9e3b32;
+    --credit: #2f6b4f;
+    --pen: #1f4e79;
+    --pen-wash: #dfe8f1;
+    --shadow: rgba(27, 34, 27, 0.09);
+
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+
+    --step: 1.5rem;
+    --radius: 3px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0f150e;
+      --panel: #161d15;
+      --raised: #1d251c;
+      --rule: #2d3a2c;
+      --rule-soft: #232d22;
+      --ink: #e5eae0;
+      --ink-soft: #98a494;
+      --ink-faint: #6b766a;
+      --debit: #e28b83;
+      --credit: #74c497;
+      --pen: #86b7e8;
+      --pen-wash: #17273a;
+      --shadow: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #0f150e;
+    --panel: #161d15;
+    --raised: #1d251c;
+    --rule: #2d3a2c;
+    --rule-soft: #232d22;
+    --ink: #e5eae0;
+    --ink-soft: #98a494;
+    --ink-faint: #6b766a;
+    --debit: #e28b83;
+    --credit: #74c497;
+    --pen: #86b7e8;
+    --pen-wash: #17273a;
+    --shadow: rgba(0, 0, 0, 0.5);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(1rem, 3vw, 2.5rem) clamp(0.85rem, 3vw, 2rem) 4rem;
+  }
+
+  /* --- masthead ------------------------------------------------------- */
+
+  .masthead {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem var(--step);
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 1.75rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.35rem, 3.4vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .sub {
+    margin: 0.35rem 0 0;
+    max-width: 60ch;
+    color: var(--ink-soft);
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    font-style: italic;
+  }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  /* --- buttons -------------------------------------------------------- */
+
+  button {
+    font: inherit;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--raised);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.85rem;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+  }
+  button:hover:not(:disabled) { border-color: var(--pen); color: var(--pen); }
+  button:focus-visible { outline: 2px solid var(--pen); outline-offset: 2px; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  button.primary {
+    background: var(--pen);
+    border-color: var(--pen);
+    color: var(--paper);
+    font-weight: 700;
+  }
+  button.primary:hover:not(:disabled) { filter: brightness(1.12); color: var(--paper); }
+
+  button.ghost { background: transparent; }
+  button[aria-pressed="true"] { background: var(--pen-wash); border-color: var(--pen); color: var(--pen); }
+
+  /* --- setup ---------------------------------------------------------- */
+
+  .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 0.6rem;
+  }
+
+  .setup-note {
+    margin: 0 0 1.1rem;
+    max-width: 68ch;
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .prof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+    gap: 0.65rem;
+  }
+
+  .prof {
+    text-align: left;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.85rem;
+    padding: 0.75rem 0.85rem;
+    background: var(--panel);
+    display: grid;
+    gap: 0.15rem;
+  }
+  .prof b { font-size: 0.98rem; letter-spacing: -0.01em; }
+  .prof .row { display: flex; justify-content: space-between; color: var(--ink-soft); font-size: 0.78rem; }
+  .prof .row .n { font-variant-numeric: tabular-nums; }
+  .prof .tgt { color: var(--debit); }
+
+  /* --- game grid ------------------------------------------------------ */
+
+  .board { display: grid; gap: var(--step); grid-template-columns: 1fr; }
+  @media (min-width: 900px) {
+    .board { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; }
+    .col-left { position: sticky; top: 1rem; }
+  }
+  .col-left, .col-right { display: grid; gap: var(--step); align-content: start; min-width: 0; }
+
+  @media (max-width: 899px) {
+    .board { display: flex; flex-direction: column; }
+    .col-left, .col-right { display: contents; }
+    .escape { order: 1; }
+    .stage { order: 2; }
+    #statementPanel { order: 3; }
+    #holdingsPanel { order: 4; }
+    #ledgerPanel { order: 5; }
+    #logPanel { order: 6; }
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 1rem 1.1rem 1.15rem;
+    min-width: 0;
+  }
+
+  .panel > h2 {
+    margin: 0 0 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+
+  /* --- escape meter: the hero. The entire win condition is this one
+         relationship, so it gets the top of the page and the only
+         full-width rule on it. ---------------------------------------- */
+
+  .escape { background: var(--raised); border: 2px solid var(--ink); }
+
+  .escape-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.7rem;
+  }
+  .escape-head .lbl {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+  }
+  .escape-head .val {
+    font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .escape-head .passive .val { color: var(--credit); }
+  /* passive income can go negative once you own a loss-making property */
+  .escape-head .passive .val.neg { color: var(--debit); }
+  .escape-head .target .val { color: var(--debit); }
+  .escape-head .target { text-align: right; }
+
+  .meter {
+    position: relative;
+    height: 22px;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .meter-fill {
+    height: 100%;
+    width: 0;
+    background: var(--credit);
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .meter.done .meter-fill { background: var(--pen); }
+
+  .escape-note {
+    margin: 0.6rem 0 0;
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .escape-note b { color: var(--ink); }
+
+  /* --- the decision stage --------------------------------------------- */
+
+  .stage { border-left: 3px solid var(--pen); }
+  .stage.is-doodad { border-left-color: var(--debit); }
+  .stage.is-done { border-left-color: var(--credit); }
+
+  .card-kind {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--pen);
+    margin: 0 0 0.3rem;
+  }
+  .stage.is-doodad .card-kind { color: var(--debit); }
+
+  .card-name {
+    margin: 0 0 0.5rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  /* The one human voice in the whole deck is the card flavour text, so it
+     is the one thing set in a serif. */
+  .card-flavour {
+    margin: 0 0 0.85rem;
+    font-family: var(--serif);
+    font-size: 0.97rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 58ch;
+  }
+
+  .figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    padding: 0.7rem 0;
+    margin-bottom: 0.85rem;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .fig .k {
+    font-size: 0.66rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+  }
+  .fig .v { font-size: 1.02rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .fig .v.pos { color: var(--credit); }
+  .fig .v.neg { color: var(--debit); }
+
+  .warn {
+    margin: 0 0 0.85rem;
+    padding: 0.55rem 0.7rem;
+    background: var(--paper);
+    border-left: 2px solid var(--debit);
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+  }
+  .warn b { color: var(--debit); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+  .actions input[type="number"] {
+    font: inherit;
+    font-size: 0.85rem;
+    width: 7rem;
+    padding: 0.4rem 0.5rem;
+    background: var(--raised);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    font-variant-numeric: tabular-nums;
+  }
+  .actions input:focus-visible { outline: 2px solid var(--pen); outline-offset: 1px; }
+
+  .coach-line {
+    margin: 0.75rem 0 0;
+    font-size: 0.76rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.03em;
+  }
+  .coach-line b { color: var(--pen); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* --- statement ------------------------------------------------------ */
+
+  .sheet { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .sheet td { padding: 0.22rem 0; font-size: 0.86rem; }
+  .sheet td.n { text-align: right; white-space: nowrap; }
+  .sheet tr.sub td { color: var(--ink-soft); }
+  .sheet tr.total td {
+    border-top: 1px solid var(--rule);
+    padding-top: 0.4rem;
+    font-weight: 700;
+  }
+  .sheet tr.rule-top td { border-top: 2px solid var(--ink); padding-top: 0.45rem; }
+  .sheet caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-bottom: 0.35rem;
+  }
+  .sheet .pos { color: var(--credit); }
+  .sheet .neg { color: var(--debit); }
+  .sheet + .sheet { margin-top: 1.1rem; }
+
+  .holdings { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+  .holdings li {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.82rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px dashed var(--rule-soft);
+  }
+  .holdings li:last-child { border-bottom: none; }
+  .holdings .cf { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .holdings .cf.pos { color: var(--credit); }
+  .holdings .cf.neg { color: var(--debit); }
+  .holdings .cf.muted { color: var(--ink-faint); font-style: italic; font-family: var(--serif); }
+  .empty { color: var(--ink-faint); font-size: 0.82rem; font-style: italic; font-family: var(--serif); }
+
+  /* --- ledger --------------------------------------------------------- */
+
+  .ledger-scroll {
+    max-height: 460px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* fade the clipped rows so a cut-off entry reads as "more above/below"
+       rather than as a rendering fault */
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 18px), transparent 100%);
+  }
+  .log { list-style: none; margin: 0; padding: 0; }
+  .log li {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr auto;
+    gap: 0.65rem;
+    align-items: baseline;
+    padding: 0.28rem 0;
+    font-size: 0.8rem;
+    /* the ruled line of a ledger pad */
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .log li:last-child { border-bottom: none; }
+  .log .t { color: var(--ink-faint); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+  .log .d { color: var(--ink-soft); min-width: 0; overflow-wrap: anywhere; }
+  .log .a { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
+  .log .a.pos { color: var(--credit); }
+  .log .a.neg { color: var(--debit); }
+  .log li.mark .d { color: var(--ink); font-weight: 700; }
+
+  .log li.fresh { animation: slip 0.34s ease-out both; }
+  @keyframes slip {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* --- run log -------------------------------------------------------- */
+
+  #logDetails summary {
+    cursor: pointer;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+  #logDetails summary:focus-visible { outline: 2px solid var(--pen); outline-offset: 3px; }
+  #logDetails summary .count { letter-spacing: 0.04em; }
+  #logDetails[open] summary { margin-bottom: 0.7rem; }
+
+  .log-hint {
+    margin: 0 0 0.75rem;
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+  .log-hint code {
+    font-family: var(--mono);
+    font-size: 0.82em;
+    background: var(--paper);
+    padding: 0.05em 0.3em;
+    border-radius: 2px;
+  }
+
+  .log-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.7rem;
+  }
+  .log-status { font-size: 0.76rem; color: var(--ink-faint); }
+  .log-status.ok { color: var(--credit); }
+  .log-status.err { color: var(--debit); }
+
+  #jsonl {
+    margin: 0;
+    max-height: 300px;
+    overflow: auto;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.7rem;
+    font-size: 0.72rem;
+    line-height: 1.65;
+    white-space: pre;
+    color: var(--ink-soft);
+  }
+
+  /* --- kept runs ------------------------------------------------------ */
+
+  #runsPanel { margin-top: var(--step); }
+  .runs { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+  .runs > li { border-bottom: 1px dashed var(--rule-soft); padding-bottom: 0.5rem; }
+  .runs > li:last-child { border-bottom: none; }
+
+  .run-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .run-title { font-size: 0.86rem; font-weight: 700; }
+  .run-meta { font-size: 0.74rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+  .run-verdict { font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+  .run-verdict.out { color: var(--credit); }
+  .run-verdict.stuck { color: var(--debit); }
+  .run-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+  .run-actions button { font-size: 0.7rem; padding: 0.25rem 0.55rem; }
+  .runs .review { margin-top: 0.7rem; border-top: 1px dashed var(--rule-soft); padding-top: 0.6rem; }
+
+  /* --- outcome -------------------------------------------------------- */
+
+  .outcome { text-align: left; }
+  .outcome h3 { margin: 0 0 0.5rem; font-size: 1.3rem; letter-spacing: -0.01em; }
+  .outcome p { margin: 0 0 0.85rem; font-family: var(--serif); color: var(--ink-soft); max-width: 58ch; }
+  .outcome .verdict { color: var(--credit); }
+  .outcome .verdict.fail { color: var(--debit); }
+
+  .review { margin-top: 1.1rem; border-top: 1px solid var(--rule); padding-top: 0.9rem; }
+  .review h4 {
+    margin: 0 0 0.5rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+  .review h4 + ul { margin: 0 0 1.1rem; }
+  .review ul { list-style: none; padding: 0; display: grid; gap: 0.45rem; }
+  .review li {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr auto;
+    gap: 0.6rem;
+    align-items: baseline;
+    font-size: 0.82rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px dashed var(--rule-soft);
+  }
+  .review li:last-child { border-bottom: none; }
+  .review .t { color: var(--ink-faint); font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+  .review .amt { font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; }
+  .review .amt.pos { color: var(--credit); }
+  .review .amt.neg { color: var(--debit); }
+  .review .caveat {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 60ch;
+  }
+  .footnote {
+    margin: 2.5rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    max-width: 74ch;
+  }
+  .footnote a { color: var(--pen); }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* biome-ignore lint/complexity/noImportantStyles: a reduced-motion opt-out
+       has to beat every other declaration, including inline transitions. */
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="brand">
+      <h1>Rat Race Ledger</h1>
+      <p class="sub">
+        Cashflow 101, played against the same simulator the study measured — same deck,
+        same rules, same 10%-a-month bank.
+      </p>
+    </div>
+    <div class="controls">
+      <button id="coachBtn" type="button" aria-pressed="false" title="Show what the tuned policy from the study would do">Coach</button>
+      <button id="undoBtn" type="button" class="ghost" disabled>Undo</button>
+      <button id="newBtn" type="button" class="ghost">New game</button>
+    </div>
+  </header>
+
+  <section id="setup">
+    <p class="eyebrow">Deal yourself a profession</p>
+    <p class="setup-note">
+      Watch the third line. The deal deck pays in fixed dollars — $500 or $2,000 a month
+      regardless of who drew the card — so the size of the target is what decides the race,
+      not the salary above it. Simulated across 720,000 games, the janitor escapes in a median
+      of 30 months and the doctor takes 46.
+    </p>
+    <div class="prof-grid" id="profGrid"></div>
+  </section>
+
+  <main id="game" hidden>
+    <div class="board">
+      <div class="col-left">
+        <section class="panel escape">
+          <div class="escape-head">
+            <div class="passive">
+              <span class="lbl">Passive income</span>
+              <span class="val" id="mPassive">$0</span>
+            </div>
+            <div class="target">
+              <span class="lbl">Escape above</span>
+              <span class="val" id="mTarget">$0</span>
+            </div>
+          </div>
+          <div class="meter" id="meter"><div class="meter-fill" id="mFill"></div></div>
+          <p class="escape-note" id="mNote"></p>
+        </section>
+
+        <section class="panel" id="statementPanel">
+          <h2>Financial statement · <span id="stMonth"></span></h2>
+          <table class="sheet" id="sheetIncome"></table>
+          <table class="sheet" id="sheetExpense"></table>
+          <table class="sheet" id="sheetCash"></table>
+        </section>
+
+        <section class="panel" id="holdingsPanel">
+          <h2>Holdings</h2>
+          <ul class="holdings" id="holdings"></ul>
+        </section>
+      </div>
+
+      <div class="col-right">
+        <section class="panel stage" id="stage"></section>
+        <section class="panel" id="logPanel">
+          <details id="logDetails">
+            <summary>Run log · JSONL <span class="count" id="logCount"></span></summary>
+            <p class="log-hint">
+              One JSON object per line, oldest first — the file convention, not the ledger's
+              newest-first reading order. Carries no timestamps on purpose: a run is a pure
+              function of its seed and your answers, so replaying the <code>answer</code> fields
+              in order reproduces it exactly.
+            </p>
+            <div class="log-actions">
+              <button type="button" id="keepBtn">Keep this run</button>
+              <button type="button" id="copyLogBtn">Copy</button>
+              <button type="button" id="downloadBtn" hidden>Download</button>
+              <span class="log-status" id="logStatus"></span>
+            </div>
+            <pre id="jsonl"></pre>
+          </details>
+        </section>
+
+        <section class="panel" id="ledgerPanel">
+          <h2>Ledger · newest first</h2>
+          <div class="ledger-scroll" id="ledgerScroll"><ul class="log" id="log"></ul></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <section class="panel" id="runsPanel" hidden>
+    <h2>Kept runs <span class="count" id="runsCount"></span></h2>
+    <p class="log-hint">
+      Stored in this browser only. Each entry holds its whole JSONL log, which is all
+      that is needed to replay and review the run.
+    </p>
+    <ul class="runs" id="runsList"></ul>
+  </section>
+
+  <p class="footnote" id="footnote">
+    Every rule, price and card here comes from the reconstructed deck in the study: 24 spaces,
+    55 small deals, 41 big deals, 44 market cards, 46 doodads. Bank loans cost 10% of principal
+    per month, and you escape the moment passive income exceeds total expenses. Three other
+    players are at the table, generating market cards you can also sell into.
+  </p>
+</div>
+
+<script>"use strict";(()=>{var G={board:["OPPORTUNITY","LIABILITY","OPPORTUNITY","CHARITY","OPPORTUNITY","PAYCHECK","OPPORTUNITY","OFFER","OPPORTUNITY","LIABILITY","OPPORTUNITY","CHILD","OPPORTUNITY","PAYCHECK","OPPORTUNITY","OFFER","OPPORTUNITY","LIABILITY","OPPORTUNITY","DOWNSIZE","OPPORTUNITY","PAYCHECK","OPPORTUNITY","OFFER"],professions:[{name:"Janitor",salary:1600,savings:600,expenses:{taxes:300,mortgage:200,studentLoan:0,carLoan:100,creditCards:100,other:300,perChild:100},liabilities:{mortgage:2e4,studentLoan:0,carLoan:4e3,creditCards:3e3}},{name:"Mechanic",salary:2e3,savings:700,expenses:{taxes:400,mortgage:300,studentLoan:0,carLoan:100,creditCards:100,other:400,perChild:100},liabilities:{mortgage:31e3,studentLoan:0,carLoan:3e3,creditCards:3e3}},{name:"Truck Driver",salary:2500,savings:800,expenses:{taxes:500,mortgage:400,studentLoan:0,carLoan:100,creditCards:100,other:600,perChild:200},liabilities:{mortgage:38e3,studentLoan:0,carLoan:4e3,creditCards:3e3}},{name:"Secretary",salary:2500,savings:700,expenses:{taxes:500,mortgage:400,studentLoan:0,carLoan:100,creditCards:100,other:600,perChild:100},liabilities:{mortgage:38e3,studentLoan:0,carLoan:4e3,creditCards:3e3}},{name:"Policeman",salary:3e3,savings:500,expenses:{taxes:600,mortgage:400,studentLoan:0,carLoan:100,creditCards:100,other:700,perChild:200},liabilities:{mortgage:46e3,studentLoan:0,carLoan:5e3,creditCards:3e3}},{name:"Nurse",salary:3100,savings:500,expenses:{taxes:600,mortgage:400,studentLoan:100,carLoan:100,creditCards:200,other:600,perChild:200},liabilities:{mortgage:47e3,studentLoan:6e3,carLoan:5e3,creditCards:4e3}},{name:"Teacher",salary:3300,savings:400,expenses:{taxes:500,mortgage:500,studentLoan:100,carLoan:100,creditCards:200,other:700,perChild:200},liabilities:{mortgage:5e4,studentLoan:12e3,carLoan:5e3,creditCards:4e3}},{name:"Manager",salary:4600,savings:400,expenses:{taxes:900,mortgage:700,studentLoan:100,carLoan:100,creditCards:200,other:1e3,perChild:300},liabilities:{mortgage:75e3,studentLoan:12e3,carLoan:6e3,creditCards:4e3}},{name:"Engineer",salary:4900,savings:400,expenses:{taxes:1e3,mortgage:700,studentLoan:100,carLoan:200,creditCards:200,other:1e3,perChild:200},liabilities:{mortgage:75e3,studentLoan:12e3,carLoan:7e3,creditCards:5e3}},{name:"Lawyer",salary:7500,savings:2e3,expenses:{taxes:1800,mortgage:1100,studentLoan:300,carLoan:200,creditCards:200,other:1500,perChild:400},liabilities:{mortgage:115e3,studentLoan:78e3,carLoan:11e3,creditCards:7e3}},{name:"Airline Pilot",salary:9500,savings:2500,expenses:{taxes:2e3,mortgage:1e3,studentLoan:0,carLoan:300,creditCards:700,other:2e3,perChild:400},liabilities:{mortgage:9e4,studentLoan:0,carLoan:15e3,creditCards:22e3}},{name:"Doctor",salary:13200,savings:3500,expenses:{taxes:3200,mortgage:1900,studentLoan:700,carLoan:300,creditCards:200,other:2e3,perChild:700},liabilities:{mortgage:202e3,studentLoan:15e4,carLoan:19e3,creditCards:1e4}}],smallDeals:[{deck:"small",kind:"paper",name:"GRO4US Fund",type:"Mutual Fund",description:"Lower interest rates drive market and fund to strong showing.",price:30,range:"$10 to $30",dividend:null,split:null,symbol:"GRO4US"},{deck:"small",kind:"paper",name:"GRO4US Fund",type:"Mutual Fund",description:"Brilliant young fund manager. Everyone believes he has the Midas touch",price:20,range:"$10 to $30",dividend:null,split:null,symbol:"GRO4US"},{deck:"small",kind:"paper",name:"GRO4US Fund",type:"Mutual Fund",description:"Weak earnings by most companies lead to weak price of mutual fund",price:10,range:"$10 to $30",dividend:null,split:null,symbol:"GRO4US"},{deck:"small",kind:"paper",name:"GRO4US Fund",type:"Mutual Fund",description:"Lower interest rates drive market and fund to strong showing.",price:5,range:"$10 to $30",dividend:null,split:null,symbol:"GRO4US"},{deck:"small",kind:"paper",name:"GRO4US Fund",type:"Mutual Fund",description:"Powerhouse market drives strong fund's price up to record high",price:40,range:"$10 to $30",dividend:null,split:null,symbol:"GRO4US"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock",description:"Booming market leads to record share price of this home electronics seller!",price:40,range:"$5 to $30",dividend:null,split:null,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock",description:"High inflation leads to poor share price for this home electronics seller.",price:5,range:"$5 to $30",dividend:null,split:null,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock",description:"Record interest rates lead to substandard share price for this home electronics seller",price:5,range:"$5 to $30",dividend:null,split:null,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock",description:"Strong market leads to strong share price for this home electronics seller",price:30,range:"$5 to $30",dividend:null,split:null,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock",description:"Trade war panic leads to record low share price for this home electronics seller.",price:1,range:"$5 to $30",dividend:null,split:null,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock",description:"Weak market leads to sagging share price for this home electronics seller.",price:10,range:"$5 to $30",dividend:null,split:null,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock",description:"Fast growing seller of home electronics headed by 32 year old Harvard grad.",price:20,range:"$5 to $30",dividend:null,split:null,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock",description:"Low interest rates lead to substantial share price for this home electronics seller.",price:30,range:"$5 to $30",dividend:null,split:null,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock",description:"Market strength leads to high share price for this long time maker of medicines.",price:40,range:"$5 to $40",dividend:null,split:null,symbol:"OK4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock",description:"Low inflation leads to high share price for this long time maker of medicines.",price:20,range:"$5 to $40",dividend:null,split:null,symbol:"OK4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock",description:"Booming market raises share price of this long time maker of medicines.",price:50,range:"$5 to $40",dividend:null,split:null,symbol:"OK4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock",description:"Interest rates cripple share price of this long time maker of medicines.",price:5,range:"$5 to $40",dividend:null,split:null,symbol:"OK4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock",description:"High interest rates cause poor share price of this long time make of medicines.",price:10,range:"$5 to $40",dividend:null,split:null,symbol:"OK4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock",description:"Inflation worries cause poor share price of this long time maker of medicines.",price:10,range:"$5 to $40",dividend:null,split:null,symbol:"OK4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock",description:"Market panic causes crash in the shares of this long time maker of medicines.",price:1,range:"$5 to $40",dividend:null,split:null,symbol:"OK4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock",description:"Long time maker of medicines; especially drugs for people of 70.",price:30,range:"$5 to $40",dividend:null,split:null,symbol:"OK4U"},{deck:"small",kind:"paper",name:"ON2U Entertainment Co.",type:"Stock",description:"Box office hit by children's division casuses record share price.",price:40,range:"$5 to $40",dividend:null,split:null,symbol:"ON2U"},{deck:"small",kind:"paper",name:"ON2U Entertainment Co.",type:"Stock",description:"Strong demand for company's library of old movies on video leads to good share price.",price:30,range:"$5 to $40",dividend:null,split:null,symbol:"ON2U"},{deck:"small",kind:"paper",name:"ON2U Entertainment Co.",type:"Stock",description:"New director of movie acquisitions brings revived prospects for share price.",price:20,range:"$5 to $40",dividend:null,split:null,symbol:"ON2U"},{deck:"small",kind:"paper",name:"ON2U Entertainment Co.",type:"Stock",description:"Movie buyer fired after third mega-flop! Shares sink. Chairman's bonus canceled.",price:5,range:"$5 to $40",dividend:null,split:null,symbol:"ON2U"},{deck:"small",kind:"paper",name:"ON2U Entertainment Co.",type:"Stock",description:"Box office smash hit in adult division causes strong share price.",price:30,range:"$5 to $40",dividend:null,split:null,symbol:"ON2U"},{deck:"small",kind:"paper",name:"ON2U Entertainment Co.",type:"Stock",description:"Recent merger strengthened market share of this leading company with good outlook.",price:20,range:"$5 to $40",dividend:null,split:null,symbol:"ON2U"},{deck:"small",kind:"paper",name:"ON2U Entertainment Co.",type:"Stock",description:"Newest theme park loses record amount. Share price hits all-time low.",price:1,range:"$5 to $40",dividend:null,split:null,symbol:"ON2U"},{deck:"small",kind:"paper",name:"ON2U Entertainment Co.",type:"Stock",description:"Box office flop by musical extravaganza in core division causes poor share price.",price:10,range:"$5 to $40",dividend:null,split:null,symbol:"ON2U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Stock Split",description:"Business is up dramatically and the company is doing so well their shares haave just split!",price:null,range:null,dividend:null,split:2,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"MYT4U Electronics Co.",type:"Reverse Split",description:"Company reorganizes! Massive loses due to over expansion and recession. Stockholders lose 1/2 of their ownership rights.",price:null,range:null,dividend:null,split:.5,symbol:"MYT4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Stock Split",description:"Things are going so well for the company that their shares have just split!",price:null,range:null,dividend:null,split:2,symbol:"OK4U"},{deck:"small",kind:"paper",name:"OK4U Drug Co.",type:"Reverse Split",description:"Company flounders! Massive losses due to tainted drug scandal. All stockholders lose 1/2 of their ownership rights.",price:null,range:null,dividend:null,split:.5,symbol:"OK4U"},{deck:"small",kind:"paper",name:"2BIG Power",type:"Preferred Stock",description:'High yield, preferred shares of major domestic electric power company. Dividend and price fixed at "fair" level by state utility commission.',price:1200,range:null,dividend:30,split:null,symbol:"2BIG"},{deck:"small",kind:"paper",name:"1GLOBE Oil",type:"Preferred Stock",description:'Moderate yield, preferred shares of major international biotech company. Dividend and price fixed at "fair" level by state utility commission.',price:1e3,range:null,dividend:15,split:null,symbol:"1GLO"},{deck:"small",kind:"realEstate",name:"You Find a Great Deal!",type:"Real Estate",description:"Older 3/2 house, repossessed by government agency. Ready to go with government financing and a tenant.",cost:35e3,downPayment:2e3,mortgage:33e3,cashFlow:220,roi:1.32,units:null,landType:"3Br/2Ba"},{deck:"small",kind:"realEstate",name:"Condo for Sale - 2 Br/1 Ba",type:"Real Estate",description:"Nice 2/1 condo available due to marriage of owner. Bad area. Needs work.",cost:5e4,downPayment:5e3,mortgage:45e3,cashFlow:100,roi:.24,units:null,landType:"2Br/1Ba"},{deck:"small",kind:"realEstate",name:"Condo For Sale - 2 Br/1 Ba",type:"Real Estate",description:"Parents selling 2/1 condo used by their chil in college town. Lots of demand for rentals in this area.",cost:4e4,downPayment:4e3,mortgage:36e3,cashFlow:140,roi:.42,units:null,landType:"2Br/1Ba"},{deck:"small",kind:"realEstate",name:"Condo For Sale - 2 Br/1 Ba",type:"Real Estate",description:"Older 2/1 condo offered by young couple who want to move up to a 3/2 house due to growing family. Available soon.",cost:5e4,downPayment:5e3,mortgage:45e3,cashFlow:100,roi:.38,units:null,landType:"2Br/1Ba"},{deck:"small",kind:"realEstate",name:"Condo For Sale - 2 Br/1 Ba",type:"Real Estate",description:"Excellent 2/1 condo with many extras. For sale due to business success of owner. She's moving up, so can you.",cost:6e4,downPayment:5e3,mortgage:55e3,cashFlow:-100,roi:-.24,units:null,landType:"2Br/1Ba"},{deck:"small",kind:"realEstate",name:"Condo For Sale - 2 Br/1 Ba",type:"Real Estate",description:"Bank foreclosure! 2/1 condo in desirable neighborhood close to jobs and stores. Make offer, favorable financing by bank.",cost:4e4,downPayment:5e3,mortgage:35e3,cashFlow:220,roi:.53,units:null,landType:"2Br/1Ba"},{deck:"small",kind:"realEstate",name:"House For Sale - 3 Br/2 Ba",type:"Real Estate",description:"Not lived in for 6 months, this bank-foreclosed house just reduced. Loan includes estimated repair costs.",cost:5e4,downPayment:0,mortgage:5e4,cashFlow:100,roi:0,units:null,landType:"3Br/2Ba"},{deck:"small",kind:"realEstate",name:"House For Sale - 3 Br/2 Ba",type:"Real Estate",description:"Low down payment to pick up this 3/2 house. Owner/seller unexpectedly moving out of town. Right person will do well.",cost:5e4,downPayment:3e3,mortgage:47e3,cashFlow:100,roi:.4,units:null,landType:"3Br/2Ba"},{deck:"small",kind:"realEstate",name:"House For Sale - 3 Br/2 Ba",type:"Real Estate",description:"3/2 house in older area offered by Highway Department. Market has crashed. No bids at last week's auction.",cost:5e4,downPayment:0,mortgage:5e4,cashFlow:-100,roi:null,units:null,landType:"3Br/2Ba"},{deck:"small",kind:"realEstate",name:"House For Sale - 3 Br/2 Ba",type:"Real Estate",description:"Nice 3/2 rental house suddenly available due to estate closing. Well maintained older property with existing tenant.",cost:65e3,downPayment:5e3,mortgage:6e4,cashFlow:160,roi:.38,units:null,landType:"3Br/2Ba"},{deck:"small",kind:"realEstate",name:"House For Sale - 3 Br/2 Ba",type:"Real Estate",description:"Nice 3/2 house available in depressed market due to layoffs. Would make good investment property for right buyer.",cost:5e4,downPayment:4e3,mortgage:46e3,cashFlow:200,roi:.6,units:null,landType:"3Br/2Ba"},{deck:"small",kind:"realEstate",name:"You Find a Great Deal!",type:"Real Estate",description:"Company bought transferred manager's 3/2 house. No current tenant, has been on market 6 months, just reduced.",cost:5e4,downPayment:4e3,mortgage:46e3,cashFlow:200,roi:1.5,units:null,landType:"3Br/2Ba"},{deck:"small",kind:"realEstate",name:"10 Acres Raw Land",type:"Real Estate",description:"Wonderful park-like setting with stream on 10 acres in undeveloped area. No roads, no utilities, no noise.",cost:5e3,downPayment:5e3,mortgage:0,cashFlow:0,roi:0,units:null,landType:"10 acres"},{deck:"small",kind:"business",name:"Tenant Damages Your Property",type:"Property Damage",description:"Tenant fails to pay rent for 2 months and then skips town leaving damage to your rental property. Insurance covers most damage and costs, but you are still out of pocket $500.",cost:500,downPayment:null,mortgage:null,cashFlow:null,roi:null,units:null,landType:"rental"},{deck:"small",kind:"realEstate",name:"1500's Spanish",type:"Coin",description:`You spot an unusual 1500's Royal Spanish New World (Havana Mint Only) "pieces of eight" gold coin in good condition at a swap meet. One only, seller asks $500.`,cost:500,downPayment:500,mortgage:0,cashFlow:0,roi:0,units:1,landType:"1500's Spanish"},{deck:"small",kind:"realEstate",name:"Krugerrands",type:"Coin",description:"A friend has urgent need for money. Will sell you 10 one-ounce gold Krugerrands, well below going rate, for $300 each.",cost:3e3,downPayment:3e3,mortgage:0,cashFlow:0,roi:0,units:10,landType:"Krugerrands"},{deck:"small",kind:"paper",name:"Certificate of Deposit 1",type:"Certificate of Deposit",description:"A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",price:500,range:"$5,000 to $5,000",dividend:12,split:null,symbol:"CD-A"},{deck:"small",kind:"paper",name:"Certificate of Deposit 2",type:"Certificate of Deposit",description:"A leading bank offers this special Certificate of Deposit to its customer. Guaranteed interest and redeemable after any holding period.",price:2e3,range:"$5,000 to $5,000",dividend:60,split:null,symbol:"CD-B"},{deck:"small",kind:"realEstate",name:"Start a Company Part Time",type:"Company",description:"Develop interesting idea for a software program, so you start a company to produce and sell it. No profits during startup, long hours, no extra pay.",cost:5e3,downPayment:5e3,mortgage:0,cashFlow:0,roi:0,units:null,landType:"business"},{deck:"small",kind:"realEstate",name:"Start a Company Part Time",type:"Company",description:"Invent new way of making widgets, so you start a company to produce and sell them. No profits during startup, long hourse, no extra pay.",cost:3e3,downPayment:3e3,mortgage:0,cashFlow:0,roi:0,units:null,landType:"business"}],bigDeals:[{deck:"big",kind:"realEstate",name:"8-plex for Sale",type:"Real Estate",description:"Reinvesting owner offers 8-plex for sale at reasonable price. Financing already in place. All it needs is your down payment.",cost:22e4,downPayment:4e4,mortgage:18e4,cashFlow:1700,roi:.51,units:8,landType:"plex"},{deck:"big",kind:"realEstate",name:"House for Sale - 3 Br/2 Ba",type:"Real Estate",description:"Divorce leads to sale of this 3/2 house in an area full of owner occupied homes. Has been on the market 5 months.",cost:7e4,downPayment:2e4,mortgage:5e4,cashFlow:500,roi:.3,units:null,landType:"3Br/2Ba"},{deck:"big",kind:"realEstate",name:"House for Sale - 3 Br/2 Ba",type:"Real Estate",description:"Good investment potential in this 3/2 house if you can be patient. Positive cash flow even though rents are weak.",cost:65e3,downPayment:8e3,mortgage:57e3,cashFlow:300,roi:.45,units:null,landType:"3Br/2Ba"},{deck:"big",kind:"realEstate",name:"4-plex for Sale",type:"Real Estate",description:"4-plex available - forced sale. Out-of-state, financially distressed owner years behind on taxes. Some records available.",cost:8e4,downPayment:16e3,mortgage:64e3,cashFlow:750,roi:.56,units:4,landType:"plex"},{deck:"big",kind:"realEstate",name:"8-plex for Sale",type:"Real Estate",description:"Professional person urgently needs cash to save partnership. 8-plex sale to raise capital, good opportunity for right person.",cost:16e3,downPayment:32e3,mortgage:128e3,cashFlow:1700,roi:.64,units:8,landType:"plex"},{deck:"big",kind:"realEstate",name:"Automated Business for Sale",type:"Automated Business",description:"Successful 4 bay coin operated auto wash near busy intersection. Seller is moving to retirement community out of state.",cost:125e3,downPayment:25e3,mortgage:1e5,cashFlow:1800,roi:.86,units:null,landType:"car wash"},{deck:"big",kind:"realEstate",name:"20 Acres for Sale",type:"Real Estate",description:" 20 acres of vacant land, currently zoned residential. Possibly of good appreciation if rezoned commercial.",cost:2e4,downPayment:2e4,mortgage:0,cashFlow:0,roi:0,units:null,landType:"20 acres"},{deck:"big",kind:"realEstate",name:"8-plex for Sale",type:"Real Estate",description:"Retiring investor/owner offers his 8-plex at current appraisal value. Professional lawn service and management. Full records.",cost:24e4,downPayment:4e4,mortgage:2e5,cashFlow:950,roi:.29,units:8,landType:"plex"},{deck:"big",kind:"realEstate",name:"4-plex for Sale",type:"Real Estate",description:'"Project" 4-plex for sale in rehabilitating neighborhood. Owner being forced out by income tax liens.',cost:8e4,downPayment:2e4,mortgage:6e4,cashFlow:400,roi:.24,units:4,landType:"plex"},{deck:"big",kind:"realEstate",name:"4-plex for Sale",type:"Real Estate",description:"Older 4-plex next to new highway for sale. Owner/occupant moving to wuieter area. Priced for quick sale.",cost:9e4,downPayment:15e3,mortgage:75e3,cashFlow:500,roi:.4,units:4,landType:"plex"},{deck:"big",kind:"realEstate",name:"Pizza Franchise for Sale",type:"Real Estate",description:"Healthy-pizza company franchise. Trend in nutritious fast-food booming. Next to college. High Traffic",cost:5e5,downPayment:1e5,mortgage:4e5,cashFlow:5e3,roi:.6,units:null,landType:"franchise"},{deck:"big",kind:"realEstate",name:"Duplex for Sale",type:"Real Estate",description:"Duplex owner must sell to pay hospital bills. Two tenants in place, all records, good investment oppurtunity.",cost:6e4,downPayment:12e3,mortgage:48e3,cashFlow:400,roi:.4,units:2,landType:"plex"},{deck:"big",kind:"realEstate",name:"Bed & Breakfast for Sale",type:"Real Estate",description:"Owner retiring, wants out NOW. Great clientele in resort community. 5Br/3Ba.",cost:15e4,downPayment:3e4,mortgage:12e4,cashFlow:1e3,roi:.4,units:null,landType:"bed breakfast"},{deck:"big",kind:"realEstate",name:"House for Sale - 3 Br/2 Ba",type:"Real Estate",description:"3/2 house on golf course offers potential capital gain plus current cash flow. Good rentals and nice financing.",cost:75e3,downPayment:32e3,mortgage:68e3,cashFlow:2e3,roi:.51,units:null,landType:"3Br/2Ba"},{deck:"big",kind:"realEstate",name:"Duplex for Sale",type:"Real Estate",description:"Tenants in place at this investment duplex! Owner has income tax problems, needs to sell quickly.",cost:45e3,downPayment:8e3,mortgage:37e3,cashFlow:320,roi:.48,units:2,landType:"plex"},{deck:"big",kind:"realEstate",name:"4-plex for Sale",type:"Real Estate",description:"4-plex for sale by owner, moving to another state. Full records, fully rented, low occupant turnover in good neighborhood.",cost:14e4,downPayment:32e3,mortgage:108e3,cashFlow:2e3,roi:.75,units:4,landType:"plex"},{deck:"big",kind:"realEstate",name:"House for Sale - 3 Br/2 Ba",type:"Real Estate",description:"Businessman liquidating this 3/2 house, needs cash to save his business. Currently occupied by happy tenant.",cost:65e3,downPayment:7e3,mortgage:58e3,cashFlow:150,roi:.26,units:null,landType:"3Br/2Ba"},{deck:"big",kind:"realEstate",name:"House for Sale - 3 Br/2 Ba",type:"Real Estate",description:"Still level 3/2 house on out of way golf course offered by heirs of owner. Gold membership included.",cost:115e3,downPayment:1e4,mortgage:105e3,cashFlow:-100,roi:-.12,units:null,landType:"3Br/2Ba"},{deck:"big",kind:"realEstate",name:"House for Sale - 3 Br/2 Ba",type:"Real Estate",description:"Nice 3/2 house with in ground pool and full appliances available in upper middle class area. Good schools.",cost:125e3,downPayment:2e4,mortgage:105e3,cashFlow:-100,roi:-.12,units:null,landType:"3Br/2Ba"},{deck:"big",kind:"realEstate",name:"Apartment Houses for Sale",type:"Real Estate",description:"2 buildings totaling 24 units for sale. Owner managed with on-site assistant. Retirement prompts sale.",cost:575e3,downPayment:75e3,mortgage:5e5,cashFlow:3400,roi:.54,units:48,landType:"apartment"},{deck:"big",kind:"realEstate",name:"Car Wash for Sale",type:"Real Estate",description:"Family car wash for sale. Family feuding. Wants out ASAP. Prime location in highgrowth area.",cost:35e4,downPayment:5e4,mortgage:3e5,cashFlow:1500,roi:.36,units:null,landType:"car wash"},{deck:"big",kind:"realEstate",name:"Apartment House for Sale",type:"Real Estate",description:"12 unit apartment house offered by out-of-state heirs of handyman/owner. Long waiting list for apartment in this building.",cost:35e4,downPayment:5e4,mortgage:3e5,cashFlow:2400,roi:.58,units:12,landType:"apartment"},{deck:"big",kind:"realEstate",name:"4-plex for Sale",type:"Real Estate",description:"Nice, well maintained 4-plex in good neighborhood. Stable tenants, positive cash flow, few problems. Full records.",cost:125e3,downPayment:15e3,mortgage:11e4,cashFlow:600,roi:.48,units:4,landType:"plex"},{deck:"big",kind:"realEstate",name:"Apartment House for Sale",type:"Real Estate",description:"60 unit complex available from pension fund that foreclosed on builder/owner. On-site management in place.",cost:12e5,downPayment:2e5,mortgage:1e6,cashFlow:11e3,roi:.66,units:60,landType:"apartment"},{deck:"big",kind:"realEstate",name:"Duplex for Sale",type:"Real Estate",description:"This duplex is the best in the neighborhood! Proud owner retiring to another state to be near her grandchildren.",cost:7e4,downPayment:7e3,mortgage:63e3,cashFlow:140,roi:.24,units:2,landType:"plex"},{deck:"big",kind:"realEstate",name:"Small Shopping Mall for Sale",type:"Real Estate",description:"Bank has taken back mall from bankrupt owner. Mall is currently 50% occupied. Just listed today.",cost:5e4,downPayment:5e4,mortgage:0,cashFlow:800,roi:.19,units:null,landType:"mall"},{deck:"big",kind:"realEstate",name:"Apartment House for Sale",type:"Real Estate",description:"24 unit older building near community college available from retiring owner/builder. Fully rented, nice cash flow.",cost:55e4,downPayment:5e4,mortgage:5e5,cashFlow:2800,roi:.67,units:24,landType:"apartment"},{deck:"big",kind:"realEstate",name:"Duplex for Sale",type:"Real Estate",description:"Well maintained duplex in desirable area available due to transfer of owner. Excellent investment opportunity for right buyer.",cost:6e4,downPayment:6e3,mortgage:54e3,cashFlow:300,roi:.6,units:2,landType:"plex"},{deck:"big",kind:"realEstate",name:"House for Sale - 3 Br/2 Ba",type:"Real Estate",description:"Downsized manager must sell this 3/2 house, cannot afford payments on new salary. Area in transition.",cost:7e4,downPayment:9e3,mortgage:61e3,cashFlow:300,roi:.4,units:null,landType:"3Br/2Ba"},{deck:"big",kind:"realEstate",name:"4-plex for Sale",type:"Real Estate",description:"4-plex in recovering neighborhood. Fully rented repairs kept up. Needs your down payment and patience.",cost:1e5,downPayment:2e4,mortgage:8e4,cashFlow:800,roi:.48,units:4,landType:"plex"},{deck:"big",kind:"realEstate",name:"House for Sale - 3 Br/2 Ba",type:"Real Estate",description:"Transferred skilled tradesman kept this 3/2 house in excellent condition, so it commands top dollar rentals in older neighborhood.",cost:67e3,downPayment:12e3,mortgage:551e3,cashFlow:400,roi:.4,units:null,landType:"3Br/2Ba"},{deck:"big",kind:"realEstate",name:"8-plex for Sale",type:"Real Estate",description:"Owner's legal troubles lead to forced sale of this 8-plex. No qualifying on this loan, as mortgage holder is cooperating.",cost:2e5,downPayment:4e4,mortgage:16e4,cashFlow:1600,roi:.48,units:8,landType:"plex"},{deck:"big",kind:"realEstate",name:"Duplex for Sale",type:"Real Estate",description:"Owner moving out of this duplex due to growing family. Tenant remains, well maintained, excellent landscaping.",cost:5e4,downPayment:8e3,mortgage:42e3,cashFlow:240,roi:.36,units:2,landType:"plex"},{deck:"big",kind:"realEstate",name:"Mansion for Sale - 5 Br/4 Ba",type:"Real Estate",description:"5/4.5 house outside of metropolitan area offers potential capital gain plus current cash flow. Good rentals and nice financing.",cost:82e4,downPayment:8e4,mortgage:75e4,cashFlow:8200,roi:.51,units:null,landType:"5Br/4Ba"},{deck:"big",kind:"realEstate",name:"Mansion for Sale - 6 Br/6 Ba",type:"Real Estate",description:"6/6 house in exclusive hollywood neighborhood offers potential capital gain plus current cash flow. Good rentals and nice financing.",cost:11e6,downPayment:3e6,mortgage:8e6,cashFlow:55e3,roi:.51,units:null,landType:"6Br/6Ba"},{deck:"big",kind:"realEstate",name:"Limited Partner Wanted",type:"Limited Partnership",description:"Non-franchise sandwich shop doubling the number of locations. Owner needs additional equity capital to get operating loan.",cost:3e4,downPayment:3e4,mortgage:0,cashFlow:1500,roi:.6,units:null,landType:"limited"},{deck:"big",kind:"realEstate",name:"Limited Partner Wanted",type:"Limited Partnership",description:"Auto Dealer wants to expand into leasing 2 and 3 year old cars. Needs capital as car maker's finance company is not interested.",cost:3e4,downPayment:3e4,mortgage:0,cashFlow:1e3,roi:.4,units:null,landType:"limited"},{deck:"big",kind:"realEstate",name:"Limited Partner Wanted",type:"Limited Partnership",description:"Successful doctor expanding office and clinic. Needs partner to fund equity portion of construction costs.",cost:25e3,downPayment:25e3,mortgage:0,cashFlow:1e3,roi:.48,units:null,landType:"limited"},{deck:"big",kind:"realEstate",name:"Limited Partner Wanted",type:"Limited Partnership",description:"Successful pizza chain expanding into production of frozen pizzas for grocercy stores. Owner needs capital for equipment.",cost:2e4,downPayment:2e4,mortgage:0,cashFlow:800,roi:.48,units:null,landType:"limited"},{deck:"big",kind:"business",name:"Sewer Line Breaks",type:"Property Damage",description:"Water everywhere at your 8-plex! Broken sewer line needs repair immediately. <br> If you own an 8-plex, pay $2,000 for new line. (Bank loan available on usual terms.)",cost:2e3,downPayment:null,mortgage:null,cashFlow:null,roi:null,units:null,landType:null},{deck:"big",kind:"business",name:"Tenant Damages Your Property",type:"Property Damage",description:"Tenant refuses to pay rent after losing job. When you get him evicted you discover significant damages to your property. <br> Insurance covers most damages and costs, but you still are out of pocket $1,000. Pay $1,000",cost:1e3,downPayment:null,mortgage:null,cashFlow:null,roi:null,units:null,landType:null}],market:[{name:"Plex Buyer",description:"Buyer offers $30,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:3e4,percent:null,cost:null},{name:"Apartment House Buyer",description:"Buyer offers $25,000 per unit for all units in apartment houses of any size. Has own financing. [His 1031 tax deferred exchange time is running out.]",type:"apartment",offer:null,offerPerUnit:25e3,percent:null,cost:null},{name:"Apartment House Buyer",description:"Buyer offers $45,000 per unit for all units in apartment houses of any size. Has own financing. [His 1031 tax deferred exchange time is running out.]",type:"apartment",offer:null,offerPerUnit:4e4,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $35,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:35e3,percent:null,cost:null},{name:"House Buyer - 3Br/2Ba",description:"You are offered $135,000 for a 3/2 rental house. Buyer has own financing.",type:"3Br/2Ba",offer:135e3,offerPerUnit:null,percent:null,cost:null},{name:"House Buyer - 3Br/2Ba",description:"You are offered $110,000 for a 3/2 rental house. Buyer has own financing.",type:"3Br/2Ba",offer:115e3,offerPerUnit:null,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $35,000 per unit for all units. Will buy duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:35e3,percent:null,cost:null},{name:"Apartment House Buyer",description:"REIT offers $30,000 per unit for all units in apartment houses of 12 units or more. Has own financing. Buyer has funds from sale of complex in another city.",type:"apartment",offer:null,offerPerUnit:3e4,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $25,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:25e3,percent:null,cost:null},{name:"House Buyer - 3Br/2Ba",description:"You are offered $135,000 for a 3/2 rental house. Buyer has own financing.",type:"3Br/2Ba",offer:135e3,offerPerUnit:null,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $40,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:4e4,percent:null,cost:null},{name:"House Buyer - 3Br/2Ba",description:"You are offered $100,000 for a 3/2 rental house. Buyer has own financing.",type:"3Br/2Ba",offer:1e5,offerPerUnit:null,percent:null,cost:null},{name:"Condo Buyer - 2Br/1Ba",description:"You are offered $45,000 for a 2/1 rental condo. Buyer has own financing.",type:"2Br/1Ba",offer:45e3,offerPerUnit:null,percent:null,cost:null},{name:"House Buyer - 3Br/2Ba",description:"You are offered $100,000 for a 3/2 rental house. Buyer has own financing.",type:"3Br/2Ba",offer:1e5,offerPerUnit:null,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $30,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:3e4,percent:null,cost:null},{name:"Condo Buyer - 2Br/1Ba",description:"You are offered $65,000 for a 2/1 rental condo. Buyer has own financing.",type:"2Br/1Ba",offer:65e3,offerPerUnit:null,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $25,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:25e3,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $35,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:35e3,percent:null,cost:null},{name:"House Buyer - 3Br/2Ba",description:"You are offered $65,000 for a 3/2 rental house. Buyer has own financing.",type:"3Br/2Ba",offer:65e3,offerPerUnit:null,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $30,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:3e4,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $40,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:4e4,percent:null,cost:null},{name:"Condo Buyer - 2Br/1Ba",description:"You are offered $55,000 for a 2/1 rental condo. Buyer has own financing.",type:"2Br/1Ba",offer:55e3,offerPerUnit:null,percent:null,cost:null},{name:"Plex Buyer",description:"Buyer offers $40,000 per unit for all units in any combination of duplexes, 4-plexes, or 8-plexes. Has own financing.",type:"plex",offer:null,offerPerUnit:4e4,percent:null,cost:null},{name:"Condo Buyer - 2Br/1Ba",description:"You are offered $55,000 for a 2/1 rental condo. Buyer has own financing.",type:"2Br/1Ba",offer:55e3,offerPerUnit:null,percent:null,cost:null},{name:"Condo Buyer - 2Br/1Ba",description:"You are offered $55,000 for a 2/1 rental condo. Buyer has own financing.",type:"2Br/1Ba",offer:55e3,offerPerUnit:null,percent:null,cost:null},{name:"Condo Buyer - 2Br/1Ba",description:"You are offered $45,000 for a 2/1 rental condo. Buyer has own financing.",type:"2Br/1Ba",offer:45e3,offerPerUnit:null,percent:null,cost:null},{name:"Apartment House Buyer",description:"Buyer offers $40,000 per unit for all units in apartment houses of any size. Has own financing. Buyer has funds from sale of complex in another city.",type:"apartment",offer:null,offerPerUnit:4e4,percent:null,cost:null},{name:"House Buyer - 3Br/2Ba",description:"Your brother-in-law lost his job and wants to buy your 3/2 rental house. He promises to pay you $100,000 four years from now, but has no income or savings. He can pay a small monthly amount, but no down payment...",type:"3Br/2Ba",offer:1e5,offerPerUnit:null,percent:null,cost:null},{name:"Limited Partnership Sold",description:"The business has been sold and you receive twice your original cost for your share of it.",type:"limited",offer:null,offerPerUnit:null,percent:null,cost:null},{name:"Limited Partnership Sold",description:"The business has been sold and you receive twice your original cost for your share of it.",type:"limited",offer:null,offerPerUnit:null,percent:null,cost:null},{name:"Limited Partnership Sold",description:"The business has been sold and you receive twice your original cost for your share of it.",type:"limited",offer:null,offerPerUnit:null,percent:null,cost:null},{name:"Small Business Improves",description:"The small business you founded has found a major company to distribute its product. Your sales increase 150%.",type:"business",offer:null,offerPerUnit:null,percent:null,cost:null},{name:"Small Business Improves",description:"The small business you founded won an industry award for its product innovation. Great publicity causes your sales to double.",type:"business",offer:null,offerPerUnit:null,percent:null,cost:null},{name:"Car Wash Buyer",description:"Red hot buyer looking for a car wash bargain. Has $250,000 cash ready to spend. That's his limit.",type:"car wash",offer:25e4,offerPerUnit:null,percent:null,cost:null},{name:"Builder Wants Land",description:"City planners require builder to put in 10 acre park or they will not approve new subdivision. Builder needs 10 acres with stream.",type:"10 acres",offer:15e4,offerPerUnit:null,percent:null,cost:null},{name:"Demand for Bed & Breakfast",description:"Couple burned out from their corporate jobs are ready for a change. Have lots of cash. Looking for a profitable Bed & Breakfast. They will pay $250,000 today.",type:"bed breakfast",offer:25e4,offerPerUnit:null,percent:null,cost:null},{name:"Software Company Buyer",description:"Large integrated software company offers $100,000 cash for inventive software program and related company.",type:"software",offer:1e5,offerPerUnit:null,percent:null,cost:null},{name:"Shopping Mall Wanted",description:"Major retailer is moving to you town. Looking for small shopping mall to purchase.",type:"mall",offer:1e5,offerPerUnit:null,percent:null,cost:null},{name:"Buyer for 20 Acres",description:"Builder wants a 20-acre parcel of land. He will re-zone it from residential to commercial.",type:"20 acres",offer:2e5,offerPerUnit:null,percent:null,cost:null},{name:"Widget Company Buyer",description:"Engineer/Inventor who owns machinery company offers $50,000 cash for inventive method of making widgets.",type:"widget",offer:5e4,offerPerUnit:null,percent:null,cost:null},{name:"Price of Gold Soars",description:"Rioting in Middle East. Oil prices threatened. Price of gold skyrockets to $600 per ounce.",type:"Krugerrands",offer:600,offerPerUnit:null,percent:null,cost:null},{name:"Collector Wants Gold Coins",description:`Collector looking for authentic 1500's Royal Spanish New World (Havana mint only) "pieces of eight " gold coins.`,type:"1500's Spanish",offer:5e3,offerPerUnit:null,percent:null,cost:null},{name:"Mansion Buyer - 6Br/6Ba",description:"You are offered $17,000,000 for a 6/6 mansion. Buyer has own financing.",type:"6Br/6Ba",offer:17e6,offerPerUnit:null,percent:null,cost:null},{name:"Mansion Buyer - 5Br/4Ba",description:"You are offered $1,800,000 for a 5/4 mansion. Buyer has own financing.",type:"5Br/4Ba",offer:18e5,offerPerUnit:null,percent:null,cost:null}],doodads:[{name:"Water Heater Leaks",description:"Pay $450 for a new one",cost:450,loan:0,payment:0,childOnly:!1},{name:"Go Out to Dinner",description:"Spend $80",cost:80,loan:0,payment:0,childOnly:!1},{name:"New Boat!",description:"Pay $1,000 down and $17,000 on time.",cost:1e3,loan:17e3,payment:340,childOnly:!1},{name:"Go Out to Dinner",description:"Spend $80",cost:80,loan:0,payment:0,childOnly:!1},{name:"Park in Handicapped Zone",description:"Pay $100 fine",cost:100,loan:0,payment:0,childOnly:!1},{name:"Buy Big Screen TV",description:"Pay $600",cost:600,loan:0,payment:0,childOnly:!1},{name:"Your Anniversary!",description:"Spend $200",cost:200,loan:0,payment:0,childOnly:!1},{name:"Son's College Tuition",description:"Pay $1500",cost:1500,loan:0,payment:0,childOnly:!0},{name:"Buy Toys for Your Kids",description:"Spend $50",cost:50,loan:0,payment:0,childOnly:!0},{name:"Buy New Fishing Rod",description:"Pay $100",cost:100,loan:0,payment:0,childOnly:!1},{name:"Play 2 Rounds of Golf",description:"Pay $100",cost:100,loan:0,payment:0,childOnly:!1},{name:"Car's Air Conditioning Dies",description:"Pay $700",cost:700,loan:0,payment:0,childOnly:!1},{name:"Tax Audit",description:`Pay Tax Authority $350 
+
+Ouch!`,cost:350,loan:0,payment:0,childOnly:!1},{name:"Shopping!",description:"Pay $350 for fabulous fake jewels",cost:350,loan:0,payment:0,childOnly:!1},{name:"Family Vacation!",description:"Costs $2000",cost:2e3,loan:0,payment:0,childOnly:!1},{name:"Go to Casino!",description:"Lose $200 at the tables",cost:200,loan:0,payment:0,childOnly:!1},{name:"Buy New Bowling Ball",description:"Pay $80",cost:80,loan:0,payment:0,childOnly:!1},{name:"Play Your Lucky Lottery Number!",description:"Lose $100",cost:100,loan:0,payment:0,childOnly:!1},{name:"Shopping Spree!",description:`Pay $150 
+
+Buy new wristwatch (even though you already have 3)`,cost:150,loan:0,payment:0,childOnly:!1},{name:"Go to Ball Game",description:"Pay $50",cost:50,loan:0,payment:0,childOnly:!1},{name:"Visit Dentist",description:"Filling costs $100",cost:100,loan:0,payment:0,childOnly:!1},{name:"Buy New Golf Balls",description:"Pay $20",cost:20,loan:0,payment:0,childOnly:!1},{name:"Furniture Sale",description:`Pay $300 
+
+Replace that old chair`,cost:300,loan:0,payment:0,childOnly:!1},{name:"Go to a Concert",description:"Dinner, Tickets, & Coffee Sets you back $180",cost:180,loan:0,payment:0,childOnly:!1},{name:"Upgrade Smart Phone",description:"Pay $100",cost:100,loan:0,payment:0,childOnly:!1},{name:"Go to Coffee Shop",description:"Pay $10 for lattes for you and a friend",cost:10,loan:0,payment:0,childOnly:!1},{name:"High School Reunion",description:"You spend $250",cost:250,loan:0,payment:0,childOnly:!1},{name:"Repaint House",description:"Costs you $600",cost:600,loan:0,payment:0,childOnly:!1},{name:"Buy Painting",description:`Costs you $200. 
+
+ Couldn't resist new painting by local artist`,cost:200,loan:0,payment:0,childOnly:!1},{name:"Your Child Needs Braces",description:"Pay $2000",cost:2e3,loan:0,payment:0,childOnly:!0},{name:"Amusement Park",description:"Take kids to the Amusement Park and spend $100",cost:100,loan:0,payment:0,childOnly:!0},{name:"Buy Cappuccino Machine",description:"Pay $150",cost:150,loan:0,payment:0,childOnly:!1},{name:"Your Daughter's Wedding",description:"Costs you $2000",cost:2e3,loan:0,payment:0,childOnly:!0},{name:"Buy New Tennis Racket",description:"You spend $200",cost:200,loan:0,payment:0,childOnly:!1},{name:"Buy New Clothes",description:"Pay $250",cost:250,loan:0,payment:0,childOnly:!1},{name:"Rumor of Layoff",description:`Go back to school for added skills.
+Pay $220 for tuition & books.`,cost:220,loan:0,payment:0,childOnly:!1},{name:"Go to the Air Show",description:"Pay $120",cost:120,loan:0,payment:0,childOnly:!1},{name:"Must Have New Sunglasses",description:"Pay $70",cost:70,loan:0,payment:0,childOnly:!1},{name:"Buy a Food Processor",description:"Pay $150",cost:150,loan:0,payment:0,childOnly:!1},{name:"Lunch with Friends",description:"Pay $40",cost:40,loan:0,payment:0,childOnly:!1},{name:"Car Needs Tires",description:"Pay $300",cost:300,loan:0,payment:0,childOnly:!1},{name:"Family Vacation!",description:"Pay $2,000 to take the kids to a world famous theme park and resort.",cost:2e3,loan:0,payment:0,childOnly:!0},{name:"Smartphone Broke!",description:"Pay $250 for replacement",cost:250,loan:0,payment:0,childOnly:!1},{name:"Movie Streaming Service",description:"Pay $15",cost:15,loan:0,payment:0,childOnly:!1},{name:"Healthcare Costs",description:"Pay half of your savings for medical bills.",cost:0,loan:0,payment:0,childOnly:!1},{name:"Sports Injury",description:"Pay a quarter of your savings to treat your child's injury.",cost:0,loan:0,payment:0,childOnly:!0}]};function Ze(e,n){let a=e?.match(/\$([\d,]+)/g)?.map(t=>Number(t.replace(/[$,]/g,"")));if(!a||a.length<2)return[n,n];let[o,r]=[a[0],a[1]];return o===r?[n,n]:[o,r]}function xe(e){if(e.kind==="paper"){if(e.split!=null)return{k:"split",symbol:e.symbol??"",ratio:e.split};if(e.price==null)return null;let[n,a]=Ze(e.range,e.price);return{k:"stock",name:e.name,description:e.description??null,symbol:e.symbol??e.name,price:e.price,low:n,high:a,dividend:e.dividend??0}}return e.type==="Property Damage"?{k:"cost",name:e.name,cost:e.cost??0,requiresRental:!0,description:e.description??null}:e.downPayment==null?null:{k:"asset",name:e.name,description:e.description??null,landType:e.landType??"",units:e.units??1,downPayment:e.downPayment,mortgage:e.mortgage??0,cashFlow:e.cashFlow??0}}function Qe(e){let n=e.type??"",a=e.description??null;return e.offerPerUnit!=null?{k:"perUnit",name:e.name,landType:n,perUnit:e.offerPerUnit,description:a}:e.offer!=null?{k:"flat",name:e.name,landType:n,offer:e.offer,description:a}:{k:"unpriced",name:e.name,landType:n}}var M=Object.freeze(G.board),ae=Object.freeze(G.professions),Be=Object.freeze(G.smallDeals.map(xe).filter(e=>e!==null)),Se=Object.freeze(G.bigDeals.map(xe).filter(e=>e!==null)),Te=Object.freeze(G.market.map(Qe)),Ee=Object.freeze(G.doodads);function Ce(e,n){let a=e.k==="perUnit"?e.perUnit:e.k==="flat"?e.offer:null;return a==null?null:a*Math.max(n,1)}function oe(e){let n=e>>>0,a=()=>{n=n+1831565813>>>0;let r=n;return r=Math.imul(r^r>>>15,r|1),r^=r+Math.imul(r^r>>>7,r|61),((r^r>>>14)>>>0)/4294967296},o=r=>Math.floor(a()*r);return{next:a,int:o,die:()=>o(6)+1,shuffled(r){let t=r.slice();for(let u=t.length-1;u>0;u--){let l=o(u+1),d=t[u],i=t[l];t[u]=i,t[l]=d}return t}}}var en=new Set(["3Br/2Ba","2Br/1Ba","plex","apartment","5Br/4Ba","6Br/6Ba"]),q=1e3,nn=.1,tn=3;function j(e){let n=0;for(let a of e.holdings)n+=a.cashFlow;for(let a of Object.values(e.stocks))n+=a.shares*a.dividend;return n}function K(e){return e.prof.salary+j(e)}function U(e){let n=e.prof.expenses;return n.taxes+n.mortgage+n.studentLoan+n.carLoan+n.creditCards+n.other+n.perChild*e.children+Math.round(e.bankLoan*nn)+e.doodadLoanPay}function an(e){return K(e)-U(e)}function on(e){return j(e)>U(e)}var _=class{cards;i=0;constructor(n,a){this.cards=a.shuffled(n)}draw(n){return this.i>=this.cards.length&&(this.cards=n.shuffled(this.cards),this.i=0),this.cards[this.i++]}};function rn(e){return{prof:e,cash:e.savings,pos:0,children:0,bankLoan:0,liabilities:{...e.liabilities},doodadLoanPay:0,doodadLoan:0,holdings:[],stocks:{},skip:0,charity:0}}function ge(e,n){let a=oe(e),o=oe((e^2654435769)>>>0),r=oe((e^2246822507)>>>0),t=rn(n.profession),u=new _(Be,a),l=new _(Se,a),d=new _(Te,a),i=new _(Ee,a),h=0,w=0,S=0,T=0,D=0,v=0,E=0,b=n.onEvent??(()=>{}),ne=y=>{let c=U(t),m=j(t);return{player:t,passive:m,expenses:c,payday:K(t)-c,gap:c-m+1,turn:y}},N=y=>{if(y<=0)return;let c=Math.ceil(y/q);t.bankLoan+=c*q,t.cash+=c*q,v+=c*q,t.bankLoan>D&&(D=t.bankLoan),b({t:"borrow",amount:c*q,total:t.bankLoan})},A=y=>{t.cash<y&&N(y-t.cash),t.cash-=y},ye=()=>{let y=an(t);t.cash+=y,b({t:"payday",amount:y,cash:t.cash}),t.cash<0&&N(-t.cash)},We=()=>t.holdings.some(y=>en.has(y.landType)),ze=(y,c,m)=>{let g=t.stocks[c.symbol];if(g&&g.shares>0){let z=Math.min(Math.max(0,Math.floor(n.policy.sellShares(y,c,g.shares))),g.shares);z>0&&(t.cash+=z*c.price,g.basis-=Math.round(g.basis*z/g.shares),g.shares-=z,b({t:"shares",dir:"sell",symbol:c.symbol,shares:z,price:c.price,dividend:g.dividend}))}if(!m)return;let C=Math.floor(t.cash/c.price),O=Math.max(0,Math.floor(n.policy.buyShares(y,c,C)));if(O===0)return;A(O*c.price);let te=t.stocks[c.symbol]??{shares:0,basis:0,dividend:c.dividend};te.shares+=O,te.basis+=O*c.price,te.dividend=c.dividend,t.stocks[c.symbol]=te,S+=O,b({t:"shares",dir:"buy",symbol:c.symbol,shares:O,price:c.price,dividend:c.dividend})},ve=(y,c,m)=>{switch(c.k){case"stock":ze(y,c,m);return;case"split":{let g=t.stocks[c.symbol];g&&(g.shares=Math.floor(g.shares*c.ratio)),g&&b({t:"split",symbol:c.symbol,ratio:c.ratio});return}case"cost":m&&(!c.requiresRental||We())&&(A(c.cost),b({t:"damage",name:c.name,cost:c.cost}));return;case"asset":{if(!m)return;let g=Math.max(0,c.downPayment-t.cash);if(!n.policy.buyAsset(y,c,g))return;A(c.downPayment),t.holdings.push({name:c.name,landType:c.landType,units:c.units,downPayment:c.downPayment,mortgage:c.mortgage,cashFlow:c.cashFlow}),h++,b({t:"buy",name:c.name,down:c.downPayment,cashFlow:c.cashFlow})}}},Pe=(y,c)=>{if(c.k!=="unpriced")for(let m=t.holdings.length-1;m>=0;m--){let g=t.holdings[m];if(g.landType!==c.landType)continue;let C=Ce(c,g.units);if(C==null)continue;let O=C-g.mortgage;n.policy.sellHolding(y,g,O)&&(t.cash+=O,t.cash<0&&N(-t.cash),t.holdings.splice(m,1),w++,b({t:"sell",name:g.name,net:O,cashFlow:g.cashFlow}))}},qe=(y,c)=>{switch(c){case"OPPORTUNITY":{T++;let m=n.policy.chooseDeck(y);ve(y,m==="big"?l.draw(a):u.draw(a),!0);return}case"LIABILITY":{let m=i.draw(a);if(m.childOnly&&t.children===0)return;A(m.cost),b({t:"doodad",name:m.name,cost:m.cost}),m.loan>0&&(t.doodadLoan+=m.loan,t.doodadLoanPay+=m.payment);return}case"CHARITY":{let m=Math.round(K(t)*.1);n.policy.takeCharity(y)&&t.cash>=m&&(t.cash-=m,t.charity=3,b({t:"charity",amount:m}));return}case"OFFER":Pe(y,d.draw(a));return;case"CHILD":t.children<tn&&(t.children++,b({t:"child",children:t.children}));return;case"DOWNSIZE":b({t:"downsized",cost:U(t)}),A(U(t)),t.skip=2,t.charity=0;return}},Je=y=>{for(let c=0;c<n.opponents;c++){let m=M[r.int(M.length)];if(m==="OFFER")Pe(y,d.draw(a));else if(m==="OPPORTUNITY"){let g=r.next()<.5?u.draw(a):l.draw(a);(g.k==="stock"||g.k==="split")&&ve(y,g,!1)}}},I=0;for(;I<n.maxTurns;I++){let y=ne(I);if(y.payday<=0&&E++,t.skip>0)t.skip--,b({t:"skip"});else{let c=t.charity>0&&n.policy.useTwoDice(y)?2:1;t.charity>0&&t.charity--;let m=0;for(let C=0;C<c;C++)m+=o.die();let g=t.pos;t.pos=(g+m)%M.length,b({t:"turn",turn:I,roll:m,dice:c,space:M[t.pos]});for(let C=1;C<=m;C++)M[(g+C)%M.length]==="PAYCHECK"&&ye();qe(y,M[t.pos])}if(Je(y),on(t)){I++,b({t:"escaped",turn:I});break}}let fe=U(t),he=j(t);return n.onEnd?.(t),{profession:t.prof.name,policy:n.policy.name,escaped:he>fe,turns:I,passive:he,expenses:fe,gap:Math.max(0,fe-he+1),assetsBought:h,assetsSold:w,sharesBought:S,opportunitiesSeen:T,peakBankLoan:D,totalBorrowed:v,spiralTurns:E}}var sn=e=>e.downPayment>0?e.cashFlow*12/e.downPayment:Number.POSITIVE_INFINITY;var ln={name:"greedy",chooseDeck:e=>e.player.cash>=6e3?"big":"small",buyAsset:(e,n,a)=>n.cashFlow>0&&(a===0||a*.1<e.payday*.5),buyShares:(e,n,a)=>a>0?Math.floor(e.player.cash*.5/n.price):0,sellShares:(e,n,a)=>{let o=e.player.stocks[n.symbol],r=o&&o.shares>0?o.basis/o.shares:n.price;return n.price>r?a:0},sellHolding:(e,n,a)=>a>n.downPayment,takeCharity:()=>!0,useTwoDice:()=>!0},Dn={...ln,name:"reckless",buyAsset:(e,n)=>n.cashFlow>0};function cn(e,n="tuned"){return{name:n,chooseDeck:a=>a.player.cash>=e.deckFloor?"big":"small",buyAsset:(a,o,r)=>o.cashFlow<=0?r===0&&o.downPayment<=a.player.cash*.25:sn(o)<e.yieldFloor?!1:r===0?!0:e.borrow==="never"?!1:e.borrow==="payday"?r*.1<a.payday*.5:o.cashFlow>r*.1,buyShares:(a,o,r)=>r<1?0:o.dividend>0?Math.floor(a.player.cash*e.paperShare/o.price):o.price<=o.low?Math.floor(a.player.cash*.5/o.price):0,sellShares:(a,o,r)=>o.dividend>0?0:o.price>=o.high?r:0,sellHolding:(a,o,r)=>o.cashFlow<=0?r>0:Number.isFinite(e.sellMultiple)&&r>=o.downPayment*e.sellMultiple,takeCharity:a=>a.payday>0&&a.player.cash>=Math.round((a.player.prof.salary+a.passive)*.1),useTwoDice:()=>!0}}var x=cn({deckFloor:15e3,borrow:"payday",yieldFloor:0,sellMultiple:2,paperShare:.8},"sharp");function dn(e){switch(e.kind){case"chooseDeck":return{subject:"which deal deck",figures:{}};case"buyAsset":return{subject:e.card.name,figures:{downPayment:e.card.downPayment,mortgage:e.card.mortgage,cashFlow:e.card.cashFlow,shortfall:e.shortfall}};case"buyShares":return{subject:e.card.symbol,figures:{price:e.card.price,dividend:e.card.dividend,affordable:e.affordable}};case"sellShares":return{subject:e.card.symbol,figures:{price:e.card.price,held:e.held}};case"sellHolding":return{subject:e.holding.name,figures:{net:e.net,downPayment:e.holding.downPayment,cashFlow:e.holding.cashFlow}};case"takeCharity":return{subject:"charity",figures:{cost:Math.round((e.view.player.prof.salary+e.view.passive)*.1)}};case"useTwoDice":return{subject:"dice",figures:{}}}}var re=class{constructor(n){this.ask=n}ask},se=3,L=200;function J(e,n,a){let o=[],r=[],t=null,u=0,l=i=>{if(u>=a.length)throw new re(i);let h=a[u++],{subject:w,figures:S}=dn(i);return r.push({at:o.length,turn:i.view.turn+1,kind:i.kind,answer:h,subject:w,figures:S,state:{cash:i.view.player.cash,passive:i.view.passive,expenses:i.view.expenses,payday:i.view.payday}}),h},d={name:"human",chooseDeck:i=>l({kind:"chooseDeck",view:i}),buyAsset:(i,h,w)=>l({kind:"buyAsset",view:i,card:h,shortfall:w}),buyShares:(i,h,w)=>l({kind:"buyShares",view:i,card:h,affordable:w}),sellShares:(i,h,w)=>l({kind:"sellShares",view:i,card:h,held:w}),sellHolding:(i,h,w)=>l({kind:"sellHolding",view:i,holding:h,net:w}),takeCharity:i=>l({kind:"takeCharity",view:i}),useTwoDice:i=>l({kind:"useTwoDice",view:i})};try{let i=ge(e,{profession:n,policy:d,opponents:se,maxTurns:L,onEvent:h=>o.push(h),onEnd:h=>{t=structuredClone(h)}});return{events:o,decisions:r,ask:null,player:t,view:null,result:i}}catch(i){if(i instanceof re){let h=i.ask.view;return{events:o,decisions:r,ask:i.ask,player:structuredClone(h.player),view:{...h},result:null}}throw i}}function X(e,n,a,o){let r=0,t=l=>r<a.length?a[r++]:l(),u={name:`replay+${o.name}`,chooseDeck:l=>t(()=>o.chooseDeck(l)),buyAsset:(l,d,i)=>t(()=>o.buyAsset(l,d,i)),buyShares:(l,d,i)=>t(()=>o.buyShares(l,d,i)),sellShares:(l,d,i)=>t(()=>o.sellShares(l,d,i)),sellHolding:(l,d,i)=>t(()=>o.sellHolding(l,d,i)),takeCharity:l=>t(()=>o.takeCharity(l)),useTwoDice:l=>t(()=>o.useTwoDice(l))};return ge(e,{profession:n,policy:u,opponents:se,maxTurns:L})}function $e(e){switch(e.kind){case"chooseDeck":return x.chooseDeck(e.view)==="big"?"draw Big":"draw Small";case"buyAsset":return x.buyAsset(e.view,e.card,e.shortfall)?"buy":"pass";case"buyShares":{let n=x.buyShares(e.view,e.card,e.affordable);return n>0?`buy ${n}`:"pass"}case"sellShares":return x.sellShares(e.view,e.card,e.held)>0?"sell":"hold";case"sellHolding":return x.sellHolding(e.view,e.holding,e.net)?"sell":"keep";case"takeCharity":return x.takeCharity(e.view)?"give":"decline";case"useTwoDice":return x.useTwoDice(e.view)?"two dice":"one die"}}var un=1,V=e=>`${e.profession.toLowerCase().replace(/[^a-z0-9]+/g,"-")}-${e.seed}`;function Oe(e,n){let a=[],o=0;a.push({seq:o++,kind:"meta",schema:un,run:V(e),seed:e.seed,profession:e.profession,salary:e.salary,escapeTarget:e.escapeTarget,opponents:se,maxTurns:L});let r=new Map;for(let l of n.decisions){let d=r.get(l.at);d?d.push(l):r.set(l.at,[l])}let t=1,u=l=>{for(let d of r.get(l)??[]){let{at:i,kind:h,...w}=d;a.push({seq:o++,kind:"decision",ask:h,...w})}};for(let l=0;l<n.events.length;l++){u(l);let d=n.events[l];d.t==="turn"&&(t=d.turn+1),a.push({seq:o++,kind:"event",...d,turn:t})}return u(n.events.length),n.result&&a.push({seq:o++,kind:"result",...n.result}),a}var Le=e=>e.map(n=>JSON.stringify(n)).join(`
+`)+(e.length?`
+`:"");var pn=.1,ie=e=>e.escaped?e.turns:L;function Re(e,n,a=Number.POSITIVE_INFINITY){let o=[];for(let r=n;r<Math.min(e.length,a);r++){let t=e[r];if(t.t==="turn")break;o.push(t)}return o}function De(e){let n=0,a=0,o=0;for(let t of e)switch(t.t){case"buy":n+=t.cashFlow,a-=t.down;break;case"sell":n-=t.cashFlow,a+=t.net;break;case"shares":n+=(t.dir==="buy"?1:-1)*t.shares*t.dividend,a+=(t.dir==="buy"?-1:1)*t.shares*t.price;break;case"borrow":o+=t.amount,a+=t.amount;break;case"charity":a-=t.amount;break;default:break}let r=Math.round(o*pn);return{dPassive:n,dExpenses:r,dCash:a,dGap:n-r,borrowed:o}}function Fe(e){switch(e.kind){case"chooseDeck":return[{answer:"small",label:"draw Small"},{answer:"big",label:"draw Big"}];case"buyAsset":return[{answer:!0,label:"buy"},{answer:!1,label:"pass"}];case"sellHolding":return[{answer:!0,label:"sell"},{answer:!1,label:"keep"}];case"takeCharity":return[{answer:!0,label:"give"},{answer:!1,label:"decline"}];case"useTwoDice":return[{answer:!0,label:"two dice"},{answer:!1,label:"one die"}];case"buyShares":{let n=e.figures.affordable??0;return n>0?[{answer:0,label:"pass"},{answer:n,label:`buy ${n}`}]:[{answer:0,label:"pass"}]}case"sellShares":{let n=e.figures.held??0;return n>0?[{answer:0,label:"hold"},{answer:n,label:`sell ${n}`}]:[{answer:0,label:"hold"}]}}}var mn=e=>Fe(e).find(n=>n.answer===e.answer)?.label??String(e.answer);function be(e,n,a){let o=J(e,n,a),r=o.result??X(e,n,a,x),t=X(e,n,[],x),u=o.decisions.map((d,i)=>{let h=a.slice(0,i),w=o.decisions[i+1]?.at??Number.POSITIVE_INFINITY,S=De(Re(o.events,d.at,w)),T=Fe(d).map(b=>{let ne=[...h,b.answer],N=J(e,n,ne),A=N.decisions[i],ye=N.decisions[i+1]?.at??Number.POSITIVE_INFINITY;return{...b,turns:ie(X(e,n,ne,x)),local:A?De(Re(N.events,A.at,ye)):S}}),D=ie(X(e,n,[...h,d.answer],x)),v=Math.min(...T.map(b=>b.turns)),E=Math.max(...T.map(b=>b.local.dGap),S.dGap);return{index:i,turn:d.turn,kind:d.kind,subject:d.subject,answer:d.answer,label:mn(d),local:S,yourTurns:D,alternatives:T,costTurns:D-v,missedGap:Math.max(0,E-S.dGap),drawOnly:S.dGap===0&&T.every(b=>b.local.dGap===0)}}),l=u.filter(d=>!d.drawOnly);return{escaped:r.escaped,turns:ie(r),tunedTurns:ie(t),decisions:u,totalGapGained:u.reduce((d,i)=>d+i.local.dGap,0),totalMissedGap:u.reduce((d,i)=>d+i.missedGap,0),totalBorrowed:u.reduce((d,i)=>d+i.local.borrowed,0),best:[...l].sort((d,i)=>i.local.dGap-d.local.dGap).slice(0,5),worst:[...l].sort((d,i)=>i.missedGap-d.missedGap).slice(0,5)}}var we="ratrace.runs.v1";function yn(){try{let e="__ratrace_probe__";return localStorage.setItem(e,"1"),localStorage.removeItem(e),!0}catch{return!1}}var Z=yn();function le(){if(!Z)return[];try{let e=localStorage.getItem(we);if(!e)return[];let n=JSON.parse(e);return Array.isArray(n)?n.sort((a,o)=>o.savedAt-a.savedAt):[]}catch{try{localStorage.removeItem(we)}catch{}return[]}}function Ae(e){let n=e.slice(0,25);for(;;){let a=JSON.stringify(n);if(a.length<=2e6||n.length<=1)try{return localStorage.setItem(we,a),!0}catch{if(n.length<=1)return!1;n=n.slice(0,n.length-1);continue}n=n.slice(0,n.length-1)}}function ke(e){if(!Z)return!1;let n=le().filter(a=>a.id!==e.id);return n.unshift(e),Ae(n)}function Me(e){Z&&Ae(le().filter(n=>n.id!==e))}function Ue(e){let n=e.split(`
+`).filter(o=>o.trim()).map(o=>{try{return JSON.parse(o)}catch{return null}}).filter(o=>o!==null),a=n.find(o=>o.kind==="meta");return!a||typeof a.seed!="number"||typeof a.profession!="string"?null:{seed:a.seed,profession:a.profession,answers:n.filter(o=>o.kind==="decision").map(o=>o.answer)}}var p=e=>document.getElementById(e),f=e=>`${e<0?"\u2212":""}$${Math.abs(Math.round(e)).toLocaleString("en-US")}`,$=e=>`${e<0?"\u2212":"+"}$${Math.abs(Math.round(e)).toLocaleString("en-US")}`;function s(e,n={},...a){let o=document.createElement(e);for(let[r,t]of Object.entries(n))o.setAttribute(r,t);for(let r of a)o.append(r);return o}var fn=e=>(e??"").replace(/\s+/g," ").trim(),Y=ae[0],ee=1,F=[],B,Q=0,ce=!1,R="",hn=location.protocol.startsWith("http")&&/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname),Ie=(()=>{try{return window.self!==window.top}catch{return!0}})(),de=()=>({seed:ee,profession:Y.name,salary:Y.salary,escapeTarget:Ge(Y)});function Ge(e){let n=e.expenses;return n.taxes+n.mortgage+n.studentLoan+n.carLoan+n.creditCards+n.other}function gn(){let e=p("profGrid");e.replaceChildren();for(let n of ae){let a=Ge(n),o=s("button",{type:"button",class:"prof"},s("b",{},n.name),s("span",{class:"row"},s("span",{},"salary"),s("span",{class:"n"},f(n.salary))),s("span",{class:"row"},s("span",{},"payday"),s("span",{class:"n"},$(n.salary-a))),s("span",{class:"row tgt"},s("span",{},"escape above"),s("span",{class:"n"},f(a))));o.addEventListener("click",()=>bn(n)),e.append(o)}}function bn(e){Y=e,ee=Math.floor(Math.random()*2147483647)+1|0,F=[],Q=0,p("log").replaceChildren(),p("setup").hidden=!0,p("game").hidden=!1,me()}function wn(e,n){switch(e.t){case"turn":return n.n=e.turn+1,{turn:String(n.n),text:`rolled ${e.roll}${e.dice===2?" (two dice)":""} \u2192 ${e.space.toLowerCase()}`};case"skip":return{turn:String(n.n),text:"turn lost \u2014 downsized"};case"payday":return{turn:String(n.n),text:"payday",amount:e.amount};case"borrow":return{turn:String(n.n),text:`bank loan \u2014 adds ${f(e.amount*.1)}/mo`,amount:-e.amount};case"buy":return{turn:String(n.n),text:`bought ${e.name} \xB7 ${$(e.cashFlow)}/mo`,amount:-e.down,mark:!0};case"sell":return{turn:String(n.n),text:`sold ${e.name} \xB7 gave up ${f(e.cashFlow)}/mo`,amount:e.net,mark:!0};case"shares":return{turn:String(n.n),text:`${e.dir==="buy"?"bought":"sold"} ${e.shares.toLocaleString("en-US")} ${e.symbol} @ ${f(e.price)}`,amount:e.dir==="buy"?-e.shares*e.price:e.shares*e.price};case"split":return{turn:String(n.n),text:`${e.symbol} ${e.ratio===2?"split 2:1":"reverse split 1:2"}`};case"doodad":return{turn:String(n.n),text:e.name.toLowerCase(),amount:-e.cost};case"damage":return{turn:String(n.n),text:e.name.toLowerCase(),amount:-e.cost};case"charity":return{turn:String(n.n),text:"gave to charity \u2014 two dice for 3 turns",amount:-e.amount};case"child":return{turn:String(n.n),text:`a child arrives (${e.children})`,mark:!0};case"downsized":return{turn:String(n.n),text:"downsized \u2014 one month of expenses, 2 turns lost",amount:-e.cost};case"escaped":return{turn:String(n.n),text:"OUT OF THE RAT RACE",mark:!0}}}var ue={n:1};function kn(e){let n=p("log"),a=e.slice(Q);Q=e.length;for(let o of a){let r=wn(o,ue);if(!r)continue;let t=s("li",{class:`fresh${r.mark?" mark":""}`});t.append(s("span",{class:"t"},r.turn)),t.append(s("span",{class:"d"},r.text)),r.amount?t.append(s("span",{class:`a ${r.amount>0?"pos":"neg"}`},$(r.amount))):t.append(s("span",{class:"a"},"")),n.prepend(t)}p("ledgerScroll").scrollTop=0}function H(e,n,a=""){let o=s("tr",a?{class:a}:{});return o.append(s("td",{},e),s("td",{class:"n"},n)),o}function He(e){let n=j(e),a=K(e),o=U(e),r=e.prof.expenses,t=p("sheetIncome");t.replaceChildren(s("caption",{},"Income")),t.append(H("Salary",f(e.prof.salary),"sub")),t.append(H("Passive",f(n),"sub")),t.append(H("Total income",f(a),"total"));let u=p("sheetExpense");u.replaceChildren(s("caption",{},"Expenses"));let l=[["Taxes",r.taxes],["Home mortgage",r.mortgage],["School loan",r.studentLoan],["Car loan",r.carLoan],["Credit cards",r.creditCards],["Other",r.other],[`Children (${e.children})`,r.perChild*e.children],["Bank loan",Math.round(e.bankLoan*.1)],["Instalments",e.doodadLoanPay]];for(let[v,E]of l)E>0&&u.append(H(v,f(E),"sub"));u.append(H("Total expenses",f(o),"total"));let d=p("sheetCash");d.replaceChildren();let i=a-o;d.append(H("Payday",$(i),"rule-top"));let h=H("Cash on hand",f(e.cash));d.append(h),e.bankLoan>0&&d.append(H("Bank debt",f(e.bankLoan),"sub"));let w=o>0?Math.min(100,n/o*100):0;p("mPassive").textContent=f(n),p("mPassive").classList.toggle("neg",n<0),p("mTarget").textContent=f(o),p("mFill").style.width=`${w}%`,p("meter").classList.toggle("done",n>o);let S=o-n+1;p("mNote").innerHTML=n>o?"Passive income covers every expense. You are out.":`<b>${f(S)}</b> a month still to find \xB7 payday <b>${$(i)}</b> \xB7 cash <b>${f(e.cash)}</b>`;let T=p("holdings");T.replaceChildren();let D=Object.entries(e.stocks).filter(([,v])=>v.shares>0);e.holdings.length===0&&D.length===0&&T.append(s("li",{},s("span",{class:"empty"},"Nothing owned yet.")));for(let v of e.holdings)T.append(s("li",{},s("span",{},v.name),v.cashFlow===0?s("span",{class:"cf muted"},"no income"):s("span",{class:`cf ${v.cashFlow>0?"pos":"neg"}`},`${$(v.cashFlow)}/mo`)));for(let[v,E]of D)T.append(s("li",{},s("span",{},`${E.shares.toLocaleString("en-US")} \xD7 ${v}`),s("span",{class:"cf"},E.dividend>0?`${$(E.shares*E.dividend)}/mo`:"no dividend")))}function k(e,n,a=""){return s("div",{class:"fig"},s("span",{class:"k"},e),s("span",{class:`v ${a}`},n))}function P(e,n,a=!1){let o=s("button",{type:"button",class:a?"primary":""},e);return o.addEventListener("click",()=>me(n)),o}function Ye(e){let n=p("stage");n.className="panel stage",n.replaceChildren();let a=(t,u,l)=>{n.append(s("p",{class:"card-kind"},t)),n.append(s("h3",{class:"card-name"},u));let d=fn(l??null);d&&n.append(s("p",{class:"card-flavour"},d))},o=(...t)=>{let u=s("div",{class:"figures"});for(let l of t)u.append(l);n.append(u)},r=(...t)=>{let u=s("div",{class:"actions"});for(let l of t)u.append(l);n.append(u)};switch(e.kind){case"chooseDeck":{a("Opportunity","Which deck?"),n.append(s("p",{class:"card-flavour"},"Small Deals are cheap and modest. Big Deals need real cash but carry far more monthly income \u2014 the study found reaching for them once you hold about $15,000 is worth a few turns.")),r(P("Small deal","small",!0),P("Big deal","big"));break}case"buyAsset":{let t=e.card,u=t.downPayment>0?t.cashFlow*12/t.downPayment*100:Number.POSITIVE_INFINITY;if(a("Deal",t.name,t.description),o(k("Down payment",f(t.downPayment)),k("Mortgage",f(t.mortgage)),k("Cash flow",`${$(t.cashFlow)}/mo`,t.cashFlow>=0?"pos":"neg"),k("Yield",Number.isFinite(u)?`${Math.round(u)}%/yr`:"\u221E","")),e.shortfall>0){let l=s("p",{class:"warn"});l.innerHTML=`You are ${f(e.shortfall)} short. Buying borrows it from the bank, adding <b>${f(Math.ceil(e.shortfall/1e3)*1e3*.1)}/mo</b> to expenses \u2014 which also raises the line you have to clear.`,n.append(l)}r(P("Buy",!0,!0),P("Pass",!1));break}case"buyShares":{let t=e.card;if(a(t.dividend>0?"Paper \xB7 pays income":"Paper \xB7 trade",t.name,t.description),o(k("Price",f(t.price)),t.dividend>0?k("Dividend",`${$(t.dividend)}/mo each`,"pos"):k("Trading range",`${f(t.low)}\u2013${f(t.high)}`),k("You can afford",e.affordable.toLocaleString("en-US"))),e.affordable<1){n.append(s("p",{class:"warn"},`You cannot afford a single share at ${f(t.price)}.`)),r(P("Move on",0,!0));break}let u=s("input",{type:"number",min:"0",max:String(e.affordable),value:String(e.affordable),"aria-label":"shares to buy"}),l=s("button",{type:"button",class:"primary"},"Buy");l.addEventListener("click",()=>me(Math.max(0,Number(u.value)||0))),r(u,l,P("Pass",0));break}case"sellShares":{let t=e.card;a("Paper \xB7 a buyer at this price",t.name,t.description),o(k("Price now",f(t.price)),k("You hold",e.held.toLocaleString("en-US"))),r(P(`Sell all ${e.held.toLocaleString("en-US")}`,e.held,!0),P("Hold",0));break}case"sellHolding":{let t=e.holding,u=t.downPayment>0?e.net/t.downPayment:0;a("Market \xB7 a buyer appears",t.name),n.append(s("p",{class:"card-flavour"},"Selling hands you the cash but gives up the monthly income \u2014 and monthly income is the only thing that gets you out.")),o(k("Net to you",f(e.net),e.net>=0?"pos":"neg"),k("You paid",f(t.downPayment)),k("Multiple",t.downPayment>0?`${u.toFixed(1)}\xD7`:"\u2014"),t.cashFlow===0?k("Income lost","none"):k("Income lost",`${$(-t.cashFlow)}/mo`,"neg")),r(P("Sell",!0,!0),P("Keep",!1));break}case"takeCharity":{let t=Math.round(K(e.view.player)*.1);a("Charity","Give 10% of your income?"),n.append(s("p",{class:"card-flavour"},"In exchange you may roll two dice for your next three turns \u2014 twice the board covered, twice the opportunities, and twice the doodads.")),o(k("It costs",f(t),"neg")),r(P("Give",!0,!0),P("Decline",!1));break}case"useTwoDice":{a("Charity is active","One die or two?"),r(P("Two dice",!0,!0),P("One die",!1));break}}if(ce){let t=s("p",{class:"coach-line"});t.innerHTML=`Tuned policy from the study would <b>${$e(e)}</b>`,n.append(t)}}function vn(){let e=B.result;if(!e)return;let n=p("stage");n.className="panel stage is-done",n.replaceChildren();let a=s("div",{class:"outcome"});e.escaped?(a.append(s("h3",{class:"verdict"},`Out in ${e.turns} months`)),a.append(s("p",{},`Passive income ${f(e.passive)} against ${f(e.expenses)} of expenses. For reference, the tuned policy in the study takes a median of 35 turns, with a p10 of 17 and a p90 of 59 \u2014 so almost any result is within the luck band.`))):(a.append(s("h3",{class:"verdict fail"},`Still in the Rat Race after ${L} months`)),a.append(s("p",{},`You finished ${f(e.gap)} a month short. Peak bank debt ${f(e.peakBankLoan)}. Every disciplined policy in the study escaped 100% of the time, so this one is worth a rematch.`)));let o=s("button",{type:"button",class:"primary"},"Play again");o.addEventListener("click",Ve);let r=s("button",{type:"button"},"Review my decisions");a.append(s("div",{class:"actions"},o,r));let t=s("div",{class:"review"});a.append(t),r.addEventListener("click",()=>{r.disabled=!0,r.textContent="Reviewing\u2026",requestAnimationFrame(()=>{xn(t),r.hidden=!0})}),n.append(a)}function _e(){let e=B.result;return{id:V(de()),seed:ee,profession:Y.name,escaped:e?.escaped??!1,turns:e?.turns??(B.ask?.view.turn??0)+1,decisions:F.length,savedAt:Date.now(),jsonl:R}}function je(e,n){let a=URL.createObjectURL(new Blob([n],{type:"application/x-ndjson"})),o=s("a",{href:a,download:`${e}.jsonl`});document.body.append(o),o.click(),o.remove(),setTimeout(()=>URL.revokeObjectURL(a),1e3)}function Pn(e,n,a="Download"){let o=s("button",{type:"button"},a);return o.addEventListener("click",()=>je(e,n)),o}function pe(){let e=le();p("runsPanel").hidden=e.length===0,p("runsCount").textContent=e.length?`\xB7 ${e.length}`:"";let n=p("runsList");n.replaceChildren();for(let a of e){let o=s("li",{});o.append(s("div",{class:"run-head"},s("span",{class:"run-title"},`${a.profession} \xB7 seed ${a.seed}`),s("span",{class:`run-verdict ${a.escaped?"out":"stuck"}`},a.escaped?`out in ${a.turns} months`:`${a.turns} months, still in`))),o.append(s("div",{class:"run-meta"},`${a.decisions} decisions \xB7 kept ${new Date(a.savedAt).toLocaleString()}`));let r=s("div",{}),t=s("div",{class:"run-actions"}),u=s("button",{type:"button"},"Review");u.addEventListener("click",()=>{let i=Ue(a.jsonl),h=i&&ae.find(w=>w.name===i.profession);if(!i||!h){r.replaceChildren(s("p",{class:"caveat"},"This log could not be read back."));return}u.disabled=!0,u.textContent="Reviewing\u2026",requestAnimationFrame(()=>{let w=s("div",{class:"review"});Ke(w,be(i.seed,h,i.answers)),r.replaceChildren(w),u.disabled=!1,u.textContent="Review"})});let l=s("button",{type:"button"},"Copy");l.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(a.jsonl),l.textContent="Copied",setTimeout(()=>{l.textContent="Copy"},1500)}catch{l.textContent="Blocked"}});let d=s("button",{type:"button"},"Delete");d.addEventListener("click",()=>{Me(a.id),pe()}),t.append(u,l),Ie||t.append(Pn(a.id,a.jsonl)),t.append(d),o.append(t,r),n.append(o)}}function Ne(e,n){let a=n==="missed"?-e.missedGap:e.local.dGap;return s("li",{},s("span",{class:"t"},`t${e.turn}`),s("span",{},`${e.label} \u2014 ${e.subject}`),s("span",{class:`amt ${a>=0?"pos":"neg"}`},`${$(a)}/mo`))}function xn(e){Ke(e,be(ee,Y,F))}function Ke(e,n){e.replaceChildren();let a=n.worst.filter(t=>t.missedGap>0),o=n.best.filter(t=>t.local.dGap>0),r=n.decisions.filter(t=>t.drawOnly).length;if(e.append(s("h4",{},"Money left on the table")),a.length){let t=s("ul",{});for(let u of a)t.append(Ne(u,"missed"));e.append(t)}else e.append(s("p",{class:"caveat"},"Nothing \u2014 every decision took the best immediate move available."));if(o.length){e.append(s("h4",{},"What actually got you out"));let t=s("ul",{});for(let u of o)t.append(Ne(u,"gain"));e.append(t)}e.append(s("h4",{},"How to read this")),e.append(s("p",{class:"caveat"},`These figures are measured from what each decision actually caused, so they are facts about your choices. ${r} of your ${n.decisions.length} decisions moved no money at all \u2014 deck and dice picks that only reshuffled what came next \u2014 and are left out, because on a single deck their effect is pure luck. The tuned policy from the study takes ${n.tunedTurns>=L?"more than "+L:n.tunedTurns} months on this same deck.`))}function Bn(){let e=de();R=Le(Oe(e,B));let n=R?R.trimEnd().split(`
+`).length:0;p("logCount").textContent=`\xB7 ${n} lines \xB7 ${V(e)}`,p("logDetails").open&&(p("jsonl").textContent=R),p("logStatus").textContent="",p("logStatus").className="log-status"}function me(e){e!==void 0&&F.push(e),B=J(ee,Y,F),kn(B.events),Bn(),p("stMonth").textContent=`month ${Math.max(1,ue.n)}`,p("undoBtn").toggleAttribute("disabled",F.length===0),B.ask?(He(B.ask.view.player),Ye(B.ask)):(B.player&&He(B.player),vn(),ke(_e()),pe())}function Sn(){F.length&&(F.pop(),Q=0,ue.n=1,p("log").replaceChildren(),me())}function Ve(){p("game").hidden=!0,p("setup").hidden=!1,Q=0,ue.n=1,F=[]}function W(e,n){let a=p("logStatus");a.textContent=e,a.className=`log-status ${n}`}p("logDetails").addEventListener("toggle",()=>{p("logDetails").open&&(p("jsonl").textContent=R)});p("copyLogBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(R),W(`copied ${R.trimEnd().split(`
+`).length} lines`,"ok")}catch{W("clipboard blocked \u2014 open the panel and select the text instead","err")}});p("keepBtn").addEventListener("click",async()=>{let e=ke(_e());if(pe(),!hn){W(e?"kept in this browser":"this browser will not store runs \u2014 use Copy or Download",e?"ok":"err");return}try{let n=await fetch(`/log?run=${encodeURIComponent(V(de()))}`,{method:"POST",headers:{"content-type":"application/x-ndjson"},body:R}),a=await n.json();if(!n.ok)throw new Error(a.error??String(n.status));W(`kept in this browser and wrote ${a.path}`,"ok")}catch{W(e?"kept in this browser":"this browser will not store runs \u2014 use Copy or Download",e?"ok":"err")}});Ie||(p("downloadBtn").hidden=!1,p("downloadBtn").addEventListener("click",()=>{je(V(de()),R),W("downloaded","ok")}));Z||(p("keepBtn").title="This browser will not store runs");p("undoBtn").addEventListener("click",Sn);p("newBtn").addEventListener("click",Ve);p("coachBtn").addEventListener("click",()=>{ce=!ce,p("coachBtn").setAttribute("aria-pressed",String(ce)),B?.ask&&Ye(B.ask)});gn();pe();})();
+</script>
+
+</body>
+</html>
