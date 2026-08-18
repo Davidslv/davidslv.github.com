@@ -52,8 +52,8 @@ cloudflare_analytics_token: f1aef114cd794c589b4bb00f5f13f381
 buttondown_username: davidslv
 
 # Direct sale of the Modular Rails PDF + EPUB. The buy panel shows a
-# "Buy the PDF + EPUB — £17.99" link only while this is set. Paste the
-# Gumroad product URL (your link, not Discover) and leave Discover off
+# "Buy the PDF + EPUB" link only while this is set. Price lives on
+# Gumroad, not on this site. Use the direct product URL, not Discover,
 # so the fee stays 10% + $0.50.
 gumroad_modular_rails: https://davidslv.gumroad.com/l/modular-ruby-on-rails
 
