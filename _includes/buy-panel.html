@@ -1,12 +1,12 @@
 {%- comment -%}
   The buy panel, rendered from _data/books/<key>.yml.
 
-  Single source of truth for formats and store links, so /modular-rails,
-  /books, /books/<book>/ and /modular-monolith-rails cannot drift apart, and
-  a new market or a changed link is one edit in one file.
+  One geo-aware primary button for the hero format (colour paperback for
+  Modular Rails). Other editions and stores sit behind a <details> so the
+  page asks for one sale, not twelve. "Read it free" is a text link under
+  the button, never a competing CTA.
 
-  No prices: each regional store shows its own local price, so a KDP price
-  change never requires a site edit.
+  Associates tags are appended by amazon-href.html when configured.
 
   Usage:
     {% include buy-panel.html book="modular_rails" %}
@@ -15,42 +15,67 @@
 {%- assign b = site.data.books[include.book] -%}
 {%- assign buy = b.buy -%}
 {%- if buy -%}
+{%- assign hero = nil -%}
+{%- for f in buy.formats -%}
+  {%- if f.hero -%}{%- assign hero = f -%}{%- break -%}{%- endif -%}
+{%- endfor -%}
+{%- if hero == nil -%}{%- assign hero = buy.formats | first -%}{%- endif -%}
 <div class="buy-panel">
-  {%- for f in buy.formats %}
-  <div class="buy-format">
-    <div>
-      <span class="buy-format__name">{{ f.name }}</span>
-      {%- if f.note %}<span class="buy-format__note">{{ f.note }}</span>{% endif -%}
-    </div>
-    <div class="buy-format__actions">
-      {%- if f.us %}<a class="btn-buy btn-buy--sm" href="{{ f.us }}">Amazon US</a>{% endif -%}
-      {%- if f.uk %}<a class="btn-buy btn-buy--sm" href="{{ f.uk }}">Amazon UK</a>{% endif -%}
-      {%- if f.ingram %}<a class="btn-buy btn-buy--sm" href="{{ f.ingram }}">IngramSpark</a>{% endif -%}
-    </div>
-    {%- if f.more and f.more.size > 0 %}
-    <details class="buy-format__more">
-      <summary>Other stores</summary>
-      <div class="buy-format__stores">
-        {%- for m in f.more %}
-        <a class="btn-buy btn-buy--sm" href="{{ m.url }}">{{ m.code }}</a>
-        {%- endfor %}
-      </div>
-    </details>
+  <div class="buy-panel__hero">
+    <p class="buy-panel__kicker">{{ hero.name }}{% if hero.note %} · {{ hero.note }}{% endif %}</p>
+    {% include buy-cta-button.html book=include.book %}
+    {%- assign show_web = true -%}
+    {%- if include.web == false -%}{%- assign show_web = false -%}{%- endif -%}
+    {%- if buy.web_edition == page.url -%}{%- assign show_web = false -%}{%- endif -%}
+    {%- if show_web %}
+    <p class="buy-panel__web">
+      <a href="{{ buy.web_edition | relative_url }}">Or read it free on the web</a>
+    </p>
     {%- endif %}
   </div>
-  {%- endfor %}
-  {%- unless include.web == false %}
-  <div class="buy-format">
-    <div>
-      <span class="buy-format__name">Read on the web</span>
-      <span class="buy-format__note">Every chapter, code sample and diagram. No paywall, no sign-up.</span>
+
+  <details class="buy-panel__others">
+    <summary>Other editions and stores</summary>
+    {%- for f in buy.formats %}
+    <div class="buy-format">
+      <div>
+        <span class="buy-format__name">{{ f.name }}</span>
+        {%- if f.note %}<span class="buy-format__note">{{ f.note }}</span>{% endif -%}
+      </div>
+      <div class="buy-format__actions">
+        {%- if f.us -%}
+          {%- capture href_us -%}{% include amazon-href.html url=f.us store="us" %}{%- endcapture -%}
+          <a class="btn-buy btn-buy--sm" href="{{ href_us | strip }}" rel="noopener sponsored">Amazon US</a>
+        {%- endif -%}
+        {%- if f.uk -%}
+          {%- capture href_uk -%}{% include amazon-href.html url=f.uk store="uk" %}{%- endcapture -%}
+          <a class="btn-buy btn-buy--sm" href="{{ href_uk | strip }}" rel="noopener sponsored">Amazon UK</a>
+        {%- endif -%}
+        {%- if f.ingram %}<a class="btn-buy btn-buy--sm" href="{{ f.ingram }}" rel="noopener">IngramSpark</a>{% endif -%}
+      </div>
+      {%- if f.more and f.more.size > 0 %}
+      <div class="buy-format__stores">
+        {%- for m in f.more %}
+          {%- assign store_key = m.code | downcase -%}
+          {%- capture href_m -%}{% include amazon-href.html url=m.url store=store_key %}{%- endcapture -%}
+          <a class="btn-buy btn-buy--sm" href="{{ href_m | strip }}" rel="noopener sponsored">{{ m.code }}</a>
+        {%- endfor %}
+      </div>
+      {%- endif %}
     </div>
-    <div class="buy-format__actions">
-      <a class="btn-read" href="{{ buy.web_edition | relative_url }}">Read Now</a>
-    </div>
-  </div>
-  {%- endunless %}
-  {%- comment -%}suppress the link when it points at the page we are already on{%- endcomment -%}
+    {%- endfor %}
+  </details>
+
+  {%- assign tagged = false -%}
+  {%- if site.amazon_associate_tags -%}
+    {%- for pair in site.amazon_associate_tags -%}
+      {%- if pair[1] and pair[1] != "" -%}{%- assign tagged = true -%}{%- break -%}{%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if tagged %}
+  <p class="buy-panel__affiliate">As an Amazon Associate I earn from qualifying purchases.</p>
+  {%- endif %}
+
   {%- if buy.learn_more and buy.learn_more != page.url %}
   <p class="buy-panel__more">
     <a href="{{ buy.learn_more | relative_url }}">{{ include.more_text | default: "Learn more about the book" }}</a>

@@ -41,3 +41,5 @@ Two technical books — each with a **complete, free web edition** alongside the
     {% include buy-panel.html book="vanilla_roguelike" %}
   </div>
 </div>
+
+{% include newsletter.html tag="source:books-hub" book_tag="books-hub" %}

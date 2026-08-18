@@ -3,51 +3,66 @@
 
   Plain form POST: no JavaScript, no iframe, no third-party CSS, so it inherits
   the page theme and works with scripting disabled. Buttondown handles the
-  double opt-in and confirmation page.
+  double opt-in and confirmation page. Do not fetch() this endpoint — subscribers
+  sometimes need to follow Buttondown's response for CAPTCHA or validation.
 
   Renders nothing until `buttondown_username` is set in _config.yml, so the
   site is safe to build and deploy without it.
 
   Usage:
     {% include newsletter.html %}
-    {% include newsletter.html heading="Keep reading" context="chapter" %}
+    {% include newsletter.html heading="Keep reading" context="chapter" tag="source:free-reader" book_tag="modular-rails" %}
 {%- endcomment -%}
 {%- if site.buttondown_username -%}
-<section class="signup" id="notebook" aria-labelledby="signup-heading">
-  <h2 class="signup__heading" id="signup-heading">
+{%- assign ctx = include.context | default: "page" -%}
+{%- assign source_tag = include.tag | default: "source:landing" -%}
+{%- assign book_tag = include.book_tag | default: "modular-rails" -%}
+<section class="signup" id="notebook" aria-labelledby="signup-heading-{{ ctx }}">
+  <h2 class="signup__heading" id="signup-heading-{{ ctx }}">
     {{ include.heading | default: "Get the Engineer's Notebook" }}
   </h2>
 
   <p class="signup__pitch">
-    {%- if include.context == "chapter" -%}
-      Fortnightly notes on keeping systems legible: in code, in process, and in the
-      tools we build. New subscribers get <strong>Find the seams in your Rails app</strong>,
-      the co-change script from Chapter 9, so you can run this chapter's method against
-      your own repository.
-    {%- else -%}
-      Fortnightly notes on keeping systems legible: in code, in process, and in the
-      tools we build. New subscribers get <strong>Find the seams in your Rails app</strong>,
-      the co-change script from Chapter 9 that reads your git history and shows you
-      where your real boundaries already are.
-    {%- endif -%}
+    Fortnightly notes on keeping systems legible: in code, in process, and in the
+    tools we build.
   </p>
 
   <form class="signup__form"
         action="https://buttondown.com/api/emails/embed-subscribe/{{ site.buttondown_username }}"
         method="post">
-    <label class="signup__label" for="bd-email-{{ include.context | default: 'page' }}">
-      Email address
-    </label>
+    <input type="hidden" name="tag" value="{{ book_tag }}">
+    <input type="hidden" name="tag" value="{{ source_tag }}">
+    <input type="hidden" name="metadata__source" value="{{ page.url }}">
+    <input type="hidden" name="next" value="{{ "/subscribed/" | absolute_url }}">
+
+    <label class="signup__label" for="bd-email-{{ ctx }}">Email address</label>
+    <label class="signup__label" for="bd-name-{{ ctx }}">Name (optional)</label>
     <div class="signup__row">
       <input class="signup__input"
-             id="bd-email-{{ include.context | default: 'page' }}"
+             id="bd-email-{{ ctx }}"
              type="email"
              name="email"
              placeholder="you@example.com"
              autocomplete="email"
              required>
+      <input class="signup__input signup__input--name"
+             id="bd-name-{{ ctx }}"
+             type="text"
+             name="metadata__name"
+             placeholder="Name (optional)"
+             autocomplete="name">
       <button class="signup__button" type="submit">Subscribe</button>
     </div>
+
+    <label class="signup__consent" for="bd-gdpr-{{ ctx }}">
+      <input id="bd-gdpr-{{ ctx }}"
+             type="checkbox"
+             name="metadata__gdpr"
+             value="yes"
+             required>
+      <span>I agree to receive the Engineer's Notebook by email. See the
+        <a href="{{ "/privacy/" | relative_url }}">privacy policy</a>.</span>
+    </label>
   </form>
 
   <p class="signup__fine">One email a fortnight. Unsubscribe in one click. No spam, ever.</p>

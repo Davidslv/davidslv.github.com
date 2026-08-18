@@ -1,0 +1,24 @@
+{%- comment -%}
+  One geo-aware "Buy the book" button. Defaults to the UK colour (or
+  first) edition; js/buy-cta.js rewrites the href to the visitor's store.
+
+  Usage:
+    {% include buy-cta-button.html book="modular_rails" %}
+    {% include buy-cta-button.html book="modular_rails" class="btn-read" label="Buy the book" %}
+{%- endcomment -%}
+{%- assign b = site.data.books[include.book] -%}
+{%- assign buy = b.buy -%}
+{%- assign hero = nil -%}
+{%- for f in buy.formats -%}
+  {%- if f.hero -%}{%- assign hero = f -%}{%- break -%}{%- endif -%}
+{%- endfor -%}
+{%- if hero == nil -%}{%- assign hero = buy.formats | first -%}{%- endif -%}
+{%- if hero -%}
+{%- capture href_gb -%}{% include amazon-href.html url=hero.uk store="uk" %}{%- endcapture -%}
+{%- capture href_us -%}{% include amazon-href.html url=hero.us store="us" %}{%- endcapture -%}
+{%- assign href_gb = href_gb | strip -%}
+{%- assign href_us = href_us | strip -%}
+{%- assign default_href = href_gb | default: href_us -%}
+{%- capture cta_attrs -%}href="{{ default_href }}"{% if href_gb != "" %} data-href-gb="{{ href_gb }}"{% endif %}{% if href_us != "" %} data-href-us="{{ href_us }}"{% endif %}{% for m in hero.more %}{% assign store_key = m.code | downcase %}{% capture href_m %}{% include amazon-href.html url=m.url store=store_key %}{% endcapture %} data-href-{{ store_key }}="{{ href_m | strip }}"{% endfor %} rel="noopener sponsored"{%- endcapture -%}
+<a class="{{ include.class | default: 'btn-read' }} js-buy-cta" {{ cta_attrs }}>{{ include.label | default: "Buy the book" }}</a>
+{%- endif -%}

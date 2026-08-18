@@ -85,17 +85,26 @@ layout: default
 
     {%- assign buy = book.buy -%}
     {%- if buy -%}
+    {%- assign hero = nil -%}
+    {%- for f in buy.formats -%}
+      {%- if f.hero -%}{%- assign hero = f -%}{%- break -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if hero == nil -%}{%- assign hero = buy.formats | first -%}{%- endif -%}
+    {%- assign kindle = buy.formats | where: "name", "Kindle" | first -%}
+    {%- capture kindle_href -%}
+      {%- if kindle.uk -%}{% include amazon-href.html url=kindle.uk store="uk" %}{%- endif -%}
+    {%- endcapture -%}
     <aside class="book-buy-inline" aria-label="Buy the book">
-      {%- assign kindle = buy.formats | where: "name", "Kindle" | first -%}
-      <span class="book-buy-inline__text">{% if kindle %}Prefer it in print or on Kindle?{% else %}Prefer a print copy?{% endif %}</span>
-      {%- assign first = buy.formats | first -%}
-      <a class="book-buy-inline__link" href="{{ first.us }}">Paperback</a>
-      {%- if kindle %} &middot; <a class="book-buy-inline__link" href="{{ kindle.us }}">Kindle</a>{% endif -%}
+      <span class="book-buy-inline__text">Prefer a copy to keep?</span>
+      {% include buy-cta-button.html book=page.book class="book-buy-inline__link" label=hero.name %}
+      {%- if kindle and kindle_href != "" %} &middot; <a class="book-buy-inline__link" href="{{ kindle_href | strip }}" rel="noopener sponsored">Kindle</a>{% endif -%}
       {%- if buy.learn_more %} &middot; <a class="book-buy-inline__link" href="{{ buy.learn_more | relative_url }}">All editions</a>{% else %} &middot; <a class="book-buy-inline__link" href="{{ book.home | relative_url }}">All editions</a>{% endif -%}
     </aside>
     {%- endif -%}
 
-    {% include newsletter.html context="chapter" %}
+    {%- if current and current.type != "part-divider" and current.type != "front-matter" -%}
+    {% include newsletter.html context="chapter" tag="source:free-reader" book_tag="modular-rails" %}
+    {%- endif -%}
   </article>
 
   {%- if current -%}

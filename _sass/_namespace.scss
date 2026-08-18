@@ -195,6 +195,11 @@ body.theme-namespace { @include ns-light; }
   .buy-format__name { font-size: .94rem; font-weight: 700; }
   .buy-format__note { font-size: .86rem; }
   .buy-format__more summary { font-family: $ns-mono; font-size: .76rem; }
+  .buy-panel__kicker,
+  .buy-panel__others summary,
+  .buy-panel__affiliate { font-family: $ns-mono; }
+  .buy-panel__others summary { font-size: .76rem; }
+  .signup__consent { font-family: $ns-mono; font-size: .74rem; }
 
   // ---- controls -----------------------------------------------------------
 

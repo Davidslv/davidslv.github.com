@@ -70,12 +70,12 @@ layout: default
 
     {%- if buy -%}
     <aside class="book-buy" aria-label="Buy the book">
-      <p class="book-buy__label">Prefer it in print or on Kindle?</p>
-      {% include buy-panel.html book=page.book web=false %}
+      <p class="book-buy__label">Keep a copy</p>
+      {% include buy-panel.html book=page.book %}
     </aside>
     {%- endif -%}
 
-    {% include newsletter.html %}
+    {% include newsletter.html tag="source:free-reader" book_tag="modular-rails" %}
 
   </article>
 </div>

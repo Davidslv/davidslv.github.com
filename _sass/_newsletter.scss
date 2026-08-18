@@ -85,6 +85,30 @@
     &:focus-visible { outline: 2px solid var(--link-color); outline-offset: 2px; }
   }
 
+  &__input--name {
+    flex: 1 1 10rem;
+  }
+
+  &__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    margin: .9rem 0 0;
+    font-size: .82rem;
+    line-height: 1.45;
+    color: var(--text-color);
+    cursor: pointer;
+
+    input {
+      width: 1.15rem;
+      height: 1.15rem;
+      margin: .15rem 0 0;
+      flex: 0 0 auto;
+      accent-color: var(--text-color);
+    }
+    a { color: var(--link-color); }
+  }
+
   &__fine {
     margin: .85rem 0 0 !important;
     font-size: .78rem !important;
