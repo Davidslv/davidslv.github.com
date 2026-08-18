@@ -34,7 +34,7 @@ I published four books.
 
 I built my own pipeline to make them. Quire takes Markdown and turns it into a print PDF, an EPUB, a DOCX, and a web edition. It is becoming a SaaS.
 
-I started my own knowledge base for AI business context, cce. I wrote it in Rust, for portability and speed. Do I know Rust? Barely. Enough to know what was built, and why.
+I started my own knowledge base for AI business context, cce. I wrote it in Rust, for portability and speed.
 
 I built [Filed Under No One](https://filedundernoone.uk) as a game as well. I did my own research, and built it in TypeScript with real game editors. It runs in the browser. You can plug in a gamepad, not just a keyboard.
 
@@ -44,7 +44,9 @@ I used a local LLM to process thousands of Portuguese recipes into a kitchen I c
 
 I wrote my own compound engineering system, [firm](/presentations/firm/). Think of it as the superpower skills everyone has heard about in software engineering, except I actually built the thing.
 
-I even used AI to write replacement firmware for the iPod Classic, in Zig. ZigPod. Do I know Zig? About as well as I know Rust.
+I even used AI to write replacement firmware for the iPod Classic, in Zig. ZigPod.
+
+I got exposed to both languages while the projects were ongoing. That creates some familiarity. Watching does not build muscle memory. Practice does. That is why most of the work is still done in Ruby, where I am proficient.
 
 I reverse-engineered games. I built my own. I wrote books. I wrote posts like this one. I educated myself further in one year with AI than I could ever have imagined. I also help online, on questions I know the answer to, or ones I am curious enough to sit with. Either way, it is a chance to learn something.
 
