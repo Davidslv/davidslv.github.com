@@ -51,11 +51,12 @@ cloudflare_analytics_token: f1aef114cd794c589b4bb00f5f13f381
 # a wrong value posts subscribers into the void.
 buttondown_username: davidslv
 
-# Direct sale of the Modular Rails PDF + EPUB. The buy panel shows a
-# "Buy the PDF + EPUB" link only while this is set. Price lives on
-# Gumroad, not on this site. Use the direct product URL, not Discover,
-# so the fee stays 10% + $0.50.
+# Direct sale of each book's digital edition. The buy panel shows a
+# link only while the matching URL is set. Price lives on Gumroad, not
+# on this site. Use the direct product URL, not Discover, so the fee
+# stays 10% + $0.50.
 gumroad_modular_rails: https://davidslv.gumroad.com/l/modular-ruby-on-rails
+gumroad_vanilla_roguelike: https://davidslv.gumroad.com/l/building-your-own-roguelike
 
 # Amazon Associates tracking IDs, keyed by marketplace. Empty values are a
 # no-op: links render untagged. Own KDP books are eligible — the royalty and
