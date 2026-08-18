@@ -36,7 +36,7 @@ I started a business while unemployed. [CarerNotes](https://carernotes.uk) is fo
 
 I started my own knowledge base for AI business context, cce. I wrote it in Rust, for portability and speed. Do I know Rust? Barely. Enough to know what was built, and why.
 
-I built [Filed Under No One](/games/stealth/) as a game as well. I did my own research, and built it in TypeScript with real game editors. It runs in the browser. You can plug in a gamepad, not just a keyboard.
+I built [Filed Under No One](https://filedundernoone.uk) as a game as well. I did my own research, and built it in TypeScript with real game editors. It runs in the browser. You can plug in a gamepad, not just a keyboard.
 
 I improved the SEO on this site so the work can actually be found: titles, descriptions, sitemaps, share cards.
 
