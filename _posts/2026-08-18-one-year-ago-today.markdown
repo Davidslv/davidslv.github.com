@@ -2,7 +2,7 @@
 layout: post
 title:  "One year ago today"
 date:   2026-08-18
-description: "On 18 August 2025 I was let go from Indeed while on paternity leave. Four books. A year I am keeping here."
+description: "On 18 August 2025 I was let go from Indeed while on paternity leave. I started CarerNotes. A year I am keeping here."
 image:
   path: /img/og-one-year-ago-today.png
   width: 1200
@@ -20,6 +20,8 @@ A lot has changed since August 2025, especially with AI. I was fortunate, in one
 
 ## What I built
 
+I started a business while unemployed, in a market that is still underserved. [CarerNotes](https://carernotes.uk) is for domiciliary carers: they record a visit by voice, and AI turns it into CQC-compliant notes. UK care workers spend hours a week on unpaid paperwork. The notes still have to stand up to CQC. I built the product, the billing, the infrastructure, and the marketing site.
+
 I published four books.
 
 *[Building Your Own Roguelike: A Practical Guide](/books/vanilla-roguelike/)*. A roguelike built from scratch in Ruby.
@@ -31,8 +33,6 @@ I published four books.
 *[The AI-First Landlord: An Operating Manual for UK Landlords in the Renters' Rights Era](https://www.amazon.co.uk/dp/B0H43MR1SP)*. For UK landlords, written for the law as it is now.
 
 I built my own pipeline to make them. Quire takes Markdown and turns it into a print PDF, an EPUB, a DOCX, and a web edition. It is becoming a SaaS.
-
-I started a business while unemployed. [CarerNotes](https://carernotes.uk) is for domiciliary carers: they record a visit by voice, and AI turns it into CQC-compliant notes. I built the product, the billing, the infrastructure, and the marketing site.
 
 I started my own knowledge base for AI business context, cce. I wrote it in Rust, for portability and speed. Do I know Rust? Barely. Enough to know what was built, and why.
 
