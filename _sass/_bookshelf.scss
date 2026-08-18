@@ -143,6 +143,52 @@
   max-width: 640px;
 }
 
+.buy-panel__hero {
+  padding: 1.25rem 0 1.15rem;
+  .js-buy-cta,
+  .btn-read {
+    min-height: 44px;
+    padding: .7em 1.5em;
+  }
+}
+
+.buy-panel__kicker {
+  margin: 0 0 .7rem;
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.buy-panel__web {
+  margin: .75rem 0 0;
+  font-size: .88rem;
+  a { color: var(--meta-color); }
+}
+
+.buy-panel__others {
+  border-top: 1px solid var(--border-color);
+  padding: .2rem 0 1rem;
+  summary {
+    cursor: pointer;
+    color: var(--meta-color);
+    font-size: .85em;
+    list-style: none;
+    padding: .7rem 0;
+    &::-webkit-details-marker { display: none; }
+    &::before { content: "\25B8\00a0"; }
+    &:hover { color: var(--link-color); }
+  }
+  &[open] summary::before { content: "\25BE\00a0"; }
+  .buy-format:last-child { border-bottom: 0; }
+}
+
+.buy-panel__affiliate {
+  margin: 0;
+  padding: 0 0 1.1rem;
+  font-size: .75rem;
+  color: var(--meta-color);
+}
+
 .buy-format {
   display: grid;
   grid-template-columns: 1fr auto;

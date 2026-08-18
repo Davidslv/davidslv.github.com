@@ -4,6 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {%- seo -%}
+  {%- if page.noindex %}<meta name="robots" content="noindex">{% endif -%}
 
   {%- comment -%}
     Modern favicon set. Without these the browser requests /favicon.ico and 404s.

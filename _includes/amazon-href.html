@@ -1,0 +1,17 @@
+{%- comment -%}
+  Emit an Amazon URL, appending the Associates tag for that marketplace
+  when one is configured. Empty tags are a no-op, so links stay valid
+  before the Associates account exists.
+
+  Usage:
+    {% include amazon-href.html url=format.us store="us" %}
+{%- endcomment -%}
+{%- assign u = include.url -%}
+{%- assign s = include.store | downcase -%}
+{%- assign tag = nil -%}
+{%- if site.amazon_associate_tags -%}
+  {%- assign tag = site.amazon_associate_tags[s] -%}
+{%- endif -%}
+{%- if tag and tag != "" -%}
+  {%- if u contains "?" -%}{{ u }}&amp;tag={{ tag }}{%- else -%}{{ u }}?tag={{ tag }}{%- endif -%}
+{%- else -%}{{ u }}{%- endif -%}

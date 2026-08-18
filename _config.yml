@@ -46,10 +46,37 @@ cloudflare_analytics_token: f1aef114cd794c589b4bb00f5f13f381
 # Buttondown account the newsletter form posts to. The signup block renders
 # nothing at all while this is blank, which is how it stays hidden.
 #
-# Before setting it: (1) confirm the real Buttondown username, since a wrong
-# value posts subscribers into the void, and (2) make sure the promised lead
-# magnet, "Find the seams in your Rails app", actually exists to send.
-buttondown_username:
+# Live at https://buttondown.com/davidslv (confirmed 2026-08-18).
+# Do not change this without checking that the public page still exists —
+# a wrong value posts subscribers into the void.
+buttondown_username: davidslv
+
+# Amazon Associates tracking IDs, keyed by marketplace. Empty values are a
+# no-op: links render untagged. Own KDP books are eligible — the royalty and
+# the referral fee stack. UK IDs end in -21, US in -20; each marketplace
+# needs its own. The affiliate disclosure on the buy panel appears only when
+# at least one of these is set.
+#
+# Off-site posts (Reddit, HN, LinkedIn, Ruby Weekly) should send readers to
+# the site with UTMs, not straight to Amazon, so "direct 64.5%" stops being
+# a blind spot. Example:
+#   https://davidslv.uk/modular-rails/?utm_source=reddit&utm_medium=social&utm_campaign=modular-rails
+amazon_associate_tags:
+  us: ""
+  uk: ""
+  de: ""
+  fr: ""
+  es: ""
+  it: ""
+  ca: ""
+  au: ""
+  jp: ""
+  nl: ""
+  se: ""
+  pl: ""
+  br: ""
+  mx: ""
+  in: ""
 
 # Build settings
 markdown: kramdown

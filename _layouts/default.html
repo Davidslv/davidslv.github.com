@@ -17,6 +17,8 @@
 
     {% include footer.html %}
 
+    <script src="{{ "/js/buy-cta.js" | prepend: site.baseurl }}" defer></script>
+
     {%- if site.cloudflare_analytics_token %}
     <!-- Cloudflare Web Analytics -->
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js"

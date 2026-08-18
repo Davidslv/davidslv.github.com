@@ -18,6 +18,7 @@ buy:
   # sit behind the "Other stores" disclosure.
   formats:
   - name: Colour Paperback
+    hero: true
     note: 378 pages, diagrams in full colour
     us: https://www.amazon.com/dp/1066649405
     uk: https://www.amazon.co.uk/dp/1066649405
