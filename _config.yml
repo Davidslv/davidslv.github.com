@@ -51,6 +51,12 @@ cloudflare_analytics_token: f1aef114cd794c589b4bb00f5f13f381
 # a wrong value posts subscribers into the void.
 buttondown_username: davidslv
 
+# Direct sale of the Modular Rails PDF + EPUB. The buy panel shows a
+# "Buy the PDF + EPUB — £17.99" link only while this is set. Paste the
+# Gumroad product URL (your link, not Discover) and leave Discover off
+# so the fee stays 10% + $0.50.
+gumroad_modular_rails: https://davidslv.gumroad.com/l/modular-ruby-on-rails
+
 # Amazon Associates tracking IDs, keyed by marketplace. Empty values are a
 # no-op: links render untagged. Own KDP books are eligible — the royalty and
 # the referral fee stack. UK IDs end in -21, US in -20; each marketplace

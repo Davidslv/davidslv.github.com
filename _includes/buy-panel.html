@@ -24,6 +24,11 @@
   <div class="buy-panel__hero">
     <p class="buy-panel__kicker">{{ hero.name }}{% if hero.note %} · {{ hero.note }}{% endif %}</p>
     {% include buy-cta-button.html book=include.book %}
+    {%- if include.book == "modular_rails" and site.gumroad_modular_rails and site.gumroad_modular_rails != "" %}
+    <p class="buy-panel__digital">
+      <a class="btn-buy" href="{{ site.gumroad_modular_rails }}" rel="noopener">Buy the PDF + EPUB — £17.99</a>
+    </p>
+    {%- endif %}
     {%- assign show_web = true -%}
     {%- if include.web == false -%}{%- assign show_web = false -%}{%- endif -%}
     {%- if buy.web_edition == page.url -%}{%- assign show_web = false -%}{%- endif -%}

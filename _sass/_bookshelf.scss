@@ -154,6 +154,11 @@
   color: var(--text-color);
 }
 
+.buy-panel__digital {
+  margin: .75rem 0 0;
+  .btn-buy { display: inline-block; }
+}
+
 .buy-panel__web {
   margin: .75rem 0 0;
   font-size: .88rem;
