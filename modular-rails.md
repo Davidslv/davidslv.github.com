@@ -31,7 +31,7 @@ The last comprehensive book on extending Ruby on Rails from the inside was publi
 
 {% include buy-panel.html book="modular_rails" %}
 
-{% include newsletter.html tag="source:landing" %}
+{% include newsletter.html tag="source:landing" book_tag="modular-rails" %}
 
 ## What you'll learn
 

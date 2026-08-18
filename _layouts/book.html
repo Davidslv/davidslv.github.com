@@ -103,7 +103,7 @@ layout: default
     {%- endif -%}
 
     {%- if current and current.type != "part-divider" and current.type != "front-matter" -%}
-    {% include newsletter.html context="chapter" tag="source:free-reader" %}
+    {% include newsletter.html context="chapter" tag="source:free-reader" book_tag="modular-rails" %}
     {%- endif -%}
   </article>
 

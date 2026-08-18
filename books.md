@@ -21,7 +21,6 @@ Two technical books — each with a **complete, free web edition** alongside the
     <p>Bridges the gap between software architecture principles and the tools Rails already ships. Takes the thinking of Robert C. Martin, Neal Ford, Mark Richards, and Kent Beck and applies it to real Ruby on Rails applications — with working code, honest trade-offs, and a companion open-source application (<a href="https://github.com/Davidslv/orbit">Orbit</a>) you can clone and run yourself.</p>
     <p>Four parts. Eighteen chapters. 378 pages.</p>
     {% include buy-panel.html book="modular_rails" %}
-    {% include newsletter.html tag="source:books-hub" %}
   </div>
 </div>
 
@@ -42,3 +41,5 @@ Two technical books — each with a **complete, free web edition** alongside the
     {% include buy-panel.html book="vanilla_roguelike" %}
   </div>
 </div>
+
+{% include newsletter.html tag="source:books-hub" book_tag="books-hub" %}

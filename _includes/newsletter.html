@@ -11,11 +11,12 @@
 
   Usage:
     {% include newsletter.html %}
-    {% include newsletter.html heading="Keep reading" context="chapter" tag="source:free-reader" %}
+    {% include newsletter.html heading="Keep reading" context="chapter" tag="source:free-reader" book_tag="modular-rails" %}
 {%- endcomment -%}
 {%- if site.buttondown_username -%}
 {%- assign ctx = include.context | default: "page" -%}
 {%- assign source_tag = include.tag | default: "source:landing" -%}
+{%- assign book_tag = include.book_tag | default: "modular-rails" -%}
 <section class="signup" id="notebook" aria-labelledby="signup-heading-{{ ctx }}">
   <h2 class="signup__heading" id="signup-heading-{{ ctx }}">
     {{ include.heading | default: "Get the Engineer's Notebook" }}
@@ -29,7 +30,7 @@
   <form class="signup__form"
         action="https://buttondown.com/api/emails/embed-subscribe/{{ site.buttondown_username }}"
         method="post">
-    <input type="hidden" name="tag" value="modular-rails">
+    <input type="hidden" name="tag" value="{{ book_tag }}">
     <input type="hidden" name="tag" value="{{ source_tag }}">
     <input type="hidden" name="metadata__source" value="{{ page.url }}">
     <input type="hidden" name="next" value="{{ "/subscribed/" | absolute_url }}">
