@@ -59,5 +59,3 @@ That number is not a score. Not all of them are products. Some are interviews. S
 I have always wanted to create my own things, my own solutions. You still have to weigh building against buying. Building has become cheaper. Maintaining what you build is a different story.
 
 So yes, when people say you can be productive with AI, I have been. Sometimes too much. I am still eager to learn, and I will take the extra time where most people will not.
-
-This is my story. I am putting it here so I can find it.
