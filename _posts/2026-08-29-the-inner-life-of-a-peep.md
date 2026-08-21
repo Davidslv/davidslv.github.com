@@ -3,6 +3,7 @@ layout: post
 title:  "The inner life of a peep"
 date:   2026-08-29
 description: "A patient's feelings in Theme Hospital update when they walk. A peep who has arrived and stopped has stopped feeling."
+image: /img/og-the-inner-life-of-a-peep.png
 ---
 
 Theme Hospital (1997) runs every patient and every staff member as a

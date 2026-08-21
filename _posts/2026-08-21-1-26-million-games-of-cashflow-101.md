@@ -3,7 +3,7 @@ layout: post
 title:  "1.26 million games of Cashflow 101"
 date:   2026-08-21
 description: "I simulated 1.26 million games of Cashflow 101. Luck moves the result 2.8 times as far as skill. The janitor beats the doctor because the finish line is smaller, not because low expenses are virtue."
-image: /games/rat-race-ledger/thumb.png
+image: /img/og-1-26-million-games-of-cashflow-101.png
 ---
 
 Cashflow 101 is the board game that sold a generation of people on the idea that

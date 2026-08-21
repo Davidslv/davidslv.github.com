@@ -3,6 +3,7 @@ layout: post
 title:  "The AI in TOCA Race Driver 3"
 date:   2026-08-27
 description: "Players say the other cars drive through them at turn 1. TOCA Race Driver 3 ships 2,279 authored racing lines. Personality is six floats. There is no avoidance field."
+image: /img/og-the-ai-in-toca-race-driver-3.png
 ---
 
 Players of TOCA Race Driver 3 have a complaint about lap 1, turn 1.
