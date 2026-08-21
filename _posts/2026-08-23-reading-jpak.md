@@ -3,6 +3,7 @@ layout: post
 title:  "Reading JPAK"
 date:   2026-08-23
 description: "TOCA Race Driver 3 packed its racing-line data in a format with the magic JPAK. The directory is uncompressed. One filename you can guess. The banner is still visible in the stream. The codec is LZSS, 4 KB window, LSB-first flags."
+image: /img/og-reading-jpak.png
 ---
 
 By 2006, TOCA Race Driver 3 was compressing the per-track AI. The racing

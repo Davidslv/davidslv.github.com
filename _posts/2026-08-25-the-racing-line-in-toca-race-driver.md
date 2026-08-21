@@ -3,6 +3,7 @@ layout: post
 title:  "The racing line in TOCA Race Driver"
 date:   2026-08-25
 description: "A TOCA Race Driver AI profile is 512 KiB. Two-thirds is padding. The rest is a densely sampled racing line and a handful of per-sector values. Same 16-byte records in 2003, 2004 and 2006."
+image: /img/og-the-racing-line-in-toca-race-driver.png
 ---
 
 People who played TOCA Race Driver remember the other cars. They take a
