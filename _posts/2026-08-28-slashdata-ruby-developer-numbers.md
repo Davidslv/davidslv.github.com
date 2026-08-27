@@ -73,6 +73,28 @@ Other floors that do not depend on SlashData:
 - **413,156** live websites with a detectable Ruby signature in a July 2026 crawl, [reported by ruby-doc.org](https://ruby-doc.org/blog/websites-made-with-ruby-what-the-data-shows-in-2026/). Backend languages hide, so that is a floor.
 - RedMonk's Q1 2025 ranking, which uses GitHub and Stack Overflow activity, had Ruby at **#9**. TIOBE, which uses search-engine mentions, had it at **#24** in the same period.
 
+## Hacker News as a mention clock
+
+[Hacker Trends](https://hackernewstrends.com/?q=ruby) indexes about 45 million Hacker News stories and comments from 2007 to 2026 and counts how often a term appears in the title or the body. That is conversation volume, not a headcount of developers. A quiet year of people shipping Rails apps does not show up. A loud month of comments does.
+
+[Ruby](https://hackernewstrends.com/trends/ruby) was mentioned **150,378** times. The busiest month was **February 2013**, with 1,431 mentions. The phrase [ruby on rails](https://hackernewstrends.com/trends/ruby-on-rails) is a smaller, cleaner query: **28,509** mentions, peak January 2013 (245 that month).
+
+| Term | Mentions, 2007–2026 | Peak month |
+|---|---|---|
+| python | 454,657 | Dec 2022 (4,088) |
+| javascript | 308,658 | May 2020 (2,332) |
+| java | 285,899 | Apr 2021 (2,247) |
+| rust | 270,801 | Nov 2025 (3,725) |
+| php | 174,334 | Jun 2012 (1,962) |
+| ruby | 150,378 | **Feb 2013 (1,431)** |
+| golang | 36,913 | Feb 2021 (358) |
+
+Go is searched as `golang` because `go` matches too much else. `ruby` has the same problem in the other direction: gems, names, incidental uses. The top stories behind the Ruby line are still the language: Ruby 3.0, Sorbet, RubyLLM, the 2025 RubyGems fight.
+
+The framework comparison on the same site: [django 60,330](https://hackernewstrends.com/compare/django-vs-ruby-on-rails-vs-laravel) (peak Feb 2013), ruby on rails 28,509 (peak Jan 2013), laravel 12,685 (peak Jan 2022). Django and Rails shared an HN peak in early 2013. Laravel's peak is nine years later.
+
+SlashData's Ruby headcount rose from 2019 to 2025. Hacker News talked about Ruby most in February 2013. Those clocks are not measuring the same thing. Rust's busiest month on this index is November 2025. Ruby's is thirteen years earlier.
+
 ## What the free papers also cover
 
 Besides the bar chart of millions, the language papers talk about:
@@ -88,7 +110,7 @@ The useful cuts, Rails versus Ruby, web-only Ruby, country, company size, sit on
 
 They have not printed a Rails-only number. They have not printed a "primary language" number. They have not printed the Q1 2026 Ruby headcount in public.
 
-The durable working population in this series is the **2.5 million** band from 2024. That is the figure that lines up with Stack Overflow's professional share applied to SlashData's own professional population. The extra bodies in 2025 are the ones SlashData explains with AI assistants and a few non-web domains.
+The durable working population in this series is the **2.5 million** band from 2024. That is the figure that lines up with Stack Overflow's professional share applied to SlashData's own professional population. The extra bodies in 2025 are the ones SlashData explains with AI assistants and a few non-web domains. On Hacker News, the loudest Ruby month was already February 2013.
 
 ## Sources
 
@@ -107,3 +129,6 @@ The durable working population in this series is the **2.5 million** band from 2
 13. Ruby on Rails, *Rails World 2025 Recap*, 15 September 2025. 814 attendees. [Post](https://rubyonrails.org/2025/9/15/rails-world-2025-recap).
 14. Skillenai, Ruby on Rails jobs, 90 days ending 24 August 2026. 2,479 postings. [Page](https://skillenai.com/data/skill/ruby-on-rails).
 15. ruby-doc.org, *Websites Made With Ruby*, July 2026 crawl. 413,156 live sites. [Post](https://ruby-doc.org/blog/websites-made-with-ruby-what-the-data-shows-in-2026/).
+16. Hacker Trends (Upstash), [Ruby](https://hackernewstrends.com/trends/ruby): 150,378 mentions, peak February 2013 (1,431). Interactive search: [hackernewstrends.com/?q=ruby](https://hackernewstrends.com/?q=ruby). Method: [How it works](https://hackernewstrends.com/how-it-works). About 45 million Hacker News items, 2007–2026, stories and comments, exact mention count per month.
+17. Hacker Trends, [ruby on rails](https://hackernewstrends.com/trends/ruby-on-rails): 28,509 mentions, peak January 2013 (245). Comparison [django vs ruby on rails vs laravel](https://hackernewstrends.com/compare/django-vs-ruby-on-rails-vs-laravel): django 60,330, laravel 12,685.
+18. Hacker Trends language pages used for the comparison table: [python](https://hackernewstrends.com/trends/python), [javascript](https://hackernewstrends.com/trends/javascript), [java](https://hackernewstrends.com/trends/java), [rust](https://hackernewstrends.com/trends/rust), [php](https://hackernewstrends.com/trends/php), [golang](https://hackernewstrends.com/trends/golang). Totals retrieved 27 August 2026.
