@@ -16,7 +16,7 @@ Over the years I've built for fintech (**Tembo Money**, **Creditspring**), UK go
 I write the books I wish I'd had when I needed them:
 
 - **[Modular Rails: Architecture for the Long Game](/modular-rails/)** — the first comprehensive guide to building maintainable Rails applications with mountable engines. [Paperback](https://www.amazon.co.uk/dp/1066649405) · [Kindle](https://www.amazon.co.uk/dp/B0GZL7D53M) · [free web edition](/books/modular-rails/).
-- **[Building Your Own Roguelike: A Practical Guide](/vanilla-roguelike/)** — a complete game in plain Ruby, architecture and all. [Paperback](https://www.amazon.co.uk/dp/B0G1SGN181) · [Kindle](https://www.amazon.co.uk/dp/B0G1RBWF6V) · [free web edition](/books/vanilla-roguelike/).
+- **[Building Your Own Roguelike: A Practical Guide](/vanilla-roguelike/)** — a complete game in plain Ruby, architecture and all. [Paperback](https://www.amazon.co.uk/dp/B0G1SGN181) · [Kindle](https://www.amazon.co.uk/dp/B0G1RBWF6V) · [PDF](https://davidslv.gumroad.com/l/building-your-own-roguelike) · [free web edition](/books/vanilla-roguelike/).
 
 And I build the tools those ideas demand: **[Seams](https://github.com/Davidslv/seams)** generates pre-wired modular Rails engines straight into your own repo; **Quire** turns markdown into print-ready books. I also founded **[CarerNotes](https://carernotes.uk)**.
 
