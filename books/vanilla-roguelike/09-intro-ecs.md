@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Introduction to Entity-Component-System (ECS)"
 permalink: /books/vanilla-roguelike/09-intro-ecs/
+description: "Entity-Component-System in Ruby: drop class inheritance for composition so a flying monster is an extra component, not a new hierarchy."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

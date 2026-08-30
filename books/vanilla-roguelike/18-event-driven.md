@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Event-Driven Architecture"
 permalink: /books/vanilla-roguelike/18-event-driven/
+description: "Decouple roguelike systems with events: emit :entity_moved instead of calling CombatSystem, then log, replay and debug the game as a stream."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

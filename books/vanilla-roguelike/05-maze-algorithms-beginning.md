@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Maze Generation Algorithms"
 permalink: /books/vanilla-roguelike/05-maze-algorithms-beginning/
+description: "Implement the Binary Tree maze algorithm in Ruby: for each cell, randomly link north or east, then see why the resulting dungeons lean north-east."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

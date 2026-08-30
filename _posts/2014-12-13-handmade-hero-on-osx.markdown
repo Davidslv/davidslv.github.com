@@ -3,6 +3,10 @@ layout: post
 title:  "Handmade Hero on OSX"
 date:   2014-12-13 22:40:00
 categories: c++ handmade gamedev
+permalink: /2014/12/13/handmade-hero-on-osx.html
+redirect_from:
+  - /c++/handmade/gamedev/2014/12/13/handmade-hero-on-osx.html
+  - "/c /handmade/gamedev/2014/12/13/handmade-hero-on-osx.html"
 ---
 
 I've been following [Handmade Hero](http://handmadehero.org/){:target="\_blank"} basically since the beginning,

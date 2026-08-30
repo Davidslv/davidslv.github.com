@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Beyond Mazes — Procedural Content"
 permalink: /books/vanilla-roguelike/07-beyond-mazes/
+description: "Populate a generated maze: player spawn, stairs on the farthest cell, seeded randomness, difficulty scaling, and procedural item and monster placement."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

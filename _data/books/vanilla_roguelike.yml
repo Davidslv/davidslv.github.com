@@ -3,13 +3,20 @@ title: Building Your Own Roguelike
 short_title: Vanilla Roguelike
 subtitle: A Practical Guide
 author: David Silva
+description: >
+  A practical guide to building a complete roguelike in plain Ruby — from a
+  playable prototype through procedural generation, Entity-Component-System
+  architecture, combat, inventory, and AI. Follows the real Vanilla Roguelike
+  codebase: no framework, no engine.
 home: "/books/vanilla-roguelike/"
 buy:
   cover: "/img/roguelike-cover.jpg"
   cover_small: "/img/roguelike-cover-400.jpg"
   web_edition: "/books/vanilla-roguelike/"
+  learn_more: "/vanilla-roguelike/"
   asin: B0G1SGN181
-  isbn: "9781066649419"
+  kindle_asin: B0G1RBWF6V
+  isbn: "9798273984271"
   # No prices: each store shows its own local price.
   formats:
   - name: Paperback

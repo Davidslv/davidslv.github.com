@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Combat System"
 permalink: /books/vanilla-roguelike/15-combat-system/
+description: "Turn-based combat in Ruby: accuracy rolls, attack minus defence, HealthComponent, and removing the entity when current health hits zero."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

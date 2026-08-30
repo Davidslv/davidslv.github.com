@@ -69,6 +69,10 @@ layout: default
       {{ content }}
     </div>
 
+    {%- if page.related_book_chapter -%}
+    {% include related-book-chapter.html %}
+    {%- endif -%}
+
     {%- comment -%} prev = older (page.previous), next = newer (page.next) {%- endcomment -%}
     {%- if page.previous or page.next -%}
     <nav class="post-prevnext" aria-label="More writing">

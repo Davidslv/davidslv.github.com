@@ -5,6 +5,7 @@ date:   2025-11-08 11:15:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "Five years building a roguelike from scratch in pure Ruby — maze algorithms, a catastrophic BREAKINGPOINT, and the ECS migration that saved the project and taught me real architecture."
+related_book_chapter: /books/vanilla-roguelike/08-architecture-problem/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -351,4 +352,4 @@ For now.
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey — the ECS pattern, maze generation, event systems, and more. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey — the ECS pattern, maze generation, event systems, and more. The same architecture change is walked step by step in [Chapter 8, The Architecture Problem](/books/vanilla-roguelike/08-architecture-problem/) and [Chapter 9, Introduction to ECS](/books/vanilla-roguelike/09-intro-ecs/). The five-year arc is in [Chapter 22, Your Roguelike Journey](/books/vanilla-roguelike/22-journey/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*

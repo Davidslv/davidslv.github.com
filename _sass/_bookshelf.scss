@@ -265,6 +265,31 @@
   }
 }
 
+/* chapter list on a sales landing: collapsed so it does not fill the page */
+.toc-details {
+  summary {
+    cursor: pointer;
+    color: var(--meta-color);
+    font-size: .9rem;
+    list-style: none;
+    padding: .2rem 0;
+    &::-webkit-details-marker { display: none; }
+    &::before { content: "\25B8\00a0"; }
+    &:hover { color: var(--link-color); }
+  }
+  &[open] summary::before { content: "\25BE\00a0"; }
+
+  > p strong {
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+  > p { margin: 1.3rem 0 .35rem; }
+  > p:first-of-type { margin-top: 1rem; }
+  ul { margin: 0 0 .2rem; padding-left: 1.2rem; }
+  li { margin: 0 0 .18rem; }
+}
+
 /* compact variant — a dozen market buttons per row needs less weight each */
 .btn-buy--sm {
   padding: .3em .62em;

@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "The Development Mindset"
 permalink: /books/vanilla-roguelike/02-development-mindset/
+description: "Build a roguelike from scratch in Ruby rather than hiding behind a game engine: iterate from a grid and a player, and catch architecture drift early."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Your Roguelike Journey"
 permalink: /books/vanilla-roguelike/22-journey/
+description: "What building a roguelike taught: maze algorithms, ECS architecture and game design — plus ideas for items, magic, quests and polish from here."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

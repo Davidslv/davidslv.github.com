@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Exploring Algorithm Diversity"
 permalink: /books/vanilla-roguelike/06-algorithm-diversity/
+description: "Compare Aldous-Broder, Recursive Backtracker and Recursive Division in Ruby — unbiased walks, long corridors, boxy rooms, and when to pick each maze."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

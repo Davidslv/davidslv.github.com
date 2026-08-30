@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Performance Considerations"
 permalink: /books/vanilla-roguelike/20-performance/
+description: "Measure before you optimise: Benchmark a World update, then replace linear entity queries with a spatial grid as monster counts grow."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Your First Playable Prototype"
 permalink: /books/vanilla-roguelike/03-first-prototype/
+description: "A minimal playable roguelike in Ruby: an ASCII grid, an @ player, walls, floors, and the input–update–render loop before monsters or loot exist."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

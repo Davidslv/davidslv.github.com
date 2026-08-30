@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "About the Author"
 permalink: /books/vanilla-roguelike/23-about-the-author/
+description: "David Silva on five years of Vanilla Roguelike in Ruby — maze algorithms, the ECS refactor, and a book that puts the trade-offs in working code."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

@@ -7,13 +7,17 @@ layout: default
 {%- for c in chapters -%}{%- if c.url == page.url -%}{%- assign current = c -%}{%- break -%}{%- endif -%}{%- endfor -%}
 
 {%- comment -%} Per-chapter structured data: an Article that is part of the Book. {%- endcomment -%}
+{%- assign article_desc = page.description | default: "" | strip -%}
+{%- if article_desc == "" -%}
+  {%- assign article_desc = book.description | default: "" | strip -%}
+{%- endif -%}
 {%- if current and current.type != 'part-divider' and current.type != 'front-matter' -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": {{ page.title | jsonify }},
-  {% if page.description %}"description": {{ page.description | jsonify }},
+  {% if article_desc != "" %}"description": {{ article_desc | jsonify }},
   {% endif %}"url": {{ page.url | absolute_url | jsonify }},
   "inLanguage": "en",
   "isAccessibleForFree": true,
@@ -22,7 +26,8 @@ layout: default
     "@type": "Book",
     "name": {{ book.title | jsonify }},
     "url": {{ book.home | absolute_url | jsonify }},
-    "isbn": {{ book.buy.isbn | jsonify }},
+    "isbn": {{ book.buy.isbn | jsonify }}{% if book.buy.cover %},
+    "image": {{ book.buy.cover | absolute_url | jsonify }}{% endif %},
     "author": { "@type": "Person", "name": {{ book.author | jsonify }} }
   }
 }
@@ -103,7 +108,8 @@ layout: default
     {%- endif -%}
 
     {%- if current and current.type != "part-divider" and current.type != "front-matter" -%}
-    {% include newsletter.html context="chapter" tag="source:free-reader" book_tag="modular-rails" %}
+    {%- assign newsletter_book_tag = page.book | replace: "_", "-" -%}
+    {% include newsletter.html context="chapter" tag="source:free-reader" book_tag=newsletter_book_tag %}
     {%- endif -%}
   </article>
 

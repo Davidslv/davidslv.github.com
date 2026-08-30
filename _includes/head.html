@@ -3,7 +3,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  {%- seo -%}
+  {%- capture seo_head -%}{%- seo -%}{%- endcapture -%}
+  {%- if page.book -%}
+    {%- assign book_for_seo = site.data.books[page.book] -%}
+    {%- if page.layout == "book-landing" -%}
+      {%- assign seo_head = seo_head | replace: 'property="og:type" content="website"', 'property="og:type" content="book"' -%}
+    {%- else -%}
+      {%- assign seo_head = seo_head | replace: 'property="og:type" content="website"', 'property="og:type" content="article"' -%}
+    {%- endif -%}
+    {%- assign page_image = page.image | default: "" -%}
+    {%- if book_for_seo.buy.cover -%}
+      {%- if page_image == "" or page_image == "/img/og-default.png" -%}
+        {%- assign seo_head = seo_head | replace: "/img/og-default.png", book_for_seo.buy.cover -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+  {{ seo_head }}
   {%- if page.noindex %}<meta name="robots" content="noindex">{% endif -%}
 
   {%- comment -%}

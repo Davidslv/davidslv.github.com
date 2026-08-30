@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Understanding Grids and Cells"
 permalink: /books/vanilla-roguelike/04-grids-and-cells/
+description: "Represent a roguelike world as a 2D grid of cells — walls, floors, neighbour links, and a flat Ruby array that maze algorithms and movement rest on."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

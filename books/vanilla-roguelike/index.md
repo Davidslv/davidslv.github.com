@@ -3,6 +3,8 @@ layout: book-landing
 book: vanilla_roguelike
 title: "Building Your Own Roguelike"
 permalink: /books/vanilla-roguelike/
+description: "Read the free web edition of Building Your Own Roguelike: procedural generation, ECS architecture, and a complete game in plain Ruby."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

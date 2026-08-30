@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "The Architecture Problem"
 permalink: /books/vanilla-roguelike/08-architecture-problem/
+description: "A single Game class that handles input, movement, combat and rendering works — until tight coupling makes a growing Ruby roguelike untestable."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

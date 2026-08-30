@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Extending Your Game"
 permalink: /books/vanilla-roguelike/21-extending/
+description: "Extend a Ruby roguelike through ECS: add flying, mana and spells as new components and systems, without rewriting class hierarchies."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

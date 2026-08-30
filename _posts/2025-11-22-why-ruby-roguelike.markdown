@@ -5,6 +5,7 @@ date:   2025-11-22 11:06:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "Why Ruby — not C++ or Python — was the right language for a turn-based roguelike: rapid iteration, an elegant ECS, the Command pattern, and seedable tests for procedural generation."
+related_book_chapter: /books/vanilla-roguelike/09-intro-ecs/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -258,4 +259,4 @@ Thank you for reading.
 
 ---
 
-**P.S.** – I documented this entire journey in a book: [Building Your Own Roguelike](/books/vanilla-roguelike/). It walks through building this from scratch – the ECS pattern, event systems, maze generation algorithms, and everything you see in Vanilla Roguelike. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).
+**P.S.** – I documented this entire journey in a book: [Building Your Own Roguelike](/books/vanilla-roguelike/). It walks through building this from scratch – the ECS pattern, event systems, maze generation algorithms, and everything you see in Vanilla Roguelike. The ECS itself is introduced in [Chapter 9, Introduction to ECS](/books/vanilla-roguelike/09-intro-ecs/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).
