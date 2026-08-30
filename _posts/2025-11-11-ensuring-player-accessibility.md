@@ -5,6 +5,7 @@ date:   2025-11-11 10:00:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "How to guarantee procedurally generated roguelike levels stay winnable: Dijkstra-based placement to put stairs at a reachable farthest cell, plus greedy path verification and repair for safety."
+related_book_chapter: /books/vanilla-roguelike/13-input-movement/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -247,5 +248,5 @@ By implementing these techniques, you can create procedurally generated levels t
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. Once a path exists, moving the player along it is in [Chapter 13, Input and Movement](/books/vanilla-roguelike/13-input-movement/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Input and Movement"
 permalink: /books/vanilla-roguelike/13-input-movement/
+description: "From a keypress to a MoveCommand: vim keys, terminal raw input, and command objects that keep roguelike input out of the game state."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

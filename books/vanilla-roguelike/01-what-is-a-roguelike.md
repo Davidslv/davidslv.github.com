@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "What is a Roguelike?"
 permalink: /books/vanilla-roguelike/01-what-is-a-roguelike/
+description: "How Rogue (1980) defined permadeath, procedural dungeons and turn-based grid play — and why building a roguelike teaches algorithms and architecture."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

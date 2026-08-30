@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Building ECS — Entities and Components"
 permalink: /books/vanilla-roguelike/10-ecs-entities-components/
+description: "Entities are IDs that hold components; components are data with no behaviour — the Entity class Vanilla's ECS uses to compose players and items."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

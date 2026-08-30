@@ -5,6 +5,7 @@ date:   2025-11-17 09:45:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "Procedural loot placement that stays fair: distance-based and weighted placement, anti-clustering spacing, accessibility checks, and drop rates that scale with difficulty."
+related_book_chapter: /books/vanilla-roguelike/16-items-inventory/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -493,5 +494,5 @@ The key is to combine multiple strategies: use distance calculations for reachab
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. Item spawning and inventory are walked through in [Chapter 16, Items and Inventory](/books/vanilla-roguelike/16-items-inventory/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

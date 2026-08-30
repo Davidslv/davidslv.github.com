@@ -5,6 +5,7 @@ date:   2025-11-15 10:05:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "Monster AI that feels smart without behaviour trees: blending random wandering, greedy Manhattan pursuit and full Dijkstra pathfinding by distance, plus spawn rules and performance tactics."
+related_book_chapter: /books/vanilla-roguelike/17-ai-monsters/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -425,5 +426,5 @@ By using distance-based spawning, appropriate pathfinding strategies, and behavi
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. Monster behaviour and pathfinding are walked through in [Chapter 17, AI and Monsters](/books/vanilla-roguelike/17-ai-monsters/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

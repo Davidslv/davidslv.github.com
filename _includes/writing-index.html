@@ -1,6 +1,7 @@
 {%- comment -%}
-  The Writing index — featured hero, the Engineer's Notebook series card, and a
-  de-duped "All writing" list. Shared by `/` and `/writing/`.
+  The Writing index — featured hero, a compact books strip, the Engineer's
+  Notebook series card, and a de-duped "All writing" list. Shared by `/` and
+  `/writing/`.
 {%- endcomment -%}
 {%- assign featured = site.posts.first -%}
 {%- assign notebook = site.posts | where: "series", "engineers-notebook" | sort: "series_order" -%}
@@ -23,6 +24,30 @@
     {%- if fdek and fdek != "" %}<p>{{ fdek }}</p>{% endif -%}
   </a>
   {%- endif -%}
+
+  <div class="writing-books">
+    <div class="writing-section-label">Books</div>
+    <p class="writing-books__lede">Two technical books, each with a complete free web edition.</p>
+    <div class="writing-books__grid">
+      <a class="writing-books__card" href="{{ '/modular-rails/' | relative_url }}">
+        <picture>
+          <source srcset="/img/modular-rails-cover-400.webp" type="image/webp">
+          <img src="/img/modular-rails-cover-400.png" width="400" height="640"
+               loading="lazy" decoding="async" alt="">
+        </picture>
+        <span>Modular Rails</span>
+      </a>
+      <a class="writing-books__card" href="{{ '/vanilla-roguelike/' | relative_url }}">
+        <picture>
+          <source srcset="/img/roguelike-cover-400.webp" type="image/webp">
+          <img src="/img/roguelike-cover-400.jpg" width="400" height="499"
+               loading="lazy" decoding="async" alt="">
+        </picture>
+        <span>Building Your Own Roguelike</span>
+      </a>
+    </div>
+  </div>
+
 
   {%- if notebook.size > 0 -%}
   <div class="writing-section-label">The Engineer's Notebook &mdash; a series</div>

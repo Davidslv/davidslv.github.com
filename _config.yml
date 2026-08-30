@@ -2,7 +2,7 @@
 title: Davidslv
 email: davidslv@users.noreply.github.com
 description: >
-  Senior Software Engineer · 15+ years of Ruby · Author of four books.
+  Senior Software Engineer · 15+ years of Ruby · Author of two technical books.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "https://davidslv.uk" # the base hostname & protocol for your site
 twitter_username: davidslv
@@ -15,6 +15,7 @@ github_username:  davidslv
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-redirect-from
 
 # jekyll-seo-tag configuration
 twitter:
@@ -89,6 +90,18 @@ amazon_associate_tags:
 markdown: kramdown
 future: false
 
+# Jekyll 3 replaces the default exclude list when this key is set, so keep
+# Gemfile / node_modules / vendor alongside unpublished and tooling paths.
+exclude:
+  - drafts/
+  - scripts/
+  - node_modules
+  - vendor
+  - package.json
+  - package-lock.json
+  - Gemfile
+  - Gemfile.lock
+
 # Default author for post bylines
 author: David Silva
 
@@ -107,3 +120,12 @@ defaults:
       path: ""
     values:
       image: /img/og-default.png
+  - scope:
+      path: "books/vanilla-roguelike"
+    values:
+      image: /img/roguelike-cover.jpg
+      last_modified_at: 2026-08-30
+  - scope:
+      path: "books/modular-rails"
+    values:
+      last_modified_at: 2026-08-30

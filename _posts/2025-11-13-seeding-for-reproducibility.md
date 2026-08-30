@@ -5,6 +5,7 @@ date:   2025-11-13 07:41:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "Seeding turns procedural generation from a black box into a debuggable, testable system. How to use srand correctly in Ruby, avoid RNG leaks, reproduce bugs, and let players share seeds."
+related_book_chapter: /books/vanilla-roguelike/07-beyond-mazes/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -349,5 +350,5 @@ By implementing seeding correctly, you transform procedural generation from a bl
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. Seeding so the same dungeon comes back is covered in [Chapter 7, Beyond Mazes — Procedural Content](/books/vanilla-roguelike/07-beyond-mazes/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

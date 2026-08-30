@@ -5,6 +5,7 @@ date:   2025-11-14 10:40:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "A practical Ruby implementation of Dijkstra's algorithm for roguelikes — why it collapses to BFS on uniform-cost grids, path reconstruction by distance gradient, and when to use A* instead."
+related_book_chapter: /books/vanilla-roguelike/17-ai-monsters/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -421,5 +422,5 @@ The key is understanding that for uniform-cost grids, Dijkstra's simplifies to b
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. The same pathfinding is used for monster AI in [Chapter 17, AI and Monsters](/books/vanilla-roguelike/17-ai-monsters/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

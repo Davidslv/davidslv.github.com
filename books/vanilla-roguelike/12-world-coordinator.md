@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "The World Coordinator"
 permalink: /books/vanilla-roguelike/12-world-coordinator/
+description: "The World class as ECS stage manager — entities, systems, command and event queues, and the turn loop that updates systems in priority order."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

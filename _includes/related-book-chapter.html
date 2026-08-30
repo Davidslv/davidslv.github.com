@@ -1,0 +1,42 @@
+{%- comment -%}
+  End-of-post link to a matching book chapter. Set
+  `related_book_chapter:` in the post front matter to a chapter URL
+  (trailing slash, as in the book data). Renders nothing when the field
+  is absent, so other posts are unchanged.
+{%- endcomment -%}
+{%- if page.related_book_chapter -%}
+{%- assign chapter_url = page.related_book_chapter -%}
+{%- assign chapter_title = "" -%}
+{%- assign chapter_locator = "" -%}
+{%- assign book_label = "" -%}
+{%- assign vr = site.data.books.vanilla_roguelike -%}
+{%- assign mr = site.data.books.modular_rails -%}
+{%- for ch in vr.chapters -%}
+  {%- if ch.url == chapter_url -%}
+    {%- assign chapter_title = ch.title -%}
+    {%- assign chapter_locator = ch.locator -%}
+    {%- assign book_label = vr.short_title | default: vr.title -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if chapter_title == "" -%}
+  {%- for ch in mr.chapters -%}
+    {%- if ch.url == chapter_url -%}
+      {%- assign chapter_title = ch.title -%}
+      {%- assign chapter_locator = ch.locator -%}
+      {%- assign book_label = mr.short_title | default: mr.title -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if chapter_title != "" -%}
+  {%- assign locator_short = chapter_locator | split: " of " | first -%}
+  {%- assign link_label = locator_short | append: " — " | append: chapter_title -%}
+{%- else -%}
+  {%- assign link_label = "Continue in the book" -%}
+{%- endif -%}
+<nav class="post-prevnext" aria-label="Related book chapter">
+  <a class="pn prev" href="{{ chapter_url | relative_url }}" style="grid-column: 1 / -1;">
+    <span class="dir">{% if book_label != "" %}Continue in {{ book_label }}{% else %}Continue in the book{% endif %}</span>
+    <span class="t">{{ link_label }}</span>
+  </a>
+</nav>
+{%- endif -%}

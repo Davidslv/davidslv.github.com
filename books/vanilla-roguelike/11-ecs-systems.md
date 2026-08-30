@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Building ECS — Systems"
 permalink: /books/vanilla-roguelike/11-ecs-systems/
+description: "ECS systems hold the behaviour: a Ruby System base class, MovementSystem, query-by-component, and why update order between systems matters."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

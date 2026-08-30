@@ -75,12 +75,22 @@ layout: default
     </aside>
     {%- endif -%}
 
-    {% include newsletter.html tag="source:free-reader" book_tag="modular-rails" %}
+    {%- assign newsletter_book_tag = page.book | replace: "_", "-" -%}
+    {% include newsletter.html tag="source:free-reader" book_tag=newsletter_book_tag %}
 
   </article>
 </div>
 
 {%- assign buy = book.buy -%}
+{%- assign paperback = nil -%}
+{%- assign kindle = nil -%}
+{%- for f in buy.formats -%}
+  {%- if f.name == "Kindle" -%}
+    {%- assign kindle = f -%}
+  {%- elsif paperback == nil -%}
+    {%- assign paperback = f -%}
+  {%- endif -%}
+{%- endfor -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -88,9 +98,25 @@ layout: default
   "name": {{ book.title | jsonify }},
   "author": { "@type": "Person", "name": {{ book.author | jsonify }}, "sameAs": ["https://www.amazon.co.uk/stores/author/B0DWX7G5YK", "https://github.com/davidslv", "https://twitter.com/davidslv"] },
   "inLanguage": "en",
-  "bookFormat": "https://schema.org/Paperback",
-  "url": {{ book.home | absolute_url | jsonify }}{% if buy.cover %},
+  "url": {{ book.home | absolute_url | jsonify }}{% if book.description %},
+  "description": {{ book.description | strip | jsonify }}{% endif %}{% if buy.cover %},
   "image": {{ buy.cover | absolute_url | jsonify }}{% endif %}{% if buy.isbn %},
-  "isbn": {{ buy.isbn | jsonify }}{% endif %}{% if buy.formats %}{% endif %}
+  "isbn": {{ buy.isbn | jsonify }}{% endif %}{% if paperback or kindle %},
+  "workExample": [
+    {%- if paperback %}
+    {
+      "@type": "Book",
+      "bookFormat": "https://schema.org/Paperback"{% if buy.isbn %},
+      "isbn": {{ buy.isbn | jsonify }}{% endif %}{% if paperback.us or paperback.uk %},
+      "url": {{ paperback.us | default: paperback.uk | jsonify }}{% endif %}
+    }{% endif %}{% if paperback and kindle %},{% endif %}
+    {%- if kindle %}
+    {
+      "@type": "Book",
+      "bookFormat": "https://schema.org/EBook"{% if buy.kindle_asin %},
+      "identifier": {{ buy.kindle_asin | jsonify }}{% endif %}{% if kindle.us or kindle.uk %},
+      "url": {{ kindle.us | default: kindle.uk | jsonify }}{% endif %}
+    }{% endif %}
+  ]{% endif %}
 }
 </script>

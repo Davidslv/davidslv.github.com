@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Collision and Interaction"
 permalink: /books/vanilla-roguelike/14-collision-interaction/
+description: "Grid collision is two entities on one cell: CollisionSystem listens for movement, then combat, pickup or stairs depending who met whom."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

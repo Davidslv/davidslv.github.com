@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "AI and Monsters"
 permalink: /books/vanilla-roguelike/17-ai-monsters/
+description: "Simple monster AI in a Ruby roguelike: wander or walk towards the player via MovementSystem, plus procedural spawning during level generation."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

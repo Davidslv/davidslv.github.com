@@ -5,6 +5,7 @@ date:   2025-11-12 23:46:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "The two-pass Dijkstra longest-path algorithm — the graph diameter — for roguelike level design: optimal objective placement, measuring maze complexity, and natural difficulty progression."
+related_book_chapter: /books/vanilla-roguelike/05-maze-algorithms-beginning/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -289,5 +290,5 @@ While it requires two pathfinding calculations, the benefits in terms of level q
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. The maze algorithms this rests on are in [Chapter 5, Maze Generation Algorithms](/books/vanilla-roguelike/05-maze-algorithms-beginning/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

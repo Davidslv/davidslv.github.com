@@ -10,7 +10,11 @@
       <nav class="site-nav" aria-label="Main navigation">
         {%- assign p = page.url -%}
         <a href="{{ site.baseurl }}/" class="nav-link{% if p == '/' or p contains '/writing' or page.layout == 'post' %} active{% endif %}"{% if p == '/' or p contains '/writing' or page.layout == 'post' %} aria-current="page"{% endif %}>Writing</a>
-        <a href="{{ site.baseurl }}/books/" class="nav-link{% if p contains '/books' %} active{% endif %}"{% if p contains '/books' %} aria-current="page"{% endif %}>Books</a>
+        {%- assign books_nav = false -%}
+        {%- if p contains '/books' or p contains '/modular-rails' or p contains '/vanilla-roguelike' -%}
+          {%- assign books_nav = true -%}
+        {%- endif -%}
+        <a href="{{ site.baseurl }}/books/" class="nav-link{% if books_nav %} active{% endif %}"{% if books_nav %} aria-current="page"{% endif %}>Books</a>
         <a href="{{ site.baseurl }}/about/" class="nav-link{% if p contains '/about' %} active{% endif %}"{% if p contains '/about' %} aria-current="page"{% endif %}>About</a>
         {%- if site.theme_toggle %}
         <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false">

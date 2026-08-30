@@ -5,6 +5,7 @@ date:   2025-11-19 08:01:00
 categories: ruby game-development
 tags: [roguelike ruby game-development ECS algorithms architecture procedural-generation]
 description: "When procedural generation gets slow: comparing maze-algorithm time and space complexity, choosing when to generate, and optimising with distance caching, batching and spatial partitioning."
+related_book_chapter: /books/vanilla-roguelike/20-performance/
 image: /img/roguelike-cover.jpg
 ---
 
@@ -474,5 +475,5 @@ The key is to measure first, optimize bottlenecks, and choose algorithms and str
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. The performance notes are in [Chapter 20, Performance Considerations](/books/vanilla-roguelike/20-performance/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Testing Your Roguelike"
 permalink: /books/vanilla-roguelike/19-testing/
+description: "Test ECS systems in isolation with mock entities, then prove maze algorithms are spanning trees — RSpec patterns that keep a Ruby roguelike honest."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 

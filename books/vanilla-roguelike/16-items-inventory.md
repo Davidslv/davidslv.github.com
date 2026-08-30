@@ -3,6 +3,8 @@ layout: book
 book: vanilla_roguelike
 title: "Items and Inventory"
 permalink: /books/vanilla-roguelike/16-items-inventory/
+description: "Model loot as ECS entities with ItemComponent and ConsumableComponent, then pick up, drop and use items through an InventorySystem with a capacity cap."
+image: /img/roguelike-cover.jpg
 ---
 {% raw %}
 
