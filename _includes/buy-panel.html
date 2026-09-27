@@ -1,12 +1,13 @@
 {%- comment -%}
   The buy panel, rendered from _data/books/<key>.yml.
 
-  One geo-aware primary button for the hero format (colour paperback for
-  Modular Rails). Other editions and stores sit behind a <details> so the
-  page asks for one sale, not twelve. "Read it free" is a text link under
-  the button, never a competing CTA.
+  The filled button is the Gumroad PDF. That is the sale davidslv.uk can
+  close directly. The paperback stays as the outline button under it.
+  Other editions and stores sit behind a <details>. "Read it free" is a
+  text link, never a second filled button.
 
   Associates tags are appended by amazon-href.html when configured.
+  The PDF link is built by gumroad-url.html. No price on the site.
 
   Usage:
     {% include buy-panel.html book="modular_rails" %}
@@ -15,34 +16,51 @@
 {%- assign b = site.data.books[include.book] -%}
 {%- assign buy = b.buy -%}
 {%- if buy -%}
-{%- assign hero = nil -%}
-{%- for f in buy.formats -%}
-  {%- if f.hero -%}{%- assign hero = f -%}{%- break -%}{%- endif -%}
-{%- endfor -%}
-{%- if hero == nil -%}{%- assign hero = buy.formats | first -%}{%- endif -%}
+{%- capture gumroad_url -%}{% include gumroad-url.html book=include.book content="panel" %}{%- endcapture -%}
+{%- assign gumroad_url = gumroad_url | strip -%}
+{%- if include.book == "modular_rails" -%}
+  {%- assign gumroad_label = "Buy the PDF + EPUB" -%}
+  {%- assign gumroad_kicker = "PDF + EPUB · the same text, as a file" -%}
+  {%- assign print_label = "Buy the colour paperback" -%}
+  {%- assign other_book = "vanilla_roguelike" -%}
+  {%- assign other_label = "Building Your Own Roguelike" -%}
+{%- elsif include.book == "vanilla_roguelike" -%}
+  {%- assign gumroad_label = "Buy the PDF" -%}
+  {%- assign gumroad_kicker = "PDF · the same text, as a file" -%}
+  {%- assign print_label = "Buy the paperback" -%}
+  {%- assign other_book = "modular_rails" -%}
+  {%- assign other_label = "Modular Rails" -%}
+{%- else -%}
+  {%- assign gumroad_label = "Buy the PDF" -%}
+  {%- assign gumroad_kicker = "PDF" -%}
+  {%- assign print_label = "Buy the paperback" -%}
+  {%- assign other_book = nil -%}
+  {%- assign other_label = nil -%}
+{%- endif -%}
+{%- capture other_pdf -%}{% include gumroad-url.html book=other_book content="cross" %}{%- endcapture -%}
+{%- assign other_pdf = other_pdf | strip -%}
 <div class="buy-panel">
   <div class="buy-panel__hero">
-    <p class="buy-panel__kicker">{{ hero.name }}{% if hero.note %} · {{ hero.note }}{% endif %}</p>
-    {% include buy-cta-button.html book=include.book %}
-    {%- assign gumroad_url = nil -%}
-    {%- assign gumroad_label = "Buy the PDF" -%}
-    {%- if include.book == "modular_rails" -%}
-      {%- assign gumroad_url = site.gumroad_modular_rails -%}
-      {%- assign gumroad_label = "Buy the PDF + EPUB" -%}
-    {%- elsif include.book == "vanilla_roguelike" -%}
-      {%- assign gumroad_url = site.gumroad_vanilla_roguelike -%}
-    {%- endif -%}
-    {%- if gumroad_url and gumroad_url != "" %}
+    <p class="buy-panel__kicker">{{ gumroad_kicker }}</p>
+    {%- if gumroad_url != "" %}
     <p class="buy-panel__digital">
-      <a class="btn-buy" href="{{ gumroad_url }}" rel="noopener">{{ gumroad_label }}</a>
+      <a class="btn-read" href="{{ gumroad_url }}" rel="noopener">{{ gumroad_label }}</a>
     </p>
     {%- endif %}
+    <p class="buy-panel__digital">
+      {% include buy-cta-button.html book=include.book class="btn-buy" label=print_label %}
+    </p>
     {%- assign show_web = true -%}
     {%- if include.web == false -%}{%- assign show_web = false -%}{%- endif -%}
     {%- if buy.web_edition == page.url -%}{%- assign show_web = false -%}{%- endif -%}
     {%- if show_web %}
     <p class="buy-panel__web">
       <a href="{{ buy.web_edition | relative_url }}">Or read it free on the web</a>
+    </p>
+    {%- endif %}
+    {%- if other_pdf != "" %}
+    <p class="buy-panel__also">
+      The other book, as a PDF: <a href="{{ other_pdf }}" rel="noopener">{{ other_label }}</a>
     </p>
     {%- endif %}
   </div>

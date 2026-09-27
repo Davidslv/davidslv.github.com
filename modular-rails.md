@@ -17,8 +17,9 @@ image: /img/og-modular-rails.png
   <div class="book-hero__body">
     <p class="book-hero__hook">Microservices are not the answer to your growing Rails monolith. They never were.</p>
     <p>There is a better way, and it has been hiding in plain sight inside Ruby on Rails since version 3.1: mountable engines with namespace isolation, the same mechanism that powers Devise, Spree, and ActiveAdmin. Real boundaries at every layer, models, controllers, routes, views and even database tables, without putting HTTP between your services.</p>
+    {%- capture hero_pdf -%}{% include gumroad-url.html book="modular_rails" content="hero" %}{%- endcapture -%}
     <p class="book-hero__actions">
-      {% include buy-cta-button.html book="modular_rails" %}
+      <a class="btn-read" href="{{ hero_pdf | strip }}" rel="noopener">Buy the PDF + EPUB</a>
       <a class="btn-buy" href="/books/modular-rails/">Read it free online</a>
     </p>
     <p class="byline-credential">Written by <strong>David Silva</strong>. Fifteen years of Ruby at GOV.UK, the Ministry of Justice, Indeed and Tembo Money, where he is decomposing a production Rails monolith into engines using the patterns in this book.</p>

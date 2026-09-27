@@ -297,6 +297,12 @@ $book-bp:      1100px;  // 3-column threshold
     gap: .6em;
     margin: 1.5rem 0 0 !important;
   }
+  &__contents {
+    color: var(--meta-color);
+    font-size: .9rem;
+    text-decoration: none;
+    &:hover { color: var(--link-color); text-decoration: underline; }
+  }
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;

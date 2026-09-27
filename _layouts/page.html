@@ -15,6 +15,10 @@ layout: default
   {% include buy-panel.html book="vanilla_roguelike" %}
   {%- endif -%}
 
+  {%- if page.url contains "/books/vanilla-roguelike/" and page.url != "/books/vanilla-roguelike/" -%}
+  {% include keep-a-copy.html book="vanilla_roguelike" content="chapter" %}
+  {%- endif -%}
+
   {%- if page.url contains "/books/vanilla-roguelike/" -%}
   {% include newsletter.html context="roguelike" tag="source:roguelike" book_tag="vanilla-roguelike" %}
   {%- endif -%}

@@ -134,4 +134,4 @@ The best architecture teams I have worked with use this layered approach. They s
 
 *This was adapted from Chapter 16 of [Modular Rails: Architecture for the Long Game](/modular-rails/). The book covers all five approaches in depth -- with working code, migration guides, and the honest trade-offs for each.*
 
-*Read the [**entire book free on the web**](/books/modular-rails/) — every chapter, no paywall. Prefer print or Kindle? [Amazon US](https://www.amazon.com/dp/1066649405) · [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [all editions &amp; prices](/modular-rails/).*
+*Read the [**entire book free on the web**](/books/modular-rails/) — every chapter, no paywall. Prefer a file you can keep? [PDF + EPUB](https://davidslv.gumroad.com/l/modular-ruby-on-rails?utm_source=davidslv.uk&utm_medium=site&utm_campaign=pdf&utm_content=post). Prefer print or Kindle? [Amazon US](https://www.amazon.com/dp/1066649405) · [Amazon UK](https://www.amazon.co.uk/dp/1066649405) · [all editions &amp; prices](/modular-rails/).*

@@ -1,0 +1,29 @@
+{%- comment -%}
+  One line at the end of a chapter. The reader already has the free web
+  edition on screen, so the PDF is the first link. Paperback and Kindle stay.
+
+  Usage: {% include keep-a-copy.html book="modular_rails" content="chapter" %}
+{%- endcomment -%}
+{%- assign keep_book = include.book -%}
+{%- assign keep = site.data.books[keep_book] -%}
+{%- if keep and keep.buy -%}
+{%- capture keep_pdf -%}{% include gumroad-url.html book=keep_book content=include.content %}{%- endcapture -%}
+{%- assign keep_pdf = keep_pdf | strip -%}
+{%- if keep_book == "modular_rails" -%}
+{%- assign keep_pdf_label = "PDF + EPUB" -%}
+{%- assign keep_print_label = "Colour paperback" -%}
+{%- else -%}
+{%- assign keep_pdf_label = "PDF" -%}
+{%- assign keep_print_label = "Paperback" -%}
+{%- endif -%}
+{%- assign keep_kindle = keep.buy.formats | where: "name", "Kindle" | first -%}
+{%- capture keep_kindle_href -%}
+{%- if keep_kindle.uk -%}{% include amazon-href.html url=keep_kindle.uk store="uk" %}{%- endif -%}
+{%- endcapture -%}
+<aside class="book-buy-inline" aria-label="Buy the PDF">
+  <span class="book-buy-inline__text">Prefer a copy to keep?</span>
+  {%- if keep_pdf != "" %}<a class="book-buy-inline__link" href="{{ keep_pdf }}" rel="noopener">{{ keep_pdf_label }}</a> · {% endif -%}
+  {% include buy-cta-button.html book=keep_book class="book-buy-inline__link" label=keep_print_label %}
+  {%- if keep_kindle and keep_kindle_href != "" %} · <a class="book-buy-inline__link" href="{{ keep_kindle_href | strip }}" rel="noopener sponsored">Kindle</a>{% endif -%}
+</aside>
+{%- endif -%}
