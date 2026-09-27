@@ -475,5 +475,5 @@ The key is to think about what properties your generation should have (connectiv
 
 ---
 
-*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. The same testing approach is in [Chapter 19, Testing Your Roguelike](/books/vanilla-roguelike/19-testing/). [Read it free on the web](/books/vanilla-roguelike/), or get the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
+*Building your own roguelike? [Vanilla Roguelike](/books/vanilla-roguelike/) is the open-source codebase this grew from, and the book walks the whole journey. The same testing approach is in [Chapter 19, Testing Your Roguelike](/books/vanilla-roguelike/19-testing/). [Read it free on the web](/books/vanilla-roguelike/), get the [PDF](https://davidslv.gumroad.com/l/building-your-own-roguelike?utm_source=davidslv.uk&utm_medium=site&utm_campaign=pdf&utm_content=post), or the paperback ([Amazon US](https://www.amazon.com/dp/B0G1SGN181) · [Amazon UK](https://www.amazon.co.uk/dp/B0G1SGN181) · [IngramSpark](https://shop.ingramspark.com/b/084?params=YvsSxC2CpPMq7ScV1fsmNManFt9uhNouQ3BjXqz4aBO)).*
 

@@ -26,9 +26,17 @@ layout: default
         <p class="book-cover__byline">by {{ book.author }}</p>
         <p class="book-cover__note">Every chapter, code sample and diagram. The same text as the paperback and Kindle editions. No paywall, no sign-up.</p>
         {%- if first %}
+        {%- capture landing_pdf -%}{% include gumroad-url.html book=page.book content="landing" %}{%- endcapture -%}
+        {%- assign landing_pdf = landing_pdf | strip -%}
+        {%- if page.book == "modular_rails" -%}
+          {%- assign landing_pdf_label = "Buy the PDF + EPUB" -%}
+        {%- else -%}
+          {%- assign landing_pdf_label = "Buy the PDF" -%}
+        {%- endif -%}
         <p class="book-cover__actions">
           <a class="btn-read" href="{{ first.url | relative_url }}">Start reading</a>
-          <a class="btn-buy" href="#contents">Jump to contents</a>
+          {%- if landing_pdf != "" %}<a class="btn-buy" href="{{ landing_pdf }}" rel="noopener">{{ landing_pdf_label }}</a>{% endif -%}
+          <a class="book-cover__contents" href="#contents">Contents</a>
         </p>
         {%- endif %}
       </div>

@@ -1,0 +1,16 @@
+{%- comment -%}
+  Direct Gumroad product URL plus UTM. Price stays on Gumroad.
+  The link is the product URL, not Discover, so the fee stays 10% + $0.50.
+
+  Usage: {% include gumroad-url.html book="modular_rails" content="chapter" %}
+{%- endcomment -%}
+{%- if include.book == "modular_rails" -%}
+{%- assign pdf_offer_base = site.gumroad_modular_rails -%}
+{%- elsif include.book == "vanilla_roguelike" -%}
+{%- assign pdf_offer_base = site.gumroad_vanilla_roguelike -%}
+{%- else -%}
+{%- assign pdf_offer_base = "" -%}
+{%- endif -%}
+{%- if pdf_offer_base and pdf_offer_base != "" -%}
+{{- pdf_offer_base -}}?utm_source=davidslv.uk&utm_medium=site&utm_campaign=pdf&utm_content={{ include.content | default: "link" | uri_escape -}}
+{%- endif -%}
