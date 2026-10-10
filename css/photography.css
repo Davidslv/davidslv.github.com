@@ -1,5 +1,5 @@
 /* /photography/ only. Dark page for night work; daylight sections switch to white. */
-:root { --ink:#141414; --soft:#3f3f3f; --meta:#5f5f5f; --night:#0f0f0f; --warm:#8a6330; --line:#2a2a2a; }
+:root { --ink:#141414; --soft:#3f3f3f; --meta:#5f5f5f; --night:#191919; --warm:#8a6330; --line:#2a2a2a; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font: 400 17px/1.7 Inter, sans-serif; background: var(--night); color: #eaeaea; font-variant-numeric: lining-nums; }
 img { display: block; width: 100%; height: auto; }
@@ -42,3 +42,6 @@ footer { border-top: 1px solid var(--line); padding: 34px 0 54px; font-size: 14p
   .two { grid-template-columns: 1fr; gap: 28px; }
   header.site .wrap { display: block; } nav { margin-top: 12px; } nav a { margin: 0 16px 0 0; }
 }
+/* Even rows: portraits crop to 2:3, landscapes to 3:2. */
+.g .p img { aspect-ratio: 2 / 3; object-fit: cover; }
+.g .l img { aspect-ratio: 3 / 2; object-fit: cover; }
