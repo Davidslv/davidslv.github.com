@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% seo %}
+  <link rel="icon" href="{{ "/favicon.svg" | prepend: site.baseurl }}" type="image/svg+xml">
+  <link rel="icon" href="{{ "/favicon-32.png" | prepend: site.baseurl }}" sizes="32x32">
+  <link rel="apple-touch-icon" href="{{ "/apple-touch-icon.png" | prepend: site.baseurl }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="{{ "/css/photography.css" | prepend: site.baseurl }}">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site"><div class="wrap">
+    <div><a class="name" href="{{ "/photography/" | prepend: site.baseurl }}">David Silva</a>
+      <span class="line">Cinematic London after hours. Human street moments.</span></div>
+    <nav aria-label="Photography">
+      <a href="#work">Work</a><a href="#projects">Projects</a><a href="#presets">Presets</a><a href="#about">About</a>
+    </nav>
+  </div></header>
+  <main id="main">
+    {{ content }}
+  </main>
+  <footer><div class="wrap">
+    David Silva · London · <a href="https://www.instagram.com/davidslv.photography/">@davidslv.photography</a>
+    · All photographs © David Silva · <a href="{{ "/" | prepend: site.baseurl }}">Writing and books</a>
+  </div></footer>
+  {%- if site.cloudflare_analytics_token %}
+  <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "{{ site.cloudflare_analytics_token }}"}'></script>
+  {%- endif %}
+</body>
+</html>
